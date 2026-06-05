@@ -38,6 +38,16 @@
 .animate-fade-in {
     animation: fadeIn 1s ease-out forwards
     }
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+.float-slow {
+    animation: float 6s ease-in-out infinite;
+}
+.float-delayed {
+    animation: float 8s ease-in-out infinite 1s;
+}
 /* Background decorative floral elements */
 .floral-bg {
     background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuChfj4BKZZ9kWJ0oKiPIjvEJJD7r6uGDrm6WDG7aGGRGVoULI5lY9DCFSdU6VKmfsteyFl2JI2YNhWp1qCNqJaESdipgmFJpFxN0-H_zkfuZcVi-Ar5CDpeuPXERwhxtavWjvoc_QDL3idbVLOhs-IMh7ji8Qtk1x4-YpOivh14FHSlUa81tGJoxpYDO_OKDSBu-vx0KrkK6Sl5nGtRDyinTvoCR4IhEs4MNNbXYECwmydlxKBPUrXnAgt9VfKrEBSH23fOe0Vlg8k);
@@ -92,6 +102,9 @@
 <!-- END: Hero Section -->
 <!-- BEGIN: Invitation Text -->
 <section class="px-8 py-12 text-center bg-weddingBg relative" data-purpose="invitation-text">
+<!-- Floating Lilies -->
+<div class="absolute -top-12 -right-8 w-40 h-40 opacity-70 float-delayed pointer-events-none" style="background-image: url('lily.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
+<div class="absolute -bottom-12 -left-8 w-40 h-40 opacity-70 float-slow pointer-events-none" style="background-image: url('lily.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
 <!-- Ornament -->
 <div class="flex justify-center mb-8">
 <div class="flex items-center gap-4">
@@ -188,8 +201,10 @@
 </section>
 <!-- END: Location Section -->
 <!-- BEGIN: RSVP Section -->
-<section class="py-16 px-6 bg-weddingBg" data-purpose="rsvp-form">
-<div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-sm border border-weddingGold/10">
+<section class="py-16 px-6 bg-weddingBg relative" data-purpose="rsvp-form">
+<!-- Floating Lily -->
+<div class="absolute -top-8 -right-8 w-32 h-32 opacity-70 float-delayed pointer-events-none" style="background-image: url('lily.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
+<div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-sm border border-weddingGold/10 relative z-10">
 <h3 class="text-2xl italic text-center mb-8 px-4 leading-relaxed">Тойға келуіңізді растауыңызды сұраймыз</h3>
 <form class="space-y-4" id="rsvp-form">
 <div class="mb-4">
