@@ -277,6 +277,28 @@
 </section>
 <!-- Date & Time -->
 <section class="px-container-margin py-section-gap text-center flex flex-col items-center reveal active">
+
+<div class="w-full max-w-sm mx-auto mb-12">
+    <div class="flex justify-center gap-4 text-deep-earth mb-2" id="countdown-timer">
+        <div class="flex flex-col items-center">
+            <div class="w-14 h-14 rounded-full border border-gold-accent flex items-center justify-center text-xl font-headline-lg-mobile" id="cd-days">00</div>
+            <span class="text-[10px] uppercase tracking-widest mt-2 text-outline-variant">Күн</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <div class="w-14 h-14 rounded-full border border-gold-accent flex items-center justify-center text-xl font-headline-lg-mobile" id="cd-hours">00</div>
+            <span class="text-[10px] uppercase tracking-widest mt-2 text-outline-variant">Сағат</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <div class="w-14 h-14 rounded-full border border-gold-accent flex items-center justify-center text-xl font-headline-lg-mobile" id="cd-minutes">00</div>
+            <span class="text-[10px] uppercase tracking-widest mt-2 text-outline-variant">Минут</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <div class="w-14 h-14 rounded-full border border-gold-accent flex items-center justify-center text-xl font-headline-lg-mobile" id="cd-seconds">00</div>
+            <span class="text-[10px] uppercase tracking-widest mt-2 text-outline-variant">Секунд</span>
+        </div>
+    </div>
+</div>
+
 <h3 class="calligraphy-text text-[28px] text-deep-earth mb-8">Өтетін күні:</h3>
 <p class="font-label-caps text-label-caps text-gold-accent tracking-[0.3em] mb-6">ШІЛДЕ</p>
 <div class="flex items-center justify-center gap-4 text-headline-lg-mobile font-headline-lg-mobile text-outline-variant mb-6">
@@ -481,6 +503,38 @@
             }).catch(e => console.log('Autoplay blocked'));
         }
     }, { once: true });
+</script>
+
+<script>
+    function updateCountdown() {
+        const weddingDate = new Date('2026-07-19T17:00:00').getTime();
+        const now = new Date().getTime();
+        const distance = weddingDate - now;
+
+        if (distance < 0) {
+            const timerEl = document.getElementById('countdown-timer');
+            if (timerEl) timerEl.innerHTML = '<div class="text-lg font-headline-lg-mobile text-gold-accent">Той басталды!</div>';
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        const cdDays = document.getElementById('cd-days');
+        const cdHours = document.getElementById('cd-hours');
+        const cdMinutes = document.getElementById('cd-minutes');
+        const cdSeconds = document.getElementById('cd-seconds');
+
+        if (cdDays) cdDays.textContent = days.toString().padStart(2, '0');
+        if (cdHours) cdHours.textContent = hours.toString().padStart(2, '0');
+        if (cdMinutes) cdMinutes.textContent = minutes.toString().padStart(2, '0');
+        if (cdSeconds) cdSeconds.textContent = seconds.toString().padStart(2, '0');
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
 </script>
 
 </body></html>
