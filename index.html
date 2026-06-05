@@ -191,22 +191,27 @@
 <section class="py-16 px-6 bg-weddingBg" data-purpose="rsvp-form">
 <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-sm border border-weddingGold/10">
 <h3 class="text-2xl italic text-center mb-8 px-4 leading-relaxed">Тойға келуіңізді растауыңызды сұраймыз</h3>
-<form class="space-y-4">
+<form class="space-y-4" id="rsvp-form">
+<div class="mb-4">
+  <input type="text" id="guest-name" placeholder="Аты-жөніңізді жазыңыз (Имя)" required
+         class="w-full p-4 border border-weddingGold/20 rounded-md focus:outline-none focus:ring-1 focus:ring-weddingDarkGold text-sm">
+</div>
 <label class="flex items-center p-4 border border-weddingGold/20 rounded-md cursor-pointer hover:bg-weddingGold/5 transition-colors">
-<input class="form-radio text-weddingDarkGold focus:ring-weddingDarkGold border-weddingGold/30 mr-4" name="rsvp" type="radio">
+<input class="form-radio text-weddingDarkGold focus:ring-weddingDarkGold border-weddingGold/30 mr-4" name="rsvp" value="Иә, барамын!" type="radio" required>
 <span class="text-sm">Иә, барамын!</span>
 </label>
 <label class="flex items-center p-4 border border-weddingGold/20 rounded-md cursor-pointer hover:bg-weddingGold/5 transition-colors">
-<input class="form-radio text-weddingDarkGold focus:ring-weddingDarkGold border-weddingGold/30 mr-4" name="rsvp" type="radio">
+<input class="form-radio text-weddingDarkGold focus:ring-weddingDarkGold border-weddingGold/30 mr-4" name="rsvp" value="Жұбайыммен бірге барамын" type="radio">
 <span class="text-sm">Жұбайыммен бірге барамын</span>
 </label>
 <label class="flex items-center p-4 border border-weddingGold/20 rounded-md cursor-pointer hover:bg-weddingGold/5 transition-colors">
-<input class="form-radio text-weddingDarkGold focus:ring-weddingDarkGold border-weddingGold/30 mr-4" name="rsvp" type="radio">
+<input class="form-radio text-weddingDarkGold focus:ring-weddingDarkGold border-weddingGold/30 mr-4" name="rsvp" value="Өкінішке орай, келе алмаймын" type="radio">
 <span class="text-sm">Өкінішке орай, келе алмаймын</span>
 </label>
-<button class="w-full bg-weddingDarkGold text-white py-4 mt-6 rounded-sm text-xs tracking-widest uppercase hover:bg-[#5c4a32] transition-colors shadow-md" type="submit">
+<button id="submit-btn" class="w-full bg-weddingDarkGold text-white py-4 mt-6 rounded-sm text-xs tracking-widest uppercase hover:bg-[#5c4a32] transition-colors shadow-md" type="submit">
           ЖАУАП БЕРУ
         </button>
+<p id="form-message" class="text-center text-sm mt-4 hidden"></p>
 </form>
 </div>
 </section>
@@ -297,6 +302,57 @@
             }).catch(e => console.log('Autoplay blocked'));
         }
     }, { once: true });
+
+    // RSVP Form Logic
+    const botToken = "8774887874:AAFZkbxl_DZScsXwFDS0kw9pzM42oQfENEM";
+    const chatId = "YOUR_CHAT_ID"; // Вставьте сюда ваш Chat ID
+
+    document.getElementById('rsvp-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (chatId === "YOUR_CHAT_ID") {
+            alert("Пожалуйста, укажите ваш Telegram Chat ID в коде (строка 277).");
+            return;
+        }
+
+        const name = document.getElementById('guest-name').value;
+        const rsvpChoice = document.querySelector('input[name="rsvp"]:checked').value;
+        
+        const text = `🔔 Жаңа жауап (Новый ответ):\n\n👤 Аты-жөні: ${name}\n📌 Жауабы: ${rsvpChoice}`;
+        const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+        
+        const submitBtn = document.getElementById('submit-btn');
+        const formMessage = document.getElementById('form-message');
+        
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Күте тұрыңыз...";
+        formMessage.classList.add('hidden');
+        
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: chatId, text: text })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                formMessage.innerText = "Рахмет! Сіздің жауабыңыз қабылданды.";
+                formMessage.className = "text-center text-sm mt-4 text-green-600 block";
+                document.getElementById('rsvp-form').reset();
+            } else {
+                formMessage.innerText = "Қате кетті (Telegram API қатесі).";
+                formMessage.className = "text-center text-sm mt-4 text-red-600 block";
+            }
+        })
+        .catch(error => {
+            formMessage.innerText = "Қате кетті. Қайта көріңіз.";
+            formMessage.className = "text-center text-sm mt-4 text-red-600 block";
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerText = "ЖАУАП БЕРУ";
+        });
+    });
   </script>
 
 </body></html>
