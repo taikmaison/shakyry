@@ -305,15 +305,10 @@
 
     // RSVP Form Logic
     const botToken = "8774887874:AAFZkbxl_DZScsXwFDS0kw9pzM42oQfENEM";
-    const chatId = "YOUR_CHAT_ID"; // Вставьте сюда ваш Chat ID
+    const chatId = "539706835"; 
 
     document.getElementById('rsvp-form').addEventListener('submit', function(e) {
         e.preventDefault();
-        
-        if (chatId === "YOUR_CHAT_ID") {
-            alert("Пожалуйста, укажите ваш Telegram Chat ID в коде (строка 277).");
-            return;
-        }
 
         const name = document.getElementById('guest-name').value;
         const rsvpChoice = document.querySelector('input[name="rsvp"]:checked').value;
