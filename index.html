@@ -1,485 +1,302 @@
-<!DOCTYPE html><html lang="kk" style=""><head>
+<!DOCTYPE html><html lang="kk"><head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Фархат &amp; Лазима - Үйлену тойы</title>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<title>Фархат &amp; Лазима - Wedding Invitation</title>
+<!-- Google Fonts for Elegant Typography -->
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:wght@400..800&amp;family=Source+Serif+4:opsz,wght@8..60,400..700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Great+Vibes&amp;family=Montserrat:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS v3 CDN -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "error": "#ba1a1a",
-                        "surface-container-lowest": "#ffffff",
-                        "tertiary-fixed": "#e4e2de",
-                        "ivory-bg": "#FDFBF7",
-                        "inverse-primary": "#e8bf96",
-                        "surface-dim": "#d9d8ed",
-                        "secondary-fixed-dim": "#e1c1a4",
-                        "on-background": "#191a2a",
-                        "surface-bright": "#fbf8ff",
-                        "outline-variant": "#d2c4b8",
-                        "on-tertiary": "#ffffff",
-                        "surface-container": "#eeecff",
-                        "secondary": "#725a43",
-                        "on-surface": "#191a2a",
-                        "deep-earth": "#6E563F",
-                        "outline": "#81756b",
-                        "background": "#fbf8ff",
-                        "on-surface-variant": "#4f453c",
-                        "secondary-container": "#fbdabc",
-                        "surface": "#fbf8ff",
-                        "on-primary-fixed-variant": "#5d4122",
-                        "on-tertiary-container": "#fefcf8",
-                        "surface-variant": "#e2e0f6",
-                        "inverse-surface": "#2e2f3f",
-                        "on-error": "#ffffff",
-                        "secondary-fixed": "#feddbf",
-                        "inverse-on-surface": "#f1efff",
-                        "on-tertiary-fixed-variant": "#474744",
-                        "on-error-container": "#93000a",
-                        "primary": "#755635",
-                        "primary-fixed": "#ffdcbb",
-                        "on-secondary-container": "#775e46",
-                        "surface-container-high": "#e7e6fc",
-                        "tertiary": "#5c5c59",
-                        "on-secondary-fixed": "#291806",
-                        "on-secondary": "#ffffff",
-                        "on-primary": "#ffffff",
-                        "on-tertiary-fixed": "#1b1c1a",
-                        "surface-container-low": "#f5f2ff",
-                        "surface-container-highest": "#e2e0f6",
-                        "on-secondary-fixed-variant": "#59422d",
-                        "on-primary-container": "#fffbff",
-                        "primary-fixed-dim": "#e8bf96",
-                        "tertiary-fixed-dim": "#c8c6c3",
-                        "error-container": "#ffdad6",
-                        "primary-container": "#8f6e4b",
-                        "tertiary-container": "#757572",
-                        "charcoal-text": "#141524",
-                        "on-primary-fixed": "#2b1700",
-                        "gold-accent": "#987652",
-                        "surface-tint": "#775837"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
-                    },
-                    "spacing": {
-                        "container-margin": "24px",
-                        "gutter": "16px",
-                        "base": "8px",
-                        "section-gap": "64px"
-                    },
-                    "fontFamily": {
-                        "title-md": ["Playfair Display"],
-                        "label-caps": ["Plus Jakarta Sans"],
-                        "headline-lg-mobile": ["Playfair Display"],
-                        "display-hero": ["Playfair Display"],
-                        "body-md": ["Source Serif 4"],
-                        "headline-lg": ["Playfair Display"],
-                        "body-lg": ["Source Serif 4"],
-                        "detail-sm": ["Plus Jakarta Sans"],
-                        "calligraphy": ["'Playfair Display'", "serif"]
-                    },
-                    "fontSize": {
-                        "title-md": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
-                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700" }],
-                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
-                        "display-hero": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
-                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
-                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
-                        "detail-sm": ["14px", { "lineHeight": "20px", "fontWeight": "500" }]
-                    }
-                }
-            }
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            weddingGold: '#A68B67',
+            weddingDarkGold: '#745D3F',
+            weddingBg: '#FDFCF9',
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'serif'],
+            cursive: ['"Great Vibes"', 'cursive'],
+            sans: ['Montserrat', 'sans-serif'],
+          }
         }
-    </script>
-<style>
-        .calligraphy-text {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-weight: 500;
-        }
-        
-        .bg-noise {
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-        }
-        
-        .wave-bottom {
-            clip-path: ellipse(150% 100% at 50% 0%);
-        }
-        .wave-top {
-            clip-path: ellipse(150% 100% at 50% 100%);
-        }
-
-        /* Gold Shimmer Background Effect */
-        .gold-shimmer {
-            background: linear-gradient(
-                45deg,
-                #FDFBF7 0%,
-                #FDFBF7 40%,
-                rgba(232, 191, 150, 0.05) 50%,
-                #FDFBF7 60%,
-                #FDFBF7 100%
-            );
-            background-size: 400% 400%;
-            animation: shimmer 15s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Entrance Animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Ambient Motion */
-        .float-slow {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        .float-delayed {
-            animation: float 8s ease-in-out infinite 1s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        .pulse-heart {
-            animation: pulse 2.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
-        }
-
-        /* National Ornament Animation */
-        .ornament-reveal {
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            transition: stroke-dashoffset 2s ease-in-out;
-        }
-        
-        .active .ornament-reveal {
-            stroke-dashoffset: 0;
-        }
-
-        /* Interactive Transitions */
-        .interactive-btn {
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
-        }
-        
-        .interactive-btn:active {
-            transform: scale(0.95);
-        }
-        
-        .interactive-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .input-focus-effect {
-            transition: all 0.3s ease;
-        }
-        
-        .input-focus-effect:focus-within {
-            border-color: #987652;
-            background-color: #f5f2ff;
-            transform: translateX(4px);
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .reveal, .float-slow, .float-delayed, .pulse-heart, .interactive-btn, .gold-shimmer {
-                animation: none !important;
-                transition: none !important;
-                transform: none !important;
-                opacity: 1 !important;
-            }
-        }
-    </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
+      }
     }
-    .hide-scrollbar::-webkit-scrollbar {
-        display: none;
+  </script>
+<style data-purpose="custom-animations">@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+        } to {
+        opacity: 1;
+        transform: translateY(0);
+        }
+    }
+.animate-fade-in {
+    animation: fadeIn 1s ease-out forwards
+    }
+/* Background decorative floral elements */
+.floral-bg {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuChfj4BKZZ9kWJ0oKiPIjvEJJD7r6uGDrm6WDG7aGGRGVoULI5lY9DCFSdU6VKmfsteyFl2JI2YNhWp1qCNqJaESdipgmFJpFxN0-H_zkfuZcVi-Ar5CDpeuPXERwhxtavWjvoc_QDL3idbVLOhs-IMh7ji8Qtk1x4-YpOivh14FHSlUa81tGJoxpYDO_OKDSBu-vx0KrkK6Sl5nGtRDyinTvoCR4IhEs4MNNbXYECwmydlxKBPUrXnAgt9VfKrEBSH23fOe0Vlg8k);
+    /* Placeholder for subtle floral motifs if needed, though Tailwind handles most */
+    background-repeat: no-repeat;
+    background-position: top right
+    }</style>
+<style data-purpose="layout-tweaks">
+    body {
+      background-color: #FDFCF9;
+      color: #745D3F;
+      overflow-x: hidden;
+    }
+    .hero-mask {
+      clip-path: ellipse(100% 85% at 50% 15%);
+    }
+    .date-circle {
+      border: 1.5px solid #745D3F;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   </style>
 </head>
-<body class="bg-ivory-bg gold-shimmer text-on-surface-variant font-body-md antialiased overflow-x-hidden min-h-screen relative">
-<div class="fixed inset-0 bg-noise pointer-events-none z-0"></div>
-<!-- TopAppBar -->
-<header class="bg-ivory-bg/80 backdrop-blur-md dark:bg-on-background docked full-width top-0 flat no shadows flex justify-center items-center w-full px-container-margin py-4 max-w-7xl mx-auto z-50 sticky transition-all duration-200">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-gold-accent dark:text-secondary-fixed pulse-heart" style="font-variation-settings: 'FILL' 1;">favorite</span>
-<div class="flex items-baseline gap-2">
-<h2 class="calligraphy-text text-2xl text-gold-accent">Фархат</h2>
-<span class="text-deep-earth">&amp;</span>
-<h2 class="calligraphy-text text-2xl text-gold-accent">Лазима</h2>
+<body class="font-serif">
+<!-- BEGIN: Top Navigation Bar -->
+<nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-weddingGold/20 py-3 flex justify-center items-center shadow-sm" data-purpose="top-navigation">
+<div class="flex items-center gap-2 text-weddingDarkGold">
+<span class="text-xl">♡</span>
+<span class="text-xl font-cursive">Фархат &amp; Лазима</span>
 </div>
+</nav>
+<!-- END: Top Navigation Bar -->
+<!-- BEGIN: Hero Section -->
+<header class="relative h-[85vh] w-full overflow-hidden" data-purpose="hero-header">
+<div class="absolute inset-0 z-0">
+<img alt="Wedding Rings" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLui6wBu8BxlweRPvYxBeV4P8sDBQK33zqv2NvWuGzSDNZM6Jq8SkeON1nfaRHB0FQwVUb3_T_iUIOUP01weaVjPMN7TodYZMiVxoh0nrBzxQcZT_9PaQZTTHhBVp20efdqp-QtfwrWMxgioXivlwBkpM9poEUOPGezT5vxdjTDEbDsXGSFmh9B14C4zNwTsZIOXdtkVmQI0Toy98xV7XFvEvtzAMsgjWgyYdvyy2v6xYgqAEf9xgLqMwg">
+<div class="absolute inset-0 bg-black/30"></div> <!-- Overlay for text readability -->
 </div>
+<div class="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-6">
+<p class="uppercase tracking-widest text-sm mb-4 animate-fade-in">Wedding Day</p>
+<h1 class="text-6xl font-cursive mb-4 animate-fade-in" style="animation-delay: 0.2s;">Фархат</h1>
+<span class="text-4xl font-cursive italic text-weddingGold animate-fade-in" style="animation-delay: 0.4s;">&amp;</span>
+<h1 class="text-6xl font-cursive mt-4 animate-fade-in" style="animation-delay: 0.6s;">Лазима</h1>
+</div>
+<!-- Curved Bottom Decorative -->
+<div class="absolute bottom-0 left-0 w-full h-16 bg-weddingBg rounded-t-[50%]"></div>
 </header>
-<main class="relative z-10 w-full max-w-[800px] mx-auto bg-ivory-bg/40 sm:shadow-sm sm:my-8 overflow-hidden pb-16">
-<!-- Hero Section -->
-<section class="relative w-full h-[530px] min-h-[500px] flex flex-col items-center justify-end pb-12 wave-bottom bg-cover bg-center reveal active" data-alt="A close up image of a bride and groom holding up their wedding rings." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpd679HoTGPW9maL26wsyNzxymQvE98ZpNjArtiyfYwUinOtLfWPuLGDBVDbNQabeelAMQmCvEK1cGBzONQfAMiE_lrrOidlJMUU-zyu5ws_KzRlzQ8EYmBh3DFcGzSFxWFSa2I5U1UTq7M_tOMA6h_lqpoZT9d8PHH3JKgkrp9NTkpE_MLc_8DtN0gYORxT-drAUOBLmjY4JioZe9qFGinmNHTcpwBdCWkWhjPJYWZqh0fmbhtdAeafQnHGbAfLKiXajzDyPpAg');">
-<div class="absolute inset-0 bg-gradient-to-t from-ivory-bg via-ivory-bg/50 to-transparent"></div>
-<div class="relative z-10 flex flex-col items-center text-center px-container-margin space-y-6 float-slow">
-<p class="font-label-caps text-label-caps text-deep-earth tracking-[0.2em] uppercase">Wedding Day</p>
-<div class="flex flex-col items-center space-y-2">
-<h2 class="calligraphy-text text-[48px] leading-[1.2] text-gold-accent">Фархат</h2>
-<span class="calligraphy-text text-[32px] text-outline-variant">&amp;</span>
-<h2 class="calligraphy-text text-[48px] leading-[1.2] text-gold-accent">Лазима</h2>
+<!-- END: Hero Section -->
+<!-- BEGIN: Invitation Text -->
+<section class="px-8 py-12 text-center bg-weddingBg relative" data-purpose="invitation-text">
+<!-- Ornament -->
+<div class="flex justify-center mb-8">
+<div class="flex items-center gap-4">
+<div class="h-[1px] w-12 bg-weddingGold"></div>
+<div class="text-weddingGold">∞</div>
+<div class="h-[1px] w-12 bg-weddingGold"></div>
+</div>
+</div>
+<div class="bg-white border border-weddingGold/10 p-10 rounded-lg shadow-sm">
+<h2 class="text-3xl italic mb-8">Құрметті қонақтар!</h2>
+<p class="leading-relaxed text-base tracking-widest uppercase font-serif italic text-weddingDarkGold">
+        СІЗДЕРДІ ҰЛЫМЫЗ ФАРХАТ ПЕН КЕЛІНІМІЗ ЛАЗИМАНЫҢ ҮЙЛЕНУ ТОЙЫНА АРНАЛҒАН САЛТАНАТТЫ АҚ ДАСТАРХАНЫМЫЗДЫҢ ҚАДІРЛІ ҚОНАҒЫ БОЛУҒА ШАҚЫРАМЫЗ.
+      </p>
+</div>
+</section>
+<!-- END: Invitation Text -->
+<!-- BEGIN: Gallery Section -->
+<section class="py-10 px-10 flex justify-center bg-weddingBg" data-purpose="couple-photo">
+<div class="relative w-full max-w-xs overflow-hidden rounded-sm shadow-xl">
+<img alt="The Couple" class="w-full grayscale-[20%]" src="https://lh3.googleusercontent.com/aida/AP1WRLuhpBcc12K2PsYZYhQj6cBi6NsmDspw9X_z2Ppx3SuoOltyz0uhPmArqpO09SX8tL__-3zCphqA_m9sjUDidAjWJ1QuYwIuNIZ5ogsccWBD-7w8jq3q-2TDEFs71cLtdS8GNOr1gkGck6foJtz0UGXYV41vLVNEMKSGdnUAkG9CA-wF27E6mX99N1BECEay3LEQu4--c7bnDwabXUO-R_KgzZy4EXLfg5lhATUWtbi7SXLaHAWeu6cskzE">
+</div>
+</section>
+<!-- END: Gallery Section -->
+<!-- BEGIN: Countdown Section -->
+<section class="py-12 bg-weddingBg" data-purpose="countdown">
+<div class="flex justify-center gap-4">
+<div class="flex flex-col items-center">
+<div class="border border-weddingGold w-16 h-16 flex items-center justify-center bg-white mb-2">
+<span class="text-2xl" id="days">44</span>
+</div>
+<span class="text-[10px] uppercase font-sans tracking-widest">Күн</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="border border-weddingGold w-16 h-16 flex items-center justify-center bg-white mb-2">
+<span class="text-2xl" id="hours">4</span>
+</div>
+<span class="text-[10px] uppercase font-sans tracking-widest">Сағат</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="border border-weddingGold w-16 h-16 flex items-center justify-center bg-white mb-2">
+<span class="text-2xl" id="minutes">33</span>
+</div>
+<span class="text-[10px] uppercase font-sans tracking-widest">Минут</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="border border-weddingGold w-16 h-16 flex items-center justify-center bg-white mb-2">
+<span class="text-2xl" id="seconds">58</span>
+</div>
+<span class="text-[10px] uppercase font-sans tracking-widest">Секунд</span>
 </div>
 </div>
 </section>
-<!-- Divider -->
-<div class="flex justify-center items-center py-8 reveal active">
-<svg class="text-gold-accent/40 active" fill="none" height="24" viewBox="0 0 120 24" width="120" xmlns="http://www.w3.org/2000/svg">
-<path class="ornament-reveal" d="M60 12C60 12 50 2 40 2C30 2 20 12 20 12C20 12 30 22 40 22C50 22 60 12 60 12ZM60 12C60 12 70 2 80 2C90 2 100 12 100 12C100 12 90 22 80 22C70 22 60 12 60 12Z" stroke="currentColor" stroke-width="1"></path>
-<path class="ornament-reveal" d="M0 12H20M100 12H120" stroke="currentColor" stroke-width="1"></path>
-<circle cx="60" cy="12" r="4" stroke="currentColor" stroke-width="1"></circle>
-</svg>
+<!-- END: Countdown Section -->
+<!-- BEGIN: Event Details -->
+<section class="py-16 bg-weddingBg text-center" data-purpose="event-details">
+<h3 class="text-4xl italic mb-10">Өтетін күні:</h3>
+<p class="uppercase tracking-widest text-xs mb-6">Шілде</p>
+<div class="flex justify-center items-center gap-4 text-xl font-light text-weddingGold/50 mb-8">
+<span class="">17</span>
+<span class="">18</span>
+<div class="date-circle text-weddingDarkGold border-weddingDarkGold">
+<span class="text-2xl font-bold">19</span>
 </div>
-<!-- Invitation Text -->
-<section class="px-container-margin py-section-gap relative reveal active">
-<div class="absolute -top-12 -right-8 w-40 h-40 opacity-70 float-delayed pointer-events-none" style="background-image: url('lily.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
-<div class="max-w-md mx-auto text-center space-y-8 bg-ivory-bg/80 backdrop-blur-sm p-8 rounded-xl border border-gold-accent/20 relative z-10 transition-transform duration-500 hover:scale-[1.02]">
-<h3 class="calligraphy-text text-[32px] text-deep-earth">Құрметті қонақтар!</h3>
-<p class="calligraphy-text text-xl text-on-surface-variant leading-relaxed px-2">
-                    СІЗДЕРДІ ҰЛЫМЫЗ ФАРХАТ ПЕН КЕЛІНІМІЗ ЛАЗИМАНЫҢ ҮЙЛЕНУ ТОЙЫНА АРНАЛҒАН САЛТАНАТТЫ АҚ ДАСТАРХАНЫМЫЗДЫҢ ҚАДІРЛІ ҚОНАҒЫ БОЛУҒА ШАҚЫРАМЫЗ.
-                </p>
+<span class="">20</span>
+<span class="">21</span>
 </div>
-<div class="absolute -bottom-12 -left-8 w-40 h-40 opacity-70 float-slow pointer-events-none" style="background-image: url('lily.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
-</section>
-<!-- Interstitial Image -->
-<section class="w-full bg-center my-12 aspect-video bg-contain bg-no-repeat reveal active" style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuBaCwmo3VjgjlarP-eS_XLD1fV_r1gm9MfmnwBSz_rYgspFgVmgAed0NBC0oCovhX6QrPCEUcvUJbKZZtUnRygWOD-U4QUn3njwcoOP08QUJLz9BMQX-Lo9SYGgMKtMGfeLzl6ZPwJQaR7Vqrvf3_YbU0M0o1LgdN0TKFLRAgHkIvwXAgChOoEfWwkyxFJEcnd05UhI9yKLZgQcjVuqcny08AHE_P1bVTxtjVzH7zfuaxaHgYQrN9V7Dghns4wm7G97OVisUHrT2Ypk&quot;);">
-</section>
-<!-- Date & Time -->
-<section class="px-container-margin py-section-gap text-center flex flex-col items-center reveal active">
-
-<div class="w-full max-w-sm mx-auto mb-12">
-    <div class="flex justify-center gap-4 text-deep-earth mb-2" id="countdown-timer">
-        <div class="flex flex-col items-center">
-            <div class="w-14 h-14 rounded-full border border-gold-accent flex items-center justify-center text-xl font-headline-lg-mobile" id="cd-days">00</div>
-            <span class="text-[10px] uppercase tracking-widest mt-2 text-outline-variant">Күн</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <div class="w-14 h-14 rounded-full border border-gold-accent flex items-center justify-center text-xl font-headline-lg-mobile" id="cd-hours">00</div>
-            <span class="text-[10px] uppercase tracking-widest mt-2 text-outline-variant">Сағат</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <div class="w-14 h-14 rounded-full border border-gold-accent flex items-center justify-center text-xl font-headline-lg-mobile" id="cd-minutes">00</div>
-            <span class="text-[10px] uppercase tracking-widest mt-2 text-outline-variant">Минут</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <div class="w-14 h-14 rounded-full border border-gold-accent flex items-center justify-center text-xl font-headline-lg-mobile" id="cd-seconds">00</div>
-            <span class="text-[10px] uppercase tracking-widest mt-2 text-outline-variant">Секунд</span>
-        </div>
-    </div>
-</div>
-
-<h3 class="calligraphy-text text-[28px] text-deep-earth mb-8">Өтетін күні:</h3>
-<p class="font-label-caps text-label-caps text-gold-accent tracking-[0.3em] mb-6">ШІЛДЕ</p>
-<div class="flex items-center justify-center gap-4 text-headline-lg-mobile font-headline-lg-mobile text-outline-variant mb-6">
-<span class="opacity-50">17</span>
-<span class="opacity-70">18</span>
-<div class="relative flex items-center justify-center w-16 h-16">
-<svg class="absolute inset-0 w-full h-full text-gold-accent pulse-heart active" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
-<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
-</svg>
-<span class="text-deep-earth z-10 mt-1">19</span>
-</div>
-<span class="opacity-70">20</span>
-<span class="opacity-50">21</span>
-</div>
-<p class="font-label-caps text-label-caps text-on-surface-variant mb-4">сағат <span class="text-deep-earth text-lg ml-2 font-bold">17:00</span></p>
-<p class="font-display-hero text-display-hero text-deep-earth mb-8">2026</p>
-<div class="flex flex-col items-center space-y-2 text-xs tracking-widest text-outline-variant uppercase">
+<p class="text-sm font-sans mb-4 uppercase">сағат <span class="font-bold">17:00</span></p>
+<p class="text-6xl font-bold mb-8">2026</p>
+<div class="flex flex-col items-center gap-1 uppercase text-[10px] tracking-widest mb-4 opacity-60">
 <span class="">Бейсенбі</span>
 <span class="">Жұма</span>
 <span class="">Сенбі</span>
-<div class="px-6 py-2 border border-gold-accent text-deep-earth mt-2 bg-gold-accent/5">
-                    ЖЕКСЕНБІ
-                </div>
+</div>
+<div class="flex justify-center">
+<div class="border border-weddingGold/30 px-8 py-2 bg-weddingGold/5">
+<span class="uppercase tracking-[0.2em] font-medium">ЖЕКСЕНБІ</span>
+</div>
 </div>
 </section>
-<!-- Location -->
-<section class="relative px-container-margin py-section-gap flex flex-col items-center text-center wave-top bg-surface-container-low mt-12 pb-24 reveal active" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA63pmpcL28TdyQdgxhqWfmCDP_NImDHvpKflEMcrYDTry3UWzErFxLax2vz_O2aFZn6Zv8xxcKfvOfFzn22eB7V_QRhrI-ak85ExySXNDKKlI1ULMNFXregV6gNtNwABuQp8t32v5O5aFxXriwTnV2FQ8dPhHkZTeY5qlcfkc1Qn-2WWsxd3QdJQ1UWNSFS9ol_zmNQJhYoKVjNG8X6mkiCBaoC0k47n3pCKh2XW0E6h9PWyJkTkL12gzJ4IBtdWq-i-5FAqMxog'); background-size: cover; background-blend-mode: overlay;">
-<h3 class="calligraphy-text text-[32px] text-deep-earth mb-12">Мекен-жайы:</h3>
-<p class="font-label-caps text-label-caps text-gold-accent tracking-widest mb-4">Астана</p>
-<p class="font-headline-lg-mobile text-headline-lg-mobile text-deep-earth mb-12 uppercase tracking-wide">РЕСТОРАН "EL PLAZA"</p>
-<a href="https://go.2gis.com/Ysq4K" target="_blank" class="bg-deep-earth text-on-primary font-label-caps text-label-caps px-8 py-4 rounded-full flex items-center gap-2 interactive-btn shadow-md inline-flex">
-                КАРТАНЫ АШУ
-                <span class="material-symbols-outlined text-sm">open_in_new</span>
+<!-- END: Event Details -->
+<!-- BEGIN: Location Section -->
+<section class="py-16 bg-weddingBg text-center relative overflow-hidden" data-purpose="location-details">
+<!-- Soft Background Circle/Effect -->
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_#f1e9e0_0%,_transparent_70%)] opacity-30"></div>
+<div class="relative z-10 px-4">
+<h3 class="text-4xl italic mb-12">Мекен-жайы:</h3>
+<p class="uppercase tracking-[0.3em] text-xs font-bold text-weddingGold mb-4">Астана</p>
+<h4 class="text-3xl font-serif mb-10">РЕСТОРАН "EL PLAZA"</h4>
+<a class="inline-flex items-center gap-3 bg-weddingDarkGold text-white px-10 py-4 rounded-sm text-xs tracking-widest uppercase hover:bg-[#5c4a32] transition-colors shadow-lg" href="https://go.2gis.com/Ysq4K" target="_blank">
+        Картаны ашу 
+        <svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="14" xmlns="http://www.w3.org/2000/svg"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" x2="21" y1="14" y2="3"></line></svg>
 </a>
-</section>
-<!-- RSVP Section -->
-<section class="px-container-margin py-section-gap relative z-20 -mt-16 reveal active">
-<div class="max-w-md mx-auto bg-ivory-bg border border-gold-accent/20 rounded-2xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative overflow-hidden">
-<div class="absolute -top-8 -right-8 w-32 h-32 opacity-70 float-delayed pointer-events-none" style="background-image: url('lily.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
-<h3 class="calligraphy-text text-[28px] text-deep-earth text-center mb-8 relative z-10">Тойға келуіңізді<br>растауыңызды сұраймыз</h3>
-<form class="space-y-4 relative z-10">
-<label class="flex items-center p-4 border border-gold-accent/40 bg-surface-container-lowest rounded-lg cursor-pointer input-focus-effect">
-<input class="form-radio text-gold-accent focus:ring-gold-accent border-outline-variant" name="rsvp" type="radio">
-<span class="ml-3 font-body-md text-on-surface">Иә, барамын!</span>
-</label>
-<label class="flex items-center p-4 border border-outline-variant/30 bg-surface-container-lowest/50 rounded-lg cursor-pointer input-focus-effect">
-<input class="form-radio text-gold-accent focus:ring-gold-accent border-outline-variant" name="rsvp" type="radio">
-<span class="ml-3 font-body-md text-on-surface">Жұбайыммен бірге барамын</span>
-</label>
-<label class="flex items-center p-4 border border-outline-variant/30 bg-surface-container-lowest/50 rounded-lg cursor-pointer input-focus-effect">
-<input class="form-radio text-gold-accent focus:ring-gold-accent border-outline-variant" name="rsvp" type="radio">
-<span class="ml-3 font-body-md text-on-surface">Өкінішке орай, келе алмаймын</span>
-</label>
-<div class="pt-6">
-<button class="w-full bg-deep-earth text-on-primary font-label-caps text-label-caps py-4 rounded-full interactive-btn shadow-md" type="button">
-                            ЖАУАП БЕРУ
-                        </button>
 </div>
+</section>
+<!-- END: Location Section -->
+<!-- BEGIN: RSVP Section -->
+<section class="py-16 px-6 bg-weddingBg" data-purpose="rsvp-form">
+<div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-sm border border-weddingGold/10">
+<h3 class="text-2xl italic text-center mb-8 px-4 leading-relaxed">Тойға келуіңізді растауыңызды сұраймыз</h3>
+<form class="space-y-4">
+<label class="flex items-center p-4 border border-weddingGold/20 rounded-md cursor-pointer hover:bg-weddingGold/5 transition-colors">
+<input class="form-radio text-weddingDarkGold focus:ring-weddingDarkGold border-weddingGold/30 mr-4" name="rsvp" type="radio">
+<span class="text-sm">Иә, барамын!</span>
+</label>
+<label class="flex items-center p-4 border border-weddingGold/20 rounded-md cursor-pointer hover:bg-weddingGold/5 transition-colors">
+<input class="form-radio text-weddingDarkGold focus:ring-weddingDarkGold border-weddingGold/30 mr-4" name="rsvp" type="radio">
+<span class="text-sm">Жұбайыммен бірге барамын</span>
+</label>
+<label class="flex items-center p-4 border border-weddingGold/20 rounded-md cursor-pointer hover:bg-weddingGold/5 transition-colors">
+<input class="form-radio text-weddingDarkGold focus:ring-weddingDarkGold border-weddingGold/30 mr-4" name="rsvp" type="radio">
+<span class="text-sm">Өкінішке орай, келе алмаймын</span>
+</label>
+<button class="w-full bg-weddingDarkGold text-white py-4 mt-6 rounded-sm text-xs tracking-widest uppercase hover:bg-[#5c4a32] transition-colors shadow-md" type="submit">
+          ЖАУАП БЕРУ
+        </button>
 </form>
 </div>
 </section>
-
-<!-- Footer Top Content -->
-<section class="py-16 text-center reveal active">
-<h3 class="calligraphy-text text-[28px] text-deep-earth mb-6">Той иелері:</h3>
-<p class="font-label-caps text-label-caps text-gold-accent tracking-[0.2em] uppercase">Елтай Гүлсім</p>
+<!-- END: RSVP Section -->
+<!-- BEGIN: Hosts Section -->
+<section class="py-16 text-center bg-weddingBg" data-purpose="hosts-info">
+<h3 class="text-3xl italic mb-8">Той иелері:</h3>
+<p class="uppercase tracking-[0.2em] font-medium text-weddingDarkGold">Елтай Гүлсім</p>
 </section>
-</main>
-<!-- Footer -->
-<footer class="bg-ivory-bg/90 backdrop-blur-sm dark:bg-on-background full-width border-t border-outline-variant/30 dark:border-outline/20 flex flex-col items-center justify-center w-full px-container-margin py-8 max-w-7xl mx-auto gap-4 relative z-10">
-<div class="font-label-caps text-label-caps text-gold-accent mb-2">Елтай Гүлсім</div>
-<nav class="flex gap-6 mb-4">
-<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-gold-accent transition-colors duration-200" href="https://go.2gis.com/Ysq4K" target="_blank">Картаны ашу</a>
-<a class="font-body-md text-body-md text-gold-accent border-b border-gold-accent hover:text-gold-accent transition-colors duration-200" href="#">Жауап беру</a>
-</nav>
-<div class="text-sm text-outline-variant text-center mt-4">
-            © 2026 Елтай Гүлсім</div>
-</footer>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Intersection Observer for Scroll Animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    // Once animated, we don't need to observe it anymore
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.reveal').forEach(el => {
-            revealObserver.observe(el);
-        });
-
-        // National Ornament reveal logic (parallax-ish delay)
-        const ornamentObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, { threshold: 0.5 });
-
-        document.querySelectorAll('svg').forEach(svg => {
-            ornamentObserver.observe(svg);
-        });
-    });
-</script>
-
-
-<!-- Music Player -->
-<audio id="bg-music" src="music.mp3" loop></audio>
-<button id="music-toggle" class="fixed bottom-6 left-6 z-50 bg-ivory-bg/80 backdrop-blur-sm p-3 rounded-full border border-gold-accent/40 shadow-lg text-gold-accent hover:bg-gold-accent/10 transition-colors">
-    <span class="material-symbols-outlined" id="music-icon">music_off</span>
+<!-- END: Hosts Section -->
+<!-- BEGIN: Footer -->
+<footer class="py-12 bg-weddingBg text-center border-t border-weddingGold/10" data-purpose="footer">
+<p class="uppercase text-[10px] tracking-widest mb-6 text-weddingDarkGold">Елтай Гүлсім</p>
+<div class="flex justify-center gap-8 mb-10 text-sm border-b border-weddingGold/20 pb-4 mx-12">
+<a class="hover:text-black" href="https://go.2gis.com/Ysq4K">Картаны ашу</a>
+<a class="border-b border-weddingDarkGold pb-1" href="#">Жауап беру</a>
+</div>
+<div class="flex flex-col items-center gap-6">
+<!-- Music toggle button style from screenshot -->
+<button id="music-toggle" class="w-12 h-12 flex items-center justify-center bg-white rounded-xl shadow-md border border-weddingGold/10">
+<div id="music-icon-container">
+<svg fill="none" height="20" stroke="#745D3F" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><line x1="1" x2="23" y1="1" y2="23"></line><path d="M9 9v10H5v-4h4"></path><path d="M12 15l3.5 3.5"></path><path d="M15 10.5V3l7 3-7 3"></path></svg>
+</div>
 </button>
-<script>
+<p class="text-[10px] opacity-50">© 2026 Елтай Гүлсім</p>
+</div>
+</footer>
+<!-- END: Footer -->
+
+<audio id="bg-music" src="music.mp3" loop></audio>
+
+<script data-purpose="countdown-logic">
+    // Simplified countdown for display
+    const countdownDate = new Date("July 19, 2026 17:00:00").getTime();
+
+    const x = setInterval(function() {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("days").innerHTML = days;
+      document.getElementById("hours").innerHTML = hours;
+      document.getElementById("minutes").innerHTML = minutes;
+      document.getElementById("seconds").innerHTML = seconds;
+
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("days").innerHTML = "0";
+        document.getElementById("hours").innerHTML = "0";
+        document.getElementById("minutes").innerHTML = "0";
+        document.getElementById("seconds").innerHTML = "0";
+      }
+    }, 1000);
+
+    // Music Player Logic
     const music = document.getElementById('bg-music');
     const musicToggle = document.getElementById('music-toggle');
-    const musicIcon = document.getElementById('music-icon');
+    const musicIconContainer = document.getElementById('music-icon-container');
+
+    const iconOff = `<svg fill="none" height="20" stroke="#745D3F" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><line x1="1" x2="23" y1="1" y2="23"></line><path d="M9 9v10H5v-4h4"></path><path d="M12 15l3.5 3.5"></path><path d="M15 10.5V3l7 3-7 3"></path></svg>`;
+    
+    // Custom icon for playing state
+    const iconOn = `<svg fill="none" height="20" stroke="#745D3F" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>`;
+
     let isPlaying = false;
 
-    // Toggle music
     musicToggle.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent triggering body click
+        e.stopPropagation();
         if (isPlaying) {
             music.pause();
-            musicIcon.textContent = 'music_off';
+            musicIconContainer.innerHTML = iconOff;
         } else {
             music.play();
-            musicIcon.textContent = 'music_note';
+            musicIconContainer.innerHTML = iconOn;
         }
         isPlaying = !isPlaying;
     });
 
-    // Try autoplay on first interaction
     document.body.addEventListener('click', () => {
         if (!isPlaying) {
             music.play().then(() => {
                 isPlaying = true;
-                musicIcon.textContent = 'music_note';
+                musicIconContainer.innerHTML = iconOn;
             }).catch(e => console.log('Autoplay blocked'));
         }
     }, { once: true });
-</script>
-
-<script>
-    function updateCountdown() {
-        const weddingDate = new Date('2026-07-19T17:00:00').getTime();
-        const now = new Date().getTime();
-        const distance = weddingDate - now;
-
-        if (distance < 0) {
-            const timerEl = document.getElementById('countdown-timer');
-            if (timerEl) timerEl.innerHTML = '<div class="text-lg font-headline-lg-mobile text-gold-accent">Той басталды!</div>';
-            return;
-        }
-
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        const cdDays = document.getElementById('cd-days');
-        const cdHours = document.getElementById('cd-hours');
-        const cdMinutes = document.getElementById('cd-minutes');
-        const cdSeconds = document.getElementById('cd-seconds');
-
-        if (cdDays) cdDays.textContent = days.toString().padStart(2, '0');
-        if (cdHours) cdHours.textContent = hours.toString().padStart(2, '0');
-        if (cdMinutes) cdMinutes.textContent = minutes.toString().padStart(2, '0');
-        if (cdSeconds) cdSeconds.textContent = seconds.toString().padStart(2, '0');
-    }
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-</script>
+  </script>
 
 </body></html>
