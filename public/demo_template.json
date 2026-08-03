@@ -1,0 +1,1249 @@
+{
+  "props": {
+    "pageProps": {
+      "pageData": {
+        "builderPageId": "8956ed7e-0c5c-43bc-b876-0d58e63f0ba1",
+        "builderPageData": {
+          "site_id": null,
+          "page_id": "8956ed7e-0c5c-43bc-b876-0d58e63f0ba1",
+          "title": "Копия: Копия: wedding day (KZ) (KZ)",
+          "blocks": [
+            {
+              "id": "54933ad7-fba1-4e93-8d72-2dd4706e3b72",
+              "type": "container",
+              "position": 0,
+              "style": {
+                "backgroundColor": "#ffffff",
+                "backgroundImage": "",
+                "minHeight": "500px",
+                "height": "6300px",
+                "margin": "0px",
+                "padding": "20px",
+                "borderRadius": "0px",
+                "border": "none",
+                "boxShadow": "none"
+              },
+              "components": [
+                {
+                  "id": "2fcb9275-a68b-47ec-85d1-93acfbb87434",
+                  "type": "shape",
+                  "position": {
+                    "x": 50,
+                    "y": 73.60793631417411,
+                    "z": -5
+                  },
+                  "size": {
+                    "width": 339,
+                    "height": 1774
+                  },
+                  "style": {
+                    "backgroundColor": "transparent",
+                    "border": "2px solid #000000",
+                    "borderColor": "#c1b4a0",
+                    "borderWidth": "2px",
+                    "borderRadius": "50px",
+                    "borderStyle": "solid",
+                    "boxShadow": "0px 12px 24px rgba(0, 0, 0, 0.2)"
+                  },
+                  "data": {
+                    "shapeType": "square"
+                  }
+                },
+                {
+                  "id": "3999eb6c-17f8-4b0a-abb1-a6bae4c80a96",
+                  "type": "calendar-pro",
+                  "position": {
+                    "x": 50,
+                    "y": 40.46190631200398,
+                    "z": -4
+                  },
+                  "size": {
+                    "width": 380,
+                    "height": 480
+                  },
+                  "style": {},
+                  "data": {
+                    "event_date": "2025-09-14T15:30:00",
+                    "event_time": "12:00",
+                    "calendarLanguage": "kz",
+                    "fontFamily": "Playfair Display",
+                    "mainColor": "#6e563f",
+                    "__animation": {
+                      "type": "slideInUp",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "9e4c2763-e342-4f8f-8732-9c0c5ae7cc3a",
+                  "type": "shape",
+                  "position": {
+                    "x": 50,
+                    "y": 24.179364885602673,
+                    "z": -1
+                  },
+                  "size": {
+                    "width": 339,
+                    "height": 779
+                  },
+                  "style": {
+                    "backgroundColor": "transparent",
+                    "border": "2px solid #000000",
+                    "borderColor": "#c1b4a0",
+                    "borderWidth": "2px",
+                    "borderRadius": "50px",
+                    "borderStyle": "solid",
+                    "boxShadow": "0px 12px 24px rgba(0, 0, 0, 0.2)"
+                  },
+                  "data": {
+                    "shapeType": "square"
+                  }
+                },
+                {
+                  "id": "50726424-aced-42b6-9761-780fe33045f4",
+                  "type": "image",
+                  "position": {
+                    "x": 50,
+                    "y": 4.682539682539684,
+                    "z": 0
+                  },
+                  "size": {
+                    "width": 486,
+                    "height": 608
+                  },
+                  "style": {
+                    "borderRadius": "0px",
+                    "objectFit": "cover"
+                  },
+                  "data": {
+                    "src": "https://tyrasoft.kz/uploads/beyne/page_builder_comp_1776365471940_b232f3ab66b24d5a9f9ba6513e9a9950.webp",
+                    "alt": "Без названия (57).jpg",
+                    "cropMode": "original",
+                    "isPhoto": false,
+                    "autoSized": true
+                  }
+                },
+                {
+                  "id": "bd301121-907d-4ddf-929d-e3a726d1d6da",
+                  "type": "image",
+                  "position": {
+                    "x": 50,
+                    "y": 7.760317363436256,
+                    "z": 2
+                  },
+                  "size": {
+                    "width": 466,
+                    "height": 418
+                  },
+                  "style": {
+                    "borderRadius": "0px",
+                    "objectFit": "cover"
+                  },
+                  "data": {
+                    "src": "https://tyrasoft.kz/uploads/beyne/page_builder_comp_1776363896535_d4b1c3f5e8f6444cb6c690524c9ff0be.webp",
+                    "alt": "O4Oui (3).png",
+                    "cropMode": "original",
+                    "isPhoto": false,
+                    "autoSized": true
+                  }
+                },
+                {
+                  "id": "239a3423-39f4-4341-8553-5eb8e6f50edb",
+                  "type": "text",
+                  "position": {
+                    "x": 50,
+                    "y": 9.925397116040422,
+                    "z": 4
+                  },
+                  "size": {
+                    "width": 300,
+                    "height": 112
+                  },
+                  "style": {
+                    "fontSize": "30px",
+                    "fontFamily": "\"KZPFMonumentaPro-Regular\", Arial, sans-serif",
+                    "color": "#625232",
+                    "textAlign": "center",
+                    "fontWeight": "normal",
+                    "lineHeight": "1.4"
+                  },
+                  "data": {
+                    "content": "Wedding day",
+                    "tag": "p",
+                    "__animation": {
+                      "type": "slideInDown",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "f8da151d-fa7a-4f9a-a802-a9d09ea5ede6",
+                  "type": "text",
+                  "position": {
+                    "x": 50,
+                    "y": 11.528571719215027,
+                    "z": 5
+                  },
+                  "size": {
+                    "width": 300,
+                    "height": 168
+                  },
+                  "style": {
+                    "fontSize": "50px",
+                    "fontFamily": "\"_AsylbekM02Shelley\", Arial, sans-serif",
+                    "color": "#816f4b",
+                    "textAlign": "center",
+                    "fontWeight": "normal",
+                    "lineHeight": "1.4"
+                  },
+                  "data": {
+                    "content": "Самат",
+                    "tag": "p",
+                    "__animation": {
+                      "type": "slideInRight",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "ba74e127-7839-4fe1-9c94-749fdaf1922c",
+                  "type": "image",
+                  "position": {
+                    "x": 50,
+                    "y": 16.090476384238592,
+                    "z": 8
+                  },
+                  "size": {
+                    "width": 482,
+                    "height": 100
+                  },
+                  "style": {
+                    "borderRadius": "0px",
+                    "objectFit": "cover"
+                  },
+                  "data": {
+                    "src": "https://tyrasoft.kz/uploads/beyne/page_builder_comp_1776364793174_a3cca6033d7b4f9da7675ad5ebef2f85.webp",
+                    "alt": "QrUbS.png",
+                    "cropMode": "rectangle",
+                    "isPhoto": false,
+                    "autoSized": true,
+                    "__animation": {
+                      "type": "slideInDown",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "8b0e5dfc-cbc1-44a6-81a3-764b87d4c28f",
+                  "type": "text",
+                  "position": {
+                    "x": 50,
+                    "y": 19.65555584619916,
+                    "z": 9
+                  },
+                  "size": {
+                    "width": 300,
+                    "height": 112
+                  },
+                  "style": {
+                    "fontSize": "36px",
+                    "fontFamily": "\"KZGoodVibes\", Arial, sans-serif",
+                    "color": "#625232",
+                    "textAlign": "center",
+                    "fontWeight": "normal",
+                    "lineHeight": "1.4"
+                  },
+                  "data": {
+                    "content": "Құрметті қонақтар!",
+                    "tag": "p",
+                    "__animation": {
+                      "type": "slideInLeft",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "2f442fef-f11f-444d-80a5-a4439555ff20",
+                  "type": "text",
+                  "position": {
+                    "x": 50,
+                    "y": 23.94127013191344,
+                    "z": 10
+                  },
+                  "size": {
+                    "width": 327,
+                    "height": 90
+                  },
+                  "style": {
+                    "fontSize": "18px",
+                    "fontFamily": "\"KZ_RomulC\", Arial, sans-serif",
+                    "color": "#625232",
+                    "textAlign": "center",
+                    "fontWeight": "normal",
+                    "lineHeight": "1.4"
+                  },
+                  "data": {
+                    "content": "Сіз(дер)ді ұлымыз Самат пен қызымыз Динараның үйлену тойына арналған салтанатты ақ дастарханымыздың қадірлі қонағы болуға шақырамыз.",
+                    "tag": "p",
+                    "__animation": {
+                      "type": "slideInRight",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "0ebb8137-0bef-42ae-abef-48fced7719b6",
+                  "type": "image",
+                  "position": {
+                    "x": 85.2,
+                    "y": 17.880952380952383,
+                    "z": 12
+                  },
+                  "size": {
+                    "width": 129,
+                    "height": 164
+                  },
+                  "style": {
+                    "borderRadius": "0px",
+                    "objectFit": "cover",
+                    "transform": "rotate(36deg)"
+                  },
+                  "data": {
+                    "src": "https://tyrasoft.kz/uploads/beyne/page_builder_comp_1776366144074_5f49589b5a6a4a69aa2879d06d09accc.webp",
+                    "alt": "Без названия (59).png",
+                    "cropMode": "rectangle",
+                    "isPhoto": false,
+                    "autoSized": true,
+                    "__animation": {
+                      "type": "slideInRight",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "855616a5-8bb1-4c34-a87a-62c84060880e",
+                  "type": "image",
+                  "position": {
+                    "x": 11.333333333333334,
+                    "y": 30.214285714285715,
+                    "z": 13
+                  },
+                  "size": {
+                    "width": 129,
+                    "height": 164
+                  },
+                  "style": {
+                    "borderRadius": "0px",
+                    "objectFit": "cover",
+                    "transform": "rotate(250deg)"
+                  },
+                  "data": {
+                    "src": "https://tyrasoft.kz/uploads/beyne/page_builder_comp_1776366144074_5f49589b5a6a4a69aa2879d06d09accc.webp",
+                    "alt": "Без названия (59).png",
+                    "cropMode": "rectangle",
+                    "isPhoto": false,
+                    "autoSized": true,
+                    "__animation": {
+                      "type": "slideInRight",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "f8fd4b1a-c383-4509-a77f-5ddc6b92d3f0",
+                  "type": "text",
+                  "position": {
+                    "x": 50,
+                    "y": 35.861905052548366,
+                    "z": 14
+                  },
+                  "size": {
+                    "width": 300,
+                    "height": 129
+                  },
+                  "style": {
+                    "fontSize": "36px",
+                    "fontFamily": "\"KZGoodVibes\", Arial, sans-serif",
+                    "color": "#625232",
+                    "textAlign": "center",
+                    "fontWeight": "normal",
+                    "lineHeight": "1.4"
+                  },
+                  "data": {
+                    "content": "Өтетін күні:",
+                    "tag": "p",
+                    "__animation": {
+                      "type": "slideInRight",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "86dc50d6-cadb-4fff-9868-f3e4cd404d46",
+                  "type": "image",
+                  "position": {
+                    "x": 50,
+                    "y": 33.8047630673363,
+                    "z": 15
+                  },
+                  "size": {
+                    "width": 486,
+                    "height": 345
+                  },
+                  "style": {
+                    "borderRadius": "0px",
+                    "objectFit": "cover"
+                  },
+                  "data": {
+                    "src": "https://tyrasoft.kz/uploads/beyne/page_builder_comp_1776366402683_f75055e38f0c4ab681074b50123396d9.webp",
+                    "alt": "Без названия (60).png",
+                    "cropMode": "rectangle",
+                    "isPhoto": false,
+                    "autoSized": true,
+                    "__animation": {
+                      "type": "slideInDown",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "e8e684df-5fb2-46f4-b0e7-09b8f3ce8a9a",
+                  "type": "shape",
+                  "position": {
+                    "x": 50,
+                    "y": 46.31269763764881,
+                    "z": 23
+                  },
+                  "size": {
+                    "width": 196,
+                    "height": 245
+                  },
+                  "style": {
+                    "backgroundColor": "#ffffff",
+                    "border": "2px solid #000000",
+                    "borderColor": "#000000",
+                    "borderWidth": "0px",
+                    "borderRadius": "0px",
+                    "borderStyle": "none"
+                  },
+                  "data": {
+                    "shapeType": "square"
+                  }
+                },
+                {
+                  "id": "906b063f-6545-4471-8fbf-e470195d92f6",
+                  "type": "image",
+                  "position": {
+                    "x": 50,
+                    "y": 51.547619047619065,
+                    "z": 24
+                  },
+                  "size": {
+                    "width": 505,
+                    "height": 709
+                  },
+                  "style": {
+                    "borderRadius": "0px",
+                    "objectFit": "cover",
+                    "opacity": 0.5
+                  },
+                  "data": {
+                    "src": "https://tyrasoft.kz/uploads/beyne/page_builder_comp_1776366798340_9b7d2e61e8994fa984a67f215f796a36.webp",
+                    "alt": "Без названия (22).jpg",
+                    "cropMode": "original",
+                    "isPhoto": false,
+                    "autoSized": true
+                  }
+                },
+                {
+                  "id": "43f84cc0-00da-4e1e-957f-542e1617dc16",
+                  "type": "text",
+                  "position": {
+                    "x": 50,
+                    "y": 47.68730187794518,
+                    "z": 26
+                  },
+                  "size": {
+                    "width": 300,
+                    "height": 129
+                  },
+                  "style": {
+                    "fontSize": "36px",
+                    "fontFamily": "\"KZGoodVibes\", Arial, sans-serif",
+                    "color": "#625232",
+                    "textAlign": "center",
+                    "fontWeight": "normal",
+                    "lineHeight": "1.4"
+                  },
+                  "data": {
+                    "content": "Мекен-жайы:",
+                    "tag": "p",
+                    "__animation": {
+                      "type": "slideInRight",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "22172f11-3df0-401c-91e5-e36ef5a8805b",
+                  "type": "text",
+                  "position": {
+                    "x": 50,
+                    "y": 49.9095241001674,
+                    "z": 27
+                  },
+                  "size": {
+                    "width": 300,
+                    "height": 84
+                  },
+                  "style": {
+                    "fontSize": "20px",
+                    "fontFamily": "\"KZ_RomulC\", Arial, sans-serif",
+                    "color": "#625232",
+                    "textAlign": "center",
+                    "fontWeight": "normal",
+                    "lineHeight": "1.4"
+                  },
+                  "data": {
+                    "content": "Алматы",
+                    "tag": "p",
+                    "__animation": {
+                      "type": "slideInLeft",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "270a2378-2538-482b-b7e8-006f6dfb0986",
+                  "type": "text",
+                  "position": {
+                    "x": 50,
+                    "y": 51.957143147786475,
+                    "z": 28
+                  },
+                  "size": {
+                    "width": 300,
+                    "height": 84
+                  },
+                  "style": {
+                    "fontSize": "20px",
+                    "fontFamily": "\"KZ_RomulC\", Arial, sans-serif",
+                    "color": "#625232",
+                    "textAlign": "center",
+                    "fontWeight": "normal",
+                    "lineHeight": "1.4"
+                  },
+                  "data": {
+                    "content": "ресторан \"Абиба\"",
+                    "tag": "p",
+                    "__animation": {
+                      "type": "slideInRight",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "dc370251-54a2-4aa3-921a-9a05d1702876",
+                  "type": "button",
+                  "position": {
+                    "x": 50,
+                    "y": 54.0111103360615,
+                    "z": 29
+                  },
+                  "size": {
+                    "width": 235,
+                    "height": 44
+                  },
+                  "style": {},
+                  "data": {
+                    "backgroundColor": "#8c7440",
+                    "borderRadius": 90,
+                    "text": "Картаны ашу",
+                    "url": "https://go.2gis.com/j4jSL",
+                    "textColor": "#ffffff",
+                    "borderColor": "#8c7440",
+                    "borderWidth": 0,
+                    "openInNewTab": true,
+                    "fontSize": 16,
+                    "fontFamily": "KZPFMonumentaPro-Regular",
+                    "fontWeight": 600,
+                    "__animation": {
+                      "type": "slideInUp",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "2853d467-beef-48c6-8932-13c75a719ab1",
+                  "type": "text",
+                  "position": {
+                    "x": 50,
+                    "y": 61.79841298905633,
+                    "z": 30
+                  },
+                  "size": {
+                    "width": 300,
+                    "height": 129
+                  },
+                  "style": {
+                    "fontSize": "36px",
+                    "fontFamily": "\"KZGoodVibes\", Arial, sans-serif",
+                    "color": "#625232",
+                    "textAlign": "center",
+                    "fontWeight": "normal",
+                    "lineHeight": "1.4"
+                  },
+                  "data": {
+                    "content": "Тойға келуіңізді растауыңызды сұраймыз",
+                    "tag": "p",
+                    "__animation": {
+                      "type": "slideInLeft",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "b172400f-be19-4b71-a313-5ecc3933b141",
+                  "type": "image",
+                  "position": {
+                    "x": 50,
+                    "y": 56.42380874875993,
+                    "z": 32
+                  },
+                  "size": {
+                    "width": 537,
+                    "height": 236
+                  },
+                  "style": {
+                    "borderRadius": "0px",
+                    "objectFit": "cover"
+                  },
+                  "data": {
+                    "src": "https://tyrasoft.kz/uploads/beyne/page_builder_comp_1776367997696_b959129cc3e04f1daba0770090e132ae.webp",
+                    "alt": "X5DDq (1).png",
+                    "cropMode": "rectangle",
+                    "isPhoto": false,
+                    "autoSized": true
+                  }
+                },
+                {
+                  "id": "655ebcc1-6ab8-42da-8ca2-4af7d94566d2",
+                  "type": "image",
+                  "position": {
+                    "x": 50,
+                    "y": 46.373015873015866,
+                    "z": 33
+                  },
+                  "size": {
+                    "width": 481,
+                    "height": 165
+                  },
+                  "style": {
+                    "borderRadius": "0px",
+                    "objectFit": "cover",
+                    "transform": "rotate(180deg)"
+                  },
+                  "data": {
+                    "src": "https://tyrasoft.kz/uploads/beyne/page_builder_comp_1776368090230_3f8b25887b7e4a42aed2533fad82ff78.webp",
+                    "alt": "W8fQb.png",
+                    "cropMode": "rectangle",
+                    "isPhoto": false,
+                    "autoSized": true
+                  }
+                },
+                {
+                  "id": "4d6a741c-8833-4010-810e-8861cd8283ea",
+                  "type": "image",
+                  "position": {
+                    "x": 86.43067830403646,
+                    "y": 59.64285714285714,
+                    "z": 36
+                  },
+                  "size": {
+                    "width": 129,
+                    "height": 164
+                  },
+                  "style": {
+                    "borderRadius": "0px",
+                    "objectFit": "cover",
+                    "transform": "rotate(42deg)"
+                  },
+                  "data": {
+                    "src": "https://tyrasoft.kz/uploads/beyne/page_builder_comp_1776366144074_5f49589b5a6a4a69aa2879d06d09accc.webp",
+                    "alt": "Без названия (59).png",
+                    "cropMode": "rectangle",
+                    "isPhoto": false,
+                    "autoSized": true,
+                    "__animation": {
+                      "type": "slideInRight",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "7b28b106-3c7f-4453-bc8b-ae1a7a6af47a",
+                  "type": "image",
+                  "position": {
+                    "x": 50,
+                    "y": 70.02698432074654,
+                    "z": 37
+                  },
+                  "size": {
+                    "width": 325,
+                    "height": 78
+                  },
+                  "style": {
+                    "borderRadius": "0px",
+                    "objectFit": "cover"
+                  },
+                  "data": {
+                    "src": "https://tyrasoft.kz/uploads/beyne/page_builder_comp_1776364793174_a3cca6033d7b4f9da7675ad5ebef2f85.webp",
+                    "alt": "QrUbS.png",
+                    "cropMode": "rectangle",
+                    "isPhoto": false,
+                    "autoSized": true,
+                    "__animation": {
+                      "type": "slideInDown",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "29e5a887-b3ee-4a76-8f34-426ca5d65d29",
+                  "type": "image",
+                  "position": {
+                    "x": 10.102642822265626,
+                    "y": 87.81746031746032,
+                    "z": 38
+                  },
+                  "size": {
+                    "width": 129,
+                    "height": 164
+                  },
+                  "style": {
+                    "borderRadius": "0px",
+                    "objectFit": "cover",
+                    "transform": "rotate(250deg)"
+                  },
+                  "data": {
+                    "src": "https://tyrasoft.kz/uploads/beyne/page_builder_comp_1776366144074_5f49589b5a6a4a69aa2879d06d09accc.webp",
+                    "alt": "Без названия (59).png",
+                    "cropMode": "rectangle",
+                    "isPhoto": false,
+                    "autoSized": true,
+                    "__animation": {
+                      "type": "slideInRight",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "e97061bd-9363-4a13-900e-996b5e496795",
+                  "type": "form2",
+                  "position": {
+                    "x": 50,
+                    "y": 66.44603329613096,
+                    "z": 39
+                  },
+                  "size": {
+                    "width": 332,
+                    "height": 400
+                  },
+                  "style": {},
+                  "data": {
+                    "form_id": "2f4739c3-2af2-4479-b94b-0a19c3c6a167",
+                    "form_fields": [
+                      {
+                        "id": "1",
+                        "field_type": "text",
+                        "field_label": "Есіміңіз",
+                        "placeholder": "Есіміңізді енгізіңіз",
+                        "is_required": true,
+                        "field_name": "field_1"
+                      }
+                    ],
+                    "form_buttons": [
+                      {
+                        "id": "1",
+                        "button_text": "Иә, барамын!",
+                        "button_value": "yes"
+                      },
+                      {
+                        "id": "2",
+                        "button_text": "Жұбайыммен бірге барамын",
+                        "button_value": "no"
+                      },
+                      {
+                        "id": "3",
+                        "button_text": "Өкінішке орай, келе алмаймын",
+                        "button_value": "maybe"
+                      }
+                    ],
+                    "field_fontSize": 13,
+                    "field_fontFamily": "KZOptima",
+                    "field_color": "#987652",
+                    "field_backgroundColor": "#ffffff",
+                    "field_borderColor": "#987652",
+                    "field_borderRadius": 24,
+                    "button_fontSize": 13,
+                    "button_fontFamily": "KZOptima",
+                    "label_fontSize": 13,
+                    "label_fontFamily": "KZOptima",
+                    "label_color": "#987652",
+                    "formLang": "kz",
+                    "lang": "kz",
+                    "mainColor": "#987652",
+                    "submit_button_text": "ЖАУАП БЕРУ",
+                    "modal_button_text": "ЖІБЕРУ",
+                    "modal_title": "Есіміңізді жазыңыз:",
+                    "submit_button_backgroundColor": "#987652",
+                    "submit_button_textColor": "#ffffff",
+                    "submit_button_borderRadius": 24,
+                    "submit_button_fontSize": 15,
+                    "submit_button_fontFamily": "KZOptima",
+                    "option_fontSize": 16,
+                    "option_fontFamily": "KZOptima",
+                    "option_color": "#876036",
+                    "option_borderRadius": 24,
+                    "option_height": 47,
+                    "submit_button_height": 47,
+                    "field_height": 44,
+                    "field_borderWidth": 1,
+                    "button_color": "#987652",
+                    "__animation": {
+                      "type": "slideInUp",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "d18845af-0c2c-46b4-8df3-b9c07b6f03b5",
+                  "type": "text",
+                  "position": {
+                    "x": 50,
+                    "y": 71.97301616365948,
+                    "z": 40
+                  },
+                  "size": {
+                    "width": 300,
+                    "height": 129
+                  },
+                  "style": {
+                    "fontSize": "36px",
+                    "fontFamily": "\"KZGoodVibes\", Arial, sans-serif",
+                    "color": "#625232",
+                    "textAlign": "center",
+                    "fontWeight": "normal",
+                    "lineHeight": "1.4"
+                  },
+                  "data": {
+                    "content": "Ізгі тілектер:",
+                    "tag": "p",
+                    "__animation": {
+                      "type": "slideInRight",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "062e16d3-2308-49f4-8712-9f08d6c966dc",
+                  "type": "fixed-wishes",
+                  "position": {
+                    "x": 50,
+                    "y": 73.96984281994045,
+                    "z": 41
+                  },
+                  "size": {
+                    "width": 200,
+                    "height": 80
+                  },
+                  "style": {},
+                  "data": {
+                    "button_text": "ТІЛЕК ЖАЗУ",
+                    "button_color": "#967240",
+                    "text_color": "#ffffff",
+                    "font_family": "KZOptima",
+                    "font_size": 17,
+                    "button_height": 54,
+                    "component_language": "kz"
+                  }
+                },
+                {
+                  "id": "47feff9e-e4bc-411a-a3b9-3c713c5d9f7d",
+                  "type": "wishes-list",
+                  "position": {
+                    "x": 50,
+                    "y": 78.3984142485119,
+                    "z": 42
+                  },
+                  "size": {
+                    "width": 312,
+                    "height": 455
+                  },
+                  "style": {},
+                  "data": {
+                    "form_lang": "kz",
+                    "button_text": "БАРЛЫҚ ТІЛЕКТЕРДІ ОҚУ",
+                    "title_color": "#926735",
+                    "card_bg_color": "#ffffff",
+                    "button_color": "#926735",
+                    "font_family": "KZOptima",
+                    "auto_scroll_interval": 3000,
+                    "__animation": {
+                      "type": "slideInRight",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "b36a4fa0-3f23-4236-88b5-393a546ba977",
+                  "type": "image",
+                  "position": {
+                    "x": 50,
+                    "y": 94.73015873015872,
+                    "z": 43
+                  },
+                  "size": {
+                    "width": 484,
+                    "height": 525
+                  },
+                  "style": {
+                    "borderRadius": "0px",
+                    "objectFit": "cover"
+                  },
+                  "data": {
+                    "src": "https://tyrasoft.kz/uploads/beyne/page_builder_comp_1776368700243_d0fb4ff6ce664193913301051fdba3a6.webp",
+                    "alt": "Без названия (33).jpg",
+                    "cropMode": "original",
+                    "isPhoto": false,
+                    "autoSized": true
+                  }
+                },
+                {
+                  "id": "015da90d-3d94-498a-8d22-7718788a4333",
+                  "type": "image",
+                  "position": {
+                    "x": 50,
+                    "y": 91.98412698412696,
+                    "z": 44
+                  },
+                  "size": {
+                    "width": 529,
+                    "height": 208
+                  },
+                  "style": {
+                    "borderRadius": "0px",
+                    "objectFit": "cover"
+                  },
+                  "data": {
+                    "src": "https://tyrasoft.kz/uploads/beyne/page_builder_comp_1776368768288_7141575be4ed4dae83878e8ef75b8b36.webp",
+                    "alt": "Без названия (52) (1).png",
+                    "cropMode": "rectangle",
+                    "isPhoto": false,
+                    "autoSized": true
+                  }
+                },
+                {
+                  "id": "2386185c-5788-4e3f-9fd4-56217aadbeaa",
+                  "type": "image",
+                  "position": {
+                    "x": 47.06666666666667,
+                    "y": 97.8095238095238,
+                    "z": 45
+                  },
+                  "size": {
+                    "width": 501,
+                    "height": 226
+                  },
+                  "style": {
+                    "borderRadius": "0px",
+                    "objectFit": "cover",
+                    "transform": "rotate(180deg)"
+                  },
+                  "data": {
+                    "src": "https://tyrasoft.kz/uploads/beyne/page_builder_comp_1776368768288_7141575be4ed4dae83878e8ef75b8b36.webp",
+                    "alt": "Без названия (52) (1).png",
+                    "cropMode": "rectangle",
+                    "isPhoto": false,
+                    "autoSized": true
+                  }
+                },
+                {
+                  "id": "08307ff3-d8e2-4bd6-83a1-3dbfe23fac3c",
+                  "type": "shape",
+                  "position": {
+                    "x": 50,
+                    "y": 94.06349206349208,
+                    "z": 47
+                  },
+                  "size": {
+                    "width": 425,
+                    "height": 150
+                  },
+                  "style": {
+                    "backgroundColor": "#ffffff",
+                    "border": "none",
+                    "borderColor": "#000000",
+                    "borderWidth": "0px",
+                    "borderRadius": "0px",
+                    "borderStyle": "none",
+                    "filter": "blur(38px)"
+                  },
+                  "data": {
+                    "shapeType": "circle"
+                  }
+                },
+                {
+                  "id": "cc5000fe-0e71-4e04-9ee6-960630fb14ce",
+                  "type": "timer",
+                  "position": {
+                    "x": 50,
+                    "y": 94.73015873015872,
+                    "z": 48
+                  },
+                  "size": {
+                    "width": 500,
+                    "height": 200
+                  },
+                  "style": {
+                    "backgroundColor": "#1a1a1a",
+                    "color": "#ffffff",
+                    "borderRadius": "8px"
+                  },
+                  "data": {
+                    "event_date": "2025-09-14T15:30:00",
+                    "event_title": "Тойға дейін қалған уақыт:",
+                    "timezone": "Asia/Almaty",
+                    "show_days": true,
+                    "show_hours": true,
+                    "show_minutes": true,
+                    "show_seconds": true,
+                    "timerLanguage": "kz",
+                    "backgroundColor": "transparent",
+                    "borderRadius": 8,
+                    "titleFontSize": 16,
+                    "titleFontFamily": "KZPFMonumentaPro-Regular",
+                    "titleColor": "#9d7648",
+                    "numbersFontSize": 24,
+                    "numbersFontFamily": "KZPFMonumentaPro-Regular",
+                    "numbersColor": "#9d7648",
+                    "labelsFontSize": 11,
+                    "labelsFontFamily": "KZPFMonumentaPro-Regular",
+                    "labelsColor": "#9d7648",
+                    "showLabels": true,
+                    "spacing": 12,
+                    "__animation": {
+                      "type": "zoomIn",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "05eb863f-128b-454b-88d1-4a298c505764",
+                  "type": "text",
+                  "position": {
+                    "x": 50,
+                    "y": 14.52857171921503,
+                    "z": 49
+                  },
+                  "size": {
+                    "width": 300,
+                    "height": 168
+                  },
+                  "style": {
+                    "fontSize": "50px",
+                    "fontFamily": "\"_AsylbekM02Shelley\", Arial, sans-serif",
+                    "color": "#816f4b",
+                    "textAlign": "center",
+                    "fontWeight": "normal",
+                    "lineHeight": "1.4"
+                  },
+                  "data": {
+                    "content": "Динара",
+                    "tag": "p",
+                    "__animation": {
+                      "type": "slideInLeft",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "408b86d8-a74d-4d78-9e80-915ef98e3976",
+                  "type": "text",
+                  "position": {
+                    "x": 50,
+                    "y": 12.988889179532492,
+                    "z": 50
+                  },
+                  "size": {
+                    "width": 300,
+                    "height": 168
+                  },
+                  "style": {
+                    "fontSize": "50px",
+                    "fontFamily": "\"_AsylbekM02Shelley\", Arial, sans-serif",
+                    "color": "#816f4b",
+                    "textAlign": "center",
+                    "fontWeight": "normal",
+                    "lineHeight": "1.4"
+                  },
+                  "data": {
+                    "content": "&",
+                    "tag": "p",
+                    "__animation": {
+                      "type": "zoomIn",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "fdaf79f2-815f-44dc-bd8f-54e12055e4c6",
+                  "type": "audio-fixed",
+                  "position": {
+                    "x": 126.66666666666667,
+                    "y": 28.290476965525794,
+                    "z": 51
+                  },
+                  "size": {
+                    "width": 200,
+                    "height": 80
+                  },
+                  "style": {},
+                  "data": {
+                    "audio_url": "https://shaqyru.kz/sounds/1687438130.mp3",
+                    "button_text": "Әуен қосу",
+                    "button_color": "#967240",
+                    "text_color": "#ffffff",
+                    "font_family": "KZOptima",
+                    "font_size": 17,
+                    "button_height": 54
+                  }
+                },
+                {
+                  "id": "932df851-46f8-429d-ac2f-6c3d835c226c",
+                  "type": "text",
+                  "position": {
+                    "x": 50,
+                    "y": 82.73492092556424,
+                    "z": 52
+                  },
+                  "size": {
+                    "width": 300,
+                    "height": 129
+                  },
+                  "style": {
+                    "fontSize": "36px",
+                    "fontFamily": "\"KZGoodVibes\", Arial, sans-serif",
+                    "color": "#625232",
+                    "textAlign": "center",
+                    "fontWeight": "normal",
+                    "lineHeight": "1.4"
+                  },
+                  "data": {
+                    "content": "Той иелері:",
+                    "tag": "p",
+                    "__animation": {
+                      "type": "slideInRight",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                },
+                {
+                  "id": "07fb5c89-744b-4e58-8e93-4e2c75eacfec",
+                  "type": "text",
+                  "position": {
+                    "x": 50,
+                    "y": 84.6984126984127,
+                    "z": 53
+                  },
+                  "size": {
+                    "width": 300,
+                    "height": 129
+                  },
+                  "style": {
+                    "fontSize": "20px",
+                    "fontFamily": "\"KZ_RomulC\", Arial, sans-serif",
+                    "color": "#625232",
+                    "textAlign": "center",
+                    "fontWeight": "normal",
+                    "lineHeight": "1.4"
+                  },
+                  "data": {
+                    "content": " БОЛМАНОВТАР  әулеті",
+                    "tag": "p",
+                    "__animation": {
+                      "type": "slideInRight",
+                      "duration": 3,
+                      "isInfinite": false
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "created_at": "2026-04-28T13:56:00.014747",
+          "updated_at": "2026-04-28T13:56:00.014747",
+          "is_published": true,
+          "published_at": "2026-04-28T13:56:00.014747",
+          "meta_tags": {
+            "og_title": "Үйлену той",
+            "og_description": "Шақыру",
+            "og_image": "https://tyrasoft.kzhttps://tyrasoft.kz/uploads/compressed_toitrend_370.jpg"
+          },
+          "is_paid": false
+        },
+        "mode": "public",
+        "lang": "kz",
+        "siteId": null,
+        "status": "demo",
+        "isPaid": false,
+        "siteCategory": null,
+        "audioLink": null,
+        "siteSlug": null,
+        "metaTags": {
+          "og_title": "Үйлену той",
+          "og_description": "Шақыру",
+          "og_image": "https://tyrasoft.kzhttps://tyrasoft.kz/uploads/compressed_toitrend_370.jpg"
+        }
+      },
+      "error": null
+    },
+    "__N_SSP": true
+  },
+  "page": "/view",
+  "query": {
+    "builder_page_id": "8956ed7e-0c5c-43bc-b876-0d58e63f0ba1",
+    "site_id": "370",
+    "status": "demo"
+  },
+  "buildId": "u1EgkQYcNaJO70QL33RnS",
+  "isFallback": false,
+  "isExperimentalCompile": false,
+  "gssp": true,
+  "scriptLoader": []
+}

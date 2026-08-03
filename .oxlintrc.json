@@ -1,0 +1,22 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "oxc"],
+  "ignorePatterns": [
+    "dist",
+    "public/demos",
+    "scrape_*.js",
+    "scrape_*.cjs",
+    "test_*.js",
+    "test_*.cjs",
+    "find_api.cjs",
+    "fetch_all_api.js",
+    "generate_real_data.js",
+    "download_assets.js",
+    "remove_loader.js",
+    "src/real_templates.js"
+  ],
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+  }
+}
