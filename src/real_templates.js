@@ -12,7 +12,7 @@ export const mockTemplates = [
   {
     "id": 296,
     "categoryId": "uylenu-toi",
-    "title": "Копия: wedding day (KZ)",
+    "title": "wedding day (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_296.jpg",
@@ -23,7 +23,7 @@ export const mockTemplates = [
   {
     "id": 338,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_338.png",
@@ -34,7 +34,7 @@ export const mockTemplates = [
   {
     "id": 301,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Elegant 2026 Red (KY) (KZ)",
+    "title": "Elegant 2026 Red (KY) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_301.png",
@@ -45,7 +45,7 @@ export const mockTemplates = [
   {
     "id": 386,
     "categoryId": "merey-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_386.png",
@@ -56,7 +56,7 @@ export const mockTemplates = [
   {
     "id": 314,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Копия: Копия: Elegant 2026 Red (KY) (KZ) (KZ) (KZ)",
+    "title": "Elegant 2026 Red (KY) (KZ) (KZ) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_314.png",
@@ -88,7 +88,7 @@ export const mockTemplates = [
   {
     "id": 226,
     "categoryId": "tugan-kun",
-    "title": "Blue  Хит Шаблон",
+    "title": "Blue Хит Шаблон",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_226.png",
@@ -99,7 +99,7 @@ export const mockTemplates = [
   {
     "id": 378,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_378.png",
@@ -121,7 +121,7 @@ export const mockTemplates = [
   {
     "id": 227,
     "categoryId": "sundet-toi",
-    "title": "Blue  Хит Шаблон",
+    "title": "Blue Хит Шаблон",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_227.png",
@@ -152,7 +152,7 @@ export const mockTemplates = [
   {
     "id": 384,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_384.png",
@@ -196,7 +196,7 @@ export const mockTemplates = [
   {
     "id": 297,
     "categoryId": "sundet-toi",
-    "title": "Копия: Копия: Копия: Копия: Копия: Копия: Копия: Копия: Копия: invite_green_kz (KZ) (KZ)",
+    "title": "invite_green_kz (KZ) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_297.png",
@@ -228,7 +228,7 @@ export const mockTemplates = [
   {
     "id": 371,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_371.png",
@@ -239,7 +239,7 @@ export const mockTemplates = [
   {
     "id": 368,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_368.png",
@@ -261,7 +261,7 @@ export const mockTemplates = [
   {
     "id": 317,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Копия: Копия: Уйлену тойы Brown (KZ) (KZ) (KZ) (KZ)",
+    "title": "Уйлену тойы Brown (KZ) (KZ) (KZ) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_317.png",
@@ -294,7 +294,7 @@ export const mockTemplates = [
   {
     "id": 349,
     "categoryId": "merey-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_349.png",
@@ -327,7 +327,7 @@ export const mockTemplates = [
   {
     "id": 382,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_382.png",
@@ -360,7 +360,7 @@ export const mockTemplates = [
   {
     "id": 365,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_365.jpg",
@@ -371,7 +371,7 @@ export const mockTemplates = [
   {
     "id": 385,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_385.png",
@@ -382,7 +382,7 @@ export const mockTemplates = [
   {
     "id": 388,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_388.png",
@@ -393,7 +393,7 @@ export const mockTemplates = [
   {
     "id": 370,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_370.png",
@@ -448,7 +448,7 @@ export const mockTemplates = [
   {
     "id": 252,
     "categoryId": "syrga-salu",
-    "title": "Копия: Копия: invite_green_kz",
+    "title": "invite_green_kz",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_252.png",
@@ -459,7 +459,7 @@ export const mockTemplates = [
   {
     "id": 335,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_335.png",
@@ -469,7 +469,7 @@ export const mockTemplates = [
   {
     "id": 311,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Flowers Wedding Kz. (KZ)",
+    "title": "Flowers Wedding Kz. (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_311.png",
@@ -480,7 +480,7 @@ export const mockTemplates = [
   {
     "id": 255,
     "categoryId": "tugan-kun",
-    "title": "Копия: Копия: Копия: Копия: Копия: invite_green_kz",
+    "title": "invite_green_kz",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_255.png",
@@ -513,7 +513,7 @@ export const mockTemplates = [
   {
     "id": 307,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Flowers Wedding Kz. (KZ)",
+    "title": "Flowers Wedding Kz. (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_307.png",
@@ -535,7 +535,7 @@ export const mockTemplates = [
   {
     "id": 328,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_328.png",
@@ -556,7 +556,7 @@ export const mockTemplates = [
   {
     "id": 358,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_358.png",
@@ -567,7 +567,7 @@ export const mockTemplates = [
   {
     "id": 308,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Копия - Wed Black White 2026 (RU) (RU) (KZ)",
+    "title": "Wed Black White 2026 (RU) (RU) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_308.png",
@@ -589,7 +589,7 @@ export const mockTemplates = [
   {
     "id": 320,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Копия: ГОЛУБОЙ ШАБЛОН-(KZ) (KZ) (KZ) (KZ)",
+    "title": "ГОЛУБОЙ ШАБЛОН-(KZ) (KZ) (KZ) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_320.png",
@@ -600,7 +600,7 @@ export const mockTemplates = [
   {
     "id": 265,
     "categoryId": "kudalyk",
-    "title": "Копия: Копия: Копия: Light Base Photo.",
+    "title": "Light Base Photo.",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_265.png",
@@ -611,7 +611,7 @@ export const mockTemplates = [
   {
     "id": 323,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_323.png",
@@ -621,7 +621,7 @@ export const mockTemplates = [
   {
     "id": 321,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Копия: Копия: ГОЛУБОЙ ШАБЛОН-(KZ) (KZ) (KZ) (KZ) (KZ)",
+    "title": "ГОЛУБОЙ ШАБЛОН-(KZ) (KZ) (KZ) (KZ) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_321.png",
@@ -631,7 +631,7 @@ export const mockTemplates = [
   {
     "id": 318,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Wed Red 2026. (KZ)",
+    "title": "Wed Red 2026. (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_318.png",
@@ -652,7 +652,7 @@ export const mockTemplates = [
   {
     "id": 257,
     "categoryId": "sundet-toi",
-    "title": "Копия: Копия: Копия: Копия: Копия: Копия: Копия: invite_green_kz",
+    "title": "invite_green_kz",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_257.png",
@@ -663,7 +663,7 @@ export const mockTemplates = [
   {
     "id": 383,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_383.png",
@@ -674,7 +674,7 @@ export const mockTemplates = [
   {
     "id": 389,
     "categoryId": "merey-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_389.png",
@@ -685,7 +685,7 @@ export const mockTemplates = [
   {
     "id": 390,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_390.png",
@@ -706,7 +706,7 @@ export const mockTemplates = [
   {
     "id": 372,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_372.png",
@@ -717,7 +717,7 @@ export const mockTemplates = [
   {
     "id": 376,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_376.png",
@@ -727,7 +727,7 @@ export const mockTemplates = [
   {
     "id": 344,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Туган Кун Шаблон Dark 2026 (KZ) (KZ)",
+    "title": "Туган Кун Шаблон Dark 2026 (KZ) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_344.png",
@@ -782,7 +782,7 @@ export const mockTemplates = [
   {
     "id": 263,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Light Base Photo.",
+    "title": "Light Base Photo.",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_263.png",
@@ -847,7 +847,7 @@ export const mockTemplates = [
   {
     "id": 233,
     "categoryId": "merey-toi",
-    "title": "Копия: Копия: ЮБИЛЕЙ 45 ЛЕТ РУСТЕМ-(RU) (KZ)",
+    "title": "ЮБИЛЕЙ 45 ЛЕТ РУСТЕМ-(RU) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_233.png",
@@ -964,7 +964,7 @@ export const mockTemplates = [
   {
     "id": 251,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: invite_green_kz",
+    "title": "invite_green_kz",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_251.png",
@@ -974,7 +974,7 @@ export const mockTemplates = [
   {
     "id": 253,
     "categoryId": "kudalyk",
-    "title": "Копия: Копия: Копия: invite_green_kz",
+    "title": "invite_green_kz",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_253.png",
@@ -985,7 +985,7 @@ export const mockTemplates = [
   {
     "id": 254,
     "categoryId": "merey-toi",
-    "title": "Копия: Копия: Копия: Копия: invite_green_kz",
+    "title": "invite_green_kz",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_254.png",
@@ -1005,7 +1005,7 @@ export const mockTemplates = [
   {
     "id": 316,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Копия: Уйлену тойы Brown (KZ) (KZ) (KZ)",
+    "title": "Уйлену тойы Brown (KZ) (KZ) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_316.png",
@@ -1016,7 +1016,7 @@ export const mockTemplates = [
   {
     "id": 292,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Копия: Мектептегі іс-шараларға арналған (KZ) (KZ)",
+    "title": "Мектептегі іс-шараларға арналған (KZ) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_292.png",
@@ -1026,7 +1026,7 @@ export const mockTemplates = [
   {
     "id": 304,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Уйлену тойы Brown (KZ)",
+    "title": "Уйлену тойы Brown (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_304.png",
@@ -1036,7 +1036,7 @@ export const mockTemplates = [
   {
     "id": 303,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: ГОЛУБОЙ ШАБЛОН-(KZ) (KZ)",
+    "title": "ГОЛУБОЙ ШАБЛОН-(KZ) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_303.png",
@@ -1047,7 +1047,7 @@ export const mockTemplates = [
   {
     "id": 299,
     "categoryId": "uylenu-toi",
-    "title": "Копия: 2026 Пионы KZ (KZ)",
+    "title": "2026 Пионы KZ (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_299.jpg",
@@ -1068,7 +1068,7 @@ export const mockTemplates = [
   {
     "id": 309,
     "categoryId": "uylenu-toi",
-    "title": "Копия: invite_green_kz (KZ)",
+    "title": "invite_green_kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_309.png",
@@ -1078,7 +1078,7 @@ export const mockTemplates = [
   {
     "id": 306,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: ҮЙЛЕНУ ТОЙҒА wed latest (RU) (KZ)",
+    "title": "ҮЙЛЕНУ ТОЙҒА wed latest (RU) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_306.png",
@@ -1089,7 +1089,7 @@ export const mockTemplates = [
   {
     "id": 295,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz. (KZ) (KZ)",
+    "title": "Flowers Wedding Kz. (KZ) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_295.jpg",
@@ -1100,7 +1100,7 @@ export const mockTemplates = [
   {
     "id": 294,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Flowers Wedding Kz. (KZ)",
+    "title": "Flowers Wedding Kz. (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_294.jpg",
@@ -1111,7 +1111,7 @@ export const mockTemplates = [
   {
     "id": 293,
     "categoryId": "kyz-uzatu",
-    "title": "QYZ UZATU  Kz. (KZ)",
+    "title": "QYZ UZATU Kz. (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_293.jpg",
@@ -1121,7 +1121,7 @@ export const mockTemplates = [
   {
     "id": 302,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: ҮЙЛЕНУ ТОЙҒА wed latest (KZ) (KZ)",
+    "title": "ҮЙЛЕНУ ТОЙҒА wed latest (KZ) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_302.png",
@@ -1132,7 +1132,7 @@ export const mockTemplates = [
   {
     "id": 312,
     "categoryId": "uylenu-toi",
-    "title": "Копия: ҮЙЛЕНУ ТОЙҒА wed latest (KZ)",
+    "title": "ҮЙЛЕНУ ТОЙҒА wed latest (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_312.png",
@@ -1143,7 +1143,7 @@ export const mockTemplates = [
   {
     "id": 313,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Копия: Wed Black White 2026 (KZ) (KZ) (KZ)",
+    "title": "Wed Black White 2026 (KZ) (KZ) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_313.png",
@@ -1154,7 +1154,7 @@ export const mockTemplates = [
   {
     "id": 322,
     "categoryId": "tugan-kun",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_322.png",
@@ -1164,7 +1164,7 @@ export const mockTemplates = [
   {
     "id": 310,
     "categoryId": "tugan-kun",
-    "title": "Копия: БАЗА ШАҚЫРУ -01KZ (KZ)",
+    "title": "БАЗА ШАҚЫРУ -01KZ (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_310.png",
@@ -1174,7 +1174,7 @@ export const mockTemplates = [
   {
     "id": 377,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_377.png",
@@ -1185,7 +1185,7 @@ export const mockTemplates = [
   {
     "id": 387,
     "categoryId": "tugan-kun",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_387.png",
@@ -1196,7 +1196,7 @@ export const mockTemplates = [
   {
     "id": 373,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_373.png",
@@ -1207,7 +1207,7 @@ export const mockTemplates = [
   {
     "id": 391,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_391.png",
@@ -1218,7 +1218,7 @@ export const mockTemplates = [
   {
     "id": 381,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_381.png",
@@ -1229,7 +1229,7 @@ export const mockTemplates = [
   {
     "id": 375,
     "categoryId": "syrga-salu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_375.png",
@@ -1240,7 +1240,7 @@ export const mockTemplates = [
   {
     "id": 379,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_379.jpg",
@@ -1250,7 +1250,7 @@ export const mockTemplates = [
   {
     "id": 380,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_380.jpg",
@@ -1261,7 +1261,7 @@ export const mockTemplates = [
   {
     "id": 394,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_394.png",
@@ -1272,7 +1272,7 @@ export const mockTemplates = [
   {
     "id": 369,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_369.png",
@@ -1294,7 +1294,7 @@ export const mockTemplates = [
   {
     "id": 264,
     "categoryId": "syrga-salu",
-    "title": "Копия: Копия: Light Base Photo.",
+    "title": "Light Base Photo.",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_264.png",
@@ -1305,7 +1305,7 @@ export const mockTemplates = [
   {
     "id": 266,
     "categoryId": "merey-toi",
-    "title": "Копия: Копия: Копия: Копия: Light Base Photo.",
+    "title": "Light Base Photo.",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_266.png",
@@ -1315,7 +1315,7 @@ export const mockTemplates = [
   {
     "id": 267,
     "categoryId": "tugan-kun",
-    "title": "Копия: Копия: Копия: Копия: Копия: Light Base Photo.",
+    "title": "Light Base Photo.",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_267.png",
@@ -1408,7 +1408,7 @@ export const mockTemplates = [
   {
     "id": 367,
     "categoryId": "merey-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_367.png",
@@ -1556,7 +1556,7 @@ export const mockTemplates = [
   {
     "id": 284,
     "categoryId": "tugan-kun",
-    "title": "Копия: VIP КРАСНЫЙ-(KZ)",
+    "title": "VIP КРАСНЫЙ-(KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_284.jpg",
@@ -1577,7 +1577,7 @@ export const mockTemplates = [
   {
     "id": 352,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_352.png",
@@ -1587,7 +1587,7 @@ export const mockTemplates = [
   {
     "id": 332,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_332.png",
@@ -1597,7 +1597,7 @@ export const mockTemplates = [
   {
     "id": 325,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Wed Red 2026. (KY) (KZ)",
+    "title": "Wed Red 2026. (KY) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_325.png",
@@ -1607,7 +1607,7 @@ export const mockTemplates = [
   {
     "id": 353,
     "categoryId": "merey-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_353.png",
@@ -1618,7 +1618,7 @@ export const mockTemplates = [
   {
     "id": 341,
     "categoryId": "merey-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_341.png",
@@ -1629,7 +1629,7 @@ export const mockTemplates = [
   {
     "id": 336,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_336.png",
@@ -1640,7 +1640,7 @@ export const mockTemplates = [
   {
     "id": 326,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_326.png",
@@ -1650,7 +1650,7 @@ export const mockTemplates = [
   {
     "id": 333,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_333.png",
@@ -1660,7 +1660,7 @@ export const mockTemplates = [
   {
     "id": 345,
     "categoryId": "merey-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_345.png",
@@ -1671,7 +1671,7 @@ export const mockTemplates = [
   {
     "id": 330,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_330.png",
@@ -1681,7 +1681,7 @@ export const mockTemplates = [
   {
     "id": 334,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_334.png",
@@ -1692,7 +1692,7 @@ export const mockTemplates = [
   {
     "id": 357,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_357.png",
@@ -1703,7 +1703,7 @@ export const mockTemplates = [
   {
     "id": 331,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_331.png",
@@ -1714,7 +1714,7 @@ export const mockTemplates = [
   {
     "id": 340,
     "categoryId": "merey-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_340.png",
@@ -1724,7 +1724,7 @@ export const mockTemplates = [
   {
     "id": 342,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_342.png",
@@ -1735,7 +1735,7 @@ export const mockTemplates = [
   {
     "id": 339,
     "categoryId": "merey-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_339.png",
@@ -1746,7 +1746,7 @@ export const mockTemplates = [
   {
     "id": 337,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_337.png",
@@ -1757,7 +1757,7 @@ export const mockTemplates = [
   {
     "id": 343,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_343.png",
@@ -1767,7 +1767,7 @@ export const mockTemplates = [
   {
     "id": 351,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_351.png",
@@ -1778,7 +1778,7 @@ export const mockTemplates = [
   {
     "id": 350,
     "categoryId": "tugan-kun",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_350.png",
@@ -1799,7 +1799,7 @@ export const mockTemplates = [
   {
     "id": 346,
     "categoryId": "kyz-uzatu",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_346.png",
@@ -1809,7 +1809,7 @@ export const mockTemplates = [
   {
     "id": 361,
     "categoryId": "sundet-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_361.png",
@@ -1820,7 +1820,7 @@ export const mockTemplates = [
   {
     "id": 359,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_359.png",
@@ -1831,7 +1831,7 @@ export const mockTemplates = [
   {
     "id": 362,
     "categoryId": "tugan-kun",
-    "title": "Копия: Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_362.png",
@@ -1842,7 +1842,7 @@ export const mockTemplates = [
   {
     "id": 347,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_347.png",
@@ -1853,7 +1853,7 @@ export const mockTemplates = [
   {
     "id": 364,
     "categoryId": "merey-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_364.png",
@@ -1864,7 +1864,7 @@ export const mockTemplates = [
   {
     "id": 366,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_366.png",
@@ -1874,7 +1874,7 @@ export const mockTemplates = [
   {
     "id": 348,
     "categoryId": "uylenu-toi",
-    "title": "Копия: Копия: Flowers Wedding Kz (KZ)",
+    "title": "Flowers Wedding Kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_348.png",
