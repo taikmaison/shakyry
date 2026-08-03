@@ -8,6 +8,10 @@ services:
     staticPublishPath: ./dist
 
     envVars:
+      # Vite 8 requires Node ^20.19 || >=22.12; older Render defaults fail the
+      # build with a version error before it ever reaches the app code.
+      - key: NODE_VERSION
+        value: "22.12.0"
       # puppeteer is a devDependency used only by the scripts in tools/.
       # Skip its Chromium download so the build stays fast.
       - key: PUPPETEER_SKIP_DOWNLOAD
