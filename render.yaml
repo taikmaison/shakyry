@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: shakyry
+    runtime: static
+    # Without an explicit build command Render installs the dependencies and
+    # stops, leaving nothing to serve — the repo holds sources, not a built site.
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+
+    envVars:
+      # puppeteer is a devDependency used only by the scripts in tools/.
+      # Skip its Chromium download so the build stays fast.
+      - key: PUPPETEER_SKIP_DOWNLOAD
+        value: "true"
+
+    routes:
+      # The saved demos under public/demos pull their Next.js runtime, fonts and
+      # audio from the vendor using absolute root paths. These rewrites are what
+      # vite.config.js does locally; without them every demo hydrates blank.
+      - type: rewrite
+        source: /_next/*
+        destination: https://shaqyru24.kz/_next/$1
+      - type: rewrite
+        source: /fonts/*
+        destination: https://shaqyru24.kz/fonts/$1
+      - type: rewrite
+        source: /sounds/*
+        destination: https://shaqyru24.kz/sounds/$1
+      - type: rewrite
+        source: /uploads/*
+        destination: https://tyrasoft.kz/uploads/$1
+
+    # No SPA catch-all on purpose. The app has no client-side routes, and a
+    # /* -> /index.html fallback would answer a missing demo with the catalog
+    # page rendered inside the preview iframe.
