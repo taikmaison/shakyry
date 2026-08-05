@@ -17,23 +17,15 @@ services:
       - key: PUPPETEER_SKIP_DOWNLOAD
         value: "true"
 
-    routes:
-      # The saved demos under public/demos pull their Next.js runtime, fonts and
-      # audio from the vendor using absolute root paths. These rewrites are what
-      # vite.config.js does locally; without them every demo hydrates blank.
-      - type: rewrite
-        source: /_next/*
-        destination: https://shaqyru24.kz/_next/$1
-      - type: rewrite
-        source: /fonts/*
-        destination: https://shaqyru24.kz/fonts/$1
-      - type: rewrite
-        source: /sounds/*
-        destination: https://shaqyru24.kz/sounds/$1
-      - type: rewrite
-        source: /uploads/*
-        destination: https://tyrasoft.kz/uploads/$1
-
-    # No SPA catch-all on purpose. The app has no client-side routes, and a
-    # /* -> /index.html fallback would answer a missing demo with the catalog
-    # page rendered inside the preview iframe.
+    # No routes on purpose.
+    #
+    # This used to carry rewrites for /_next, /fonts, /sounds and /uploads,
+    # because the demos asked our origin for their lazy Next.js chunks and got a
+    # 404. That is fixed at the source now: tools/set_asset_prefix.mjs points
+    # those requests back at the vendor, and the fonts are vendored into
+    # public/fonts. All 174 demos render on a plain static server with no rules
+    # at all — verified with tools/serve_static.mjs + tools/verify_demos.mjs.
+    #
+    # An SPA catch-all (/* -> /index.html) would be actively harmful: six
+    # templates have no demo, and the fallback would answer with the whole
+    # catalog rendered inside the preview iframe.
