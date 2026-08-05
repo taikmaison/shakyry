@@ -56,7 +56,7 @@ export const mockTemplates = [
   {
     "id": 314,
     "categoryId": "uylenu-toi",
-    "title": "Elegant 2026 Red (KY) (KZ) (KZ) (KZ)",
+    "title": "Elegant 2026 Red (KY) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_314.png",
@@ -196,7 +196,7 @@ export const mockTemplates = [
   {
     "id": 297,
     "categoryId": "sundet-toi",
-    "title": "invite_green_kz (KZ) (KZ)",
+    "title": "invite_green_kz (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_297.png",
@@ -261,7 +261,7 @@ export const mockTemplates = [
   {
     "id": 317,
     "categoryId": "uylenu-toi",
-    "title": "Уйлену тойы Brown (KZ) (KZ) (KZ) (KZ)",
+    "title": "Уйлену тойы Brown (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_317.png",
@@ -349,7 +349,7 @@ export const mockTemplates = [
   {
     "id": 287,
     "categoryId": "kyz-uzatu",
-    "title": "БЕЖЕВЫЙ ҚЫЗ ҰЗАТУ(KZ)",
+    "title": "БЕЖЕВЫЙ ҚЫЗ ҰЗАТУ (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_287.png",
@@ -567,7 +567,7 @@ export const mockTemplates = [
   {
     "id": 308,
     "categoryId": "uylenu-toi",
-    "title": "Wed Black White 2026 (RU) (RU) (KZ)",
+    "title": "Wed Black White 2026 (RU) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_308.png",
@@ -589,7 +589,7 @@ export const mockTemplates = [
   {
     "id": 320,
     "categoryId": "kyz-uzatu",
-    "title": "ГОЛУБОЙ ШАБЛОН-(KZ) (KZ) (KZ) (KZ)",
+    "title": "ГОЛУБОЙ ШАБЛОН (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_320.png",
@@ -621,7 +621,7 @@ export const mockTemplates = [
   {
     "id": 321,
     "categoryId": "uylenu-toi",
-    "title": "ГОЛУБОЙ ШАБЛОН-(KZ) (KZ) (KZ) (KZ) (KZ)",
+    "title": "ГОЛУБОЙ ШАБЛОН (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_321.png",
@@ -727,7 +727,7 @@ export const mockTemplates = [
   {
     "id": 344,
     "categoryId": "uylenu-toi",
-    "title": "Туган Кун Шаблон Dark 2026 (KZ) (KZ)",
+    "title": "Туган Кун Шаблон Dark 2026 (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_344.png",
@@ -749,7 +749,7 @@ export const mockTemplates = [
   {
     "id": 286,
     "categoryId": "kyz-uzatu",
-    "title": "ЗОЛОТО ҚЫЗ ҰЗАТУ(KZ)",
+    "title": "ЗОЛОТО ҚЫЗ ҰЗАТУ (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_286.jpg",
@@ -847,7 +847,7 @@ export const mockTemplates = [
   {
     "id": 233,
     "categoryId": "merey-toi",
-    "title": "ЮБИЛЕЙ 45 ЛЕТ РУСТЕМ-(RU) (KZ)",
+    "title": "ЮБИЛЕЙ 45 ЛЕТ РУСТЕМ (RU) (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_233.png",
@@ -900,7 +900,7 @@ export const mockTemplates = [
   {
     "id": 237,
     "categoryId": "merey-toi",
-    "title": "МЕРЕЙТОЙ СИНИЙ(KZ)",
+    "title": "МЕРЕЙТОЙ СИНИЙ (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_237.jpg",
@@ -933,7 +933,7 @@ export const mockTemplates = [
   {
     "id": 247,
     "categoryId": "tugan-kun",
-    "title": "VIP ИЗУМРУД -(KZ)",
+    "title": "VIP ИЗУМРУД (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_247.jpg",
@@ -1005,7 +1005,7 @@ export const mockTemplates = [
   {
     "id": 316,
     "categoryId": "kyz-uzatu",
-    "title": "Уйлену тойы Brown (KZ) (KZ) (KZ)",
+    "title": "Уйлену тойы Brown (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_316.png",
@@ -1016,7 +1016,7 @@ export const mockTemplates = [
   {
     "id": 292,
     "categoryId": "kyz-uzatu",
-    "title": "Мектептегі іс-шараларға арналған (KZ) (KZ)",
+    "title": "Мектептегі іс-шараларға арналған (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_292.png",
@@ -1036,7 +1036,7 @@ export const mockTemplates = [
   {
     "id": 303,
     "categoryId": "kyz-uzatu",
-    "title": "ГОЛУБОЙ ШАБЛОН-(KZ) (KZ)",
+    "title": "ГОЛУБОЙ ШАБЛОН (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_303.png",
@@ -1089,7 +1089,7 @@ export const mockTemplates = [
   {
     "id": 295,
     "categoryId": "kyz-uzatu",
-    "title": "Flowers Wedding Kz. (KZ) (KZ)",
+    "title": "Flowers Wedding Kz. (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_295.jpg",
@@ -1121,7 +1121,7 @@ export const mockTemplates = [
   {
     "id": 302,
     "categoryId": "uylenu-toi",
-    "title": "ҮЙЛЕНУ ТОЙҒА wed latest (KZ) (KZ)",
+    "title": "ҮЙЛЕНУ ТОЙҒА wed latest (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_302.png",
@@ -1143,7 +1143,7 @@ export const mockTemplates = [
   {
     "id": 313,
     "categoryId": "uylenu-toi",
-    "title": "Wed Black White 2026 (KZ) (KZ) (KZ)",
+    "title": "Wed Black White 2026 (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_313.png",
@@ -1326,7 +1326,7 @@ export const mockTemplates = [
   {
     "id": 269,
     "categoryId": "tugan-kun",
-    "title": "VIP КРАСНЫЙ-(KZ)",
+    "title": "VIP КРАСНЫЙ (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_269.jpg",
@@ -1469,7 +1469,7 @@ export const mockTemplates = [
   {
     "id": 60,
     "categoryId": "merey-toi",
-    "title": "Шаблон зеленый(KZ)",
+    "title": "Шаблон зеленый (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_60.jpg",
@@ -1556,7 +1556,7 @@ export const mockTemplates = [
   {
     "id": 284,
     "categoryId": "tugan-kun",
-    "title": "VIP КРАСНЫЙ-(KZ)",
+    "title": "VIP КРАСНЫЙ (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_284.jpg",
@@ -1789,7 +1789,7 @@ export const mockTemplates = [
   {
     "id": 285,
     "categoryId": "kyz-uzatu",
-    "title": "ГОЛУБОЙ ШАБЛОН-(KZ)",
+    "title": "ГОЛУБОЙ ШАБЛОН (KZ)",
     "type": "Шақыру сайты",
     "price": "2 799 ₸",
     "image": "/templates/template_285.jpg",

@@ -34,7 +34,12 @@ const clean = (title) => {
       }
       return '';
     });
-    if (tags.length) out = `${out.trim()} ${tags.map((t) => `(${t})`).join(' ')}`;
+    // Some titles glue the tag straight onto a dash ("ГОЛУБОЙ ШАБЛОН-(KZ)"),
+    // which would otherwise be left dangling. Trailing periods are left alone —
+    // they are part of names like "Light Base Photo.".
+    if (tags.length) {
+      out = `${out.replace(/[\s\-–—]+$/u, '')} ${tags.map((t) => `(${t})`).join(' ')}`;
+    }
   }
 
   return out.replace(/\s+/g, ' ').trim();
