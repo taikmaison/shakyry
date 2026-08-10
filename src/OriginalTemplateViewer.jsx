@@ -18,7 +18,7 @@ const OriginalTemplateViewer = ({ templateId, onClose }) => {
 
   let iframeUrl = `/demos/${templateId}/index.html`;
   if (template && template.previewUrl) {
-    iframeUrl = template.previewUrl.replace('https://shaqyru24.kz', '');
+    iframeUrl = template.previewUrl;
   }
 
   return (
