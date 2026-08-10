@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { mockTemplates } from './real_templates';
 
 const OriginalTemplateViewer = ({ templateId, onClose }) => {
   const [failed, setFailed] = useState(false);
+  const template = mockTemplates.find(t => t.id === templateId);
 
   useEffect(() => {
     const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
@@ -13,6 +15,11 @@ const OriginalTemplateViewer = ({ templateId, onClose }) => {
       window.removeEventListener('keydown', handleKey);
     };
   }, [onClose]);
+
+  let iframeUrl = `/demos/${templateId}/index.html`;
+  if (template && template.previewUrl) {
+    iframeUrl = template.previewUrl.replace('https://shaqyru24.kz', '');
+  }
 
   return (
     <div style={{
@@ -69,7 +76,7 @@ const OriginalTemplateViewer = ({ templateId, onClose }) => {
         </div>
       ) : (
         <iframe
-          src={`/demos/${templateId}/index.html`}
+          src={iframeUrl}
           onError={() => setFailed(true)}
           style={{ width: '100%', height: '100%', border: 'none' }}
           title="Template Preview"

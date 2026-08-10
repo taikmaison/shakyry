@@ -22,6 +22,24 @@ app.use('/fonts', createProxyMiddleware({
   secure: false,
 }));
 
+app.use('/kz', createProxyMiddleware({
+  target: 'https://shaqyru24.kz',
+  changeOrigin: true,
+  secure: false,
+}));
+
+app.use('/ru', createProxyMiddleware({
+  target: 'https://shaqyru24.kz',
+  changeOrigin: true,
+  secure: false,
+}));
+
+app.use('/view', createProxyMiddleware({
+  target: 'https://shaqyru24.kz',
+  changeOrigin: true,
+  secure: false,
+}));
+
 app.use('/sounds', createProxyMiddleware({
   target: 'https://shaqyru24.kz',
   changeOrigin: true,

@@ -9,6 +9,9 @@ import react from '@vitejs/plugin-react'
 // has no way to answer those paths. See README for the deployment note.
 const demoProxy = {
   '/_next': { target: 'https://shaqyru24.kz', changeOrigin: true, secure: false },
+  '/kz': { target: 'https://shaqyru24.kz', changeOrigin: true, secure: false },
+  '/ru': { target: 'https://shaqyru24.kz', changeOrigin: true, secure: false },
+  '/view': { target: 'https://shaqyru24.kz', changeOrigin: true, secure: false },
   '/fonts': { target: 'https://shaqyru24.kz', changeOrigin: true, secure: false },
   '/sounds': { target: 'https://shaqyru24.kz', changeOrigin: true, secure: false },
   '/uploads': { target: 'https://tyrasoft.kz', changeOrigin: true, secure: false },
