@@ -24,6 +24,10 @@ const opt = (name, fallback) => {
 const base = opt('base', 'http://localhost:5173');
 const limit = Number(opt('limit', 0));
 const concurrency = Number(opt('concurrency', 3));
+const only = (opt('only', '') || '').split(',').map((s) => s.trim()).filter(Boolean);
+// A remote host on a free plan is much slower than the dev server, and a
+// timeout there means "throttled", not "broken".
+const navTimeout = Number(opt('timeout', 45000));
 
 const DEMOS = path.join(process.cwd(), 'public', 'demos');
 const ids = fs
@@ -36,7 +40,8 @@ const ids = fs
   })
   .sort((a, b) => Number(a) - Number(b));
 
-const queue = limit ? ids.slice(0, limit) : ids;
+let queue = only.length ? ids.filter((id) => only.includes(id)) : ids;
+if (limit) queue = queue.slice(0, limit);
 console.log(`checking ${queue.length} demos against ${base} (concurrency ${concurrency})`);
 
 const browser = await puppeteer.launch();
@@ -53,7 +58,7 @@ const worker = async () => {
     page.on('response', (r) => { if (r.status() >= 400) failedUrls.push(`${r.status()} ${r.url()}`); });
 
     try {
-      await page.goto(`${base}/demos/${id}/index.html`, { waitUntil: 'networkidle2', timeout: 45000 });
+      await page.goto(`${base}/demos/${id}/index.html`, { waitUntil: 'networkidle2', timeout: navTimeout });
       await new Promise((r) => setTimeout(r, 2500));
       await page.evaluate(() => document.querySelector('.envelope-button')?.click());
       await new Promise((r) => setTimeout(r, 3000));
