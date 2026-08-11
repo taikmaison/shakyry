@@ -29,3 +29,24 @@ services:
     # An SPA catch-all (/* -> /index.html) would be actively harmful: six
     # templates have no demo, and the fallback would answer with the whole
     # catalog rendered inside the preview iframe.
+
+  # Relay for guest RSVPs, kept as its own service on purpose: the catalog
+  # above is a static site, and a Telegram bot token can never live in static
+  # files — every visitor's browser can read them. This one small Node
+  # service holds the token as an env var and is the only thing that talks
+  # to the Telegram Bot API. See server/rsvp-relay/README.md for setup.
+  - type: web
+    name: shakyry-rsvp-relay
+    runtime: node
+    rootDir: server/rsvp-relay
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: RELAY_KEY
+        sync: false
+      - key: ALLOWED_ORIGIN
+        value: https://toy-shakyry.onrender.com
