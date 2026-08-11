@@ -1,0 +1,1 @@
+self.__SSG_MANIFEST=new Set(["\u002F[lang]\u002F2gis_info","\u002F[lang]\u002FCreateRestaurantPage","\u002F[lang]\u002Finvitation-types","\u002F[lang]\u002Fpaper-invitations"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()
