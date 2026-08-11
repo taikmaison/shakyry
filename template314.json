@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html><html lang="kk"><head><meta charSet="utf-8" data-next-head=""/><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width" data-next-head=""/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="google" content="notranslate"/><meta http-equiv="Content-Language" content="kk-KZ"/><meta name="author" content="Shaqyru24"/><meta name="robots" content="index, follow"/><meta name="theme-color" content="#141524"/><link rel="alternate" hrefLang="kk-KZ" href="https://shaqyru24.kz/kz/404"/><link rel="alternate" hrefLang="ru-RU" href="https://shaqyru24.kz/ru/404"/><link rel="alternate" hrefLang="x-default" href="https://shaqyru24.kz/kz/404"/><link rel="canonical" href="https://shaqyru24.kz/kz/404"/><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96"/><link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16"/><link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32"/><link rel="icon" type="image/svg+xml" href="/favicon.svg"/><link rel="shortcut icon" href="/favicon.ico"/><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/><link rel="manifest" href="/site.webmanifest"/><meta name="yandex-verification" content="e962c8d29c54939b"/><link rel="preload" href="/_next/static/css/1dcbd8e2c85d0196.css?dpl=dpl_HB1sJBtx7dxsoec1CThk7CQdLBfV" as="style"/><script>
+            window.addEventListener('load', function() {
+              (function(w,d,s,l,i){
+                w[l]=w[l]||[];
+                w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+                var f=d.getElementsByTagName(s)[0],
+                    j=d.createElement(s),
+                    dl=l!='dataLayer'?'&l='+l:'';
+                j.async=true;
+                j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+                f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-W2CD2ND3');
+            });
+          </script><script>
+            window.addEventListener('load', function() {
+
+              // Google Analytics + Ads
+              var ga = document.createElement('script');
+              ga.async = true;
+              ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-2X8BQPZNMG';
+              document.head.appendChild(ga);
+
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-16975357099');
+              gtag('config', 'G-2X8BQPZNMG');
+
+              // TikTok Pixel
+              !function(w,d,t){
+                w.TiktokAnalyticsObject=t;
+                var ttq=w[t]=w[t]||[];
+                ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"];
+                ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};
+                for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
+                ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};
+                ttq.load=function(e,n){
+                  var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;
+                  ttq._i=ttq._i||{};ttq._i[e]=[];ttq._i[e]._u=r;
+                  ttq._t=ttq._t||{};ttq._t[e]=+new Date;
+                  ttq._o=ttq._o||{};ttq._o[e]=n||{};
+                  n=document.createElement("script");
+                  n.type="text/javascript";n.async=!0;
+                  n.src=r+"?sdkid="+e+"&lib="+t;
+                  e=document.getElementsByTagName("script")[0];
+                  e.parentNode.insertBefore(n,e)
+                };
+                ttq.load('D23IBJRC77U91VTF0AN0');
+                ttq.page();
+              }(window,document,'ttq');
+
+            });
+          </script><style>body { background-color: #141524; }</style><link rel="stylesheet" href="/_next/static/css/1dcbd8e2c85d0196.css?dpl=dpl_HB1sJBtx7dxsoec1CThk7CQdLBfV" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" noModule="" src="/_next/static/chunks/polyfills-42372ed130431b0a.js?dpl=dpl_HB1sJBtx7dxsoec1CThk7CQdLBfV"></script><script src="/_next/static/chunks/webpack-4f64d1e81ee1da8b.js?dpl=dpl_HB1sJBtx7dxsoec1CThk7CQdLBfV" defer=""></script><script src="/_next/static/chunks/framework-ce757b396f77691a.js?dpl=dpl_HB1sJBtx7dxsoec1CThk7CQdLBfV" defer=""></script><script src="/_next/static/chunks/main-9171ce0dbe994ee8.js?dpl=dpl_HB1sJBtx7dxsoec1CThk7CQdLBfV" defer=""></script><script src="/_next/static/chunks/pages/_app-596334c8a14f8f18.js?dpl=dpl_HB1sJBtx7dxsoec1CThk7CQdLBfV" defer=""></script><script src="/_next/static/chunks/pages/404-5e49332a65f593de.js?dpl=dpl_HB1sJBtx7dxsoec1CThk7CQdLBfV" defer=""></script><script src="/_next/static/CZs3IYcP-ul4wDIu6RT-E/_buildManifest.js?dpl=dpl_HB1sJBtx7dxsoec1CThk7CQdLBfV" defer=""></script><script src="/_next/static/CZs3IYcP-ul4wDIu6RT-E/_ssgManifest.js?dpl=dpl_HB1sJBtx7dxsoec1CThk7CQdLBfV" defer=""></script></head><body><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2CD2ND3" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="__next"><div style="text-align:center;padding:80px 20px;font-family:sans-serif"><h1 style="font-size:72px;color:#EE3D48;margin:0">404</h1><p style="font-size:18px;color:#6B7280;margin:16px 0 32px">╨С╨╡╤В ╤В╨░╨▒╤Л╨╗╨╝╨░╨┤╤Л / ╨б╤В╤А╨░╨╜╨╕╤Ж╨░ ╨╜╨╡ ╨╜╨░╨╣╨┤╨╡╨╜╨░</p><a style="background-color:#EE3D48;color:#fff;padding:14px 32px;border-radius:14px;text-decoration:none;font-weight:700;font-size:16px" href="/kz/home">╨С╨░╤Б╤В╤Л ╨▒╨╡╤В╨║╨╡ ╨╛╤А╨░╨╗╤Г тЖТ</a><p style="color:#9CA3AF;margin-top:24px;font-size:14px">3 ╤Б╨╡╨║╤Г╨╜╨┤╤В╨░ ╨░╨▓╤В╨╛╨╝╨░╤В╤В╤Л ╤В╥п╤А╨┤╨╡ ╨▒╨░╥У╤Л╤В╤В╨░╨╗╨░╤Б╤Л╨╖...</p></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{}},"page":"/404","query":{},"buildId":"CZs3IYcP-ul4wDIu6RT-E","nextExport":true,"autoExport":true,"isFallback":false,"scriptLoader":[]}</script></body></html>
