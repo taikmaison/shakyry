@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Эллима & Ренат - Үйлөнүү той</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#1a0b12',
+                            red: '#741b28',
+                            gold: '#d4af37',
+                            light: '#fdfbf7'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                        cursive: ['"Great Vibes"', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #1a0b12;
+            color: #fdfbf7;
+            overflow-x: hidden;
+        }
+
+        /* Subtle noise texture for premium feel */
+        .texture-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(to right, #d4af37, #f3e5ab, #d4af37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timer-box {
+            background: rgba(116, 27, 40, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Glassmorphism card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .hero-bg {
+            background: radial-gradient(circle at center, rgba(116,27,40,0.3) 0%, rgba(26,11,18,1) 100%);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-gold selection:text-brand-dark">
+
+    <div class="texture-overlay"></div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex flex-col items-center justify-center text-center px-4 hero-bg py-20">
+        
+        <div class="fade-in-up delay-100 mb-6">
+            <p class="font-sans text-brand-gold tracking-[0.3em] uppercase text-sm md:text-base">Үйлөнүү тойго чакыруу</p>
+        </div>
+
+        <div class="fade-in-up delay-300 my-8">
+            <h1 class="font-cursive text-6xl md:text-8xl lg:text-9xl text-white drop-shadow-lg">Эллима</h1>
+            <p class="font-cursive text-5xl md:text-7xl text-brand-gold my-2">&amp;</p>
+            <h1 class="font-cursive text-6xl md:text-8xl lg:text-9xl text-white drop-shadow-lg">Ренат</h1>
+        </div>
+
+        <div class="fade-in-up delay-500 mt-12 flex flex-col items-center">
+            <div class="w-px h-16 bg-gradient-to-b from-brand-gold to-transparent mb-6"></div>
+            <p class="font-serif text-2xl md:text-3xl tracking-widest">12 . 09 . 2026</p>
+        </div>
+    </section>
+
+    <!-- Invitation Text Section -->
+    <section class="py-24 px-4 relative z-10">
+        <div class="max-w-2xl mx-auto glass-card rounded-3xl p-8 md:p-12 text-center fade-in-up">
+            <h2 class="font-serif text-3xl md:text-4xl gold-gradient-text mb-8">Урматтуу коноктор!</h2>
+            <p class="font-sans font-light leading-relaxed text-lg md:text-xl text-gray-300 mb-6">
+                Сиздерди балдарыбыз Эллима жана Ренаттын баш кошуу аземине арналган үйлөнүү тоюна келип, кубанычыбызды тең бөлүшүп кетүүгө чакырабыз!
+            </p>
+            <div class="mt-12">
+                <p class="font-sans text-sm tracking-[0.2em] uppercase text-brand-gold mb-2">Той ээси</p>
+                <p class="font-serif text-2xl">Жекшенбек & Бактыгул</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timer Section -->
+    <section class="py-20 px-4 bg-brand-red/10 border-y border-brand-gold/10">
+        <div class="max-w-3xl mx-auto text-center fade-in-up">
+            <h2 class="font-serif text-3xl md:text-4xl mb-12 gold-gradient-text">Тойдун башталышына калды</h2>
+            
+            <div class="flex justify-center gap-3 md:gap-6">
+                <div class="timer-box w-20 h-24 md:w-28 md:h-32 rounded-2xl flex flex-col items-center justify-center">
+                    <span id="days" class="font-serif text-3xl md:text-5xl text-white">00</span>
+                    <span class="font-sans text-xs md:text-sm text-brand-gold mt-2 uppercase tracking-wider">Күн</span>
+                </div>
+                <div class="timer-box w-20 h-24 md:w-28 md:h-32 rounded-2xl flex flex-col items-center justify-center">
+                    <span id="hours" class="font-serif text-3xl md:text-5xl text-white">00</span>
+                    <span class="font-sans text-xs md:text-sm text-brand-gold mt-2 uppercase tracking-wider">Саат</span>
+                </div>
+                <div class="timer-box w-20 h-24 md:w-28 md:h-32 rounded-2xl flex flex-col items-center justify-center">
+                    <span id="minutes" class="font-serif text-3xl md:text-5xl text-white">00</span>
+                    <span class="font-sans text-xs md:text-sm text-brand-gold mt-2 uppercase tracking-wider">Мүнөт</span>
+                </div>
+                <div class="timer-box w-20 h-24 md:w-28 md:h-32 rounded-2xl flex flex-col items-center justify-center">
+                    <span id="seconds" class="font-serif text-3xl md:text-5xl text-white">00</span>
+                    <span class="font-sans text-xs md:text-sm text-brand-gold mt-2 uppercase tracking-wider">Секунд</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="py-24 px-4 relative z-10">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center fade-in-up">
+            
+            <div class="w-full md:w-1/2 text-center md:text-left">
+                <h2 class="font-serif text-3xl md:text-4xl gold-gradient-text mb-6">Дарегибиз</h2>
+                <div class="font-sans font-light text-lg text-gray-300 space-y-4 mb-8">
+                    <p class="text-xl text-white">Казарман</p>
+                    <p class="text-brand-gold">Тойкана "Нуржигит"</p>
+                    <p>Кожалиев көчөсү, 69</p>
+                </div>
+                <a href="https://2gis.kg/bishkek/geo/70030076653065458/74.029401,41.403177" target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-4 bg-transparent border-2 border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-dark transition-all duration-300 rounded-full font-sans uppercase tracking-wider text-sm font-medium">
+                    2GIS аркылуу ачуу
+                </a>
+            </div>
+
+            <div class="w-full md:w-1/2">
+                <div class="glass-card p-2 rounded-3xl overflow-hidden shadow-2xl">
+                    <iframe 
+                        src="https://mapwidget.2gis.com/q/geo/70030076653065458/74.029401,41.403177?zoom=16" 
+                        width="100%" 
+                        height="400" 
+                        frameborder="0" 
+                        class="rounded-2xl"
+                        style="filter: contrast(1.2) grayscale(0.3) hue-rotate(330deg);"
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 text-center border-t border-white/5">
+        <h2 class="font-cursive text-4xl text-white mb-4">Эллима & Ренат</h2>
+        <p class="font-serif tracking-widest text-brand-gold">12.09.2026</p>
+    </footer>
+
+    <script>
+        // Scroll Animation Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
+
+        // Countdown Timer
+        const weddingDate = new Date('September 12, 2026 17:00:00').getTime();
+
+        const updateTimer = () => {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            if (distance < 0) return;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = days.toString().padStart(2, '0');
+            document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+        };
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+</body>
+</html>
