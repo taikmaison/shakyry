@@ -25,7 +25,7 @@ Telegram через Bot API. Существует отдельно от ката
    - `RELAY_KEY` — любая случайная строка, придумайте свою. Должна
      совпадать со значением `RELAY_KEY` в патче на странице приглашения
      (см. `public/invitations/*/index.html`, блок `ky-rsvp-relay`).
-   - `ALLOWED_ORIGIN` — `https://toy-shakyry.onrender.com` (или ваш домен).
+   - `ALLOWED_ORIGIN` — `https://shakyry-toy.onrender.com` (или ваш домен).
 
 После сохранения переменных сервис сам передеплоится. Проверить, что жив:
 
