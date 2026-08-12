@@ -26,7 +26,7 @@ const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || '*';
 const ANSWER_LABELS = {
   yes: '✅ Барат',
   no: '🤝 Жубайы менен барат',
-  maybe: '❌ Кате албайт',
+  maybe: '❌ Келе албайт',
 };
 
 // простейший лимит: не больше 20 запросов в минуту с одного IP,
