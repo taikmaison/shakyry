@@ -31,8 +31,12 @@
       // сравнение обязательно: без него правка тянет за собой новую мутацию
       if (el && el.textContent !== KY[i][1]) el.textContent = KY[i][1];
     }
-    var r = document.querySelector('.pb-form-reminder');
-    if (r) r.remove();
+    // Баннер прячется только через CSS (display:none в <style> выше).
+    // Раньше здесь было r.remove() — но React-бандл вендора сам управляет
+    // этим узлом и после отправки формы пытается снять его со страницы;
+    // если узел уже вырван вручную, React падает с
+    // NotFoundError: Failed to execute 'removeChild' — воспроизводится
+    // стабильно прямо в момент ответа на приглашение.
   }
 
   apply();
