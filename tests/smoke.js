@@ -96,9 +96,10 @@ async function login(c, email) {
   ok((await guest.post(`/api/i/${id}/rsvp`, { form_id: 'f-1', action_text: 'Иә, келемін' })).status >= 400, 'ответ на неопубликованное не принимается');
 
   // ---------- модерация ----------
-  const sub = await owner.post(`/api/invitations/${id}/submit`);
-  ok(sub.status === 200 && sub.body.status === 'pending', 'отправлено на модерацию');
-  ok((await owner.post(`/api/invitations/${id}/submit`)).status === 409, 'повторная отправка — 409');
+  ok((await owner.post(`/api/invitations/${id}/submit`)).status === 400, 'без согласия с правилами на публикацию не отправить');
+  const sub = await owner.post(`/api/invitations/${id}/submit`, { agree: true });
+  ok(sub.status === 200 && sub.body.status === 'pending' && sub.body.terms_accepted_at, 'отправлено на публикацию, согласие записано');
+  ok((await owner.post(`/api/invitations/${id}/submit`, { agree: true })).status === 409, 'повторная отправка — 409');
   ok((await owner.req('/api/admin/invitations')).status === 403, 'обычный пользователь не видит админку');
   ok((await owner.post(`/api/admin/invitations/${id}/approve`)).status === 403, 'обычный пользователь не может одобрить');
   ok((await owner.patch('/api/auth/me', { role: 'admin' })).body.user.role === 'user', 'роль себе не назначить');
@@ -127,7 +128,7 @@ async function login(c, email) {
     const rej = await admin.post(`/api/admin/invitations/${id}/reject`, { reason: 'Проверьте дату' });
     ok(rej.status === 200 && rej.body.status === 'rejected', 'отклонено с причиной');
     ok((await owner.req('/api/invitations')).body.find(x => x.id === id).moderation_note === 'Проверьте дату', 'владелец видит причину');
-    await owner.post(`/api/invitations/${id}/submit`);
+    await owner.post(`/api/invitations/${id}/submit`, { agree: true });
     const appr = await admin.post(`/api/admin/invitations/${id}/approve`);
     ok(appr.status === 200 && appr.body.status === 'published', 'одобрено');
 

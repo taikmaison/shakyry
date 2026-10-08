@@ -91,6 +91,7 @@ function invitationItem(x) {
   if (x.live && x.status !== 'published') t.append(el('span', 'badge published', 'есть одобренная версия'));
   t.append([f.title || 'Приглашение', [f.name1, f.name2].filter(Boolean).join(' & ')].filter(Boolean).join(' — '));
   main.append(t, el('div', 'm', `${x.id} · шаблон #${x.template_id}${prices.has(x.template_id) ? ' · ' + prices.get(x.template_id) : ''} · ${day(f.date)} ${f.time || ''}${f.city ? ' · ' + f.city : ''} · автор: ${userName(x.user_id)}${x.submitted_at ? ' · отправлено ' + when(x.submitted_at) : ''}`));
+  if (x.terms_accepted_at) main.append(el('div', 'm', 'Согласие с правилами (платная публикация): ' + when(x.terms_accepted_at)));
   if (x.moderation_note) main.append(el('div', 'm', 'Причина: ' + x.moderation_note));
   const acts = el('div', 'acts');
   const view = el('a', 'btn', 'Посмотреть ↗'); view.href = `/i/${x.id}?draft`; view.target = '_blank';

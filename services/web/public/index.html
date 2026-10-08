@@ -68,6 +68,9 @@
   .inv .t { font-weight: 600; overflow-wrap: anywhere; }
   .inv .acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
   .inv .pay, .inv .confirm { margin-top: 8px; padding: 10px 12px; border-radius: 10px; background: var(--accent-soft); font-size: 14px; }
+  .agree { display: flex; gap: 8px; align-items: flex-start; margin-top: 10px; font-weight: 500; cursor: pointer; }
+  .agree input { width: 18px; height: 18px; margin: 1px 0 0; flex: none; accent-color: var(--accent); }
+  .agree a { color: var(--accent); }
   .steps { margin: 0 0 12px; padding-left: 20px; display: grid; gap: 8px; }
   .steps b { font-variant-numeric: tabular-nums; white-space: nowrap; }
   .msg .acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
@@ -191,7 +194,7 @@
       <h3 id="rulesTitle" style="margin-top:0">Как опубликовать приглашение</h3>
       <ol class="steps">
         <li>Выберите шаблон и заполните данные. Предпросмотр и черновики — бесплатно.</li>
-        <li>Войдите, сохраните черновик и нажмите «Отправить на публикацию».</li>
+        <li>Войдите, сохраните черновик, нажмите «Отправить на публикацию» и отметьте согласие с правилами.</li>
         <li>Публикация платная: <b id="rPrice">3 500 ₸</b> за одно приглашение<span id="rPay"></span>.</li>
         <li>Отправьте чек об оплате в WhatsApp <b id="rWa"></b> — кнопка «Отправить чек» появится в «Мои приглашения», номер приглашения в сообщении подставится сам.</li>
         <li>После проверки оплаты приглашение опубликуют: вы получите уведомление и ссылку для гостей.</li>
@@ -409,14 +412,18 @@ async function loadList() {
       const c = document.createElement('div');
       c.className = 'confirm';
       c.innerHTML = `Публикация платная${price ? ': <b></b>' : ''}. После отправки оплатите${SITE.payment ? ' на ' + esc(SITE.payment) : ''} и пришлите чек${WA ? ' в WhatsApp ' + esc(waPretty) : ''} — после проверки оплаты приглашение опубликуют.
-        <div class="acts"><button class="btn primary" type="button">Отправить на публикацию</button><button class="btn ghost" type="button">Отмена</button><button class="btn ghost" type="button">Подробнее</button></div>`;
-      if (price) c.querySelector('b').textContent = price;
-      const [go, cancel, more] = c.querySelectorAll('button');
+        <label class="agree"><input type="checkbox"> <span>Я ознакомился(-ась) с <a href="#" data-rules>правилами</a> и согласен(-на): публикация платная${price ? ' — <b></b>' : ''}</span></label>
+        <div class="acts"><button class="btn primary" type="button" disabled>Отправить на публикацию</button><button class="btn ghost" type="button">Отмена</button></div>`;
+      if (price) c.querySelectorAll('b').forEach(b => { b.textContent = price; });
+      const [go, cancel] = c.querySelectorAll('button');
+      const agree = c.querySelector('input[type=checkbox]');
+      agree.onchange = () => { go.disabled = !agree.checked; };
+      c.querySelector('[data-rules]').onclick = e => { e.preventDefault(); openRules(); };
       cancel.onclick = () => c.remove();
-      more.onclick = openRules;
       go.onclick = async () => {
+        if (!agree.checked) return;
         go.disabled = true;
-        try { await post(`/api/invitations/${x.id}/submit`); loadList(); } catch (err) { setMsg($('#msg'), 'err', esc(err.message)); go.disabled = false; }
+        try { await post(`/api/invitations/${x.id}/submit`, { agree: true }); loadList(); } catch (err) { setMsg($('#msg'), 'err', esc(err.message)); go.disabled = false; }
       };
       el.querySelector('.acts').after(c);
     };

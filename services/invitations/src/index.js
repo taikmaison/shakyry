@@ -34,6 +34,8 @@ const db = openDb(env('DB_FILE', path.join(__dirname, '..', 'data', 'invitations
    );
    CREATE INDEX invitations_user ON invitations (user_id);
    CREATE INDEX invitations_status ON invitations (status);`,
+  // когда автор согласился с правилами (публикация платная) при отправке на публикацию
+  `ALTER TABLE invitations ADD COLUMN terms_accepted_at TEXT;`,
 ]);
 
 const get = id => db.get('SELECT * FROM invitations WHERE id = ?', id);
@@ -44,7 +46,7 @@ const now = () => new Date().toISOString();
 const ownerView = r => r && {
   id: r.id, url: `/i/${r.id}`, template_id: r.template_id, fields: JSON.parse(r.fields), status: r.status,
   moderation_note: r.moderation_note, live: !!r.live_fields, created_at: r.created_at, updated_at: r.updated_at,
-  submitted_at: r.submitted_at, published_at: r.published_at,
+  submitted_at: r.submitted_at, published_at: r.published_at, terms_accepted_at: r.terms_accepted_at,
 };
 // для всех — только одобренная версия
 const publicView = r => r && r.live_fields && {
@@ -135,7 +137,9 @@ createService('invitations', [
     const user = await requireOwner(req, row);
     if (row.status === 'pending') throw new HttpError(409, 'Уже на модерации');
     if (row.status === 'published') throw new HttpError(409, 'Эта версия уже опубликована');
-    db.run('UPDATE invitations SET status = ?, moderation_note = NULL, submitted_at = ? WHERE id = ?', 'pending', now(), params.id);
+    if ((await readJson(req)).agree !== true) throw new HttpError(400, 'Отметьте, что согласны с правилами: публикация платная');
+    const t = now();
+    db.run('UPDATE invitations SET status = ?, moderation_note = NULL, submitted_at = ?, terms_accepted_at = ? WHERE id = ?', 'pending', t, t, params.id);
     notify('/_internal/notify-admins', { text: `📝 Новая заявка на публикацию: «${title(row)}» (${row.id}, шаблон #${row.template_id}) от ${user.name || 'пользователя'}.
 Проверьте чек об оплате в WhatsApp и одобрите: ${PUBLIC_URL}/admin` });
     json(res, 200, ownerView(get(params.id)));

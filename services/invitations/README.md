@@ -14,7 +14,7 @@
 | GET | `/api/invitations` | вошедший | мои приглашения |
 | POST | `/api/invitations` | вошедший | сохранить черновик `{template_id, title, name1, name2, age, date, time, city, address, map_link, hosts, invite_text, music}` |
 | PUT | `/api/invitations/:id` | владелец | изменить (статус снова `draft`) |
-| POST | `/api/invitations/:id/submit` | владелец | на модерацию; админу уходит уведомление |
+| POST | `/api/invitations/:id/submit` | владелец | на публикацию `{agree: true}` — согласие с правилами (публикация платная) обязательно, время хранится в `terms_accepted_at`; админу уходит уведомление |
 | GET | `/api/invitations/:id` | все | только одобренная версия, иначе 404 |
 | GET | `/api/invitations/:id/draft` | владелец, админ | текущая версия (предпросмотр) |
 | GET | `/api/invitations/:id/owner` | владелец, админ | проверка прав — для других сервисов (пересылают cookie) |
