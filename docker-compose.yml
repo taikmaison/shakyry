@@ -1,0 +1,78 @@
+# Каждый сервис — отдельный контейнер со своими данными. Запуск: docker compose up --build
+# Снаружи открыт только шлюз (порт 8024). Секреты — в файле .env рядом с этим файлом.
+# Админ один — назначается командой: docker compose exec auth node tools/make-admin.js @ник (или почта, или Telegram id)
+services:
+  auth:
+    build: ./services/auth
+    environment:
+      # те же имена, что в .env для node run.js
+      TELEGRAM_BOT_TOKEN: ${AUTH__TELEGRAM_BOT_TOKEN:-}
+      SMTP_HOST: ${AUTH__SMTP_HOST:-}
+      SMTP_PORT: ${AUTH__SMTP_PORT:-465}
+      SMTP_USER: ${AUTH__SMTP_USER:-}
+      SMTP_PASS: ${AUTH__SMTP_PASS:-}
+      SMTP_FROM: ${AUTH__SMTP_FROM:-}
+      COOKIE_SECURE: ${AUTH__COOKIE_SECURE:-0}
+    volumes: ["auth-data:/app/data"]
+    restart: unless-stopped
+
+  catalog:
+    build: ./services/catalog
+    volumes: ["./services/catalog/content:/app/content:ro"]
+    restart: unless-stopped
+
+  invitations:
+    build: ./services/invitations
+    environment:
+      CATALOG_API: http://catalog:3000
+      AUTH_API: http://auth:3000
+      PUBLIC_URL: ${PUBLIC_URL:-http://localhost:8024}
+      EVENT_SUBSCRIBERS: http://guests:3000/events,http://album:3000/events
+    volumes: ["invitations-data:/app/data"]
+    restart: unless-stopped
+
+  guests:
+    build: ./services/guests
+    environment:
+      INVITATIONS_API: http://invitations:3000
+      AUTH_API: http://auth:3000
+    volumes: ["guests-data:/app/data"]
+    restart: unless-stopped
+
+  album:
+    build: ./services/album
+    environment:
+      INVITATIONS_API: http://invitations:3000
+    volumes: ["album-data:/app/data"]
+    restart: unless-stopped
+
+  web:
+    build: ./services/web
+    environment:
+      CATALOG_API: http://catalog:3000
+      INVITATIONS_API: http://invitations:3000
+      PUBLIC_URL: ${PUBLIC_URL:-http://localhost:8024}
+      SITE_NAME: ${SITE_NAME:-Шақыру}
+      DEFAULT_LANG: kz
+      CONTACT_WHATSAPP: ${CONTACT_WHATSAPP:-77780122500}
+      PAYMENT_DETAILS: ${PAYMENT_DETAILS:-Kaspi Gold +7 771 465 11 26}
+    restart: unless-stopped
+
+  gateway:
+    build: ./services/gateway
+    environment:
+      AUTH_URL: http://auth:3000
+      CATALOG_URL: http://catalog:3000
+      INVITATIONS_URL: http://invitations:3000
+      GUESTS_URL: http://guests:3000
+      ALBUM_URL: http://album:3000
+      WEB_URL: http://web:3000
+    ports: ["8024:3000"]
+    depends_on: [auth, catalog, invitations, guests, album, web]
+    restart: unless-stopped
+
+volumes:
+  auth-data:
+  invitations-data:
+  guests-data:
+  album-data:

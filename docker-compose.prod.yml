@@ -1,0 +1,29 @@
+# Запуск на сервере с доменом и HTTPS (поверх docker-compose.yml):
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+# В .env на сервере: DOMAIN=ваш-домен.kz, PUBLIC_URL=https://ваш-домен.kz, AUTH__TELEGRAM_BOT_TOKEN=...
+# Снаружи открыты только 80 и 443 (Caddy); шлюз доступен лишь внутри сети Docker.
+services:
+  gateway:
+    ports: !reset []
+    environment:
+      TRUST_PROXY: "1"
+
+  auth:
+    environment:
+      COOKIE_SECURE: "1"
+
+  caddy:
+    image: caddy:2-alpine
+    ports: ["80:80", "443:443"]
+    environment:
+      DOMAIN: ${DOMAIN:?укажите DOMAIN в .env}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on: [gateway]
+    restart: unless-stopped
+
+volumes:
+  caddy-data:
+  caddy-config:

@@ -1,0 +1,13 @@
+{
+  "name": "toi-guests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Гости: ответы на анкету и пожелания",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/index.js"
+  },
+  "engines": {
+    "node": ">=22.13"
+  }
+}

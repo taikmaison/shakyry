@@ -1,0 +1,13 @@
+{
+  "name": "toi-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Веб-страницы: генератор, приглашения, примеры шаблонов, альбом, SEO",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/index.js"
+  },
+  "engines": {
+    "node": ">=22.13"
+  }
+}

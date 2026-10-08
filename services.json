@@ -1,0 +1,13 @@
+{
+  "comment": "Локальный запуск (node run.js). Сервисы этот файл не читают — каждый получает только свои переменные окружения. Секреты (SMTP, Telegram) задавайте в окружении запуска с префиксом сервиса: AUTH__TELEGRAM_BOT_TOKEN=..., AUTH__SMTP_HOST=... Админ один — назначается командой в папке services/auth: node tools/make-admin.js @ник (или почта, или Telegram id)",
+  "site": { "PUBLIC_URL": "http://127.0.0.1:8024", "SITE_NAME": "Шақыру", "DEFAULT_LANG": "kz", "CONTACT_WHATSAPP": "77780122500", "PAYMENT_DETAILS": "Kaspi Gold +7 771 465 11 26" },
+  "services": {
+    "auth":        { "port": 8036, "env": {} },
+    "catalog":     { "port": 8031, "env": {} },
+    "invitations": { "port": 8032, "env": { "CATALOG_API": "catalog", "AUTH_API": "auth", "PUBLIC_URL": "@site", "EVENT_SUBSCRIBERS": ["guests:/events", "album:/events"] } },
+    "guests":      { "port": 8033, "env": { "INVITATIONS_API": "invitations", "AUTH_API": "auth" } },
+    "album":       { "port": 8034, "env": { "INVITATIONS_API": "invitations" } },
+    "web":         { "port": 8035, "env": { "CATALOG_API": "catalog", "INVITATIONS_API": "invitations", "PUBLIC_URL": "@site", "SITE_NAME": "@site", "DEFAULT_LANG": "@site", "CONTACT_WHATSAPP": "@site", "PAYMENT_DETAILS": "@site" } },
+    "gateway":     { "port": 8024, "env": { "AUTH_URL": "auth", "CATALOG_URL": "catalog", "INVITATIONS_URL": "invitations", "GUESTS_URL": "guests", "ALBUM_URL": "album", "WEB_URL": "web" } }
+  }
+}

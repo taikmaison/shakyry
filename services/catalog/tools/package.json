@@ -1,0 +1,8 @@
+{
+  "name": "invite-app-tools",
+  "private": true,
+  "description": "Инструменты разработки: превью шаблонов (previews.js). Сам сервис зависимостей не требует.",
+  "dependencies": {
+    "puppeteer": "25.4.0"
+  }
+}

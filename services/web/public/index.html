@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--HEAD-->
+<style>
+  :root {
+    --bg: #f6f3ee; --card: #ffffff; --ink: #2b2620; --muted: #7a7064; --line: #e6dfd4;
+    --accent: #8c6a3f; --accent-ink: #ffffff; --accent-soft: #f1e7d8; --danger: #b3402f; --ok: #3d7a4a; --warn: #a8761c;
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #1b1916; --card: #24211d; --ink: #f1ebe2; --muted: #a99d8e; --line: #3a352e;
+      --accent: #c9a46f; --accent-ink: #1b1916; --accent-soft: #352d22; --danger: #e07a68; --ok: #7cc28b; --warn: #e0b45c; color-scheme: dark; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { padding: 18px 24px 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+  header h1 { margin: 0; font-size: 22px; }
+  header .top-acts { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  header .who { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  main { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 20px; padding: 12px 24px 40px; align-items: start; }
+  @media (max-width: 960px) { main { grid-template-columns: 1fr; padding: 12px 16px 40px; } header { padding: 16px 16px 4px; } }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; min-width: 0; }
+  h2 { margin: 0 0 12px; font-size: 17px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .filters select, .filters input { flex: 1 1 140px; }
+  input, select, textarea { width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font: inherit; }
+  textarea { min-height: 96px; resize: vertical; }
+  input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, a:focus-visible, .tpl:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; max-height: 78vh; overflow: auto; padding: 2px; }
+  @media (max-width: 960px) { .grid { max-height: none; overflow: visible; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); } }
+  .tpl { border: 2px solid transparent; border-radius: 12px; background: var(--bg); cursor: pointer; overflow: hidden; display: flex; flex-direction: column; }
+  .tpl.sel { border-color: var(--accent); }
+  .tpl .pic { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; object-position: top; display: grid; place-items: center; background: var(--line); color: var(--muted); font-size: 13px; }
+  .tpl { position: relative; }
+  .tpl .price { position: absolute; top: 8px; right: 8px; padding: 3px 9px; border-radius: 999px; background: var(--card); color: var(--ink); font-weight: 700; font-size: 13px; font-variant-numeric: tabular-nums; box-shadow: 0 1px 4px rgba(0,0,0,.18); }
+  .custom { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; padding: 12px 14px; margin-bottom: 14px; border-radius: 12px; background: var(--accent-soft); }
+  .custom div { min-width: 0; flex: 1 1 240px; }
+  .custom b { display: block; }
+  #waNum { white-space: nowrap; font-weight: 600; }
+  .btn.wa { background: #1f8f4e; border-color: #1f8f4e; color: #fff; text-decoration: none; white-space: nowrap; }
+  .tpl .meta { padding: 7px 9px 9px; font-size: 13px; display: flex; justify-content: space-between; gap: 6px; align-items: center; }
+  .tpl .meta b { font-size: 14px; }
+  .tpl .meta a { color: var(--accent); font-size: 12px; }
+  .muted { color: var(--muted); font-size: 13px; }
+  form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  label { display: flex; justify-content: space-between; gap: 8px; margin: 12px 0 5px; font-size: 13px; color: var(--muted); }
+  label .cnt { font-variant-numeric: tabular-nums; }
+  label .cnt.over { color: var(--danger); }
+  .chosen { display: flex; gap: 12px; align-items: center; padding: 10px; background: var(--accent-soft); border-radius: 12px; }
+  .chosen .pic { width: 54px; height: 96px; object-fit: cover; object-position: top; border-radius: 8px; background: var(--line); flex: none; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 0; border-radius: 10px; padding: 11px 16px; font: inherit; font-weight: 600; cursor: pointer; text-decoration: none; }
+  .btn:disabled { opacity: .6; cursor: default; }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); }
+  .btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--line); padding: 7px 11px; font-weight: 500; font-size: 13px; }
+  .btn.danger { color: var(--danger); }
+  .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
+  .msg { margin-top: 12px; padding: 10px 12px; border-radius: 10px; font-size: 14px; display: none; }
+  .msg.err { display: block; background: color-mix(in srgb, var(--danger) 14%, transparent); color: var(--danger); }
+  .msg.ok { display: block; background: color-mix(in srgb, var(--ok) 14%, transparent); }
+  .msg a { color: var(--accent); font-weight: 600; word-break: break-all; }
+  .side { position: sticky; top: 12px; display: flex; flex-direction: column; gap: 20px; }
+  @media (max-width: 960px) { .side { position: static; } }
+  .inv { padding: 12px 0; border-top: 1px solid var(--line); }
+  .inv:first-of-type { border-top: 0; }
+  .inv .t { font-weight: 600; overflow-wrap: anywhere; }
+  .inv .acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .inv .pay, .inv .confirm { margin-top: 8px; padding: 10px 12px; border-radius: 10px; background: var(--accent-soft); font-size: 14px; }
+  .steps { margin: 0 0 12px; padding-left: 20px; display: grid; gap: 8px; }
+  .steps b { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .msg .acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .badge.pending { color: var(--warn); }
+  .badge.published { color: var(--ok); }
+  .badge.rejected { color: var(--danger); }
+  .note { font-size: 13px; color: var(--danger); margin-top: 4px; overflow-wrap: anywhere; }
+  audio { width: 100%; margin-top: 6px; height: 36px; }
+  .hidden { display: none !important; }
+  dialog { border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); color: var(--ink); max-width: min(560px, 94vw); width: 100%; padding: 20px; }
+  dialog::backdrop { background: rgba(0, 0, 0, .45); }
+  dialog h3 { margin: 18px 0 8px; font-size: 15px; }
+  dialog h3:first-child { margin-top: 0; }
+  dialog .stack { display: flex; flex-direction: column; gap: 10px; }
+  dialog .or { text-align: center; color: var(--muted); font-size: 13px; }
+  .ans { display: flex; flex-direction: column; gap: 8px; }
+  .ans div { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; overflow-wrap: anywhere; }
+  .ans small { display: block; color: var(--muted); }
+  .sum { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
+  .sum div { background: var(--accent-soft); border-radius: 10px; padding: 8px; text-align: center; }
+  .sum b { display: block; font-size: 20px; font-variant-numeric: tabular-nums; }
+  @media (max-width: 480px) { .sum { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Шақыру генераторы</h1>
+  <span class="muted">Выберите шаблон, заполните поля — получите готовое приглашение</span>
+  <div class="top-acts">
+    <button class="btn ghost" type="button" id="rulesBtn">Как опубликовать</button>
+    <div class="who" id="who"></div>
+  </div>
+</header>
+<main>
+  <section>
+    <h2>1. Шаблон</h2>
+    <div class="custom hidden" id="custom">
+      <div><b>Нужен индивидуальный дизайн?</b><span class="muted">Сделаем приглашение по вашей идее — напишите в WhatsApp: <span id="waNum"></span></span></div>
+      <a class="btn wa" id="waLink" target="_blank" rel="noopener">Написать в WhatsApp</a>
+    </div>
+    <div class="filters">
+      <select id="fCat" aria-label="Повод"><option value="">Все поводы</option></select>
+      <select id="fLang" aria-label="Язык"><option value="">Все языки</option><option value="kz">Қазақша</option><option value="ru">Русский</option></select>
+      <input id="fId" type="search" inputmode="numeric" placeholder="ID шаблона" aria-label="ID шаблона">
+    </div>
+    <div id="grid" class="grid"></div>
+    <p id="count" class="muted"></p>
+  </section>
+
+  <div class="side">
+    <section id="formBox">
+      <h2 id="formTitle">2. Данные приглашения</h2>
+      <form id="form" autocomplete="off" novalidate>
+        <input type="hidden" name="id">
+        <div class="chosen">
+          <div class="pic" id="chPic"></div>
+          <div style="flex:1;min-width:0">
+            <label for="tplId" style="margin-top:0">ID шаблона</label>
+            <input name="template_id" id="tplId" inputmode="numeric" placeholder="например, 296">
+            <div class="muted" id="chInfo">Выберите шаблон слева или введите ID</div>
+          </div>
+        </div>
+
+        <div><label for="f_title">Название — на конверте и во вкладке браузера</label><input id="f_title" name="title" maxlength="80"></div>
+        <div data-f="name1"><label for="f_name1" id="l_name1">Имя: жених</label><input id="f_name1" name="name1" maxlength="40"></div>
+        <div data-f="name2"><label for="f_name2">Имя: невеста</label><input id="f_name2" name="name2" maxlength="40"></div>
+        <div data-f="age"><label for="f_age">Возраст</label><input id="f_age" name="age" inputmode="numeric" maxlength="3"></div>
+        <div class="row">
+          <div><label for="f_date">Дата</label><input id="f_date" name="date" type="date" min="2000-01-01" max="2100-12-31"></div>
+          <div><label for="f_time">Время</label><input id="f_time" name="time" type="time" value="18:00"></div>
+        </div>
+        <div data-f="city"><label for="f_city">Город</label><input id="f_city" name="city" maxlength="60"></div>
+        <div data-f="address"><label for="f_address">Адрес / место</label><textarea id="f_address" name="address" maxlength="200" style="min-height:64px"></textarea></div>
+        <div data-f="map_link"><label for="f_map">Ссылка на карту (2GIS, Google Maps…) — если не указать, будет поиск адреса в 2GIS</label><input id="f_map" name="map_link" inputmode="url" maxlength="500" placeholder="go.2gis.com/…"></div>
+        <div data-f="hosts"><label for="f_hosts">Той иелері / организаторы</label><input id="f_hosts" name="hosts" maxlength="120"></div>
+        <div data-f="invite_text"><label for="f_text">Текст приглашения <span class="cnt" id="cnt"></span></label><textarea id="f_text" name="invite_text" maxlength="600"></textarea></div>
+        <div data-f="music">
+          <label for="music">Музыка</label>
+          <select name="music" id="music"><option value="">Как в шаблоне</option></select>
+          <audio id="player" controls preload="none"></audio>
+        </div>
+        <div class="actions">
+          <button class="btn ghost" id="previewBtn" type="button">Предпросмотр</button>
+          <button class="btn primary" id="submit" type="submit">Сохранить черновик</button>
+        </div>
+        <button class="btn ghost hidden" id="cancelEdit" type="button" style="width:100%;margin-top:8px">Отменить редактирование</button>
+        <div id="msg" class="msg" role="status"></div>
+      </form>
+    </section>
+
+    <section>
+      <h2>Мои приглашения</h2>
+      <div id="list" class="muted"></div>
+    </section>
+  </div>
+</main>
+
+<dialog id="login" aria-labelledby="loginTitle">
+  <div class="stack">
+    <h3 id="loginTitle">Вход</h3>
+    <p class="muted" id="loginWhy">Войдите, чтобы сохранять приглашения и видеть ответы гостей. Регистрация происходит при первом входе.</p>
+    <button class="btn primary" id="tgBtn" type="button">Войти через Telegram</button>
+    <p class="muted hidden" id="tgWait">Откройте бота в Telegram и нажмите «Start» — эта страница сама продолжит вход.</p>
+    <div class="or" id="orLine">или по почте</div>
+    <div id="mailStep1" class="stack">
+      <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" aria-label="Почта">
+      <button class="btn ghost" id="mailSend" type="button">Получить код на почту</button>
+    </div>
+    <div id="mailStep2" class="stack hidden">
+      <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Код из письма" aria-label="Код из письма">
+      <input id="regName" maxlength="60" placeholder="Ваше имя (для новых)" aria-label="Ваше имя">
+      <button class="btn primary" id="mailVerify" type="button">Войти</button>
+    </div>
+    <div id="loginMsg" class="msg" role="status"></div>
+    <button class="btn ghost" type="button" onclick="this.closest('dialog').close()">Закрыть</button>
+  </div>
+</dialog>
+
+<dialog id="rulesDlg" aria-labelledby="rulesTitle">
+      <h3 id="rulesTitle" style="margin-top:0">Как опубликовать приглашение</h3>
+      <ol class="steps">
+        <li>Выберите шаблон и заполните данные. Предпросмотр и черновики — бесплатно.</li>
+        <li>Войдите, сохраните черновик и нажмите «Отправить на публикацию».</li>
+        <li>Публикация платная: <b id="rPrice">3 500 ₸</b> за одно приглашение<span id="rPay"></span>.</li>
+        <li>Отправьте чек об оплате в WhatsApp <b id="rWa"></b> — кнопка «Отправить чек» появится в «Мои приглашения», номер приглашения в сообщении подставится сам.</li>
+        <li>После проверки оплаты приглашение опубликуют: вы получите уведомление и ссылку для гостей.</li>
+      </ol>
+      <p class="muted" id="rMore">Подробнее и индивидуальный дизайн — по WhatsApp <a id="rWaLink" target="_blank" rel="noopener"></a>.</p>
+      <p><button class="btn ghost" type="button" onclick="this.closest('dialog').close()">Понятно</button></p>
+</dialog>
+
+<dialog id="answers"><div id="ansBody"></div><p><button class="btn ghost" type="button" onclick="this.closest('dialog').close()">Закрыть</button></p></dialog>
+
+<script>
+const CAT = { wedding: 'Үйлену той / Свадьба', bachelorette: 'Қыз ұзату', merey: 'Мерей той / Юбилей', birthday: 'Туған күн / День рождения',
+  reception: 'Той / Приём', sundet: 'Сүндет той', 'nişan': 'Нишан / Помолвка', nikah: 'Неке қию / Никах', syrga_salu: 'Сырға салу',
+  tilashar: 'Тұсаукесер / Тілашар', ramadan: 'Ораза / Рамадан', besik: 'Бесік той', kudalyk: 'Құдалық', kyryk: 'Қырқынан шығару',
+  shildekhana: 'Шілдехана', konys: 'Қоныс той', betashar: 'Беташар', 'merey-sundet': 'Мерей + сүндет', baptism: 'Крещение' };
+const STATUS = { draft: 'Черновик', pending: 'Ждёт оплаты и проверки', published: 'Опубликовано', rejected: 'Отклонено' };
+const $ = s => document.querySelector(s);
+const form = $('#form');
+let templates = [], current = null, me = null, afterLogin = null;
+
+async function api(url, opts = {}) {
+  const r = await fetch(url, { credentials: 'same-origin', ...opts });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw Object.assign(new Error(j.error || 'Ошибка ' + r.status), { status: r.status, body: j });
+  return j;
+}
+const post = (url, body) => api(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body || {}) });
+// 3500 → «3 500 ₸»
+const money = t => { try { return new Intl.NumberFormat('ru-RU', { style: 'currency', currency: t.currency || 'KZT', currencyDisplay: 'narrowSymbol', maximumFractionDigits: 0 }).format(t.price); } catch { return t.price + ' ' + (t.currency || ''); } };
+// индивидуальный дизайн — WhatsApp из настроек сайта
+const SITE = window.__SITE__ || {};
+const WA = SITE.whatsapp || '';
+const waPretty = WA.length === 11 ? `+${WA[0]} ${WA.slice(1, 4)} ${WA.slice(4, 7)} ${WA.slice(7, 9)} ${WA.slice(9)}` : (WA ? '+' + WA : '');
+const waHref = text => `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
+const priceOf = tid => { const t = templates.find(x => x.id === Number(tid)); return t && t.price != null ? money(t) : ''; };
+(function custom() {
+  if (SITE.payment) $('#rPay').textContent = ' — оплата на ' + SITE.payment;
+  if (!WA) { $('#rWa').closest('li').remove(); $('#rMore').remove(); return; }
+  $('#waNum').textContent = $('#rWa').textContent = $('#rWaLink').textContent = waPretty;
+  $('#waLink').href = waHref('Здравствуйте! Хочу индивидуальное онлайн-приглашение.');
+  $('#rWaLink').href = waHref('Здравствуйте! Хочу узнать про оплату и публикацию приглашения.');
+  $('#custom').classList.remove('hidden');
+})();
+const openRules = () => $('#rulesDlg').showModal();
+$('#rulesBtn').onclick = openRules;
+// цена в правилах: одна для всех или «от …»
+function rulesPrice() {
+  const ps = templates.map(t => t.price).filter(p => p != null);
+  if (!ps.length) return;
+  const min = Math.min(...ps);
+  $('#rPrice').textContent = (ps.every(p => p === min) ? '' : 'от ') + money({ price: min, currency: templates[0].currency });
+}
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function pic(t, cls = 'pic') {
+  if (t && t.preview) { const i = document.createElement('img'); i.className = cls; i.src = t.preview; i.loading = 'lazy'; i.alt = ''; return i; }
+  const d = document.createElement('div'); d.className = cls; d.textContent = t ? '#' + t.id : ''; return d;
+}
+function setMsg(el, kind, html) { el.className = kind ? 'msg ' + kind : 'msg'; el.innerHTML = html || ''; }
+
+// ---------- вход ----------
+function renderWho() {
+  const box = $('#who');
+  if (!me) { box.innerHTML = '<button class="btn ghost" type="button" id="loginBtn">Войти</button>'; $('#loginBtn').onclick = () => openLogin(); return; }
+  box.innerHTML = `<span class="muted"></span>${me.role === 'admin' ? '<a class="btn ghost" href="/admin">Админка</a>' : ''}<button class="btn ghost" type="button" id="logoutBtn">Выйти</button>`;
+  box.querySelector('.muted').textContent = me.name || me.email || (me.telegram_username ? '@' + me.telegram_username : 'Вы вошли');
+  $('#logoutBtn').onclick = async () => { await post('/api/auth/logout').catch(() => {}); me = null; renderWho(); loadList(); };
+}
+let providers = { email: true, telegram: false };
+function openLogin(why, then) {
+  afterLogin = then || null;
+  $('#loginWhy').textContent = why || 'Войдите, чтобы сохранять приглашения и видеть ответы гостей. Регистрация происходит при первом входе.';
+  $('#tgBtn').classList.toggle('hidden', !providers.telegram);
+  $('#orLine').classList.toggle('hidden', !providers.telegram || !providers.email);
+  $('#mailStep1').classList.toggle('hidden', !providers.email);
+  $('#mailStep2').classList.add('hidden');
+  $('#tgWait').classList.add('hidden');
+  setMsg($('#loginMsg'));
+  $('#login').showModal();
+}
+async function loggedIn(user) {
+  me = user;
+  $('#login').close();
+  renderWho();
+  await loadList();
+  const next = afterLogin; afterLogin = null;
+  if (next) next();
+}
+let tgTimer = null;
+$('#tgBtn').onclick = async () => {
+  try {
+    const r = await post('/api/auth/telegram/start');
+    window.open(r.url, '_blank');
+    $('#tgWait').classList.remove('hidden');
+    clearInterval(tgTimer);
+    const until = Date.now() + (r.expires_in || 600) * 1000;
+    tgTimer = setInterval(async () => {
+      if (Date.now() > until || !$('#login').open) return clearInterval(tgTimer);
+      try {
+        const c = await api('/api/auth/telegram/check?token=' + encodeURIComponent(r.token));
+        if (c.status === 'ok') { clearInterval(tgTimer); loggedIn(c.user); }
+      } catch (e) { if (e.status === 410) { clearInterval(tgTimer); setMsg($('#loginMsg'), 'err', 'Время входа истекло, попробуйте ещё раз'); } }
+    }, 2000);
+  } catch (e) { setMsg($('#loginMsg'), 'err', esc(e.message)); }
+};
+$('#mailSend').onclick = async () => {
+  const email = $('#email').value.trim();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return setMsg($('#loginMsg'), 'err', 'Проверьте адрес почты');
+  try {
+    const r = await post('/api/auth/email/start', { email });
+    $('#mailStep2').classList.remove('hidden');
+    if (r.dev_code) $('#code').value = r.dev_code;
+    setMsg($('#loginMsg'), 'ok', 'Код отправлен на ' + esc(email) + (r.dev_code ? ' (режим разработки: код подставлен)' : ''));
+    $('#code').focus();
+  } catch (e) { setMsg($('#loginMsg'), 'err', esc(e.message)); }
+};
+$('#mailVerify').onclick = async () => {
+  try {
+    const r = await post('/api/auth/email/verify', { email: $('#email').value.trim(), code: $('#code').value.trim(), name: $('#regName').value.trim() || undefined });
+    loggedIn(r.user);
+  } catch (e) { setMsg($('#loginMsg'), 'err', esc(e.message)); }
+};
+
+// ---------- шаблоны ----------
+function renderGrid() {
+  const cat = $('#fCat').value, lang = $('#fLang').value, q = $('#fId').value.trim();
+  const list = templates.filter(t => (!cat || t.category === cat) && (!lang || t.lang === lang) && (!q || String(t.id).includes(q)));
+  $('#count').textContent = `Шаблонов: ${list.length}`;
+  $('#grid').replaceChildren(...list.map(t => {
+    const el = document.createElement('div');
+    el.className = 'tpl' + (String(t.id) === form.template_id.value ? ' sel' : '');
+    el.title = CAT[t.category] || t.category;
+    el.tabIndex = 0;
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    meta.innerHTML = `<span><b>#${t.id}</b> <span class="muted">${t.lang}</span></span><a target="_blank">пример ↗</a>`;
+    const a = meta.querySelector('a'); a.href = '/t/' + t.id; a.onclick = e => e.stopPropagation();
+    el.append(pic(t), meta);
+    if (t.price != null) { const pr = document.createElement('span'); pr.className = 'price'; pr.textContent = money(t); el.append(pr); }
+    const choose = () => {
+      form.template_id.value = t.id; chooseTemplate(t.id); renderGrid();
+      if (matchMedia('(max-width: 960px)').matches) $('#formBox').scrollIntoView({ behavior: 'smooth' });
+    };
+    el.onclick = choose;
+    el.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choose(); } };
+    return el;
+  }));
+}
+async function chooseTemplate(id) {
+  const t = templates.find(x => String(x.id) === String(id));
+  $('#chPic').replaceWith(Object.assign(pic(t), { id: 'chPic' }));
+  if (!t) { $('#chInfo').textContent = id ? 'Нет такого шаблона' : 'Выберите шаблон слева или введите ID'; current = null; return showFields(null); }
+  $('#chInfo').textContent = (CAT[t.category] || t.category) + ' · ' + (t.lang === 'ru' ? 'русский' : 'қазақша') + (t.price != null ? ' · ' + money(t) : '');
+  try { current = await api('/api/templates/' + id); } catch { current = null; }
+  showFields(current);
+}
+function showFields(info) {
+  const tokens = new Set(info ? info.tokens : []);
+  const ex = (info && info.sample) || {};
+  for (const box of form.querySelectorAll('[data-f]')) box.classList.toggle('hidden', !!info && !tokens.has(box.dataset.f) && !form[box.dataset.f].value);
+  for (const f of ['title', 'name1', 'name2', 'age', 'city', 'address', 'hosts', 'invite_text'])
+    form[f].placeholder = ex[f] ? 'напр.: ' + ex[f].replace(/\s+/g, ' ').slice(0, 80) : '';
+  $('#l_name1').textContent = tokens.has('name2') ? 'Имя: жених' : 'Имя: виновник торжества';
+}
+function counter() {
+  const n = [...form.invite_text.value].length;
+  $('#cnt').textContent = n ? `${n} / 600` : '';
+  $('#cnt').classList.toggle('over', n > 450);
+  $('#cnt').title = n > 450 ? 'Длинный текст будет мельче — рамка шаблона ограничена' : '';
+}
+
+// ---------- предпросмотр без сохранения ----------
+$('#previewBtn').onclick = () => {
+  if (!form.template_id.value) return setMsg($('#msg'), 'err', 'Выберите шаблон');
+  const f = document.createElement('form');
+  f.method = 'POST'; f.action = '/preview'; f.target = '_blank'; f.hidden = true;
+  for (const [k, v] of new FormData(form)) { if (k === 'id') continue; const i = document.createElement('input'); i.name = k; i.value = v; f.append(i); }
+  document.body.append(f); f.submit(); f.remove();
+};
+
+// ---------- мои приглашения ----------
+async function loadList() {
+  const box = $('#list');
+  if (!me) { box.innerHTML = '<p class="muted">Войдите, чтобы сохранять приглашения, отправлять их на публикацию и видеть ответы гостей.</p>'; return; }
+  const items = await api('/api/invitations').catch(() => []);
+  if (!items.length) { box.innerHTML = '<p class="muted">Пока нет. Заполните форму и сохраните черновик.</p>'; return; }
+  const ids = items.map(x => x.id).join(',');
+  const [guests, photos] = await Promise.all([api('/api/guests/stats?ids=' + ids).catch(() => ({})), api('/api/album/stats?ids=' + ids).catch(() => ({}))]);
+  box.replaceChildren(...items.map(x => {
+    const f = x.fields, names = [f.name1, f.name2].filter(Boolean).join(' & ');
+    const g = guests[x.id] || {}, p = photos[x.id] || {};
+    const canSubmit = x.status === 'draft' || x.status === 'rejected';
+    const el = document.createElement('div');
+    el.className = 'inv';
+    el.innerHTML = `<div class="t"></div><div class="muted"></div><div class="note hidden"></div><div class="acts">
+      <a class="btn ghost" data-a="view" target="_blank">${x.live ? 'Открыть ↗' : 'Посмотреть ↗'}</a>
+      ${x.live ? '<button class="btn ghost" type="button" data-a="copy">Ссылка для гостей</button>' : ''}
+      <button class="btn ghost" type="button" data-a="edit">Изменить</button>
+      ${canSubmit ? '<button class="btn ghost" type="button" data-a="submit">Отправить на публикацию</button>' : ''}
+      ${x.live ? `<button class="btn ghost" type="button" data-a="ans">Придут ${(g.yes || 0) + (g.plus_one || 0)} · нет ${g.no || 0}</button>
+      <a class="btn ghost" data-a="album" target="_blank">Фото ${p.photos || 0}</a>` : ''}
+      <button class="btn ghost danger" type="button" data-a="del">Удалить</button></div>`;
+    el.querySelector('.t').innerHTML = `<span class="badge ${x.status}">${STATUS[x.status]}</span> `;
+    el.querySelector('.t').append((f.title || 'Приглашение') + (names ? ' — ' + names : ''));
+    el.querySelector('.muted').textContent = `${f.date} ${f.time || ''} · шаблон #${x.template_id}${x.live && x.status !== 'published' ? ' · гости видят прежнюю одобренную версию' : ''}`;
+    if (x.status === 'rejected' && x.moderation_note) { const n = el.querySelector('.note'); n.textContent = 'Причина: ' + x.moderation_note; n.classList.remove('hidden'); }
+    el.querySelector('[data-a=view]').href = x.live && x.status === 'published' ? x.url : x.url + '?draft';
+    const q = s => el.querySelector(`[data-a=${s}]`);
+    if (q('copy')) q('copy').onclick = e => navigator.clipboard.writeText(location.origin + x.url).then(() => { e.target.textContent = 'Скопировано'; }, () => prompt('Скопируйте:', location.origin + x.url));
+    if (q('album')) q('album').href = x.url + '/album';
+    q('edit').onclick = () => startEdit(x);
+    const price = priceOf(x.template_id), title = (f.title || 'Приглашение') + (names ? ' — ' + names : '');
+    // отправка на публикацию — сначала напоминаем, что это платно
+    if (q('submit')) q('submit').onclick = () => {
+      if (el.querySelector('.confirm')) return;
+      const c = document.createElement('div');
+      c.className = 'confirm';
+      c.innerHTML = `Публикация платная${price ? ': <b></b>' : ''}. После отправки оплатите${SITE.payment ? ' на ' + esc(SITE.payment) : ''} и пришлите чек${WA ? ' в WhatsApp ' + esc(waPretty) : ''} — после проверки оплаты приглашение опубликуют.
+        <div class="acts"><button class="btn primary" type="button">Отправить на публикацию</button><button class="btn ghost" type="button">Отмена</button><button class="btn ghost" type="button">Подробнее</button></div>`;
+      if (price) c.querySelector('b').textContent = price;
+      const [go, cancel, more] = c.querySelectorAll('button');
+      cancel.onclick = () => c.remove();
+      more.onclick = openRules;
+      go.onclick = async () => {
+        go.disabled = true;
+        try { await post(`/api/invitations/${x.id}/submit`); loadList(); } catch (err) { setMsg($('#msg'), 'err', esc(err.message)); go.disabled = false; }
+      };
+      el.querySelector('.acts').after(c);
+    };
+    // ждёт оплаты — кнопка с готовым сообщением для чека
+    if (x.status === 'pending') {
+      const p = document.createElement('div');
+      p.className = 'pay';
+      p.innerHTML = `Оплатите ${price ? '<b></b> ' : ''}${SITE.payment ? 'на ' + esc(SITE.payment) + ' ' : ''}и отправьте чек${WA ? ' в WhatsApp' : ' администратору'} — после проверки приглашение опубликуют.${WA ? '<div class="acts"><a class="btn wa" target="_blank" rel="noopener">Отправить чек в WhatsApp</a></div>' : ''}`;
+      if (price) p.querySelector('b').textContent = price;
+      if (WA) p.querySelector('a').href = waHref(`Здравствуйте! Оплатил(а) публикацию приглашения ${x.id} «${title}» (шаблон #${x.template_id}${price ? ', ' + price : ''}). Чек прикрепляю.`);
+      el.querySelector('.acts').after(p);
+    }
+    if (q('ans')) q('ans').onclick = () => showAnswers(x.id);
+    q('del').onclick = async () => {
+      if (!confirm('Удалить приглашение вместе с ответами гостей и фото?')) return;
+      try { await api('/api/invitations/' + x.id, { method: 'DELETE' }); loadList(); } catch (err) { alert(err.message); }
+    };
+    return el;
+  }));
+}
+
+function editing(id, cancelText = 'Отменить редактирование') {
+  form.id.value = id;
+  $('#formTitle').textContent = '2. Редактирование';
+  $('#submit').textContent = 'Сохранить изменения';
+  $('#cancelEdit').textContent = cancelText;
+  $('#cancelEdit').classList.remove('hidden');
+}
+function startEdit(x) {
+  form.reset();
+  for (const [k, v] of Object.entries(x.fields)) if (form[k]) form[k].value = v;
+  editing(x.id);
+  setMsg($('#msg'));
+  counter();
+  chooseTemplate(x.template_id).then(renderGrid);
+  $('#formBox').scrollIntoView({ behavior: 'smooth' });
+}
+function stopEdit() {
+  const tid = form.template_id.value;
+  form.reset(); form.id.value = ''; form.template_id.value = tid;
+  $('#formTitle').textContent = '2. Данные приглашения';
+  $('#submit').textContent = 'Сохранить черновик';
+  $('#cancelEdit').classList.add('hidden');
+  counter();
+  chooseTemplate(tid);
+}
+$('#cancelEdit').onclick = () => { stopEdit(); setMsg($('#msg')); };
+
+async function showAnswers(id) {
+  let data;
+  try { data = await api(`/api/i/${id}/answers`); } catch (e) { return alert(e.message); }
+  const wishes = await api(`/api/i/${id}/wishes`).catch(() => []);
+  const when = s => esc(new Date(s).toLocaleString());
+  const fields = a => Object.entries(a.fields || {}).map(([k, v]) => `${esc(k.replace(/:$/, ''))}: ${esc(v)}`).join('<br>');
+  const s = data.summary;
+  const ans = data.answers.map(a => `<div><b>${esc(STATUS_RSVP[a.status])}</b>${a.action_text ? ' · ' + esc(a.action_text) : ''}<br>${fields(a)}<small>${when(a.created_at)}</small></div>`);
+  const ws = wishes.map(w => `<div><b>${esc(w.name)}</b><br>${esc(w.message)}<small>${when(w.created_at)}</small></div>`);
+  $('#ansBody').innerHTML = `<h3>Кто придёт</h3>
+    <div class="sum"><div><b>${s.yes}</b>придут</div><div><b>${s.plus_one}</b>с парой</div><div><b>${s.people}</b>человек</div><div><b>${s.no}</b>не придут</div></div>
+    <p><a class="btn ghost" href="/api/i/${encodeURIComponent(id)}/answers.csv">Скачать для Excel</a></p>
+    ${ans.length ? `<div class="ans">${ans.join('')}</div>` : '<p class="muted">Пока никто не ответил</p>'}
+    <h3>Пожелания (${ws.length})</h3>${ws.length ? `<div class="ans">${ws.join('')}</div>` : '<p class="muted">Пока нет</p>'}`;
+  $('#answers').showModal();
+}
+const STATUS_RSVP = { yes: 'Придёт', plus_one: 'Придёт с парой', no: 'Не придёт', unknown: 'Ответ без выбора' };
+
+// ---------- сохранение черновика ----------
+let saving = false;
+async function save(opts = {}) {
+  if (saving) return;
+  setMsg($('#msg'));
+  $('#player').pause();
+  const data = Object.fromEntries(new FormData(form));
+  if (!data.template_id) return setMsg($('#msg'), 'err', 'Выберите шаблон');
+  if (!data.date) return setMsg($('#msg'), 'err', 'Укажите дату');
+  if (!me) return openLogin('Чтобы сохранить приглашение, войдите — это займёт минуту. Регистрация происходит при первом входе.', save);
+  const id = data.id;
+  delete data.id;
+  const btn = $('#submit');
+  btn.disabled = true; saving = true;
+  try {
+    const r = id ? await api('/api/invitations/' + id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+                 : await post('/api/invitations', opts.force ? { ...data, force: true } : data);
+    const what = id ? 'Изменения сохранены' : r.duplicate ? 'Такой черновик у вас уже есть — второй раз не сохраняем' : 'Черновик сохранён';
+    setMsg($('#msg'), 'ok', `${what}. <a target="_blank" href="${esc(r.url)}?draft">Посмотреть</a>. Когда всё готово — нажмите «Отправить на публикацию» в «Мои приглашения».`);
+    // дальше форма правит этот же черновик: повторное нажатие не создаст копию
+    editing(r.id, 'Создать другое приглашение');
+    loadList();
+  } catch (err) {
+    if (err.status === 401) { me = null; renderWho(); return openLogin('Сессия закончилась — войдите снова.', save); }
+    if (err.status === 409 && err.body && err.body.existing) return askDuplicate(err.body.existing);
+    setMsg($('#msg'), 'err', esc(err.message));
+  } finally { btn.disabled = false; saving = false; }
+}
+// на этом шаблоне уже есть приглашение: открыть его или всё-таки создать второе
+function askDuplicate(x) {
+  const date = x.fields && x.fields.date ? ' на ' + x.fields.date.split('-').reverse().join('.') : '';
+  setMsg($('#msg'), 'err', `У вас уже есть приглашение на этом шаблоне${esc(date)} (${esc(STATUS[x.status])}).
+    <div class="acts"><button class="btn primary" type="button" id="dupOpen">Открыть его</button><button class="btn ghost" type="button" id="dupNew">Создать ещё одно</button></div>`);
+  $('#dupOpen').onclick = () => startEdit(x);
+  $('#dupNew').onclick = () => save({ force: true });
+}
+form.onsubmit = e => { e.preventDefault(); save(); };
+
+form.template_id.addEventListener('change', () => { chooseTemplate(form.template_id.value); renderGrid(); });
+form.invite_text.addEventListener('input', counter);
+form.addEventListener('input', () => { if ($('#msg').classList.contains('err')) setMsg($('#msg')); });
+$('#music').onchange = () => { const p = $('#player'); p.src = $('#music').value || ''; if (p.src) p.play().catch(() => {}); };
+for (const id of ['#fCat', '#fLang']) $(id).onchange = renderGrid;
+$('#fId').oninput = renderGrid;
+
+(async () => {
+  const q = new URLSearchParams(location.search);
+  [me, providers] = await Promise.all([api('/api/auth/me').then(r => r.user).catch(() => null), api('/api/auth/providers').catch(() => providers)]);
+  renderWho();
+  templates = await api('/api/templates');
+  rulesPrice();
+  for (const c of [...new Set(templates.map(t => t.category))]) { const o = document.createElement('option'); o.value = c; o.textContent = CAT[c] || c; $('#fCat').append(o); }
+  const music = await api('/api/music').catch(() => []);
+  for (const mu of music) { const o = document.createElement('option'); o.value = mu.url; o.textContent = mu.title; $('#music').append(o); }
+  if (q.get('template')) { form.template_id.value = q.get('template'); chooseTemplate(q.get('template')); }
+  renderGrid();
+  await loadList();
+  // /?edit=<id> — из плашки черновика
+  if (q.get('edit') && me) { const x = await api(`/api/invitations/${encodeURIComponent(q.get('edit'))}/draft`).catch(() => null); if (x) startEdit(x); }
+  if (q.has('edit') || q.has('template')) history.replaceState(null, '', '/');
+})();
+</script>
+</body>
+</html>

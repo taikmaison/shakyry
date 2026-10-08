@@ -1,0 +1,13 @@
+{
+  "comment": "Порядок важен: первое совпадение. target — имя переменной окружения с адресом сервиса; null — закрыто снаружи.",
+  "routes": [
+    { "match": "^/(_internal|events)(/|$)", "target": null },
+    { "match": "^/api/auth/|^/api/admin/users(/|$)", "target": "AUTH_URL" },
+    { "match": "^/api/admin/invitations(/|$)", "target": "INVITATIONS_URL" },
+    { "match": "^/api/templates(/|$)|^/api/music$|^/(media|fonts|previews)/|^/fonts\\.css$", "target": "CATALOG_URL" },
+    { "match": "^/api/invitations(/|$)", "target": "INVITATIONS_URL" },
+    { "match": "^/api/i/[^/]+/(rsvp|wishes|answers|answers\\.csv)$|^/api/guests/", "target": "GUESTS_URL" },
+    { "match": "^/api/i/[^/]+/album(/[0-9]+)?$|^/api/album/|^/files/albums/", "target": "ALBUM_URL" },
+    { "match": ".*", "target": "WEB_URL" }
+  ]
+}

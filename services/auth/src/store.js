@@ -1,0 +1,98 @@
+// База сервиса авторизации и общие помощники.
+// Используется сервером (src/index.js) и утилитой tools/make-admin.js — поэтому здесь
+// нет ничего, что запускает сервер или ходит в сеть.
+const path = require('path');
+const { env } = require('../lib/http');
+const { openDb } = require('../lib/db');
+
+const MIGRATIONS = [
+  // пользователи: вход по почте и/или через Telegram. search — строка для поиска в админке
+  // (имя, почта, @username в нижнем регистре). Админ — не больше одного (индекс one_admin).
+  `CREATE TABLE users (
+     id INTEGER PRIMARY KEY AUTOINCREMENT,
+     email TEXT UNIQUE,
+     telegram_id INTEGER UNIQUE,
+     telegram_username TEXT,
+     name TEXT NOT NULL,
+     search TEXT NOT NULL DEFAULT '',
+     role TEXT NOT NULL DEFAULT 'user' CHECK (role IN ('user', 'admin')),
+     blocked INTEGER NOT NULL DEFAULT 0,
+     created_at TEXT NOT NULL,
+     updated_at TEXT NOT NULL
+   );
+   CREATE INDEX users_created ON users (created_at);
+   CREATE UNIQUE INDEX one_admin ON users (role) WHERE role = 'admin';
+
+   -- сессии: в базе только sha256 токена из cookie sid; expires_at — миллисекунды
+   CREATE TABLE sessions (
+     token_hash TEXT PRIMARY KEY,
+     user_id INTEGER NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+     created_at TEXT NOT NULL,
+     expires_at INTEGER NOT NULL
+   );
+   CREATE INDEX sessions_user ON sessions (user_id);
+   CREATE INDEX sessions_expires ON sessions (expires_at);
+
+   -- коды входа по почте: один действующий код на адрес, хранится только HMAC кода
+   CREATE TABLE email_codes (
+     email TEXT PRIMARY KEY,
+     code_hash TEXT NOT NULL,
+     salt TEXT NOT NULL,
+     attempts INTEGER NOT NULL DEFAULT 0,
+     expires_at INTEGER NOT NULL
+   );
+
+   -- вход через Telegram: токен из ссылки t.me/<бот>?start=<токен> (хранится sha256);
+   -- после /start в боте заполняются данные пользователя Telegram и confirmed_at
+   CREATE TABLE telegram_logins (
+     token_hash TEXT PRIMARY KEY,
+     expires_at INTEGER NOT NULL,
+     telegram_id INTEGER,
+     first_name TEXT,
+     last_name TEXT,
+     username TEXT,
+     confirmed_at INTEGER
+   );
+
+   -- события для ограничения частоты (отправка кодов и т. п.): bucket + ключ + время
+   CREATE TABLE hits (
+     bucket TEXT NOT NULL,
+     key TEXT NOT NULL,
+     at INTEGER NOT NULL
+   );
+   CREATE INDEX hits_key ON hits (bucket, key, at);`,
+];
+
+const dbFile = () => env('DB_FILE', path.join(__dirname, '..', 'data', 'auth.db'));
+const openStore = () => openDb(dbFile(), MIGRATIONS);
+
+// почта: без пробелов, в нижнем регистре, только ASCII (обычный SMTP без SMTPUTF8)
+const EMAIL_RE = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/;
+function normalizeEmail(v) {
+  if (typeof v !== 'string') return null;
+  const e = v.trim().toLowerCase();
+  if (e.length > 254 || e.indexOf('@') > 64) return null;
+  return EMAIL_RE.test(e) ? e : null;
+}
+
+// управляющие и невидимые символы (диапазоны кодов): C0, DEL+C1, нулевой ширины, направление текста, BOM
+const INVISIBLE = new RegExp('[' + [[0x00, 0x1f], [0x7f, 0x9f], [0x200b, 0x200f], [0x2028, 0x202e], [0x2060, 0x2069], [0xfeff, 0xfeff]]
+  .map(([a, b]) => String.fromCharCode(a) + '-' + String.fromCharCode(b)).join('') + ']', 'g');
+// имя: без управляющих и невидимых символов, пробелы схлопнуты; длину проверяет вызывающий
+const cleanName = v => (v == null ? '' : String(v)).replace(/\s+/g, ' ').replace(INVISIBLE, '').replace(/ {2,}/g, ' ').trim();
+const nameLength = s => [...s].length;
+const clipName = s => [...s].slice(0, 60).join('').trim();
+
+// пользователь в ответах API
+const userView = u => u && {
+  id: u.id,
+  email: u.email || null,
+  telegram_id: u.telegram_id ?? null,
+  telegram_username: u.telegram_username || null,
+  name: u.name,
+  role: u.role,
+  created_at: u.created_at,
+};
+const searchText = u => [u.name, u.email, u.telegram_username && '@' + u.telegram_username].filter(Boolean).join(' ').toLowerCase();
+
+module.exports = { openStore, dbFile, normalizeEmail, cleanName, nameLength, clipName, userView, searchText };

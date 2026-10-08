@@ -1,0 +1,13 @@
+{
+  "name": "toi-gateway",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Шлюз: единая точка входа, раздаёт запросы сервисам по routes.json",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/index.js"
+  },
+  "engines": {
+    "node": ">=22.13"
+  }
+}

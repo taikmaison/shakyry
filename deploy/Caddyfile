@@ -1,0 +1,14 @@
+# HTTPS-сертификат Caddy получает и продлевает сам (Let's Encrypt).
+# Домен — переменная DOMAIN в .env; его A-запись должна указывать на IP сервера.
+{$DOMAIN} {
+	encode zstd gzip
+	reverse_proxy gateway:3000 {
+		# настоящий IP посетителя — для лимитов (у шлюза включён TRUST_PROXY)
+		header_up X-Real-IP {remote_host}
+	}
+}
+
+# www → без www
+www.{$DOMAIN} {
+	redir https://{$DOMAIN}{uri} permanent
+}

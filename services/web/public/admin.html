@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Админка</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+  :root {
+    --bg: #f6f3ee; --card: #ffffff; --ink: #2b2620; --muted: #7a7064; --line: #e6dfd4;
+    --accent: #8c6a3f; --accent-ink: #ffffff; --accent-soft: #f1e7d8; --danger: #b3402f; --ok: #3d7a4a; --warn: #a8761c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #1b1916; --card: #24211d; --ink: #f1ebe2; --muted: #a99d8e; --line: #3a352e;
+      --accent: #c9a46f; --accent-ink: #1b1916; --accent-soft: #352d22; --danger: #e07a68; --ok: #7cc28b; --warn: #e0b45c; color-scheme: dark; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 20px 16px 40px; }
+  header { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-bottom: 16px; }
+  header h1 { margin: 0; font-size: 22px; }
+  header a { color: var(--accent); margin-left: auto; }
+  nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+  nav button { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 7px 14px; font: inherit; cursor: pointer; }
+  nav button.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  nav .n { font-variant-numeric: tabular-nums; opacity: .8; }
+  .bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .bar input, .bar select { flex: 1 1 200px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font: inherit; }
+  .list { display: flex; flex-direction: column; gap: 10px; }
+  .item { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+  .item .main { flex: 1 1 320px; min-width: 0; }
+  .item .t { font-weight: 600; overflow-wrap: anywhere; }
+  .item .m { color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+  .item .acts { display: flex; gap: 6px; flex-wrap: wrap; }
+  .btn { border: 1px solid var(--line); background: transparent; color: var(--accent); border-radius: 10px; padding: 7px 11px; font: inherit; font-size: 13px; cursor: pointer; text-decoration: none; }
+  .btn.ok { background: var(--ok); color: #fff; border-color: var(--ok); }
+  .btn.bad { color: var(--danger); }
+  .btn:disabled { opacity: .6; cursor: default; }
+  .badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); margin-right: 6px; }
+  .badge.pending { color: var(--warn); } .badge.published { color: var(--ok); } .badge.rejected, .badge.blocked { color: var(--danger); }
+  .empty, .deny { color: var(--muted); padding: 30px 0; text-align: center; }
+  .more { margin-top: 12px; }
+  button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><h1>Админка</h1><a href="/">← К генератору</a></header>
+  <div id="deny" class="deny" hidden>Эта страница только для администратора. <a href="/">Войти</a></div>
+  <div id="app" hidden>
+    <nav>
+      <button type="button" data-tab="pending" class="on">Ждут оплаты <span class="n" id="nPending"></span></button>
+      <button type="button" data-tab="all">Все приглашения <span class="n" id="nAll"></span></button>
+      <button type="button" data-tab="users">Пользователи</button>
+    </nav>
+    <div class="bar" id="bar"></div>
+    <div class="list" id="list"></div>
+    <button type="button" class="btn more" id="more" hidden>Показать ещё</button>
+  </div>
+</div>
+<script>
+const $ = s => document.querySelector(s);
+const STATUS = { draft: 'Черновик', pending: 'Ждёт оплаты', published: 'Опубликовано', rejected: 'Отклонено' };
+let prices = new Map();   // цена шаблона — из каталога
+let tab = 'pending', offset = 0, users = new Map();
+
+async function api(url, opts = {}) {
+  const r = await fetch(url, { credentials: 'same-origin', ...opts });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw Object.assign(new Error(j.error || 'Ошибка ' + r.status), { status: r.status });
+  return j;
+}
+const post = (url, body) => api(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body || {}) });
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const userName = id => { const u = users.get(id); return u ? (u.name || u.email || (u.telegram_username ? '@' + u.telegram_username : '#' + id)) : '#' + id; };
+const when = s => s ? new Date(s).toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' }) : '';
+const day = d => (d || '').split('-').reverse().join('.');
+
+function button(text, cls, fn) {
+  const b = el('button', 'btn' + (cls ? ' ' + cls : ''), text);
+  b.type = 'button';
+  b.onclick = async () => { b.disabled = true; try { await fn(); } catch (e) { alert(e.message); } b.disabled = false; };
+  return b;
+}
+
+function invitationItem(x) {
+  const f = x.fields, item = el('div', 'item'), main = el('div', 'main');
+  const t = el('div', 't');
+  t.append(Object.assign(el('span', 'badge ' + x.status, STATUS[x.status])));
+  if (x.live && x.status !== 'published') t.append(el('span', 'badge published', 'есть одобренная версия'));
+  t.append([f.title || 'Приглашение', [f.name1, f.name2].filter(Boolean).join(' & ')].filter(Boolean).join(' — '));
+  main.append(t, el('div', 'm', `${x.id} · шаблон #${x.template_id}${prices.has(x.template_id) ? ' · ' + prices.get(x.template_id) : ''} · ${day(f.date)} ${f.time || ''}${f.city ? ' · ' + f.city : ''} · автор: ${userName(x.user_id)}${x.submitted_at ? ' · отправлено ' + when(x.submitted_at) : ''}`));
+  if (x.moderation_note) main.append(el('div', 'm', 'Причина: ' + x.moderation_note));
+  const acts = el('div', 'acts');
+  const view = el('a', 'btn', 'Посмотреть ↗'); view.href = `/i/${x.id}?draft`; view.target = '_blank';
+  acts.append(view);
+  if (x.status === 'pending' || x.status === 'rejected' || x.status === 'draft') acts.append(button(x.status === 'pending' ? 'Оплата есть — опубликовать' : 'Опубликовать', 'ok', async () => { await post(`/api/admin/invitations/${x.id}/approve`); reload(); }));
+  if (x.status === 'pending') acts.append(button('Отклонить', 'bad', async () => {
+    const reason = prompt('Причина отклонения (её увидит автор):');
+    if (!reason) return;
+    await post(`/api/admin/invitations/${x.id}/reject`, { reason }); reload();
+  }));
+  if (x.live) acts.append(button('Снять с публикации', 'bad', async () => {
+    const reason = prompt('Причина (её увидит автор, можно оставить пустой):');
+    if (reason === null) return;
+    await post(`/api/admin/invitations/${x.id}/unpublish`, { reason }); reload();
+  }));
+  acts.append(button('Удалить', 'bad', async () => {
+    if (!confirm('Удалить приглашение вместе с ответами гостей и фото?')) return;
+    await api('/api/invitations/' + x.id, { method: 'DELETE' }); reload();
+  }));
+  item.append(main, acts);
+  return item;
+}
+
+function userItem(u) {
+  const item = el('div', 'item'), main = el('div', 'main');
+  const t = el('div', 't');
+  if (u.role === 'admin') t.append(el('span', 'badge published', 'админ'));
+  if (u.blocked) t.append(el('span', 'badge blocked', 'заблокирован'));
+  t.append(u.name || '—');
+  main.append(t, el('div', 'm', [u.email, u.telegram_username ? '@' + u.telegram_username : null, '#' + u.id, 'с ' + when(u.created_at)].filter(Boolean).join(' · ')));
+  const acts = el('div', 'acts');
+  if (u.role !== 'admin') acts.append(button(u.blocked ? 'Разблокировать' : 'Заблокировать', u.blocked ? '' : 'bad', async () => {
+    await api('/api/admin/users/' + u.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ blocked: !u.blocked }) }); reload();
+  }));
+  item.append(main, acts);
+  return item;
+}
+
+async function loadUsers(q = '') {
+  const r = await api(`/api/admin/users?limit=200&q=${encodeURIComponent(q)}`);
+  for (const u of r.users) users.set(u.id, u);
+  return r;
+}
+
+async function show(append = false) {
+  const list = $('#list');
+  if (!append) { offset = 0; list.replaceChildren(); }
+  const q = ($('#q') || {}).value || '';
+  if (tab === 'users') {
+    const r = await loadUsers(q);
+    list.replaceChildren(...r.users.map(userItem));
+    if (!r.users.length) list.append(el('div', 'empty', 'Никого не найдено'));
+    $('#more').hidden = true;
+    return;
+  }
+  const status = tab === 'pending' ? 'pending' : ($('#st') || {}).value || '';
+  const r = await api(`/api/admin/invitations?limit=50&offset=${offset}&status=${status}&q=${encodeURIComponent(q)}`);
+  $('#nPending').textContent = r.counts.pending || '';
+  $('#nAll').textContent = Object.values(r.counts).reduce((a, b) => a + b, 0) || '';
+  list.append(...r.invitations.map(invitationItem));
+  if (!list.children.length) list.append(el('div', 'empty', tab === 'pending' ? 'Нет приглашений, ждущих оплаты' : 'Ничего не найдено'));
+  offset += r.invitations.length;
+  $('#more').hidden = offset >= r.total;
+}
+const reload = () => show(false);
+
+function renderBar() {
+  const bar = $('#bar');
+  bar.innerHTML = '';
+  const q = el('input'); q.id = 'q'; q.type = 'search'; q.placeholder = tab === 'users' ? 'Почта, имя или @ник' : 'ID, имя, текст или # автора';
+  let timer; q.oninput = () => { clearTimeout(timer); timer = setTimeout(reload, 300); };
+  bar.append(q);
+  if (tab === 'all') {
+    const st = el('select'); st.id = 'st';
+    for (const [v, t] of [['', 'Все статусы'], ['draft', 'Черновики'], ['pending', 'На модерации'], ['published', 'Опубликованные'], ['rejected', 'Отклонённые']]) { const o = el('option', null, t); o.value = v; st.append(o); }
+    st.onchange = reload;
+    bar.append(st);
+  }
+}
+
+for (const b of document.querySelectorAll('nav button')) b.onclick = () => {
+  tab = b.dataset.tab;
+  document.querySelectorAll('nav button').forEach(x => x.classList.toggle('on', x === b));
+  renderBar(); reload();
+};
+$('#more').onclick = () => show(true);
+
+(async () => {
+  const me = await api('/api/auth/me').then(r => r.user).catch(() => null);
+  if (!me || me.role !== 'admin') { $('#deny').hidden = false; return; }
+  $('#app').hidden = false;
+  await loadUsers().catch(() => {});
+  const fmt = new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'KZT', currencyDisplay: 'narrowSymbol', maximumFractionDigits: 0 });
+  for (const t of await api('/api/templates').catch(() => [])) if (t.price != null) prices.set(t.id, fmt.format(t.price));
+  renderBar();
+  reload();
+})();
+</script>
+</body>
+</html>

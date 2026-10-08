@@ -1,24 +1,16 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+# секреты и данные пользователей
+.env
+.env.*
+!.env.example
+services/*/data/
+*.db
+*.db-wal
+*.db-shm
 
-node_modules
-dist
-dist-ssr
-*.local
+# зависимости
+node_modules/
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# шаблоны, медиа, шрифты и превью — чужой контент, в репозиторий не кладём;
+# на сервере заполняется командами из services/catalog/tools (см. README в папке)
+services/catalog/content/*
+!services/catalog/content/README.md

@@ -1,0 +1,85 @@
+/* Посадочные страницы /kz/ и /ru/: лёгкий CSS без веб-шрифтов и JS, сначала мобильные.
+   Палитра совпадает с генератором (public/index.html). */
+:root {
+  --bg: #f6f3ee; --card: #ffffff; --ink: #2b2620; --muted: #675d52; --line: #e6dfd4;
+  --accent: #8c6a3f; --accent-ink: #ffffff; --soft: #f1e7d8; --r: 14px;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #1b1916; --card: #24211d; --ink: #f1ebe2; --muted: #b0a495; --line: #3a352e;
+    --accent: #c9a46f; --accent-ink: #1b1916; --soft: #352d22; }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; overflow-wrap: break-word; }
+a { color: var(--accent); }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+
+/* шапка */
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 14px; padding-bottom: 6px; }
+.logo { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 18px; color: var(--ink); text-decoration: none; }
+.logo img { display: block; border-radius: 7px; }
+.langs a { display: inline-block; padding: 6px 12px; border: 1px solid var(--line); border-radius: 99px; background: var(--card); font-size: 14px; text-decoration: none; }
+
+/* хлебные крошки */
+.crumbs ol { list-style: none; display: flex; flex-wrap: wrap; gap: 4px; padding: 0; margin: 8px 0 0; font-size: 14px; color: var(--muted); }
+.crumbs li + li::before { content: "›"; margin-right: 4px; }
+.crumbs a { color: var(--muted); }
+
+/* заголовок и текст */
+h1 { font-size: clamp(26px, 6.5vw, 40px); line-height: 1.15; margin: 14px 0 10px; letter-spacing: -.01em; }
+h2 { font-size: 22px; line-height: 1.25; margin: 0 0 14px; }
+h3 { font-size: 17px; margin: 22px 0 12px; }
+.lead { font-size: 18px; color: var(--muted); max-width: 720px; margin: 0; }
+.text p, .tips { max-width: 720px; }
+.count { color: var(--muted); font-weight: 400; font-size: .85em; }
+section { margin: 36px 0; }
+.note { background: var(--soft); padding: 12px 14px; border-radius: var(--r); max-width: 720px; }
+
+/* кнопки */
+.cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 0; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 10px 20px; border-radius: 12px; font-weight: 600; text-decoration: none; }
+.btn-main { background: var(--accent); color: var(--accent-ink); }
+.btn-alt { background: var(--card); color: var(--accent); border: 1px solid var(--line); }
+
+/* сетка шаблонов */
+.grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 12px; }
+@media (min-width: 720px) { .grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; } }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; display: flex; flex-direction: column; }
+/* пропорции держит обёртка — даже если файла превью ещё нет, карточка не схлопывается */
+.card .pic { display: block; aspect-ratio: 390 / 690; overflow: hidden; background: var(--soft); }
+.card img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; color: var(--muted); font-size: 12px; }
+.card .meta { display: flex; justify-content: space-between; align-items: center; gap: 6px; padding: 8px 10px 0; font-size: 14px; }
+.card .num { font-weight: 700; }
+.card .price { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; margin-left: auto; }
+.badge { font-size: 12px; padding: 2px 8px; border-radius: 99px; background: var(--soft); color: var(--ink); white-space: nowrap; }
+.card .acts { display: flex; gap: 6px; padding: 8px 10px 10px; margin-top: auto; }
+.card .acts a { flex: 1; text-align: center; padding: 8px 4px; border-radius: 10px; font-size: 14px; text-decoration: none; border: 1px solid var(--line); }
+.card .acts a.go { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+.more { margin: 16px 0 0; }
+
+/* поводы */
+.cats { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.cats a { display: inline-block; padding: 8px 14px; border-radius: 99px; background: var(--card); border: 1px solid var(--line); color: var(--ink); text-decoration: none; font-size: 15px; }
+.cats a span { color: var(--muted); margin-left: 2px; }
+.cats a[aria-current] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.cats a[aria-current] span { color: inherit; }
+
+/* советы, шаги, FAQ */
+.tips { padding-left: 20px; margin: 0; }
+.tips li { margin: 4px 0; }
+.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; counter-reset: step; }
+@media (min-width: 720px) { .steps { grid-template-columns: repeat(3, 1fr); } }
+.steps li { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; counter-increment: step; }
+.steps li::before { content: counter(step); display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--soft); color: var(--accent); font-weight: 700; margin-bottom: 8px; }
+.steps b, .steps span { display: block; }
+.steps span { color: var(--muted); font-size: 15px; margin-top: 4px; }
+.faq details { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 16px; margin-bottom: 8px; max-width: 820px; }
+.faq summary { cursor: pointer; font-weight: 600; }
+.faq details p { margin: 10px 0 2px; color: var(--muted); }
+
+footer { border-top: 1px solid var(--line); margin-top: 48px; padding-top: 18px; padding-bottom: 32px; color: var(--muted); font-size: 14px; }
+footer a { color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
