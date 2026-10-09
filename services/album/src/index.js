@@ -50,6 +50,8 @@ const db = openDb({
       pg: `CREATE TABLE album_hits (key TEXT NOT NULL, at BIGINT NOT NULL);
    CREATE INDEX album_hits_key ON album_hits (key, at);`,
     },
+    // курсор журнала удалений invitations
+    `CREATE TABLE album_sync (name TEXT PRIMARY KEY, value TEXT NOT NULL);`,
   ],
 });
 
@@ -128,8 +130,31 @@ function imageExt(buf) {
   return null;
 }
 
+async function purge(id) {
+  known.delete(id);
+  const { rows } = await db.run('DELETE FROM photos WHERE invitation_id = ? RETURNING file', id);
+  await blob.del(rows.map(r => r.file)).catch(err => console.error('[album] не удалось удалить из Blob:', err.message));
+  await removeDir(path.join(FILES, id));
+}
+// Удалённые приглашения: забираем журнал у invitations сами (раз в минуту, по ходу запросов).
+// На Vercel invitations не может вызывать album — взаимные связи сервисов запрещены; на VPS ещё приходит событие /events.
+let syncAt = 0, syncing = null;
+function syncDeleted() {
+  if (syncing) return syncing;
+  if (!INVITATIONS_API || Date.now() - syncAt < 60e3) return Promise.resolve();
+  syncAt = Date.now();
+  syncing = (async () => {
+    const row = await db.get("SELECT value FROM album_sync WHERE name = 'deleted'");
+    const { items } = await api(INVITATIONS_API, `/_internal/deleted?since=${encodeURIComponent(row ? row.value : '')}`, { timeout: 5000 });
+    for (const it of items) if (/^[a-z0-9]+$/.test(it.id)) await purge(it.id);
+    if (items.length) await db.run("INSERT INTO album_sync (name, value) VALUES ('deleted', ?) ON CONFLICT (name) DO UPDATE SET value = excluded.value", items[items.length - 1].at);
+  })().catch(e => console.warn('[album] журнал удалений:', e.message)).finally(() => { syncing = null; });
+  return syncing;
+}
+
 createService('album', [
   ['GET', '/api/i/:id/album', async (req, res, { params }) => {
+    await syncDeleted();
     await requireInvitation(params.id);
     const rows = await db.all('SELECT * FROM photos WHERE invitation_id = ? ORDER BY id DESC', params.id);
     json(res, 200, rows.map(p => ({ id: p.id, name: p.name, created_at: p.created_at, url: photoUrl(params.id, p.file) })));
@@ -189,6 +214,7 @@ createService('album', [
   // счётчики для «Моих приглашений»: ?ids=a,b,c (без ids — все) — только приглашения вошедшего, без входа 401.
   // Чьи приглашения — спрашиваем сервис приглашений с cookie вызывающего, как при удалении фото
   ['GET', '/api/album/stats', async (req, res, { url }) => {
+    await syncDeleted();
     const list = await asCaller(req, '/api/invitations');
     const mine = new Set((Array.isArray(list) ? list : []).map(x => x.id));
     const asked = url.searchParams.get('ids');
@@ -204,12 +230,7 @@ createService('album', [
   // события других сервисов
   ['POST', '/events', async (req, res) => {
     const e = await readJson(req);
-    if (e.type === 'invitation.deleted' && e.id && /^[a-z0-9]+$/.test(e.id)) {
-      known.delete(e.id);
-      const { rows } = await db.run('DELETE FROM photos WHERE invitation_id = ? RETURNING file', e.id);
-      await blob.del(rows.map(r => r.file)).catch(err => console.error('[album] не удалось удалить из Blob:', err.message));
-      await removeDir(path.join(FILES, e.id));
-    }
+    if (e.type === 'invitation.deleted' && e.id && /^[a-z0-9]+$/.test(e.id)) await purge(e.id);
     json(res, 200, { ok: true });
   }],
 ]);

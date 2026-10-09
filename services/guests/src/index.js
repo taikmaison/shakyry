@@ -60,6 +60,8 @@ const db = openDb({ name: 'guests', file: env('DB_FILE', path.join(__dirname, '.
    CREATE INDEX guests_hits_key ON guests_hits (key, at);`,
     pg: `CREATE TABLE guests_hits (key TEXT NOT NULL, at BIGINT NOT NULL);
    CREATE INDEX guests_hits_key ON guests_hits (key, at);` },
+  // курсор журнала удалений invitations
+  `CREATE TABLE guests_sync (name TEXT PRIMARY KEY, value TEXT NOT NULL);`,
 ] });
 
 // текст гостя: без NUL и прочих управляющих C0, кроме \n и \t (Postgres не принимает NUL),
@@ -136,6 +138,26 @@ ${x.title || 'Приглашение'}`;
 const STATUS_RU = { yes: 'Придёт', plus_one: 'Придёт с парой', no: 'Не придёт', unknown: 'Не указано' };
 const csvCell = v => `"${String(v ?? '').replace(/"/g, '""').replace(/^([=+\-@])/, "'$1")}"`;
 
+async function purge(id) {
+  await db.batch([['DELETE FROM answers WHERE invitation_id = ?', id], ['DELETE FROM wishes WHERE invitation_id = ?', id]]);
+  known.delete(id);
+}
+// Удалённые приглашения: забираем журнал у invitations сами (раз в минуту, по ходу запросов).
+// На Vercel invitations не может вызывать guests — взаимные связи сервисов запрещены; на VPS ещё приходит событие /events.
+let syncAt = 0, syncing = null;
+function syncDeleted() {
+  if (syncing) return syncing;
+  if (!INVITATIONS_API || Date.now() - syncAt < 60e3) return Promise.resolve();
+  syncAt = Date.now();
+  syncing = (async () => {
+    const row = await db.get("SELECT value FROM guests_sync WHERE name = 'deleted'");
+    const { items } = await api(INVITATIONS_API, `/_internal/deleted?since=${encodeURIComponent(row ? row.value : '')}`, { timeout: 5000 });
+    for (const it of items) if (/^[a-z0-9]+$/.test(it.id)) await purge(it.id);
+    if (items.length) await db.run("INSERT INTO guests_sync (name, value) VALUES ('deleted', ?) ON CONFLICT (name) DO UPDATE SET value = excluded.value", items[items.length - 1].at);
+  })().catch(e => console.warn('[guests] журнал удалений:', e.message)).finally(() => { syncing = null; });
+  return syncing;
+}
+
 createService('guests', [
   ['POST', '/api/i/:id/rsvp', async (req, res, { params }) => {
     await limit(req, 'rsvp', 40);
@@ -160,6 +182,7 @@ createService('guests', [
 
   // ответы гостей и сводка — только владельцу
   ['GET', '/api/i/:id/answers', async (req, res, { params }) => {
+    await syncDeleted();
     await requireOwner(req, params.id);
     const answers = (await db.all('SELECT * FROM answers WHERE invitation_id = ? ORDER BY id DESC', params.id)).map(answerView);
     json(res, 200, { summary: summary(answers), answers });
@@ -176,6 +199,7 @@ createService('guests', [
   }],
 
   ['GET', '/api/i/:id/wishes', async (req, res, { params }) => {
+    await syncDeleted();
     if (!(await invitation(params.id))) throw new HttpError(404, 'Приглашение не найдено');
     json(res, 200, (await db.all('SELECT * FROM wishes WHERE invitation_id = ? ORDER BY id DESC', params.id)).map(wishView));
   }],
@@ -194,6 +218,7 @@ createService('guests', [
   // с cookie вызывающего (без входа — 401), чужие и несуществующие id молча пропускаем.
   // Два запроса с GROUP BY за один заход в базу
   ['GET', '/api/guests/stats', async (req, res, { url }) => {
+    await syncDeleted();
     const list = await asCaller(req, '/api/invitations');
     const mine = new Set((Array.isArray(list) ? list : []).map(x => x && x.id));
     const ids = [...new Set((url.searchParams.get('ids') || '').split(',').filter(id => mine.has(id)).slice(0, 500))];
@@ -218,13 +243,7 @@ createService('guests', [
   // события других сервисов
   ['POST', '/events', async (req, res) => {
     const e = await readJson(req);
-    if (e.type === 'invitation.deleted' && e.id) {
-      await db.batch([
-        ['DELETE FROM answers WHERE invitation_id = ?', e.id],
-        ['DELETE FROM wishes WHERE invitation_id = ?', e.id],
-      ]);
-      known.delete(e.id);
-    }
+    if (e.type === 'invitation.deleted' && e.id) await purge(e.id);
     json(res, 200, { ok: true });
   }],
 ]);

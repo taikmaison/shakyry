@@ -41,6 +41,9 @@ const db = openDb({ name: 'invitations', file: env('DB_FILE', path.join(__dirnam
    CREATE INDEX invitations_status ON invitations (status);`,
   // когда автор согласился с правилами (публикация платная) при отправке на публикацию
   `ALTER TABLE invitations ADD COLUMN terms_accepted_at TEXT;`,
+  // журнал удалений: guests и album забирают его сами — на Vercel обратные связи между сервисами запрещены
+  `CREATE TABLE invitations_deleted (id TEXT NOT NULL, at TEXT NOT NULL);
+   CREATE INDEX invitations_deleted_at ON invitations_deleted (at);`,
 ] });
 
 const get = id => db.get('SELECT * FROM invitations WHERE id = ?', id);
@@ -196,9 +199,16 @@ createService('invitations', [
 
   ['DELETE', '/api/invitations/:id', async (req, res, { params }) => {
     await requireOwner(req, await get(params.id));
-    await db.run('DELETE FROM invitations WHERE id = ?', params.id);
-    await publish({ type: 'invitation.deleted', id: params.id, at: now() });
+    const at = now();
+    await db.batch([['DELETE FROM invitations WHERE id = ?', params.id], ['INSERT INTO invitations_deleted (id, at) VALUES (?, ?)', params.id, at]]);
+    await publish({ type: 'invitation.deleted', id: params.id, at });   // VPS: событие сразу; Vercel: guests/album прочитают журнал
     json(res, 200, { ok: true });
+  }],
+
+  // журнал удалений для guests и album: удалённые начиная с ?since=<время>, по порядку, не больше 500
+  ['GET', '/_internal/deleted', async (req, res, { url }) => {
+    const since = String(url.searchParams.get('since') || '').slice(0, 40);
+    json(res, 200, { items: await db.all('SELECT id, at FROM invitations_deleted WHERE at >= ? ORDER BY at LIMIT 500', since) });
   }],
 
   // для сервисов (шлюз снаружи закрывает /_internal): кому слать уведомления об ответах гостей

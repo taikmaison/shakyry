@@ -1,71 +1,240 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "regions": ["fra1"],
+  "regions": [
+    "fra1"
+  ],
   "services": {
-    "auth": { "root": "services/auth/", "runtime": "container", "entrypoint": "Dockerfile" },
-    "catalog": { "root": "services/catalog/", "runtime": "container", "entrypoint": "Dockerfile.vercel" },
+    "auth": {
+      "root": "services/auth/",
+      "runtime": "container",
+      "entrypoint": "Dockerfile"
+    },
+    "catalog": {
+      "root": "services/catalog/",
+      "runtime": "container",
+      "entrypoint": "Dockerfile.vercel"
+    },
     "invitations": {
-      "root": "services/invitations/", "runtime": "container", "entrypoint": "Dockerfile",
+      "root": "services/invitations/",
+      "runtime": "container",
+      "entrypoint": "Dockerfile",
       "bindings": [
-        { "type": "service", "service": "catalog", "format": "url", "env": "CATALOG_API" },
-        { "type": "service", "service": "auth", "format": "url", "env": "AUTH_API" },
-        { "type": "service", "service": "guests", "format": "url", "env": "GUESTS_API" },
-        { "type": "service", "service": "album", "format": "url", "env": "ALBUM_API" }
+        {
+          "type": "service",
+          "service": "catalog",
+          "format": "url",
+          "env": "CATALOG_API"
+        },
+        {
+          "type": "service",
+          "service": "auth",
+          "format": "url",
+          "env": "AUTH_API"
+        }
       ]
     },
     "guests": {
-      "root": "services/guests/", "runtime": "container", "entrypoint": "Dockerfile",
+      "root": "services/guests/",
+      "runtime": "container",
+      "entrypoint": "Dockerfile",
       "bindings": [
-        { "type": "service", "service": "invitations", "format": "url", "env": "INVITATIONS_API" },
-        { "type": "service", "service": "auth", "format": "url", "env": "AUTH_API" }
+        {
+          "type": "service",
+          "service": "invitations",
+          "format": "url",
+          "env": "INVITATIONS_API"
+        },
+        {
+          "type": "service",
+          "service": "auth",
+          "format": "url",
+          "env": "AUTH_API"
+        }
       ]
     },
     "album": {
-      "root": "services/album/", "runtime": "container", "entrypoint": "Dockerfile",
+      "root": "services/album/",
+      "runtime": "container",
+      "entrypoint": "Dockerfile",
       "bindings": [
-        { "type": "service", "service": "invitations", "format": "url", "env": "INVITATIONS_API" }
+        {
+          "type": "service",
+          "service": "invitations",
+          "format": "url",
+          "env": "INVITATIONS_API"
+        }
       ]
     },
     "web": {
-      "root": "services/web/", "runtime": "container", "entrypoint": "Dockerfile",
+      "root": "services/web/",
+      "runtime": "container",
+      "entrypoint": "Dockerfile",
       "bindings": [
-        { "type": "service", "service": "catalog", "format": "url", "env": "CATALOG_API" },
-        { "type": "service", "service": "invitations", "format": "url", "env": "INVITATIONS_API" }
+        {
+          "type": "service",
+          "service": "catalog",
+          "format": "url",
+          "env": "CATALOG_API"
+        },
+        {
+          "type": "service",
+          "service": "invitations",
+          "format": "url",
+          "env": "INVITATIONS_API"
+        }
       ]
     }
   },
   "rewrites": [
-    { "source": "/_internal/:path*", "destination": { "service": "web" } },
-    { "source": "/events/:path*", "destination": { "service": "web" } },
-
-    { "source": "/api/auth/:path*", "destination": { "service": "auth" } },
-    { "source": "/api/admin/users", "destination": { "service": "auth" } },
-    { "source": "/api/admin/users/:path*", "destination": { "service": "auth" } },
-
-    { "source": "/api/admin/invitations", "destination": { "service": "invitations" } },
-    { "source": "/api/admin/invitations/:path*", "destination": { "service": "invitations" } },
-
-    { "source": "/api/templates", "destination": { "service": "catalog" } },
-    { "source": "/api/templates/:path*", "destination": { "service": "catalog" } },
-    { "source": "/api/music", "destination": { "service": "catalog" } },
-    { "source": "/fonts.css", "destination": { "service": "catalog" } },
-    { "source": "/media/:path*", "destination": { "service": "catalog" } },
-    { "source": "/fonts/:path*", "destination": { "service": "catalog" } },
-    { "source": "/previews/:path*", "destination": { "service": "catalog" } },
-
-    { "source": "/api/invitations", "destination": { "service": "invitations" } },
-    { "source": "/api/invitations/:path*", "destination": { "service": "invitations" } },
-
-    { "source": "/api/i/:id/rsvp", "destination": { "service": "guests" } },
-    { "source": "/api/i/:id/answers.csv", "destination": { "service": "guests" } },
-    { "source": "/api/i/:id/(wishes|answers)", "destination": { "service": "guests" } },
-    { "source": "/api/guests/:path*", "destination": { "service": "guests" } },
-
-    { "source": "/api/i/:id/album", "destination": { "service": "album" } },
-    { "source": "/api/i/:id/album/:photo", "destination": { "service": "album" } },
-    { "source": "/api/album/:path*", "destination": { "service": "album" } },
-    { "source": "/files/albums/:path*", "destination": { "service": "album" } },
-
-    { "source": "/(.*)", "destination": { "service": "web" } }
+    {
+      "source": "/_internal/:path*",
+      "destination": {
+        "service": "web"
+      }
+    },
+    {
+      "source": "/events/:path*",
+      "destination": {
+        "service": "web"
+      }
+    },
+    {
+      "source": "/api/auth/:path*",
+      "destination": {
+        "service": "auth"
+      }
+    },
+    {
+      "source": "/api/admin/users",
+      "destination": {
+        "service": "auth"
+      }
+    },
+    {
+      "source": "/api/admin/users/:path*",
+      "destination": {
+        "service": "auth"
+      }
+    },
+    {
+      "source": "/api/admin/invitations",
+      "destination": {
+        "service": "invitations"
+      }
+    },
+    {
+      "source": "/api/admin/invitations/:path*",
+      "destination": {
+        "service": "invitations"
+      }
+    },
+    {
+      "source": "/api/templates",
+      "destination": {
+        "service": "catalog"
+      }
+    },
+    {
+      "source": "/api/templates/:path*",
+      "destination": {
+        "service": "catalog"
+      }
+    },
+    {
+      "source": "/api/music",
+      "destination": {
+        "service": "catalog"
+      }
+    },
+    {
+      "source": "/fonts.css",
+      "destination": {
+        "service": "catalog"
+      }
+    },
+    {
+      "source": "/media/:path*",
+      "destination": {
+        "service": "catalog"
+      }
+    },
+    {
+      "source": "/fonts/:path*",
+      "destination": {
+        "service": "catalog"
+      }
+    },
+    {
+      "source": "/previews/:path*",
+      "destination": {
+        "service": "catalog"
+      }
+    },
+    {
+      "source": "/api/invitations",
+      "destination": {
+        "service": "invitations"
+      }
+    },
+    {
+      "source": "/api/invitations/:path*",
+      "destination": {
+        "service": "invitations"
+      }
+    },
+    {
+      "source": "/api/i/:id/rsvp",
+      "destination": {
+        "service": "guests"
+      }
+    },
+    {
+      "source": "/api/i/:id/answers.csv",
+      "destination": {
+        "service": "guests"
+      }
+    },
+    {
+      "source": "/api/i/:id/(wishes|answers)",
+      "destination": {
+        "service": "guests"
+      }
+    },
+    {
+      "source": "/api/guests/:path*",
+      "destination": {
+        "service": "guests"
+      }
+    },
+    {
+      "source": "/api/i/:id/album",
+      "destination": {
+        "service": "album"
+      }
+    },
+    {
+      "source": "/api/i/:id/album/:photo",
+      "destination": {
+        "service": "album"
+      }
+    },
+    {
+      "source": "/api/album/:path*",
+      "destination": {
+        "service": "album"
+      }
+    },
+    {
+      "source": "/files/albums/:path*",
+      "destination": {
+        "service": "album"
+      }
+    },
+    {
+      "source": "/(.*)",
+      "destination": {
+        "service": "web"
+      }
+    }
   ]
 }
