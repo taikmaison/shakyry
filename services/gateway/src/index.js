@@ -1,6 +1,7 @@
 // Шлюз: единая точка входа. Раздаёт запросы сервисам по routes.json и передаёт ответ потоком.
 // Адреса сервисов — только из переменных окружения (CATALOG_URL, INVITATIONS_URL, ...).
 const http = require('http');
+const https = require('https');
 const path = require('path');
 const fs = require('fs');
 const { env } = require('../lib/http');
@@ -44,7 +45,7 @@ const server = http.createServer((req, res) => {
   if (safe.path === '/health') return reply(res, 200, '{"service":"gateway","ok":true}');
   const route = table.find(r => r.re.test(safe.path));
   if (!route || !route.base) return reply(res, 404, '{"error":"Не найдено"}');
-  const proxy = http.request({
+  const proxy = (route.base.protocol === 'https:' ? https : http).request({
     protocol: route.base.protocol, hostname: route.base.hostname, port: route.base.port,
     path: route.base.pathname.replace(/\/+$/, '') + safe.path + safe.search, method: req.method,
     headers: { ...req.headers, host: route.base.host, 'x-forwarded-host': req.headers.host || '', 'x-forwarded-for': clientIp(req) },

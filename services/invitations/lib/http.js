@@ -130,10 +130,22 @@ async function currentUser(req, authApi) {
 function compile(pattern) {
   return new RegExp('^' + pattern.replace(/\/\*$/, '/(?<rest>.*)').replace(/:(\w+)/g, '(?<$1>[^/]+)') + '/?$');
 }
+// Подозрительный путь: закодированные точки и слэши, обратный слэш, «//», сегменты «.» и «..».
+// new URL() их схлопывает, и /api/auth/%2e%2e/%2e%2e/_internal/x превратился бы в /_internal/x —
+// служебный адрес в обход маршрутизации (на Vercel перед сервисами нет шлюза, который это отсекает).
+function suspiciousPath(rawUrl) {
+  const p = String(rawUrl || '').split('?')[0];
+  if (!p.startsWith('/') || p.startsWith('//') || /%2e|%2f|%5c|%00/i.test(p) || /[\\\0]/.test(p)) return true;
+  let d;
+  try { d = decodeURIComponent(p); } catch { return true; }
+  return /\/\/|(^|\/)\.\.?(\/|$)/.test(d);
+}
+
 function createService(name, routes, { fallback } = {}) {
   const table = routes.map(([method, pattern, handler]) => ({ method, handler, re: compile(pattern) }));
   table.push({ method: 'GET', re: /^\/health$/, handler: (req, res) => json(res, 200, { service: name, ok: true }) });
   const server = http.createServer(async (req, res) => {
+    if (suspiciousPath(req.url)) return notFound(res);
     const url = new URL(req.url, 'http://local');
     try {
       for (const r of table) {
@@ -145,8 +157,9 @@ function createService(name, routes, { fallback } = {}) {
       notFound(res);
     } catch (e) {
       if (!(e instanceof HttpError)) console.error(`[${name}]`, e);
-      if (!res.headersSent) json(res, e.status || 500, { error: e.message });
-      else res.end();
+      if (res.headersSent) res.end();
+      else if (e.html) send(res, e.status || 500, 'text/html; charset=utf-8', e.html, e.status === 503 ? { 'Retry-After': '5' } : {});
+      else json(res, e.status || 500, { error: e.message });
     }
   });
   const port = Number(env('PORT', 3000)), host = env('HOST', '127.0.0.1');

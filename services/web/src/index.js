@@ -24,10 +24,31 @@ const htmlLang = l => (l === 'ru' ? 'ru' : 'kk');
 // каталог нужен для главной, sitemap и посадочных — держим копию минуту
 let catalogCache = { at: 0, list: [] };
 async function catalog() {
-  if (Date.now() - catalogCache.at > 60e3) catalogCache = { at: Date.now(), list: await tryApi(CATALOG_API, '/api/templates', catalogCache.list) };
+  if (Date.now() - catalogCache.at > 60e3) {
+    try { catalogCache = { at: Date.now(), list: await lookup(CATALOG_API, '/api/templates') || [] }; }
+    catch { catalogCache.at = Date.now() - 55e3; }   // сервис просыпается — прежний список, повтор через 5 с
+  }
   return catalogCache.list;
 }
-const renderTemplate = (id, body) => api(CATALOG_API, `/api/templates/${id}/render`, { method: 'POST', body });
+// Ответ другого сервиса: «нет такого» (404/410) → null; не ответил или ошибка → ещё одна попытка,
+// потом Unavailable — гость увидит «обновите страницу», а не «приглашение не найдено»
+// (на Vercel сервисы засыпают, и первый запрос после простоя может не успеть).
+const WAKING = `<!doctype html><html lang="kk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="refresh" content="5"><meta name="robots" content="noindex"><title>Бір сәт… / Секунду…</title>
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;font:16px/1.5 system-ui,sans-serif;background:#f6f3ee;color:#2b2620;text-align:center;padding:24px}</style></head>
+<body><div><h1 style="font-weight:600">Бір сәт күте тұрыңыз…<br>Секунду, страница загружается…</h1><p>Бет өздігінен жаңарады. Страница обновится сама.</p></div></body></html>`;
+// e.html — createService отдаст страницу (с Retry-After), а не JSON
+class Unavailable extends HttpError { constructor() { super(503, 'Сервис временно недоступен — обновите страницу'); this.html = WAKING; } }
+async function lookup(base, pathname, opts) {
+  for (let attempt = 0; ; attempt++) {
+    try { return await api(base, pathname, opts); }
+    catch (e) {
+      if (e.status === 404 || e.status === 410 || e.status === 400) return null;
+      if (attempt >= 1) throw new Unavailable();
+      await new Promise(r => setTimeout(r, 500));
+    }
+  }
+}
+const renderTemplate = (id, body) => lookup(CATALOG_API, `/api/templates/${id}/render`, { method: 'POST', body, timeout: 15000 });
 
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -48,7 +69,8 @@ function invitePage(res, data, head, top = '') {
 async function draftFor(req, id) {
   if (!req.headers.cookie) return null;
   const r = await fetch(`${INVITATIONS_API.replace(/\/+$/, '')}/api/invitations/${encodeURIComponent(id)}/draft`, { headers: { cookie: req.headers.cookie }, signal: AbortSignal.timeout(8000) }).catch(() => null);
-  return r && r.ok ? r.json() : null;
+  if (!r || r.status >= 500) throw new Unavailable();
+  return r.ok ? r.json() : null;
 }
 const STATUS = { draft: 'Черновик — гости его пока не видят', pending: 'Ждёт оплаты и проверки — гости увидят приглашение после публикации',
   rejected: 'Не прошло модерацию', published: 'Опубликовано' };
@@ -59,16 +81,16 @@ createService('web', [
   // приглашение: гостям — одобренная версия; владельцу с ?draft или без одобренной версии — текущая, с плашкой
   ['GET', '/i/:id', async (req, res, { params, url }) => {
     const id = encodeURIComponent(params.id);
-    const live = url.searchParams.has('draft') ? null : await tryApi(INVITATIONS_API, `/api/invitations/${id}`, null);
+    const live = url.searchParams.has('draft') ? null : await lookup(INVITATIONS_API, `/api/invitations/${id}`);
     if (live) {
-      const page = await renderTemplate(live.template_id, { fields: live.fields }).catch(() => null);
+      const page = await renderTemplate(live.template_id, { fields: live.fields });
       if (!page) return send(res, 410, 'text/plain; charset=utf-8', 'Шаблон этого приглашения больше недоступен');
       const data = { mode: 'invite', id: live.id, ...page, api: { rsvp: `/api/i/${live.id}/rsvp`, wishes: `/api/i/${live.id}/wishes`, album: `/i/${live.id}/album` } };
       return invitePage(res, data, seo.inviteHead({ config, data, url: abs(`/i/${live.id}`), image: ogImage(live.template_id) }));
     }
     const draft = await draftFor(req, params.id);
     if (!draft) return html(res, notPublishedPage(), 404);
-    const page = await renderTemplate(draft.template_id, { fields: draft.fields }).catch(() => null);
+    const page = await renderTemplate(draft.template_id, { fields: draft.fields });
     if (!page) return send(res, 410, 'text/plain; charset=utf-8', 'Шаблон этого приглашения больше недоступен');
     const note = draft.status === 'rejected' && draft.moderation_note ? `${STATUS.rejected}: ${draft.moderation_note}` : STATUS[draft.status];
     invitePage(res, { mode: 'preview', id: draft.id, ...page }, '<title>Предпросмотр</title><meta name="robots" content="noindex, nofollow">',
@@ -80,7 +102,7 @@ createService('web', [
     const body = Object.fromEntries(new URLSearchParams((await readRaw(req, 1e5)).toString('utf8')));
     const tid = Number(body.template_id);
     if (!Number.isInteger(tid) || tid <= 0) throw new HttpError(400, 'Выберите шаблон');
-    const page = await renderTemplate(tid, { fields: body }).catch(() => null);
+    const page = await renderTemplate(tid, { fields: body });
     if (!page) return html(res, notFoundPage(), 404);
     invitePage(res, { mode: 'preview', ...page }, '<title>Предпросмотр</title><meta name="robots" content="noindex, nofollow">',
       banner('Предпросмотр — приглашение не сохранено', null));
@@ -89,7 +111,7 @@ createService('web', [
   ['GET', '/admin', (req, res) => html(res, read('admin.html'))],
 
   ['GET', '/i/:id/album', async (req, res, { params }) => {
-    const x = await tryApi(INVITATIONS_API, `/api/invitations/${encodeURIComponent(params.id)}`, null);
+    const x = await lookup(INVITATIONS_API, `/api/invitations/${encodeURIComponent(params.id)}`);
     if (!x) return html(res, notFoundPage(), 404);
     const tpl = await tryApi(CATALOG_API, `/api/templates/${x.template_id}`, {});
     const lang = tpl.lang || config.defaultLang;
@@ -102,8 +124,8 @@ createService('web', [
   ['GET', '/t/:id', async (req, res, { params, url }) => {
     const raw = url.searchParams.has('raw');
     const [info, page] = await Promise.all([
-      tryApi(CATALOG_API, `/api/templates/${encodeURIComponent(params.id)}`, null),
-      renderTemplate(encodeURIComponent(params.id), raw ? { raw: true } : { sample: true }).catch(() => null),
+      lookup(CATALOG_API, `/api/templates/${encodeURIComponent(params.id)}`),
+      renderTemplate(encodeURIComponent(params.id), raw ? { raw: true } : { sample: true }),
     ]);
     if (!info || !page) return html(res, notFoundPage(), 404);
     const data = { mode: url.searchParams.has('shot') ? 'shot' : 'preview', ...page };

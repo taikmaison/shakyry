@@ -150,6 +150,8 @@ async function login(c, email) {
     ok((await guest.post(`/api/i/${id}/wishes`, { name: 'Гость', message: 'Бақытты болыңдар!' })).status === 200, 'пожелание');
     const wishes = await guest.req(`/api/i/${id}/wishes`);
     ok(wishes.body.length === 1 && wishes.body[0].message === 'Бақытты болыңдар!', 'пожелание видно в списке');
+    const gs = await owner.req(`/api/guests/stats?ids=${id}`), gsOther = await other.req(`/api/guests/stats?ids=${id}`);
+    ok(gs.status === 200 && gs.body[id]?.answers === 2 && gs.body[id]?.wishes === 1 && gsOther.status === 200 && !gsOther.body[id], 'счётчики гостей видит только владелец');
 
     // ---------- альбом ----------
     const fd = new FormData();
@@ -189,8 +191,10 @@ async function login(c, email) {
   ok((await owner.del(`/api/invitations/${id}`)).status === 200, 'приглашение удалено');
   await sleep(500);
   ok((await owner.req(`/i/${id}?draft`)).status === 404, 'удалённое не открывается');
-  const g2 = await guest.req(`/api/guests/stats?ids=${id}`), a2 = await guest.req(`/api/album/stats?ids=${id}`);
-  ok(g2.body[id].answers === 0 && g2.body[id].wishes === 0 && a2.body[id].photos === 0, 'событие удаления дошло: ответы и фото удалены');
+  // счётчики — только владельцу и только по своим: удалённое уже не своё, его может не быть в ответе вовсе
+  const g2 = await owner.req(`/api/guests/stats?ids=${id}`), a2 = await owner.req(`/api/album/stats?ids=${id}`);
+  ok(g2.status === 200 && a2.status === 200 && !g2.body[id]?.answers && !g2.body[id]?.wishes && !a2.body[id]?.photos, 'после удаления ответов и фото по нему не видно');
+  ok((await guest.req(`/api/guests/stats?ids=${id}`)).status === 401, 'счётчики гостей без входа — 401');
 
   ok((await owner.post('/api/auth/logout')).status === 200 && (await owner.req('/api/auth/me')).status === 401, 'выход');
 

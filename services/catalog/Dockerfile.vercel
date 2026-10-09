@@ -1,0 +1,10 @@
+# Образ для Vercel: шаблоны и медиа скачиваются при сборке (на VPS content/ — том, см. Dockerfile).
+# CONTENT_URL — переменная проекта Vercel, приходит как --build-arg.
+FROM node:24-alpine
+WORKDIR /app
+COPY . .
+ARG CONTENT_URL
+RUN apk add --no-cache unzip && node tools/fetch-content.js && rm -rf tools
+ENV HOST=0.0.0.0 PORT=3000
+EXPOSE 3000
+CMD ["node", "--disable-warning=ExperimentalWarning", "src/index.js"]

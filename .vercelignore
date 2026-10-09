@@ -1,0 +1,10 @@
+# Не загружать на Vercel: секреты, локальные базы и файлы, шаблоны (catalog скачивает их при сборке), тесты
+.env
+.env.*
+services/*/data/
+services/catalog/content/
+services/catalog/content.zip
+**/node_modules
+*.db
+*.db-*
+tests/

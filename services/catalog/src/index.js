@@ -74,10 +74,14 @@ function musicLibrary() {
 }
 
 load();
-const files = (dir, cache) => (req, res, { params }) => {
-  const f = inside(path.join(CONTENT, dir), params.rest);
-  return f ? sendFile(req, res, f, { cache }) : notFound(res);
+// Vercel-CDN-Cache-Control понимает только CDN Vercel (его кеш сбрасывается при деплое, content/ внутри образа);
+// на VPS заголовок ни на что не влияет, браузеру — Cache-Control из sendFile
+const file = (req, res, f, cache) => {
+  if (!f) return notFound(res);
+  if (fs.statSync(f, { throwIfNoEntry: false })?.isFile()) res.setHeader('Vercel-CDN-Cache-Control', 'public, max-age=31536000, immutable');
+  return sendFile(req, res, f, { cache });
 };
+const files = (dir, cache) => (req, res, { params }) => file(req, res, inside(path.join(CONTENT, dir), params.rest), cache);
 
 createService('catalog', [
   ['GET', '/api/templates', (req, res) => json(res, 200, catalog.map(t => ({ ...t, preview: preview(t.id), price: price(t.id), currency: CURRENCY })))],
@@ -95,7 +99,7 @@ createService('catalog', [
   }],
 
   ['GET', '/api/music', (req, res) => json(res, 200, musicLibrary())],
-  ['GET', '/fonts.css', (req, res) => sendFile(req, res, path.join(CONTENT, 'fonts.css'), { cache: true })],
+  ['GET', '/fonts.css', (req, res) => file(req, res, path.join(CONTENT, 'fonts.css'), true)],
   ['GET', '/media/*', files('media', true)],
   ['GET', '/fonts/*', files('fonts', true)],
   ['GET', '/previews/*', files('previews', false)],

@@ -3,7 +3,8 @@
 Вход без пароля: **код на почту** или **подтверждение в Telegram-боте**. Сессии, роли
 (`user` / `admin`), админка пользователей, уведомления пользователям и администратору.
 Ни от кого не зависит. Только встроенные модули Node (SMTP-клиент и Telegram-бот написаны на `net`/`tls`/`fetch`).
-База — SQLite (`node:sqlite`) в `data/auth.db` (env `DB_FILE`).
+База — SQLite (`node:sqlite`) в `data/auth.db` (env `DB_FILE`); если задан `DATABASE_URL` — Postgres (Neon, по HTTPS),
+так сервис работает на Vercel, где нет постоянного диска. Схема одна; в Postgres индексы с префиксом `auth_`.
 
 ```
 node --disable-warning=ExperimentalWarning src/index.js     # или npm start
@@ -29,6 +30,7 @@ node --disable-warning=ExperimentalWarning src/index.js     # или npm start
 | POST | `/api/auth/email/verify` | `{ email, code, name? }` → `{ user }` + cookie; новый адрес — новый пользователь |
 | POST | `/api/auth/telegram/start` | → `{ token, url: "https://t.me/<бот>?start=<token>", expires_in: 600 }` |
 | GET | `/api/auth/telegram/check?token=` | `{ status: "pending" }` или `{ status: "ok", user }` + cookie |
+| POST | `/api/auth/telegram/webhook` | только в режиме webhook: обновление от Telegram → `{ ok: true }`; без верного `X-Telegram-Bot-Api-Secret-Token` — 401, в режиме polling — 404 |
 | GET | `/api/auth/me` | `{ user }` или 401 |
 | PATCH | `/api/auth/me` | `{ name }` → `{ user }` |
 | POST | `/api/auth/logout` | `{ ok: true }`, cookie стирается |
@@ -52,13 +54,26 @@ node --disable-warning=ExperimentalWarning src/index.js     # или npm start
 
 ### Вход через Telegram
 1. Фронтенд вызывает `POST /api/auth/telegram/start` и открывает `url`.
-2. Пользователь нажимает «Старт» в боте. Сервис сам читает обновления бота (long-polling `getUpdates`, timeout 25 с;
-   при сбоях делает паузу и повторяет, не падает), помечает токен подтверждённым и отвечает в чат «Вход подтверждён — вернитесь на сайт».
+2. Пользователь нажимает «Старт» в боте. Сервис получает обновление (long-polling или webhook, см. ниже),
+   помечает токен подтверждённым и отвечает в чат «Вход подтверждён — вернитесь на сайт».
 3. Фронтенд раз в 1–2 с опрашивает `GET /api/auth/telegram/check?token=…`. После подтверждения сервис находит
    или создаёт пользователя по `telegram_id` (имя — из Telegram, ник обновляется при каждом входе), ставит cookie
    и отвечает `{ status: "ok", user }`. Токен одноразовый. Истёкший, неизвестный или уже использованный → **410**.
 - Без `TELEGRAM_BOT_TOKEN` (или если Telegram не принял токен) эти эндпоинты отвечают **503** «Вход через Telegram не настроен».
-- Webhook у бота должен быть выключен: при включённом webhook `getUpdates` отвечает 409 (это видно в логе).
+
+**Как сервис получает сообщения боту** — один из двух режимов:
+- **long-polling** (по умолчанию, VPS): сервис сам читает `getUpdates` (timeout 25 с; при сбоях пауза и повтор, не падает).
+  Webhook у бота должен быть выключен: иначе `getUpdates` отвечает 409 (это видно в логе). Снять: `deleteWebhook` в Bot API.
+- **webhook** — при `TELEGRAM_WEBHOOK=1` и всегда на Vercel (`VERCEL=1`): Telegram сам присылает обновления в
+  `POST /api/auth/telegram/webhook`, `getUpdates` не вызывается. Адрес — `TELEGRAM_WEBHOOK_URL`, иначе
+  `PUBLIC_URL` + `/api/auth/telegram/webhook` (только `https://`, порт 443/80/88/8443). При старте сервис вызывает
+  `getWebhookInfo` и `setWebhook` (с `secret_token`, `allowed_updates: ["message"]`), только если адрес другой
+  (или Telegram получал от нас 401 — значит, сменился секрет). Секрет — `TELEGRAM_WEBHOOK_SECRET`, а если не задан —
+  выводится из токена бота (HMAC-SHA256, 64 hex-символа), одинаковый на всех экземплярах. Заголовок
+  `X-Telegram-Bot-Api-Secret-Token` сверяется за постоянное время. Ответ 200 уходит только после обработки
+  (запись в базу и ответ в чат) — на Vercel работа после ответа может не завершиться.
+- У одного бота — один режим и один адрес webhook. Для превью и локального запуска заведите отдельного бота:
+  иначе превью перехватит webhook боевого сайта, а локальный polling будет получать 409.
 
 ### Сессия
 - Cookie: `sid=<токен>; HttpOnly; SameSite=Lax; Path=/; Max-Age=2592000`, плюс `Secure` при `COOKIE_SECURE=1`.
@@ -86,6 +101,12 @@ node tools/make-admin.js @newowner --replace      # передать роль: �
 - Если админ уже есть и это другой пользователь, команда откажет. Чтобы передать роль, нужен флаг `--replace`.
 - Команда работает напрямую с базой (`DB_FILE` или `data/auth.db`), сервис можно не останавливать.
   В Docker: `docker compose exec auth node tools/make-admin.js …`.
+- Сайт на Vercel (база Postgres): команда запускается со своего компьютера с тем же `DATABASE_URL`:
+  ```
+  vercel env pull .env.vercel                                    # переменные проекта (файл не коммитить!)
+  node --env-file=.env.vercel tools/make-admin.js @erkebai1225
+  ```
+  В PowerShell можно и так: `$env:DATABASE_URL='postgres://…'; node tools/make-admin.js @erkebai1225`.
 
 Админка: `GET /api/admin/users`. Поиск `q` — по имени, почте, `@нику` (без учёта регистра); если ввести число —
 ещё и по telegram id и id пользователя. Сортировка: новые сверху. `limit` по умолчанию 50, не больше 200.
@@ -103,7 +124,8 @@ node tools/make-admin.js @newowner --replace      # передать роль: �
 | Переменная | Что это |
 |---|---|
 | `PORT`, `HOST` | адрес сервиса |
-| `DB_FILE` | файл базы, по умолчанию `data/auth.db` |
+| `DB_FILE` | файл базы SQLite, по умолчанию `data/auth.db` |
+| `DATABASE_URL` | `postgres://…` (Neon) — вместо SQLite база Postgres по HTTPS (Vercel); общая для всех сервисов |
 | `COOKIE_SECURE` | `1` — cookie только по HTTPS (на боевом сайте) |
 | `SMTP_HOST`, `SMTP_PORT` | SMTP-сервер; порт 465 — сразу TLS, 587 — STARTTLS (обязателен) |
 | `SMTP_SECURE` | `1` — сразу TLS на нестандартном порту |
@@ -112,3 +134,10 @@ node tools/make-admin.js @newowner --replace      # передать роль: �
 | `DEV_LOGIN_CODES` | `1` — без SMTP код возвращается в ответе (только для разработки) |
 | `TELEGRAM_BOT_TOKEN` | токен бота от @BotFather |
 | `TELEGRAM_API_URL` | адрес Bot API, по умолчанию `https://api.telegram.org` (для локального Bot API или тестов) |
+| `TELEGRAM_WEBHOOK` | `1` — режим webhook вместо long-polling; на Vercel (`VERCEL=1`) включён всегда |
+| `TELEGRAM_WEBHOOK_URL` | полный `https://` адрес webhook; по умолчанию `PUBLIC_URL` + `/api/auth/telegram/webhook` |
+| `PUBLIC_URL` | адрес сайта (`https://site.kz`) — из него строится адрес webhook, если `TELEGRAM_WEBHOOK_URL` не задан |
+| `TELEGRAM_WEBHOOK_SECRET` | секрет webhook: 1–256 символов `A-Z a-z 0-9 _ -`; по умолчанию выводится из токена бота |
+
+Уборка просроченных сессий, кодов, ссылок входа и счётчиков — не чаще раза в 10 минут: по таймеру и заодно
+из запросов (на Vercel между запросами таймеры не работают). Просроченное и так не принимается — уборка только чистит базу.
