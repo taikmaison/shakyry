@@ -3,7 +3,7 @@
 FROM node:24-alpine
 WORKDIR /app
 COPY . .
-ARG CONTENT_URL
+ARG CONTENT_URL=https://drive.google.com/file/d/1Js2Zs2Ze5pIz0umZ_Pe8AoLPBJ3Cnq9A/view?usp=sharing
 RUN apk add --no-cache unzip && node tools/fetch-content.js && rm -rf tools
 ENV HOST=0.0.0.0 PORT=3000
 EXPOSE 3000
