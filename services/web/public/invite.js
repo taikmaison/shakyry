@@ -102,6 +102,7 @@
     setTimeout(() => n.remove(), 2600);
   }
   function modal(title, body, accent) {
+    if (accent) accent = accentFor(accent);
     const bg = el('div', { class: 'modal-bg' });
     const box = el('div', { class: 'modal', style: accent ? { '--accent': accent } : {} }, el('h3', { text: title }), body,
       el('button', { class: 'x', type: 'button', text: t('close'), onclick: () => close() }));
@@ -437,6 +438,26 @@
     if (m) { const [r, g, b] = m[1].split(/[ ,/]+/); return `rgba(${r}, ${g}, ${b}, ${a})`; }
     return s || `rgba(0, 0, 0, ${a})`;
   }
+  // яркость и контраст (как в WCAG): цвета шаблона, которые сливаются с фоном, сдвигаем к чёрному/белому
+  function rgbOf(color) {
+    const s = String(color || '').trim();
+    let m = s.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+    if (m) { let h = m[1]; if (h.length === 3) h = [...h].map(x => x + x).join(''); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)); }
+    m = s.match(/^rgba?\(\s*([\d.]+)[ ,]+([\d.]+)[ ,]+([\d.]+)(?:[ ,/]+([\d.]+))?\s*\)$/i);
+    if (m && (m[4] == null || +m[4] > 0.9)) return [+m[1], +m[2], +m[3]];
+    return null;   // прозрачный, градиент, название цвета — фон неизвестен, ничего не меняем
+  }
+  const lum = rgb => rgb.map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }).reduce((s, v, i) => s + v * [0.2126, 0.7152, 0.0722][i], 0);
+  const contrast = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+  function readableOn(color, bg, min = 3) {
+    const c = rgbOf(color), b = rgbOf(bg);
+    if (!c || !b || contrast(c, b) >= min) return color;
+    const to = lum(b) > 0.3 ? 0 : 255;
+    for (let k = 0.1; k < 1.05; k += 0.1) { const m = c.map(v => Math.round(v + (to - v) * k)); if (contrast(m, b) >= min) return `rgb(${m.join(', ')})`; }
+    return to ? '#fff' : '#111';
+  }
+  // цвет кнопок в окне (белый фон, белый текст на кнопке): первый из цветов шаблона, который на белом читается
+  const accentFor = (...colors) => colors.find(c => { const v = rgbOf(c); return v && contrast(v, [255, 255, 255]) >= 3; }) || readableOn(colors.find(Boolean), '#ffffff');
   const fam = f => f ? `"${String(f).replace(/"/g, '')}", Georgia, serif` : '';
   const MONTHS_GEN = { ru: ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'] };
   const START = { kz: 'Басталуы', ru: 'Начало', en: 'Start', ky: 'Башталышы', uz: 'Boshlanishi' };
@@ -554,14 +575,14 @@
     node.replaceChildren(el('div', { class: 'done', style: color ? { color } : {} }, el('div', { text: t('answered', lang) }),
       el('button', { class: 'again', type: 'button', text: t('change', lang), onclick: () => { store.set(answeredKey(formId), null); rebuild(); } })));
   }
-  function optionList(d, options, onPick) {
+  function optionList(d, options, onPick, bg) {
     let picked = null;
     const oc = d.option_color || d.mainColor || '#7a6040';
     const items = options.map(o => {
       const b = el('button', { class: 'opt', type: 'button' }, el('span', { class: 'dot' }), el('span', { text: o.text }));
       Object.assign(b.style, {
         minHeight: px(d.option_height || 56), borderRadius: px(d.option_borderRadius ?? 12), fontSize: px(d.option_fontSize || 15),
-        fontFamily: d.option_fontFamily || d.button_fontFamily || '', color: oc,
+        fontFamily: d.option_fontFamily || d.button_fontFamily || '', color: bg ? readableOn(oc, bg) : oc,
         borderColor: alpha(oc, .4), background: d.option_backgroundColor || alpha(oc, .07),
       });
       // выбранный вариант — полная рамка и чуть плотнее заливка (на любом фоне читается)
@@ -595,8 +616,8 @@
     if (st.backgroundColor) node.style.background = st.backgroundColor;
     const build = () => {
       node.replaceChildren();
-      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build, d.option_color || d.mainColor);
-      const opts = optionList(d, (d.form_buttons || []).map(b => ({ text: b.button_text, value: b.button_value })));
+      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build, readableOn(d.option_color || d.mainColor, st.backgroundColor));
+      const opts = optionList(d, (d.form_buttons || []).map(b => ({ text: b.button_text, value: b.button_value })), null, st.backgroundColor);
       const btn = submitButton(d, d.submit_button_text || t('send', lang));
       btn.addEventListener('click', () => {
         const o = opts.get();
@@ -604,7 +625,8 @@
         const field = (d.form_fields || [])[0] || {};
         const input = el('input', { type: 'text', placeholder: field.placeholder || t('yourName', lang), autocomplete: 'name' });
         const go = el('button', { class: 'go', type: 'button', text: d.modal_button_text || t('send', lang) });
-        const close = modal(d.modal_title || field.field_label || t('yourName', lang), el('div', {}, input, go), d.mainColor);
+        const close = modal(d.modal_title || field.field_label || t('yourName', lang), el('div', {}, input, go),
+          accentFor(d.mainColor, d.submit_button_backgroundColor, d.submit_button_textColor, d.option_color));
         setTimeout(() => input.focus(), 50);
         go.addEventListener('click', async () => {
           const name = input.value.trim();
@@ -630,7 +652,7 @@
     Object.assign(node.style, { background: d.form_backgroundColor || st.backgroundColor || 'transparent', borderRadius: px(d.form_borderRadius ?? 8), padding: px(d.form_padding ?? 12) });
     const build = () => {
       node.replaceChildren();
-      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build, d.option_color || d.button_color || d.title_color);
+      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build, readableOn(d.option_color || d.button_color || d.title_color, d.form_backgroundColor || st.backgroundColor));
       if (d.form_title) node.append(el('div', { class: 'title', text: d.form_title, style: { fontSize: px(d.title_fontSize || 22), fontFamily: d.title_fontFamily || '', color: d.title_color || '' } }));
       if (d.form_description) node.append(el('div', { class: 'title', text: d.form_description, style: { fontSize: px(d.description_fontSize || 14), fontFamily: d.description_fontFamily || '', color: d.description_color || '' } }));
       const inputs = (d.form_fields || []).map(f => {
@@ -667,7 +689,7 @@
     Object.assign(node.style, { background: d.form_backgroundColor || 'transparent', borderRadius: px(d.form_borderRadius ?? 16), padding: px(d.form_padding ?? 16) });
     const build = () => {
       node.replaceChildren();
-      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build, d.label_color || d.mainColor);
+      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build, readableOn(d.label_color || d.mainColor, d.form_backgroundColor));
       const qs = (d.questions || []).map(q => {
         const box = el('div', { class: 'q' }, el('label', { text: q.label || '', style: { fontSize: px(d.label_fontSize || 14), fontFamily: d.label_fontFamily || '', color: d.label_color || d.mainColor || '' } }));
         let get;
