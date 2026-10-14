@@ -549,8 +549,9 @@
     catch { toast(t('fail', lang)); return null; }
   }
   function answeredNow(formId, lang, rebuild) { store.set(answeredKey(formId), true); toast(t('thanks', lang)); rebuild(); }
-  function doneView(node, formId, lang, rebuild) {
-    node.replaceChildren(el('div', { class: 'done' }, el('div', { text: t('answered', lang) }),
+  // «Сіз жауап бердіңіз»: цвет — как у вариантов ответа этой формы (на тёмной форме тёмный текст не виден)
+  function doneView(node, formId, lang, rebuild, color) {
+    node.replaceChildren(el('div', { class: 'done', style: color ? { color } : {} }, el('div', { text: t('answered', lang) }),
       el('button', { class: 'again', type: 'button', text: t('change', lang), onclick: () => { store.set(answeredKey(formId), null); rebuild(); } })));
   }
   function optionList(d, options, onPick) {
@@ -594,7 +595,7 @@
     if (st.backgroundColor) node.style.background = st.backgroundColor;
     const build = () => {
       node.replaceChildren();
-      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build);
+      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build, d.option_color || d.mainColor);
       const opts = optionList(d, (d.form_buttons || []).map(b => ({ text: b.button_text, value: b.button_value })));
       const btn = submitButton(d, d.submit_button_text || t('send', lang));
       btn.addEventListener('click', () => {
@@ -629,7 +630,7 @@
     Object.assign(node.style, { background: d.form_backgroundColor || st.backgroundColor || 'transparent', borderRadius: px(d.form_borderRadius ?? 8), padding: px(d.form_padding ?? 12) });
     const build = () => {
       node.replaceChildren();
-      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build);
+      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build, d.option_color || d.button_color || d.title_color);
       if (d.form_title) node.append(el('div', { class: 'title', text: d.form_title, style: { fontSize: px(d.title_fontSize || 22), fontFamily: d.title_fontFamily || '', color: d.title_color || '' } }));
       if (d.form_description) node.append(el('div', { class: 'title', text: d.form_description, style: { fontSize: px(d.description_fontSize || 14), fontFamily: d.description_fontFamily || '', color: d.description_color || '' } }));
       const inputs = (d.form_fields || []).map(f => {
@@ -666,7 +667,7 @@
     Object.assign(node.style, { background: d.form_backgroundColor || 'transparent', borderRadius: px(d.form_borderRadius ?? 16), padding: px(d.form_padding ?? 16) });
     const build = () => {
       node.replaceChildren();
-      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build);
+      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build, d.label_color || d.mainColor);
       const qs = (d.questions || []).map(q => {
         const box = el('div', { class: 'q' }, el('label', { text: q.label || '', style: { fontSize: px(d.label_fontSize || 14), fontFamily: d.label_fontFamily || '', color: d.label_color || d.mainColor || '' } }));
         let get;
@@ -941,7 +942,8 @@
   // интерактивные компоненты в оригинале всегда поверх остальных
   const Z_TOP = { button: 9998, form: 9999, form2: 9999, form3: 9999 };
   // виджеты, которые не должны выходить за колонку: ширина не больше холста − 16px, рамка остаётся на холсте
-  const KEEP_INSIDE = new Set(['form', 'form2', 'form3', 'wishes-list', 'timer', 'calendar', 'calendar-pro']);
+  // не шире экрана: шаблоны рисовали под широкий телефон, на узком такой блок уходил за края
+  const KEEP_INSIDE = new Set(['form', 'form2', 'form3', 'wishes-list', 'timer', 'calendar', 'calendar-pro', 'text']);
   const fixedParts = [];
   const isSet = v => v != null && v !== '' && v !== 'none' && v !== 'None';
 

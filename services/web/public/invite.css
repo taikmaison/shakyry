@@ -117,7 +117,7 @@ body.locked { overflow: hidden; }
 .form textarea { padding: 10px 14px; resize: vertical; }
 .form .submit { border: 0; cursor: pointer; width: 100%; }
 .form .q { display: flex; flex-direction: column; gap: 8px; }
-.form .done { text-align: center; padding: 14px; line-height: 1.4; }
+.form .done { text-align: center; padding: 14px; line-height: 1.4; min-height: 100%; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
 .form .again { background: none; border: 0; text-decoration: underline; cursor: pointer; font: inherit; color: inherit; opacity: .8; }
 
 /* ---------- пожелания ---------- */

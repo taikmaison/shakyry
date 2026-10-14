@@ -2,7 +2,7 @@
 // Ни о каких других сервисах не знает. Данные — папка content/ (только чтение).
 const fs = require('fs');
 const path = require('path');
-const { env, json, send, notFound, readJson, sendFile, inside, HttpError, createService } = require('../lib/http');
+const { env, json, send, notFound, readJson, sendFile, inside, HttpError, createService, TYPES } = require('../lib/http');
 const T = require('./templates');
 
 const CONTENT = path.resolve(env('CONTENT_DIR', path.join(__dirname, '..', 'content')));
@@ -13,12 +13,19 @@ const PRICE = Number(env('PRICE', 3500)), CURRENCY = env('CURRENCY', 'KZT');
 let prices = {};
 const price = id => { const p = Number(prices[id]); return Number.isFinite(p) && p >= 0 ? p : PRICE; };
 let music = null;
+// исправления шаблонов и шрифтов храним в git (content/ — архив из Google Drive, его не правим):
+//   fixes/templates.json — { templates: { "<id>": [{ id | type, text?, set: { "data.mainColor": "#fff", "size.height": 400 } }] } }
+//   fixes/fonts.css      — дописывается к content/fonts.css (казахские буквы из шрифтов, где они нарисованы неверно)
+const FIXES = path.join(__dirname, '..', 'fixes');
+let fixes = {};
 
 function load() {
   const f = path.join(CONTENT, 'templates.json');
   catalog = fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : [];
   const pf = path.join(CONTENT, 'prices.json');
   prices = fs.existsSync(pf) ? JSON.parse(fs.readFileSync(pf, 'utf8')) : {};
+  const ff = path.join(FIXES, 'templates.json');
+  fixes = fs.existsSync(ff) ? JSON.parse(fs.readFileSync(ff, 'utf8')).templates || {} : {};
   cache.clear();
   music = null;
   console.log(`[catalog] шаблонов: ${catalog.length}`);
@@ -29,9 +36,28 @@ function template(id) {
   if (!cache.has(id)) {
     const f = path.join(CONTENT, 'templates', `${id}.json`);
     if (!fs.existsSync(f)) return null;
-    cache.set(id, JSON.parse(fs.readFileSync(f, 'utf8')));
+    cache.set(id, patch(JSON.parse(fs.readFileSync(f, 'utf8'))));
   }
   return cache.get(id);
+}
+// компонент выбирается по id или по типу (+ точному тексту); set — значения по путям «data.x», «position.y»…
+function patch(tpl) {
+  for (const f of fixes[tpl.id] || []) {
+    let hit = 0;
+    for (const b of tpl.blocks || []) for (const c of b.components || []) {
+      if (f.id ? c.id !== f.id : c.type !== f.type) continue;
+      if (f.text != null && String((c.data && (c.data.text ?? c.data.content)) || '').trim() !== f.text) continue;
+      for (const [k, v] of Object.entries(f.set || {})) {
+        const keys = k.split('.');
+        let o = c;
+        for (const key of keys.slice(0, -1)) o = o[key] ??= {};
+        o[keys.at(-1)] = v;
+      }
+      hit++;
+    }
+    if (!hit) console.warn(`[catalog] исправление шаблона #${tpl.id} ни к чему не подошло: ${JSON.stringify(f)}`);
+  }
+  return tpl;
 }
 const need = id => { const t = template(id); if (!t) throw new HttpError(404, 'Шаблон не найден'); return t; };
 const preview = id => fs.existsSync(path.join(CONTENT, 'previews', `${id}.webp`)) ? `/previews/${id}.webp` : null;
@@ -99,7 +125,12 @@ createService('catalog', [
   }],
 
   ['GET', '/api/music', (req, res) => json(res, 200, musicLibrary())],
-  ['GET', '/fonts.css', (req, res) => file(req, res, path.join(CONTENT, 'fonts.css'), true)],
+  ['GET', '/fonts.css', (req, res) => {
+    const f = path.join(CONTENT, 'fonts.css'), fix = path.join(FIXES, 'fonts.css');
+    if (!fs.existsSync(f)) return notFound(res);
+    const body = fs.readFileSync(f, 'utf8') + (fs.existsSync(fix) ? '\n' + fs.readFileSync(fix, 'utf8') : '');
+    send(res, 200, TYPES['.css'], body, { 'Cache-Control': 'public, max-age=604800', 'Vercel-CDN-Cache-Control': 'public, max-age=31536000, immutable' });
+  }],
   ['GET', '/media/*', files('media', true)],
   ['GET', '/fonts/*', files('fonts', true)],
   ['GET', '/previews/*', files('previews', false)],

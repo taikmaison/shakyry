@@ -1,0 +1,7 @@
+/* Казахские буквы для шрифтов шаблонов, где они нарисованы неверно (проверка: tools/kz-glyphs.js).
+   Те же семейства с unicode-range идут после основных правил — для этих букв браузер берёт их, остальное — как было. */
+/* KZOptima, KZOptima_b: «қ ң Қ Ң» выглядят как «к н К Н» → буквы из TildaSans */
+@font-face{font-family:"KZOptima";src:url("/fonts/TildaSans.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;unicode-range:U+049A-049B,U+04A2-04A3;}
+@font-face{font-family:"KZOptima_b";src:url("/fonts/TildaSans-700.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;unicode-range:U+049A-049B,U+04A2-04A3;}
+/* SoyuzGrotesk-Bold: «ғ Ғ» выглядят как «г Г» → из AvertaCyBold */
+@font-face{font-family:"SoyuzGrotesk-Bold";src:url("/fonts/AvertaCyBold.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;unicode-range:U+0492-0493;}

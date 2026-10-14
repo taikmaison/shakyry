@@ -17,6 +17,16 @@
 `PORT`, `HOST`, `CONTENT_DIR` (по умолчанию `./content`), `PRICE` (цена шаблона, по умолчанию 3500), `CURRENCY` (по умолчанию `KZT`).
 Своя цена для отдельных шаблонов — `content/prices.json`: `{ "296": 5000, "301": 0 }`; перечитывается вместе с шаблонами.
 
+## Исправления шаблонов и шрифтов (`fixes/`, в git)
+`content/` — архив из Google Drive, его не правим: исправления лежат в git и применяются поверх при загрузке.
+- `fixes/templates.json` — правки компонентов: `{ "templates": { "175": [{ "type": "calendar-pro", "set": { "data.mainColor": "#f6e4d6" } }] } }`.
+  Компонент выбирается по `id` или `type` (+ точный `text`), `set` — значения по путям (`data.x`, `size.height`, `position.y`).
+  Правка, которая ни к чему не подошла, пишется в лог. После изменения — `POST /_internal/reload` или перезапуск.
+- `fixes/fonts.css` — дописывается к `/fonts.css`: для шрифтов, где казахские буквы нарисованы неверно
+  (например, в KZOptima «қ ң» как «к н»), те же семейства с `unicode-range` берут эти буквы из шрифта с правильными.
+  Найти такие шрифты: `cd tools && node kz-glyphs.js http://127.0.0.1:8080` (нужен запущенный сайт).
+
 ## Инструменты
 `node tools/update.js` — обновить шаблоны из открытого API; `node tools/clean.js` — очистка шаблонов;
-`node tools/previews.js` — превью (нужен puppeteer: `cd tools && npm install`, и запущенный сайт).
+`node tools/previews.js` — превью (нужен puppeteer: `cd tools && npm install`, и запущенный сайт);
+`node tools/kz-glyphs.js [адрес]` — шрифты с неверными или отсутствующими казахскими буквами.
