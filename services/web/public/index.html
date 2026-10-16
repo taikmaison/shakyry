@@ -318,14 +318,22 @@ $('#mailVerify').onclick = async () => {
 };
 
 // ---------- шаблоны ----------
+const special = {};   // шаблоны по заказу, найденные по номеру (в каталоге их нет)
 function renderGrid() {
   const cat = $('#fCat').value, lang = $('#fLang').value, q = $('#fId').value.trim();
-  const list = templates.filter(t => (!cat || t.category === cat) && (!lang || t.lang === lang) && (!q || String(t.id).includes(q)));
+  let list = templates.filter(t => (!cat || t.category === cat) && (!lang || t.lang === lang) && (!q || String(t.id).includes(q)));
+  // шаблон по заказу находится по точному номеру
+  if (/^\d{4,}$/.test(q) && !templates.some(t => String(t.id) === q)) {
+    if (!(q in special)) {
+      special[q] = null;
+      api('/api/templates/' + q).then(i => { special[q] = { id: i.id, category: i.category, lang: i.lang, price: i.price, currency: i.currency, preview: i.preview, special: true }; renderGrid(); }).catch(() => {});
+    } else if (special[q]) list = [special[q]];
+  }
   $('#count').textContent = `Шаблонов: ${list.length}`;
   $('#grid').replaceChildren(...list.map(t => {
     const el = document.createElement('div');
     el.className = 'tpl' + (String(t.id) === form.template_id.value ? ' sel' : '');
-    el.title = CAT[t.category] || t.category;
+    el.title = (t.special ? 'Шаблон по заказу · ' : '') + (CAT[t.category] || t.category);
     el.tabIndex = 0;
     const meta = document.createElement('div');
     meta.className = 'meta';
