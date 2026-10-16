@@ -5,3 +5,7 @@
 @font-face{font-family:"KZOptima_b";src:url("/fonts/TildaSans-700.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;unicode-range:U+049A-049B,U+04A2-04A3;}
 /* SoyuzGrotesk-Bold: «ғ Ғ» выглядят как «г Г» → из AvertaCyBold */
 @font-face{font-family:"SoyuzGrotesk-Bold";src:url("/fonts/AvertaCyBold.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;unicode-range:U+0492-0493;}
+/* KZPFMonumentaPro-Regular — шрифт из одних заглавных, но строчные «к» и «н» нарисованы иначе: у «к» хвост как у «қ»
+   («күн», «секунд», «Әшірбек» читаются «ҚҮН», «СЕҚУНД», «ӘШІРБЕҚ»), «н» крупнее соседних. Заглавные верные —
+   текст этим шрифтом показываем заглавными (выглядит так же, без неверных букв). Шрифт задаётся в style компонента. */
+[style*="KZPFMonumentaPro"]{text-transform:uppercase;}
