@@ -33,7 +33,7 @@ function load() {
   const of = path.join(OWN, 'catalog.json');
   const ownCards = fs.existsSync(of) ? JSON.parse(fs.readFileSync(of, 'utf8')) : [];
   const known = new Set(catalog.map(t => t.id));
-  catalog = ownCards.filter(t => !known.has(t.id)).concat(catalog);   // свои — первыми в каталоге
+  catalog = catalog.concat(ownCards.filter(t => !known.has(t.id)));   // свои — в конце каталога
   const pf = path.join(CONTENT, 'prices.json');
   prices = fs.existsSync(pf) ? JSON.parse(fs.readFileSync(pf, 'utf8')) : {};
   const ff = path.join(FIXES, 'templates.json');

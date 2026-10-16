@@ -31,7 +31,7 @@ for (const f of files) {
     if (ids.has(s.id)) { console.error(`✗ ${f}: #${s.id} уже есть в ${ids.get(s.id)}`); failed++; continue; }
     if (slugs.has(s.slug)) { console.error(`✗ ${f}: slug «${s.slug}» уже есть в ${slugs.get(s.slug)}`); failed++; continue; }
     ids.set(s.id, f); slugs.set(s.slug, f);
-    cards.push({ id: s.id, category: s.category, lang: 'kz', popularity: 100, own: true });
+    cards.push({ id: s.id, category: s.category, lang: 'kz', popularity: 0, own: true });   // 0 — на посадочных страницах после шаблонов архива
     if (!rebuild) continue;
     try {
       const { tpl, media } = build(s);
