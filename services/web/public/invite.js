@@ -529,7 +529,9 @@
       const cell = el('div', { style: { fontSize: px(d.daysFontSize || 14), fontFamily: fam(d.daysFontFamily), color } }, el('span', { text: String(day) }));
       if (day === p.d) {
         cell.classList.add('ev');
-        cell.prepend(marker(heart ? 'heart' : 'circle', mSize * (elegant ? 1.15 : heart ? 1.55 : 1.25), mkC));
+        const mk = marker(heart ? 'heart' : 'circle', mSize * (elegant ? 1.15 : heart ? 1.55 : 1.25), mkC);
+        if (d.eventMarkerStatic) mk.classList.remove('draw');   // ас беру: кружок не пульсирует
+        cell.prepend(mk);
       }
       grid.append(cell);
     }
@@ -723,7 +725,7 @@
   // ---------------- пожелания ----------------
   // в превью и снимке каталога — пара примерных пожеланий, чтобы блок не был пустым (как на демо оригинала)
   const SAMPLE_WISHES = {
-    kz: [{ name: 'Айгерім', message: 'Жастарға бақыт, береке және шексіз махаббат тілеймін! Шаңырақтарыңыз биік болсын!' }, { name: 'Ерлан', message: 'Құтты болсын! Қуаныштарыңыз көп болсын.' }],
+    kz: [{ name: 'Айгерім', message: 'Отбасыңызға амандық, бақыт пен береке тілеймін! Қуанышыңыз баянды болсын!' }, { name: 'Ерлан', message: 'Құтты болсын! Қуаныштарыңыз көп болсын.' }],
     ru: [{ name: 'Айгерим', message: 'Желаем счастья, любви и благополучия! Пусть ваш дом будет полной чашей!' }, { name: 'Ерлан', message: 'Поздравляем! Пусть радость всегда будет с вами.' }],
   };
   let wishes = PREVIEW ? (SAMPLE_WISHES[LANG] || SAMPLE_WISHES.kz).map(w => ({ ...w, created_at: Date.now() })) : [];

@@ -1,0 +1,1105 @@
+{
+ "id": 9009,
+ "category": "tusaukeser",
+ "lang": "kz",
+ "updated_at": "2026-10-16T00:00:00",
+ "own": true,
+ "envelope": "{\"theme\":\"champagne\",\"lang\":\"kz\",\"color\":\"#2c6596\",\"text_color\":\"#fde3d4\",\"background\":null,\"button_image\":null}",
+ "blocks": [
+  {
+   "type": "canvas",
+   "style": {
+    "backgroundColor": "#fdf3ee",
+    "backgroundImage": "",
+    "minHeight": "500px",
+    "height": "4058px",
+    "margin": "0px",
+    "padding": "20px",
+    "borderRadius": "0px",
+    "border": "none",
+    "boxShadow": "none"
+   },
+   "components": [
+    {
+     "id": "own9009_1",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 0.9364,
+      "z": 101
+     },
+     "size": {
+      "width": 390,
+      "height": 66
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tusau-sky-band.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "slideInDown",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_2",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 5.3844,
+      "z": 102
+     },
+     "size": {
+      "width": 220,
+      "height": 237
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tusau-sky-motif.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "zoomIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_3",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 9.2903,
+      "z": 103
+     },
+     "size": {
+      "width": 340,
+      "height": 40
+     },
+     "style": {
+      "fontSize": "15px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#95604e",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.3em"
+     },
+     "data": {
+      "content": "DATE",
+      "tag": "p",
+      "__animation": {
+       "type": "slideInDown",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_4",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 10.7689,
+      "z": 104
+     },
+     "size": {
+      "width": 340,
+      "height": 90
+     },
+     "style": {
+      "fontSize": "30px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#29475f",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4"
+     },
+     "data": {
+      "content": "TITLE",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_5",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 13.6028,
+      "z": 105
+     },
+     "size": {
+      "width": 360,
+      "height": 130
+     },
+     "style": {
+      "fontSize": "58px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#2c6596",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "ИМЯ",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "zoomIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_6",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 16.067,
+      "z": 106
+     },
+     "size": {
+      "width": 260,
+      "height": 46
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tusau-sky-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_7",
+     "type": "shape",
+     "position": {
+      "x": 50,
+      "y": 22.2277,
+      "z": 107
+     },
+     "size": {
+      "width": 346,
+      "height": 360
+     },
+     "style": {
+      "backgroundColor": "#fffaf7",
+      "border": "1.5px solid #f0d6c6",
+      "borderRadius": "18px",
+      "boxShadow": "inset 0 0 0 6px #fffaf7, inset 0 0 0 7px #f0d6c6"
+     },
+     "data": {
+      "shapeType": "rectangle"
+     }
+    },
+    {
+     "id": "own9009_8",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 17.792,
+      "z": 108
+     },
+     "size": {
+      "width": 84,
+      "height": 40
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tusau-sky-corner.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_9",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 26.6634,
+      "z": 109
+     },
+     "size": {
+      "width": 84,
+      "height": 40
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain",
+      "transform": "rotate(180deg)"
+     },
+     "data": {
+      "src": "/media/own/tusau-sky-corner.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_10",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 19.2706,
+      "z": 110
+     },
+     "size": {
+      "width": 320,
+      "height": 80
+     },
+     "style": {
+      "fontSize": "26px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#29475f",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "Құрметті ағайын-туыс,\nқұда-жекжат, дос-жаран!",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_11",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 23.0902,
+      "z": 111
+     },
+     "size": {
+      "width": 310,
+      "height": 220
+     },
+     "style": {
+      "fontSize": "17px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#29475f",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.6"
+     },
+     "data": {
+      "content": "INVITE_TEXT",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_12",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 28.3884,
+      "z": 112
+     },
+     "size": {
+      "width": 360,
+      "height": 60
+     },
+     "style": {
+      "fontSize": "16px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#95604e",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.26em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "Той салтанаты",
+      "tag": "p",
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_13",
+     "type": "calendar",
+     "position": {
+      "x": 50,
+      "y": 35.2883,
+      "z": 113
+     },
+     "size": {
+      "width": 300,
+      "height": 470
+     },
+     "style": {},
+     "data": {
+      "backgroundColor": "transparent",
+      "borderRadius": 8,
+      "titleFontSize": 16,
+      "titleFontFamily": "OwnMontserrat",
+      "titleColor": "#29475f",
+      "calendarLanguage": "kz",
+      "event_dates": [
+       {
+        "date": "2027-06-12",
+        "time": "18:00",
+        "title": null,
+        "description": null
+       }
+      ],
+      "padding": 20,
+      "titleText": "",
+      "weekdaysFontSize": 12,
+      "weekdaysFontFamily": "OwnMontserrat",
+      "weekdaysColor": "#95604e",
+      "daysFontSize": 15,
+      "daysFontFamily": "OwnMontserrat",
+      "daysColor": "#29475f",
+      "eventMarkerType": "heart",
+      "eventMarkerColor": "#95604e",
+      "eventMarkerSize": 28,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_14",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 43.6668,
+      "z": 114
+     },
+     "size": {
+      "width": 260,
+      "height": 46
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tusau-sky-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_15",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 45.3918,
+      "z": 115
+     },
+     "size": {
+      "width": 360,
+      "height": 60
+     },
+     "style": {
+      "fontSize": "16px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#95604e",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.26em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "Мекенжайы",
+      "tag": "p",
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_16",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 46.8704,
+      "z": 116
+     },
+     "size": {
+      "width": 340,
+      "height": 40
+     },
+     "style": {
+      "fontSize": "15px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#95604e",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.2em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "CITY",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_17",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 48.4722,
+      "z": 117
+     },
+     "size": {
+      "width": 330,
+      "height": 90
+     },
+     "style": {
+      "fontSize": "18px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#29475f",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.5"
+     },
+     "data": {
+      "content": "ADDRESS",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_18",
+     "type": "button",
+     "position": {
+      "x": 50,
+      "y": 50.69,
+      "z": 118
+     },
+     "size": {
+      "width": 200,
+      "height": 48
+     },
+     "style": {},
+     "data": {
+      "backgroundColor": "#2c6596",
+      "borderRadius": 24,
+      "text": "Картаны ашу",
+      "url": "https://example.com",
+      "textColor": "#ffffff",
+      "borderColor": "#2c6596",
+      "borderWidth": 0,
+      "openInNewTab": true,
+      "fontSize": 15,
+      "fontFamily": "OwnMontserrat",
+      "fontWeight": 600,
+      "__animation": {
+       "type": "zoomIn",
+       "duration": 1.4,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_19",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 53.031,
+      "z": 119
+     },
+     "size": {
+      "width": 260,
+      "height": 46
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tusau-sky-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_20",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 54.756,
+      "z": 120
+     },
+     "size": {
+      "width": 360,
+      "height": 60
+     },
+     "style": {
+      "fontSize": "16px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#95604e",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.26em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "Той иелері",
+      "tag": "p",
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_21",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 56.481,
+      "z": 121
+     },
+     "size": {
+      "width": 340,
+      "height": 90
+     },
+     "style": {
+      "fontSize": "24px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#29475f",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "HOST",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_22",
+     "type": "shape",
+     "position": {
+      "x": 50,
+      "y": 60.7935,
+      "z": 122
+     },
+     "size": {
+      "width": 346,
+      "height": 170
+     },
+     "style": {
+      "backgroundColor": "#fffaf7",
+      "border": "1.5px solid #f0d6c6",
+      "borderRadius": "18px",
+      "boxShadow": "inset 0 0 0 6px #fffaf7, inset 0 0 0 7px #f0d6c6"
+     },
+     "data": {
+      "shapeType": "rectangle"
+     }
+    },
+    {
+     "id": "own9009_23",
+     "type": "timer",
+     "position": {
+      "x": 50,
+      "y": 60.7935,
+      "z": 123
+     },
+     "size": {
+      "width": 320,
+      "height": 150
+     },
+     "style": {},
+     "data": {
+      "event_date": "2027-06-12T13:00:00.000Z",
+      "event_title": "Тойға дейін қалды:",
+      "timezone": "Asia/Almaty",
+      "show_days": true,
+      "show_hours": true,
+      "show_minutes": true,
+      "show_seconds": true,
+      "timerLanguage": "kz",
+      "backgroundColor": "transparent",
+      "borderRadius": 8,
+      "titleFontSize": 14,
+      "titleFontFamily": "OwnMontserrat",
+      "titleColor": "#95604e",
+      "numbersFontSize": 30,
+      "numbersFontFamily": "OwnMontserrat",
+      "numbersColor": "#29475f",
+      "labelsFontSize": 12,
+      "labelsFontFamily": "OwnMontserrat",
+      "labelsColor": "#95604e",
+      "showLabels": true,
+      "spacing": 14,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_24",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 64.3667,
+      "z": 124
+     },
+     "size": {
+      "width": 260,
+      "height": 46
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tusau-sky-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_25",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 66.2149,
+      "z": 125
+     },
+     "size": {
+      "width": 360,
+      "height": 60
+     },
+     "style": {
+      "fontSize": "16px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#95604e",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.26em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "Тойға келетініңізді растаңыз",
+      "tag": "p",
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_26",
+     "type": "form2",
+     "position": {
+      "x": 50,
+      "y": 72.4988,
+      "z": 126
+     },
+     "size": {
+      "width": 380,
+      "height": 400
+     },
+     "style": {},
+     "data": {
+      "form_id": "form2_own9009",
+      "form_fields": [
+       {
+        "id": "1",
+        "field_type": "text",
+        "field_label": "Есіміңіз",
+        "placeholder": "Аты-жөніңіз",
+        "is_required": true,
+        "field_name": "field_1"
+       }
+      ],
+      "form_buttons": [
+       {
+        "id": "1",
+        "button_text": "Иә, барамын!",
+        "button_value": "yes"
+       },
+       {
+        "id": "2",
+        "button_text": "Жұбайыммен бірге барамын",
+        "button_value": "plus_one"
+       },
+       {
+        "id": "3",
+        "button_text": "Өкінішке орай, келе алмаймын",
+        "button_value": "no"
+       }
+      ],
+      "field_fontSize": 15,
+      "field_fontFamily": "OwnMontserrat",
+      "field_color": "#29475f",
+      "field_backgroundColor": "#ffffff",
+      "field_borderColor": "#f0d6c6",
+      "field_borderRadius": 12,
+      "button_fontSize": 15,
+      "button_fontFamily": "OwnMontserrat",
+      "label_fontSize": 14,
+      "label_fontFamily": "OwnMontserrat",
+      "label_color": "#29475f",
+      "formLang": "kz",
+      "lang": "kz",
+      "mainColor": "#2c6596",
+      "submit_button_text": "ЖАУАП БЕРУ",
+      "modal_button_text": "ЖІБЕРУ",
+      "modal_title": "Есіміңізді жазыңыз",
+      "submit_button_backgroundColor": "#2c6596",
+      "submit_button_textColor": "#ffffff",
+      "submit_button_borderRadius": 24,
+      "submit_button_fontSize": 15,
+      "submit_button_fontFamily": "OwnMontserrat",
+      "option_fontSize": 16,
+      "option_fontFamily": "OwnMontserrat",
+      "option_color": "#29475f",
+      "option_backgroundColor": "#fffaf7",
+      "option_borderRadius": 14,
+      "option_height": 56,
+      "submit_button_height": 54,
+      "field_height": 48,
+      "field_borderWidth": 1,
+      "button_color": "#2c6596",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_27",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 76.688,
+      "z": 127
+     },
+     "size": {
+      "width": 260,
+      "height": 46
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tusau-sky-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_28",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 78.413,
+      "z": 128
+     },
+     "size": {
+      "width": 360,
+      "height": 60
+     },
+     "style": {
+      "fontSize": "16px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#95604e",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.26em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "Ізгі тілектер",
+      "tag": "p",
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_29",
+     "type": "wishes-list",
+     "position": {
+      "x": 50,
+      "y": 84.0808,
+      "z": 129
+     },
+     "size": {
+      "width": 400,
+      "height": 380
+     },
+     "style": {},
+     "data": {
+      "form_lang": "kz",
+      "button_text": "БАРЛЫҚ ТІЛЕКТЕРДІ ОҚУ",
+      "title_color": "#29475f",
+      "card_bg_color": "#ffffff",
+      "button_color": "#2c6596",
+      "font_family": "OwnMontserrat",
+      "auto_scroll_interval": 3500,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_30",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 90.9808,
+      "z": 130
+     },
+     "size": {
+      "width": 180,
+      "height": 180
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tusau-sky-rosette.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "spin",
+       "duration": 60,
+       "isInfinite": true,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_31",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 94.6772,
+      "z": 131
+     },
+     "size": {
+      "width": 340,
+      "height": 90
+     },
+     "style": {
+      "fontSize": "26px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#29475f",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "Сіздерді асыға күтеміз!",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_32",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 97.0922,
+      "z": 132
+     },
+     "size": {
+      "width": 390,
+      "height": 66
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tusau-sky-band.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9009_33",
+     "type": "audio-fixed",
+     "position": {
+      "x": 50,
+      "y": 0,
+      "z": 133
+     },
+     "size": {
+      "width": 200,
+      "height": 80
+     },
+     "style": {},
+     "data": {
+      "audio_url": "/media/cd/0ad6707e677a88.mp3",
+      "button_text": "Әуен қосу",
+      "button_color": "#2c6596",
+      "text_color": "#ffffff",
+      "font_family": "OwnMontserrat",
+      "font_size": 16,
+      "button_height": 52
+     }
+    },
+    {
+     "id": "own9009_34",
+     "type": "fixed-wishes",
+     "position": {
+      "x": 50,
+      "y": 0,
+      "z": 134
+     },
+     "size": {
+      "width": 200,
+      "height": 80
+     },
+     "style": {},
+     "data": {
+      "button_text": "ТІЛЕК ЖАЗУ",
+      "button_color": "#2c6596",
+      "text_color": "#ffffff",
+      "font_family": "OwnMontserrat",
+      "font_size": 16,
+      "button_height": 52,
+      "component_language": "kz"
+     }
+    }
+   ]
+  }
+ ]
+}

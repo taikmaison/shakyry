@@ -12,7 +12,7 @@
     "backgroundColor": "#f3f5f9",
     "backgroundImage": "",
     "minHeight": "500px",
-    "height": "4080px",
+    "height": "4051px",
     "margin": "0px",
     "padding": "20px",
     "borderRadius": "0px",
@@ -25,12 +25,12 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 0.9804,
+      "y": 0.938,
       "z": 101
      },
      "size": {
-      "width": 430,
-      "height": 72
+      "width": 390,
+      "height": 66
      },
      "style": {
       "borderRadius": "0px",
@@ -52,7 +52,7 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 6.1275,
+      "y": 5.3073,
       "z": 102
      },
      "size": {
@@ -79,7 +79,7 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 10.2941,
+      "y": 9.1335,
       "z": 103
      },
      "size": {
@@ -89,7 +89,7 @@
      "style": {
       "fontSize": "15px",
       "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
-      "color": "#b8902f",
+      "color": "#7b6b3f",
       "textAlign": "center",
       "fontWeight": "600",
       "lineHeight": "1.4",
@@ -111,7 +111,7 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 11.7647,
+      "y": 10.6147,
       "z": 104
      },
      "size": {
@@ -143,7 +143,7 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 14.2157,
+      "y": 13.4535,
       "z": 105
      },
      "size": {
@@ -176,7 +176,7 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 16.6667,
+      "y": 15.922,
       "z": 106
      },
      "size": {
@@ -203,17 +203,18 @@
      "type": "shape",
      "position": {
       "x": 50,
-      "y": 22.0588,
+      "y": 22.0933,
       "z": 107
      },
      "size": {
-      "width": 372,
-      "height": 300
+      "width": 346,
+      "height": 360
      },
      "style": {
       "backgroundColor": "#ffffff",
       "border": "1.5px solid #cfd7e6",
-      "borderRadius": "18px"
+      "borderRadius": "18px",
+      "boxShadow": "inset 0 0 0 6px #ffffff, inset 0 0 0 7px #cfd7e6"
      },
      "data": {
       "shapeType": "rectangle"
@@ -223,13 +224,13 @@
      "id": "own9004_8",
      "type": "image",
      "position": {
-      "x": 14,
-      "y": 19.1667,
+      "x": 50,
+      "y": 17.65,
       "z": 108
      },
      "size": {
-      "width": 56,
-      "height": 56
+      "width": 84,
+      "height": 40
      },
      "style": {
       "borderRadius": "0px",
@@ -250,13 +251,13 @@
      "id": "own9004_9",
      "type": "image",
      "position": {
-      "x": 86,
-      "y": 24.951,
+      "x": 50,
+      "y": 26.5367,
       "z": 109
      },
      "size": {
-      "width": 56,
-      "height": 56
+      "width": 84,
+      "height": 40
      },
      "style": {
       "borderRadius": "0px",
@@ -279,11 +280,11 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 19.8529,
+      "y": 19.1311,
       "z": 110
      },
      "size": {
-      "width": 340,
+      "width": 320,
       "height": 80
      },
      "style": {
@@ -296,7 +297,7 @@
       "fontStyle": "italic"
      },
      "data": {
-      "content": "Құрметті ағайын-туыс, дос-жаран!",
+      "content": "Құрметті ағайын-туыс,\nқұда-жекжат, дос-жаран!",
       "tag": "p",
       "__animation": {
        "type": "fadeIn",
@@ -311,12 +312,12 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 22.9167,
+      "y": 22.9573,
       "z": 111
      },
      "size": {
-      "width": 320,
-      "height": 170
+      "width": 310,
+      "height": 220
      },
      "style": {
       "fontSize": "17px",
@@ -343,12 +344,12 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 27.451,
+      "y": 28.2646,
       "z": 112
      },
      "size": {
-      "width": 340,
-      "height": 60
+      "width": 360,
+      "height": 70
      },
      "style": {
       "fontSize": "30px",
@@ -374,7 +375,7 @@
      "type": "calendar",
      "position": {
       "x": 50,
-      "y": 34.3137,
+      "y": 35.1765,
       "z": 113
      },
      "size": {
@@ -401,13 +402,13 @@
       "titleText": "",
       "weekdaysFontSize": 12,
       "weekdaysFontFamily": "OwnMontserrat",
-      "weekdaysColor": "#b8902f",
+      "weekdaysColor": "#7b6b3f",
       "daysFontSize": 15,
       "daysFontFamily": "OwnMontserrat",
       "daysColor": "#1f3456",
-      "eventMarkerType": "heart",
-      "eventMarkerColor": "#b8902f",
-      "eventMarkerSize": 40,
+      "eventMarkerType": "circle",
+      "eventMarkerColor": "#7b6b3f",
+      "eventMarkerSize": 28,
       "__animation": {
        "type": "fadeIn",
        "duration": 1.8,
@@ -421,7 +422,7 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 41.6667,
+      "y": 43.5695,
       "z": 114
      },
      "size": {
@@ -448,12 +449,12 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 43.3824,
+      "y": 45.2975,
       "z": 115
      },
      "size": {
-      "width": 340,
-      "height": 60
+      "width": 360,
+      "height": 70
      },
      "style": {
       "fontSize": "30px",
@@ -479,7 +480,7 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 44.8529,
+      "y": 46.7786,
       "z": 116
      },
      "size": {
@@ -489,7 +490,7 @@
      "style": {
       "fontSize": "15px",
       "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
-      "color": "#b8902f",
+      "color": "#7b6b3f",
       "textAlign": "center",
       "fontWeight": "600",
       "lineHeight": "1.4",
@@ -513,7 +514,7 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 46.4461,
+      "y": 48.3831,
       "z": 117
      },
      "size": {
@@ -545,7 +546,7 @@
      "type": "button",
      "position": {
       "x": 50,
-      "y": 48.652,
+      "y": 50.6048,
       "z": 118
      },
      "size": {
@@ -578,7 +579,7 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 50.9804,
+      "y": 52.9499,
       "z": 119
      },
      "size": {
@@ -605,12 +606,12 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 52.6961,
+      "y": 54.6779,
       "z": 120
      },
      "size": {
-      "width": 340,
-      "height": 60
+      "width": 360,
+      "height": 70
      },
      "style": {
       "fontSize": "30px",
@@ -636,7 +637,7 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 54.4118,
+      "y": 56.4058,
       "z": 121
      },
      "size": {
@@ -669,17 +670,18 @@
      "type": "shape",
      "position": {
       "x": 50,
-      "y": 58.701,
+      "y": 60.7257,
       "z": 122
      },
      "size": {
-      "width": 372,
+      "width": 346,
       "height": 170
      },
      "style": {
       "backgroundColor": "#ffffff",
       "border": "1.5px solid #cfd7e6",
-      "borderRadius": "18px"
+      "borderRadius": "18px",
+      "boxShadow": "inset 0 0 0 6px #ffffff, inset 0 0 0 7px #cfd7e6"
      },
      "data": {
       "shapeType": "rectangle"
@@ -690,11 +692,11 @@
      "type": "timer",
      "position": {
       "x": 50,
-      "y": 58.701,
+      "y": 60.7257,
       "z": 123
      },
      "size": {
-      "width": 340,
+      "width": 320,
       "height": 150
      },
      "style": {},
@@ -711,13 +713,13 @@
       "borderRadius": 8,
       "titleFontSize": 14,
       "titleFontFamily": "OwnMontserrat",
-      "titleColor": "#b8902f",
-      "numbersFontSize": 34,
-      "numbersFontFamily": "OwnCormorant",
+      "titleColor": "#7b6b3f",
+      "numbersFontSize": 30,
+      "numbersFontFamily": "OwnMontserrat",
       "numbersColor": "#1f3456",
-      "labelsFontSize": 11,
+      "labelsFontSize": 12,
       "labelsFontFamily": "OwnMontserrat",
-      "labelsColor": "#b8902f",
+      "labelsColor": "#7b6b3f",
       "showLabels": true,
       "spacing": 14,
       "__animation": {
@@ -733,7 +735,7 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 62.2549,
+      "y": 64.3051,
       "z": 124
      },
      "size": {
@@ -760,15 +762,15 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 64.0931,
+      "y": 66.1565,
       "z": 125
      },
      "size": {
-      "width": 340,
-      "height": 90
+      "width": 360,
+      "height": 70
      },
      "style": {
-      "fontSize": "28px",
+      "fontSize": "30px",
       "fontFamily": "\"OwnCormorant\", Georgia, serif",
       "color": "#1f3456",
       "textAlign": "center",
@@ -791,7 +793,7 @@
      "type": "form2",
      "position": {
       "x": 50,
-      "y": 70.3431,
+      "y": 72.4512,
       "z": 126
      },
      "size": {
@@ -806,7 +808,7 @@
         "id": "1",
         "field_type": "text",
         "field_label": "Есіміңіз",
-        "placeholder": "Есіміңізді енгізіңіз",
+        "placeholder": "Аты-жөніңіз",
         "is_required": true,
         "field_name": "field_1"
        }
@@ -844,7 +846,7 @@
       "mainColor": "#1f3a63",
       "submit_button_text": "ЖАУАП БЕРУ",
       "modal_button_text": "ЖІБЕРУ",
-      "modal_title": "Есіміңізді жазыңыз:",
+      "modal_title": "Есіміңізді жазыңыз",
       "submit_button_backgroundColor": "#1f3a63",
       "submit_button_textColor": "#f6e7bf",
       "submit_button_borderRadius": 24,
@@ -853,6 +855,7 @@
       "option_fontSize": 16,
       "option_fontFamily": "OwnMontserrat",
       "option_color": "#1f3456",
+      "option_backgroundColor": "#ffffff",
       "option_borderRadius": 14,
       "option_height": 56,
       "submit_button_height": 54,
@@ -872,7 +875,7 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 76.9608,
+      "y": 76.6477,
       "z": 127
      },
      "size": {
@@ -899,12 +902,12 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 78.6765,
+      "y": 78.3757,
       "z": 128
      },
      "size": {
-      "width": 340,
-      "height": 60
+      "width": 360,
+      "height": 70
      },
      "style": {
       "fontSize": "30px",
@@ -930,7 +933,7 @@
      "type": "wishes-list",
      "position": {
       "x": 50,
-      "y": 84.3137,
+      "y": 84.0533,
       "z": 129
      },
      "size": {
@@ -959,7 +962,7 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 92.8922,
+      "y": 90.9652,
       "z": 130
      },
      "size": {
@@ -986,7 +989,7 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 96.5686,
+      "y": 94.668,
       "z": 131
      },
      "size": {
@@ -1018,12 +1021,12 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 99.0196,
+      "y": 97.0871,
       "z": 132
      },
      "size": {
-      "width": 430,
-      "height": 72
+      "width": 390,
+      "height": 66
      },
      "style": {
       "borderRadius": "0px",

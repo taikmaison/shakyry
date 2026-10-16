@@ -1,0 +1,913 @@
+{
+ "id": 9010,
+ "category": "as_beru",
+ "lang": "kz",
+ "updated_at": "2026-10-16T00:00:00",
+ "own": true,
+ "envelope": "{\"theme\":\"champagne\",\"lang\":\"kz\",\"color\":\"#1e3b31\",\"text_color\":\"#e9dcb8\",\"background\":null,\"button_image\":null}",
+ "blocks": [
+  {
+   "type": "canvas",
+   "style": {
+    "backgroundColor": "#eef2ee",
+    "backgroundImage": "",
+    "minHeight": "500px",
+    "height": "3205px",
+    "margin": "0px",
+    "padding": "20px",
+    "borderRadius": "0px",
+    "border": "none",
+    "boxShadow": "none"
+   },
+   "components": [
+    {
+     "id": "own9010_1",
+     "type": "shape",
+     "position": {
+      "x": 50,
+      "y": 10.5304,
+      "z": 101
+     },
+     "size": {
+      "width": 430,
+      "height": 675
+     },
+     "style": {
+      "backgroundColor": "#1a3029",
+      "borderRadius": "0px"
+     },
+     "data": {
+      "shapeType": "rectangle"
+     }
+    },
+    {
+     "id": "own9010_2",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 1.1856,
+      "z": 102
+     },
+     "size": {
+      "width": 390,
+      "height": 66
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/as-meshit-band-dark.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_3",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 6.8643,
+      "z": 103
+     },
+     "size": {
+      "width": 280,
+      "height": 220
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/as-meshit-motif.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_4",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 11.5445,
+      "z": 104
+     },
+     "size": {
+      "width": 340,
+      "height": 40
+     },
+     "style": {
+      "fontSize": "15px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#9a8152",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.3em"
+     },
+     "data": {
+      "content": "DATE",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_5",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 13.4165,
+      "z": 105
+     },
+     "size": {
+      "width": 340,
+      "height": 90
+     },
+     "style": {
+      "fontSize": "30px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#ede5cf",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4"
+     },
+     "data": {
+      "content": "TITLE",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_6",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 17.0047,
+      "z": 106
+     },
+     "size": {
+      "width": 360,
+      "height": 130
+     },
+     "style": {
+      "fontSize": "58px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#ede5cf",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "ИМЯ",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_7",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 19.8128,
+      "z": 107
+     },
+     "size": {
+      "width": 390,
+      "height": 66
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/as-meshit-band-dark.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_8",
+     "type": "shape",
+     "position": {
+      "x": 50,
+      "y": 27.9251,
+      "z": 108
+     },
+     "size": {
+      "width": 346,
+      "height": 360
+     },
+     "style": {
+      "backgroundColor": "#fafcf9",
+      "border": "1.5px solid #c7d3c9",
+      "borderRadius": "18px",
+      "boxShadow": "inset 0 0 0 6px #fafcf9, inset 0 0 0 7px #c7d3c9"
+     },
+     "data": {
+      "shapeType": "rectangle"
+     }
+    },
+    {
+     "id": "own9010_9",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 22.3089,
+      "z": 109
+     },
+     "size": {
+      "width": 84,
+      "height": 40
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/as-meshit-corner.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_10",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 33.5413,
+      "z": 110
+     },
+     "size": {
+      "width": 84,
+      "height": 40
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain",
+      "transform": "rotate(180deg)"
+     },
+     "data": {
+      "src": "/media/own/as-meshit-corner.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_11",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 24.181,
+      "z": 111
+     },
+     "size": {
+      "width": 320,
+      "height": 80
+     },
+     "style": {
+      "fontSize": "26px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#22332c",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "Құрметті ағайын-туыс,\nқұда-жекжат, дос-жаран!",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_12",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 29.0172,
+      "z": 112
+     },
+     "size": {
+      "width": 310,
+      "height": 220
+     },
+     "style": {
+      "fontSize": "17px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#22332c",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.6"
+     },
+     "data": {
+      "content": "INVITE_TEXT",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_13",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 35.7254,
+      "z": 113
+     },
+     "size": {
+      "width": 360,
+      "height": 70
+     },
+     "style": {
+      "fontSize": "30px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#22332c",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4"
+     },
+     "data": {
+      "content": "Ас беру күні",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_14",
+     "type": "calendar",
+     "position": {
+      "x": 50,
+      "y": 44.4618,
+      "z": 114
+     },
+     "size": {
+      "width": 300,
+      "height": 470
+     },
+     "style": {},
+     "data": {
+      "backgroundColor": "transparent",
+      "borderRadius": 8,
+      "titleFontSize": 16,
+      "titleFontFamily": "OwnMontserrat",
+      "titleColor": "#22332c",
+      "calendarLanguage": "kz",
+      "event_dates": [
+       {
+        "date": "2027-06-12",
+        "time": "18:00",
+        "title": null,
+        "description": null
+       }
+      ],
+      "padding": 20,
+      "titleText": "",
+      "weekdaysFontSize": 12,
+      "weekdaysFontFamily": "OwnMontserrat",
+      "weekdaysColor": "#766a47",
+      "daysFontSize": 15,
+      "daysFontFamily": "OwnMontserrat",
+      "daysColor": "#22332c",
+      "eventMarkerType": "circle",
+      "eventMarkerColor": "#766a47",
+      "eventMarkerSize": 28,
+      "eventMarkerStatic": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_15",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 55.0702,
+      "z": 115
+     },
+     "size": {
+      "width": 260,
+      "height": 46
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/as-meshit-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_16",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 57.2543,
+      "z": 116
+     },
+     "size": {
+      "width": 360,
+      "height": 70
+     },
+     "style": {
+      "fontSize": "30px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#22332c",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4"
+     },
+     "data": {
+      "content": "Мекенжайы",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_17",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 59.1264,
+      "z": 117
+     },
+     "size": {
+      "width": 340,
+      "height": 40
+     },
+     "style": {
+      "fontSize": "15px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#766a47",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.2em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "CITY",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_18",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 61.1544,
+      "z": 118
+     },
+     "size": {
+      "width": 330,
+      "height": 90
+     },
+     "style": {
+      "fontSize": "18px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#22332c",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.5"
+     },
+     "data": {
+      "content": "ADDRESS",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_19",
+     "type": "button",
+     "position": {
+      "x": 50,
+      "y": 63.9626,
+      "z": 119
+     },
+     "size": {
+      "width": 200,
+      "height": 48
+     },
+     "style": {},
+     "data": {
+      "backgroundColor": "#1e3b31",
+      "borderRadius": 24,
+      "text": "Картаны ашу",
+      "url": "https://example.com",
+      "textColor": "#efe7d2",
+      "borderColor": "#1e3b31",
+      "borderWidth": 0,
+      "openInNewTab": true,
+      "fontSize": 15,
+      "fontFamily": "OwnMontserrat",
+      "fontWeight": 600,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.4,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_20",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 66.9267,
+      "z": 120
+     },
+     "size": {
+      "width": 260,
+      "height": 46
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/as-meshit-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_21",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 69.1108,
+      "z": 121
+     },
+     "size": {
+      "width": 360,
+      "height": 70
+     },
+     "style": {
+      "fontSize": "30px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#22332c",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4"
+     },
+     "data": {
+      "content": "Ас иелері",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_22",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 71.2949,
+      "z": 122
+     },
+     "size": {
+      "width": 340,
+      "height": 90
+     },
+     "style": {
+      "fontSize": "24px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#22332c",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "HOST",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_23",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 74.103,
+      "z": 123
+     },
+     "size": {
+      "width": 260,
+      "height": 46
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/as-meshit-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_24",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 76.4431,
+      "z": 124
+     },
+     "size": {
+      "width": 360,
+      "height": 70
+     },
+     "style": {
+      "fontSize": "30px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#22332c",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4"
+     },
+     "data": {
+      "content": "Келетініңізді растаңыз",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_25",
+     "type": "form2",
+     "position": {
+      "x": 50,
+      "y": 84.3994,
+      "z": 125
+     },
+     "size": {
+      "width": 380,
+      "height": 400
+     },
+     "style": {},
+     "data": {
+      "form_id": "form2_own9010",
+      "form_fields": [
+       {
+        "id": "1",
+        "field_type": "text",
+        "field_label": "Есіміңіз",
+        "placeholder": "Аты-жөніңіз",
+        "is_required": true,
+        "field_name": "field_1"
+       }
+      ],
+      "form_buttons": [
+       {
+        "id": "1",
+        "button_text": "Иә, барамын",
+        "button_value": "yes"
+       },
+       {
+        "id": "2",
+        "button_text": "Өкінішке орай, келе алмаймын",
+        "button_value": "no"
+       }
+      ],
+      "field_fontSize": 15,
+      "field_fontFamily": "OwnMontserrat",
+      "field_color": "#22332c",
+      "field_backgroundColor": "#ffffff",
+      "field_borderColor": "#c7d3c9",
+      "field_borderRadius": 12,
+      "button_fontSize": 15,
+      "button_fontFamily": "OwnMontserrat",
+      "label_fontSize": 14,
+      "label_fontFamily": "OwnMontserrat",
+      "label_color": "#22332c",
+      "formLang": "kz",
+      "lang": "kz",
+      "mainColor": "#1e3b31",
+      "submit_button_text": "ЖАУАП БЕРУ",
+      "modal_button_text": "ЖІБЕРУ",
+      "modal_title": "Есіміңізді жазыңыз",
+      "submit_button_backgroundColor": "#1e3b31",
+      "submit_button_textColor": "#efe7d2",
+      "submit_button_borderRadius": 24,
+      "submit_button_fontSize": 15,
+      "submit_button_fontFamily": "OwnMontserrat",
+      "option_fontSize": 16,
+      "option_fontFamily": "OwnMontserrat",
+      "option_color": "#22332c",
+      "option_backgroundColor": "#fafcf9",
+      "option_borderRadius": 14,
+      "option_height": 56,
+      "submit_button_height": 54,
+      "field_height": 48,
+      "field_borderWidth": 1,
+      "button_color": "#1e3b31",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_26",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 90.9516,
+      "z": 126
+     },
+     "size": {
+      "width": 180,
+      "height": 180
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/as-meshit-rosette.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_27",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 95.6318,
+      "z": 127
+     },
+     "size": {
+      "width": 340,
+      "height": 90
+     },
+     "style": {
+      "fontSize": "26px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#22332c",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "Иманды болсын",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9010_28",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 98.6895,
+      "z": 128
+     },
+     "size": {
+      "width": 390,
+      "height": 66
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/as-meshit-band.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    }
+   ]
+  }
+ ]
+}

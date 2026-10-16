@@ -24,8 +24,8 @@ const FIELDS = ['title', 'name1', 'name2', 'age', 'date', 'time', 'city', 'addre
 
 // Примеры для превью и подсказок в форме — свои, нейтральные
 const TITLES = {
-  kz: { wedding: 'Үйлену тойға шақыру', bachelorette: 'Қыз ұзату тойына шақыру', merey: 'Мерейтойға шақыру', birthday: 'Туған күнге шақыру',
-    sundet: 'Сүндет тойға шақыру', tilashar: 'Тілашар тойына шақыру', besik: 'Бесік тойына шақыру', kudalyk: 'Құдалыққа шақыру',
+  kz: { wedding: 'Үйлену тойына шақыру', bachelorette: 'Қыз ұзату тойына шақыру', merey: 'Мерейтойға шақыру', birthday: 'Туған күнге шақыру',
+    sundet: 'Сүндет тойына шақыру', tilashar: 'Тілашар тойына шақыру', besik: 'Бесік тойына шақыру', kudalyk: 'Құдалыққа шақыру',
     syrga_salu: 'Сырға салу тойына шақыру', betashar: 'Беташарға шақыру', kyryk: 'Қырқынан шығару тойына шақыру',
     shildekhana: 'Шілдеханаға шақыру', konys: 'Қоныс тойына шақыру', nikah: 'Неке қию рәсіміне шақыру', ramadan: 'Ауызашарға шақыру',
     reception: 'Тойға шақыру', 'nişan': 'Құдалыққа шақыру', 'merey-sundet': 'Тойға шақыру', baptism: 'Тойға шақыру',
@@ -40,13 +40,18 @@ const SAMPLE = {
     hosts: 'Родители', invite_text: 'Приглашаем вас разделить с нами этот радостный день!' },
 };
 
+// свои примеры для видов, где праздничный пример неуместен
+const SAMPLE_BY_CAT = { kz: { as_beru: { name1: 'Әбдіғаппар Сәрсенбайұлы', hosts: 'Балалары мен немерелері',
+  invite_text: 'Сіздерді марқұм әкеміз Әбдіғаппар Сәрсенбайұлының бір жылдық асына келіп, Құран бағыштауға шақырамыз.' } } };
+
 function sampleFields(tpl) {
   const lang = tpl.lang === 'ru' ? 'ru' : 'kz';
   const d = new Date(Date.now() + 60 * 864e5);
   return {
     ...SAMPLE[lang],
+    ...(((SAMPLE_BY_CAT[lang] || {})[tpl.category]) || {}),
     title: (TITLES[lang] && TITLES[lang][tpl.category]) || TITLES[lang].wedding,
-    date: d.toISOString().slice(0, 10), time: '18:00', map_link: 'https://2gis.kz',
+    date: d.toISOString().slice(0, 10), time: tpl.category === 'as_beru' ? '13:00' : '18:00', map_link: 'https://2gis.kz',
   };
 }
 

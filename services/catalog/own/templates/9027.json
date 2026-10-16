@@ -1,0 +1,1115 @@
+{
+ "id": 9027,
+ "category": "tilashar",
+ "lang": "kz",
+ "updated_at": "2026-10-16T00:00:00",
+ "own": true,
+ "envelope": "{\"theme\":\"champagne\",\"lang\":\"kz\",\"color\":\"#22403a\",\"text_color\":\"#f1dfa8\",\"background\":null,\"button_image\":null}",
+ "blocks": [
+  {
+   "type": "canvas",
+   "style": {
+    "backgroundColor": "#f1f3ee",
+    "backgroundImage": "",
+    "minHeight": "500px",
+    "height": "4043px",
+    "margin": "0px",
+    "padding": "20px",
+    "borderRadius": "0px",
+    "border": "none",
+    "boxShadow": "none"
+   },
+   "components": [
+    {
+     "id": "own9027_1",
+     "type": "shape",
+     "position": {
+      "x": 50,
+      "y": 8.2488,
+      "z": 101
+     },
+     "size": {
+      "width": 430,
+      "height": 667
+     },
+     "style": {
+      "backgroundColor": "#22403a",
+      "borderRadius": "0px"
+     },
+     "data": {
+      "shapeType": "rectangle"
+     }
+    },
+    {
+     "id": "own9027_2",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 0.9399,
+      "z": 102
+     },
+     "size": {
+      "width": 390,
+      "height": 66
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tilashar-siya-band-dark.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "slideInDown",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_3",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 5.3426,
+      "z": 103
+     },
+     "size": {
+      "width": 260,
+      "height": 212
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tilashar-siya-motif.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "zoomIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_4",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 8.9537,
+      "z": 104
+     },
+     "size": {
+      "width": 340,
+      "height": 40
+     },
+     "style": {
+      "fontSize": "15px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#c0912f",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.3em"
+     },
+     "data": {
+      "content": "DATE",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_5",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 10.4378,
+      "z": 105
+     },
+     "size": {
+      "width": 340,
+      "height": 90
+     },
+     "style": {
+      "fontSize": "30px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#f4efdf",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4"
+     },
+     "data": {
+      "content": "TITLE",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_6",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 13.2822,
+      "z": 106
+     },
+     "size": {
+      "width": 360,
+      "height": 130
+     },
+     "style": {
+      "fontSize": "58px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#f4efdf",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "ИМЯ",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "zoomIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_7",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 15.5083,
+      "z": 107
+     },
+     "size": {
+      "width": 390,
+      "height": 66
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tilashar-siya-band-dark.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_8",
+     "type": "shape",
+     "position": {
+      "x": 50,
+      "y": 21.9392,
+      "z": 108
+     },
+     "size": {
+      "width": 346,
+      "height": 360
+     },
+     "style": {
+      "backgroundColor": "#fcfdf9",
+      "border": "1.5px solid #d2d9cc",
+      "borderRadius": "18px",
+      "boxShadow": "inset 0 0 0 6px #fcfdf9, inset 0 0 0 7px #d2d9cc"
+     },
+     "data": {
+      "shapeType": "rectangle"
+     }
+    },
+    {
+     "id": "own9027_9",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 17.487,
+      "z": 109
+     },
+     "size": {
+      "width": 84,
+      "height": 40
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tilashar-siya-corner.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_10",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 26.3913,
+      "z": 110
+     },
+     "size": {
+      "width": 84,
+      "height": 40
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain",
+      "transform": "rotate(180deg)"
+     },
+     "data": {
+      "src": "/media/own/tilashar-siya-corner.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_11",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 18.9711,
+      "z": 111
+     },
+     "size": {
+      "width": 320,
+      "height": 80
+     },
+     "style": {
+      "fontSize": "26px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#26352f",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "Құрметті ағайын-туыс,\nқұда-жекжат, дос-жаран!",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_12",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 22.8048,
+      "z": 112
+     },
+     "size": {
+      "width": 310,
+      "height": 220
+     },
+     "style": {
+      "fontSize": "17px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#26352f",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.6"
+     },
+     "data": {
+      "content": "INVITE_TEXT",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_13",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 28.1227,
+      "z": 113
+     },
+     "size": {
+      "width": 360,
+      "height": 70
+     },
+     "style": {
+      "fontSize": "30px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#26352f",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4"
+     },
+     "data": {
+      "content": "Той салтанаты",
+      "tag": "p",
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_14",
+     "type": "calendar",
+     "position": {
+      "x": 50,
+      "y": 35.0482,
+      "z": 114
+     },
+     "size": {
+      "width": 300,
+      "height": 470
+     },
+     "style": {},
+     "data": {
+      "backgroundColor": "transparent",
+      "borderRadius": 8,
+      "titleFontSize": 16,
+      "titleFontFamily": "OwnMontserrat",
+      "titleColor": "#26352f",
+      "calendarLanguage": "kz",
+      "event_dates": [
+       {
+        "date": "2027-06-12",
+        "time": "18:00",
+        "title": null,
+        "description": null
+       }
+      ],
+      "padding": 20,
+      "titleText": "",
+      "weekdaysFontSize": 12,
+      "weekdaysFontFamily": "OwnMontserrat",
+      "weekdaysColor": "#826c2f",
+      "daysFontSize": 15,
+      "daysFontFamily": "OwnMontserrat",
+      "daysColor": "#26352f",
+      "eventMarkerType": "circle",
+      "eventMarkerColor": "#826c2f",
+      "eventMarkerSize": 28,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_15",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 43.4578,
+      "z": 115
+     },
+     "size": {
+      "width": 260,
+      "height": 46
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tilashar-siya-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_16",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 45.1892,
+      "z": 116
+     },
+     "size": {
+      "width": 360,
+      "height": 70
+     },
+     "style": {
+      "fontSize": "30px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#26352f",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4"
+     },
+     "data": {
+      "content": "Мекенжайы",
+      "tag": "p",
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_17",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 46.6733,
+      "z": 117
+     },
+     "size": {
+      "width": 340,
+      "height": 40
+     },
+     "style": {
+      "fontSize": "15px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#826c2f",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.2em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "CITY",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_18",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 48.281,
+      "z": 118
+     },
+     "size": {
+      "width": 330,
+      "height": 90
+     },
+     "style": {
+      "fontSize": "18px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#26352f",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.5"
+     },
+     "data": {
+      "content": "ADDRESS",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_19",
+     "type": "button",
+     "position": {
+      "x": 50,
+      "y": 50.507,
+      "z": 119
+     },
+     "size": {
+      "width": 200,
+      "height": 48
+     },
+     "style": {},
+     "data": {
+      "backgroundColor": "#22403a",
+      "borderRadius": 24,
+      "text": "Картаны ашу",
+      "url": "https://example.com",
+      "textColor": "#f7e9bf",
+      "borderColor": "#22403a",
+      "borderWidth": 0,
+      "openInNewTab": true,
+      "fontSize": 15,
+      "fontFamily": "OwnMontserrat",
+      "fontWeight": 600,
+      "__animation": {
+       "type": "zoomIn",
+       "duration": 1.4,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_20",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 52.8568,
+      "z": 120
+     },
+     "size": {
+      "width": 260,
+      "height": 46
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tilashar-siya-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_21",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 54.5882,
+      "z": 121
+     },
+     "size": {
+      "width": 360,
+      "height": 70
+     },
+     "style": {
+      "fontSize": "30px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#26352f",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4"
+     },
+     "data": {
+      "content": "Той иелері",
+      "tag": "p",
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_22",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 56.3196,
+      "z": 122
+     },
+     "size": {
+      "width": 340,
+      "height": 90
+     },
+     "style": {
+      "fontSize": "24px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#26352f",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "HOST",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_23",
+     "type": "shape",
+     "position": {
+      "x": 50,
+      "y": 60.648,
+      "z": 123
+     },
+     "size": {
+      "width": 346,
+      "height": 170
+     },
+     "style": {
+      "backgroundColor": "#fcfdf9",
+      "border": "1.5px solid #d2d9cc",
+      "borderRadius": "18px",
+      "boxShadow": "inset 0 0 0 6px #fcfdf9, inset 0 0 0 7px #d2d9cc"
+     },
+     "data": {
+      "shapeType": "rectangle"
+     }
+    },
+    {
+     "id": "own9027_24",
+     "type": "timer",
+     "position": {
+      "x": 50,
+      "y": 60.648,
+      "z": 124
+     },
+     "size": {
+      "width": 320,
+      "height": 150
+     },
+     "style": {},
+     "data": {
+      "event_date": "2027-06-12T13:00:00.000Z",
+      "event_title": "Тойға дейін қалды:",
+      "timezone": "Asia/Almaty",
+      "show_days": true,
+      "show_hours": true,
+      "show_minutes": true,
+      "show_seconds": true,
+      "timerLanguage": "kz",
+      "backgroundColor": "transparent",
+      "borderRadius": 8,
+      "titleFontSize": 14,
+      "titleFontFamily": "OwnMontserrat",
+      "titleColor": "#826c2f",
+      "numbersFontSize": 30,
+      "numbersFontFamily": "OwnMontserrat",
+      "numbersColor": "#26352f",
+      "labelsFontSize": 12,
+      "labelsFontFamily": "OwnMontserrat",
+      "labelsColor": "#826c2f",
+      "showLabels": true,
+      "spacing": 14,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_25",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 64.2345,
+      "z": 125
+     },
+     "size": {
+      "width": 260,
+      "height": 46
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tilashar-siya-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_26",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 66.0895,
+      "z": 126
+     },
+     "size": {
+      "width": 360,
+      "height": 70
+     },
+     "style": {
+      "fontSize": "30px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#26352f",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4"
+     },
+     "data": {
+      "content": "Тойға келетініңізді растаңыз",
+      "tag": "p",
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_27",
+     "type": "form2",
+     "position": {
+      "x": 50,
+      "y": 72.3967,
+      "z": 127
+     },
+     "size": {
+      "width": 380,
+      "height": 400
+     },
+     "style": {},
+     "data": {
+      "form_id": "form2_own9027",
+      "form_fields": [
+       {
+        "id": "1",
+        "field_type": "text",
+        "field_label": "Есіміңіз",
+        "placeholder": "Аты-жөніңіз",
+        "is_required": true,
+        "field_name": "field_1"
+       }
+      ],
+      "form_buttons": [
+       {
+        "id": "1",
+        "button_text": "Иә, барамын!",
+        "button_value": "yes"
+       },
+       {
+        "id": "2",
+        "button_text": "Жұбайыммен бірге барамын",
+        "button_value": "plus_one"
+       },
+       {
+        "id": "3",
+        "button_text": "Өкінішке орай, келе алмаймын",
+        "button_value": "no"
+       }
+      ],
+      "field_fontSize": 15,
+      "field_fontFamily": "OwnMontserrat",
+      "field_color": "#26352f",
+      "field_backgroundColor": "#ffffff",
+      "field_borderColor": "#d2d9cc",
+      "field_borderRadius": 12,
+      "button_fontSize": 15,
+      "button_fontFamily": "OwnMontserrat",
+      "label_fontSize": 14,
+      "label_fontFamily": "OwnMontserrat",
+      "label_color": "#26352f",
+      "formLang": "kz",
+      "lang": "kz",
+      "mainColor": "#22403a",
+      "submit_button_text": "ЖАУАП БЕРУ",
+      "modal_button_text": "ЖІБЕРУ",
+      "modal_title": "Есіміңізді жазыңыз",
+      "submit_button_backgroundColor": "#22403a",
+      "submit_button_textColor": "#f7e9bf",
+      "submit_button_borderRadius": 24,
+      "submit_button_fontSize": 15,
+      "submit_button_fontFamily": "OwnMontserrat",
+      "option_fontSize": 16,
+      "option_fontFamily": "OwnMontserrat",
+      "option_color": "#26352f",
+      "option_backgroundColor": "#fcfdf9",
+      "option_borderRadius": 14,
+      "option_height": 56,
+      "submit_button_height": 54,
+      "field_height": 48,
+      "field_borderWidth": 1,
+      "button_color": "#22403a",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_28",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 76.6015,
+      "z": 128
+     },
+     "size": {
+      "width": 260,
+      "height": 46
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tilashar-siya-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_29",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 78.3329,
+      "z": 129
+     },
+     "size": {
+      "width": 360,
+      "height": 70
+     },
+     "style": {
+      "fontSize": "30px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#26352f",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4"
+     },
+     "data": {
+      "content": "Ізгі тілектер",
+      "tag": "p",
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_30",
+     "type": "wishes-list",
+     "position": {
+      "x": 50,
+      "y": 84.0218,
+      "z": 130
+     },
+     "size": {
+      "width": 400,
+      "height": 380
+     },
+     "style": {},
+     "data": {
+      "form_lang": "kz",
+      "button_text": "БАРЛЫҚ ТІЛЕКТЕРДІ ОҚУ",
+      "title_color": "#26352f",
+      "card_bg_color": "#ffffff",
+      "button_color": "#22403a",
+      "font_family": "OwnMontserrat",
+      "auto_scroll_interval": 3500,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_31",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 90.9473,
+      "z": 131
+     },
+     "size": {
+      "width": 180,
+      "height": 180
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tilashar-siya-rosette.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "spin",
+       "duration": 60,
+       "isInfinite": true,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_32",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 94.6574,
+      "z": 132
+     },
+     "size": {
+      "width": 340,
+      "height": 90
+     },
+     "style": {
+      "fontSize": "26px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#26352f",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "Сіздерді асыға күтеміз!",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_33",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 97.0814,
+      "z": 133
+     },
+     "size": {
+      "width": 390,
+      "height": 66
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/tilashar-siya-band.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9027_34",
+     "type": "audio-fixed",
+     "position": {
+      "x": 50,
+      "y": 0,
+      "z": 134
+     },
+     "size": {
+      "width": 200,
+      "height": 80
+     },
+     "style": {},
+     "data": {
+      "audio_url": "/media/cd/0ad6707e677a88.mp3",
+      "button_text": "Әуен қосу",
+      "button_color": "#22403a",
+      "text_color": "#f7e9bf",
+      "font_family": "OwnMontserrat",
+      "font_size": 16,
+      "button_height": 52
+     }
+    },
+    {
+     "id": "own9027_35",
+     "type": "fixed-wishes",
+     "position": {
+      "x": 50,
+      "y": 0,
+      "z": 135
+     },
+     "size": {
+      "width": 200,
+      "height": 80
+     },
+     "style": {},
+     "data": {
+      "button_text": "ТІЛЕК ЖАЗУ",
+      "button_color": "#22403a",
+      "text_color": "#f7e9bf",
+      "font_family": "OwnMontserrat",
+      "font_size": 16,
+      "button_height": 52,
+      "component_language": "kz"
+     }
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1125 @@
+{
+ "id": 9022,
+ "category": "syrga_salu",
+ "lang": "kz",
+ "updated_at": "2026-10-16T00:00:00",
+ "own": true,
+ "envelope": "{\"theme\":\"champagne\",\"lang\":\"kz\",\"color\":\"#6b1426\",\"text_color\":\"#f6dcb4\",\"background\":null,\"button_image\":null}",
+ "blocks": [
+  {
+   "type": "canvas",
+   "style": {
+    "backgroundColor": "#fbf3ef",
+    "backgroundImage": "",
+    "minHeight": "500px",
+    "height": "4071px",
+    "margin": "0px",
+    "padding": "20px",
+    "borderRadius": "0px",
+    "border": "none",
+    "boxShadow": "none"
+   },
+   "components": [
+    {
+     "id": "own9022_1",
+     "type": "shape",
+     "position": {
+      "x": 50,
+      "y": 8.536,
+      "z": 101
+     },
+     "size": {
+      "width": 430,
+      "height": 695
+     },
+     "style": {
+      "backgroundColor": "#4c0a19",
+      "borderRadius": "0px"
+     },
+     "data": {
+      "shapeType": "rectangle"
+     }
+    },
+    {
+     "id": "own9022_2",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 0.9334,
+      "z": 102
+     },
+     "size": {
+      "width": 390,
+      "height": 66
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/syrga-shkatulka-band-dark.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "slideInDown",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_3",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 5.6497,
+      "z": 103
+     },
+     "size": {
+      "width": 280,
+      "height": 240
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/syrga-shkatulka-motif.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "zoomIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_4",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 9.58,
+      "z": 104
+     },
+     "size": {
+      "width": 340,
+      "height": 40
+     },
+     "style": {
+      "fontSize": "15px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#a97b33",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.3em"
+     },
+     "data": {
+      "content": "DATE",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_5",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 11.0538,
+      "z": 105
+     },
+     "size": {
+      "width": 340,
+      "height": 90
+     },
+     "style": {
+      "fontSize": "30px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#fbe8d5",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4"
+     },
+     "data": {
+      "content": "TITLE",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_6",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 13.8787,
+      "z": 106
+     },
+     "size": {
+      "width": 360,
+      "height": 130
+     },
+     "style": {
+      "fontSize": "58px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#fbe8d5",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "ИМЯ",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "zoomIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_7",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 16.0894,
+      "z": 107
+     },
+     "size": {
+      "width": 390,
+      "height": 66
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/syrga-shkatulka-band-dark.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_8",
+     "type": "shape",
+     "position": {
+      "x": 50,
+      "y": 22.4761,
+      "z": 108
+     },
+     "size": {
+      "width": 346,
+      "height": 360
+     },
+     "style": {
+      "backgroundColor": "#fffaf7",
+      "border": "1.5px solid #e6c3c3",
+      "borderRadius": "18px",
+      "boxShadow": "inset 0 0 0 6px #fffaf7, inset 0 0 0 7px #e6c3c3"
+     },
+     "data": {
+      "shapeType": "rectangle"
+     }
+    },
+    {
+     "id": "own9022_9",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 18.0545,
+      "z": 109
+     },
+     "size": {
+      "width": 84,
+      "height": 40
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/syrga-shkatulka-corner.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_10",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 26.8976,
+      "z": 110
+     },
+     "size": {
+      "width": 84,
+      "height": 40
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain",
+      "transform": "rotate(180deg)"
+     },
+     "data": {
+      "src": "/media/own/syrga-shkatulka-corner.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_11",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 19.5284,
+      "z": 111
+     },
+     "size": {
+      "width": 320,
+      "height": 80
+     },
+     "style": {
+      "fontSize": "26px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#3c1a22",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "Құрметті құда-жекжат, ағайын-туыс!",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_12",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 23.3358,
+      "z": 112
+     },
+     "size": {
+      "width": 310,
+      "height": 220
+     },
+     "style": {
+      "fontSize": "17px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#3c1a22",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.6"
+     },
+     "data": {
+      "content": "INVITE_TEXT",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_13",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 28.617,
+      "z": 113
+     },
+     "size": {
+      "width": 360,
+      "height": 60
+     },
+     "style": {
+      "fontSize": "16px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#8e632f",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.26em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "Той салтанаты",
+      "tag": "p",
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_14",
+     "type": "calendar",
+     "position": {
+      "x": 50,
+      "y": 35.495,
+      "z": 114
+     },
+     "size": {
+      "width": 300,
+      "height": 470
+     },
+     "style": {},
+     "data": {
+      "backgroundColor": "transparent",
+      "borderRadius": 8,
+      "titleFontSize": 16,
+      "titleFontFamily": "OwnMontserrat",
+      "titleColor": "#3c1a22",
+      "calendarLanguage": "kz",
+      "event_dates": [
+       {
+        "date": "2027-06-12",
+        "time": "18:00",
+        "title": null,
+        "description": null
+       }
+      ],
+      "padding": 20,
+      "titleText": "",
+      "weekdaysFontSize": 12,
+      "weekdaysFontFamily": "OwnMontserrat",
+      "weekdaysColor": "#8e632f",
+      "daysFontSize": 15,
+      "daysFontFamily": "OwnMontserrat",
+      "daysColor": "#3c1a22",
+      "eventMarkerType": "heart",
+      "eventMarkerColor": "#8e632f",
+      "eventMarkerSize": 28,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_15",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 43.8467,
+      "z": 115
+     },
+     "size": {
+      "width": 260,
+      "height": 46
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/syrga-shkatulka-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_16",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 45.5662,
+      "z": 116
+     },
+     "size": {
+      "width": 360,
+      "height": 60
+     },
+     "style": {
+      "fontSize": "16px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#8e632f",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.26em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "Мекенжайы",
+      "tag": "p",
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_17",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 47.04,
+      "z": 117
+     },
+     "size": {
+      "width": 340,
+      "height": 40
+     },
+     "style": {
+      "fontSize": "15px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#8e632f",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.2em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "CITY",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_18",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 48.6367,
+      "z": 118
+     },
+     "size": {
+      "width": 330,
+      "height": 90
+     },
+     "style": {
+      "fontSize": "18px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#3c1a22",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.5"
+     },
+     "data": {
+      "content": "ADDRESS",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_19",
+     "type": "button",
+     "position": {
+      "x": 50,
+      "y": 50.8475,
+      "z": 119
+     },
+     "size": {
+      "width": 200,
+      "height": 48
+     },
+     "style": {},
+     "data": {
+      "backgroundColor": "#8a1a33",
+      "borderRadius": 24,
+      "text": "Картаны ашу",
+      "url": "https://example.com",
+      "textColor": "#fff2df",
+      "borderColor": "#8a1a33",
+      "borderWidth": 0,
+      "openInNewTab": true,
+      "fontSize": 15,
+      "fontFamily": "OwnMontserrat",
+      "fontWeight": 600,
+      "__animation": {
+       "type": "zoomIn",
+       "duration": 1.4,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_20",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 53.181,
+      "z": 120
+     },
+     "size": {
+      "width": 260,
+      "height": 46
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/syrga-shkatulka-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_21",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 54.9005,
+      "z": 121
+     },
+     "size": {
+      "width": 360,
+      "height": 60
+     },
+     "style": {
+      "fontSize": "16px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#8e632f",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.26em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "Той иелері",
+      "tag": "p",
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_22",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 56.62,
+      "z": 122
+     },
+     "size": {
+      "width": 340,
+      "height": 90
+     },
+     "style": {
+      "fontSize": "24px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#3c1a22",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "HOST",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_23",
+     "type": "shape",
+     "position": {
+      "x": 50,
+      "y": 60.9187,
+      "z": 123
+     },
+     "size": {
+      "width": 346,
+      "height": 170
+     },
+     "style": {
+      "backgroundColor": "#fffaf7",
+      "border": "1.5px solid #e6c3c3",
+      "borderRadius": "18px",
+      "boxShadow": "inset 0 0 0 6px #fffaf7, inset 0 0 0 7px #e6c3c3"
+     },
+     "data": {
+      "shapeType": "rectangle"
+     }
+    },
+    {
+     "id": "own9022_24",
+     "type": "timer",
+     "position": {
+      "x": 50,
+      "y": 60.9187,
+      "z": 124
+     },
+     "size": {
+      "width": 320,
+      "height": 150
+     },
+     "style": {},
+     "data": {
+      "event_date": "2027-06-12T13:00:00.000Z",
+      "event_title": "Тойға дейін қалды:",
+      "timezone": "Asia/Almaty",
+      "show_days": true,
+      "show_hours": true,
+      "show_minutes": true,
+      "show_seconds": true,
+      "timerLanguage": "kz",
+      "backgroundColor": "transparent",
+      "borderRadius": 8,
+      "titleFontSize": 14,
+      "titleFontFamily": "OwnMontserrat",
+      "titleColor": "#8e632f",
+      "numbersFontSize": 30,
+      "numbersFontFamily": "OwnMontserrat",
+      "numbersColor": "#3c1a22",
+      "labelsFontSize": 12,
+      "labelsFontFamily": "OwnMontserrat",
+      "labelsColor": "#8e632f",
+      "showLabels": true,
+      "spacing": 14,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_25",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 64.4805,
+      "z": 125
+     },
+     "size": {
+      "width": 260,
+      "height": 46
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/syrga-shkatulka-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_26",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 66.3228,
+      "z": 126
+     },
+     "size": {
+      "width": 360,
+      "height": 60
+     },
+     "style": {
+      "fontSize": "16px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#8e632f",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.26em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "Тойға келетініңізді растаңыз",
+      "tag": "p",
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_27",
+     "type": "form2",
+     "position": {
+      "x": 50,
+      "y": 72.5866,
+      "z": 127
+     },
+     "size": {
+      "width": 380,
+      "height": 400
+     },
+     "style": {},
+     "data": {
+      "form_id": "form2_own9022",
+      "form_fields": [
+       {
+        "id": "1",
+        "field_type": "text",
+        "field_label": "Есіміңіз",
+        "placeholder": "Аты-жөніңіз",
+        "is_required": true,
+        "field_name": "field_1"
+       }
+      ],
+      "form_buttons": [
+       {
+        "id": "1",
+        "button_text": "Иә, барамын!",
+        "button_value": "yes"
+       },
+       {
+        "id": "2",
+        "button_text": "Жұбайыммен бірге барамын",
+        "button_value": "plus_one"
+       },
+       {
+        "id": "3",
+        "button_text": "Өкінішке орай, келе алмаймын",
+        "button_value": "no"
+       }
+      ],
+      "field_fontSize": 15,
+      "field_fontFamily": "OwnMontserrat",
+      "field_color": "#3c1a22",
+      "field_backgroundColor": "#ffffff",
+      "field_borderColor": "#e6c3c3",
+      "field_borderRadius": 12,
+      "button_fontSize": 15,
+      "button_fontFamily": "OwnMontserrat",
+      "label_fontSize": 14,
+      "label_fontFamily": "OwnMontserrat",
+      "label_color": "#3c1a22",
+      "formLang": "kz",
+      "lang": "kz",
+      "mainColor": "#8a1a33",
+      "submit_button_text": "ЖАУАП БЕРУ",
+      "modal_button_text": "ЖІБЕРУ",
+      "modal_title": "Есіміңізді жазыңыз",
+      "submit_button_backgroundColor": "#8a1a33",
+      "submit_button_textColor": "#fff2df",
+      "submit_button_borderRadius": 24,
+      "submit_button_fontSize": 15,
+      "submit_button_fontFamily": "OwnMontserrat",
+      "option_fontSize": 16,
+      "option_fontFamily": "OwnMontserrat",
+      "option_color": "#3c1a22",
+      "option_backgroundColor": "#fffaf7",
+      "option_borderRadius": 14,
+      "option_height": 56,
+      "submit_button_height": 54,
+      "field_height": 48,
+      "field_borderWidth": 1,
+      "button_color": "#8a1a33",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_28",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 76.7625,
+      "z": 128
+     },
+     "size": {
+      "width": 260,
+      "height": 46
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/syrga-shkatulka-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_29",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 78.4819,
+      "z": 129
+     },
+     "size": {
+      "width": 360,
+      "height": 60
+     },
+     "style": {
+      "fontSize": "16px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#8e632f",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.26em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "Ізгі тілектер",
+      "tag": "p",
+      "__animation": {
+       "type": "slideInUp",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_30",
+     "type": "wishes-list",
+     "position": {
+      "x": 50,
+      "y": 84.1317,
+      "z": 130
+     },
+     "size": {
+      "width": 400,
+      "height": 380
+     },
+     "style": {},
+     "data": {
+      "form_lang": "kz",
+      "button_text": "БАРЛЫҚ ТІЛЕКТЕРДІ ОҚУ",
+      "title_color": "#3c1a22",
+      "card_bg_color": "#ffffff",
+      "button_color": "#8a1a33",
+      "font_family": "OwnMontserrat",
+      "auto_scroll_interval": 3500,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_31",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 91.0096,
+      "z": 131
+     },
+     "size": {
+      "width": 180,
+      "height": 180
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/syrga-shkatulka-rosette.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "spin",
+       "duration": 60,
+       "isInfinite": true,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_32",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 94.6942,
+      "z": 132
+     },
+     "size": {
+      "width": 340,
+      "height": 90
+     },
+     "style": {
+      "fontSize": "26px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#3c1a22",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "Сіздерді асыға күтеміз!",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_33",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 97.1014,
+      "z": 133
+     },
+     "size": {
+      "width": 390,
+      "height": 66
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/syrga-shkatulka-band.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9022_34",
+     "type": "audio-fixed",
+     "position": {
+      "x": 50,
+      "y": 0,
+      "z": 134
+     },
+     "size": {
+      "width": 200,
+      "height": 80
+     },
+     "style": {},
+     "data": {
+      "audio_url": "/media/cd/0ad6707e677a88.mp3",
+      "button_text": "Әуен қосу",
+      "button_color": "#8a1a33",
+      "text_color": "#fff2df",
+      "font_family": "OwnMontserrat",
+      "font_size": 16,
+      "button_height": 52
+     }
+    },
+    {
+     "id": "own9022_35",
+     "type": "fixed-wishes",
+     "position": {
+      "x": 50,
+      "y": 0,
+      "z": 135
+     },
+     "size": {
+      "width": 200,
+      "height": 80
+     },
+     "style": {},
+     "data": {
+      "button_text": "ТІЛЕК ЖАЗУ",
+      "button_color": "#8a1a33",
+      "text_color": "#fff2df",
+      "font_family": "OwnMontserrat",
+      "font_size": 16,
+      "button_height": 52,
+      "component_language": "kz"
+     }
+    }
+   ]
+  }
+ ]
+}

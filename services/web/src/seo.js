@@ -467,6 +467,8 @@ const CATS = [
     },
   },
   // в каталоге один шаблон, по содержанию — свадебный; отдельную посадочную не делаем
+  { key: 'as_beru', slug: 'as-beru', landing: false, kz: { name: 'Ас беру', invite: 'Асқа шақыру' }, ru: { name: 'Ас беру', invite: 'Приглашение на ас' } },
+  { key: 'tusaukeser', slug: 'tusaukeser', landing: false, kz: { name: 'Тұсаукесер', invite: 'Тұсаукесер тойына шақыру' }, ru: { name: 'Тусаукесер', invite: 'Приглашение на тусаукесер' } },
   { key: 'baptism', slug: 'baptism', landing: false, kz: { name: 'Той', invite: 'Тойға шақыру' }, ru: { name: 'Торжество', invite: 'Приглашение на торжество' } },
 ];
 const CAT_BY_KEY = new Map(CATS.map(c => [c.key, c]));
@@ -569,7 +571,8 @@ const byPopularity = (a, b) => b.popularity - a.popularity || a.id - b.id;
 function landingCats(list) {
   const groups = new Map();
   for (const t of list) {
-    const c = CAT_BY_KEY.get(t.category);
+    // тұсаукесер показываем на общей странице «Тұсаукесер мен тілашар»
+    const c = CAT_BY_KEY.get(t.category === 'tusaukeser' ? 'tilashar' : t.category);
     if (!c || c.landing === false) continue;
     if (!groups.has(c)) groups.set(c, []);
     groups.get(c).push(t);

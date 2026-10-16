@@ -12,7 +12,7 @@
     "backgroundColor": "#f2f0eb",
     "backgroundImage": "",
     "minHeight": "500px",
-    "height": "3220px",
+    "height": "3205px",
     "margin": "0px",
     "padding": "20px",
     "borderRadius": "0px",
@@ -25,12 +25,12 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 1.2422,
+      "y": 1.1856,
       "z": 101
      },
      "size": {
-      "width": 430,
-      "height": 72
+      "width": 390,
+      "height": 66
      },
      "style": {
       "borderRadius": "0px",
@@ -40,7 +40,7 @@
       "src": "/media/own/as-band.svg",
       "isPhoto": false,
       "__animation": {
-       "type": "slideInDown",
+       "type": "fadeIn",
        "duration": 1.8,
        "isInfinite": false,
        "motionPath": null
@@ -52,7 +52,7 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 7.764,
+      "y": 6.7083,
       "z": 102
      },
      "size": {
@@ -67,7 +67,7 @@
       "src": "/media/own/as-motif.svg",
       "isPhoto": false,
       "__animation": {
-       "type": "zoomIn",
+       "type": "fadeIn",
        "duration": 1.8,
        "isInfinite": false,
        "motionPath": null
@@ -79,7 +79,7 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 12.7329,
+      "y": 11.5445,
       "z": 103
      },
      "size": {
@@ -99,7 +99,7 @@
       "content": "DATE",
       "tag": "p",
       "__animation": {
-       "type": "slideInDown",
+       "type": "fadeIn",
        "duration": 1.6,
        "isInfinite": false,
        "motionPath": null
@@ -111,7 +111,7 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 14.5963,
+      "y": 13.4165,
       "z": 104
      },
      "size": {
@@ -131,7 +131,7 @@
       "tag": "p",
       "__fit": true,
       "__animation": {
-       "type": "slideInUp",
+       "type": "fadeIn",
        "duration": 1.6,
        "isInfinite": false,
        "motionPath": null
@@ -143,7 +143,7 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 17.7019,
+      "y": 17.0047,
       "z": 105
      },
      "size": {
@@ -164,7 +164,7 @@
       "tag": "p",
       "__fit": true,
       "__animation": {
-       "type": "zoomIn",
+       "type": "fadeIn",
        "duration": 1.8,
        "isInfinite": false,
        "motionPath": null
@@ -176,7 +176,7 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 20.8075,
+      "y": 20.1248,
       "z": 106
      },
      "size": {
@@ -203,17 +203,18 @@
      "type": "shape",
      "position": {
       "x": 50,
-      "y": 27.6398,
+      "y": 27.9251,
       "z": 107
      },
      "size": {
-      "width": 372,
-      "height": 300
+      "width": 346,
+      "height": 360
      },
      "style": {
       "backgroundColor": "#fbfaf7",
       "border": "1.5px solid #d6d0c2",
-      "borderRadius": "18px"
+      "borderRadius": "18px",
+      "boxShadow": "inset 0 0 0 6px #fbfaf7, inset 0 0 0 7px #d6d0c2"
      },
      "data": {
       "shapeType": "rectangle"
@@ -223,13 +224,13 @@
      "id": "own9002_8",
      "type": "image",
      "position": {
-      "x": 14,
-      "y": 23.9752,
+      "x": 50,
+      "y": 22.3089,
       "z": 108
      },
      "size": {
-      "width": 56,
-      "height": 56
+      "width": 84,
+      "height": 40
      },
      "style": {
       "borderRadius": "0px",
@@ -250,13 +251,13 @@
      "id": "own9002_9",
      "type": "image",
      "position": {
-      "x": 86,
-      "y": 31.3043,
+      "x": 50,
+      "y": 33.5413,
       "z": 109
      },
      "size": {
-      "width": 56,
-      "height": 56
+      "width": 84,
+      "height": 40
      },
      "style": {
       "borderRadius": "0px",
@@ -279,11 +280,11 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 24.8447,
+      "y": 24.181,
       "z": 110
      },
      "size": {
-      "width": 340,
+      "width": 320,
       "height": 80
      },
      "style": {
@@ -296,7 +297,7 @@
       "fontStyle": "italic"
      },
      "data": {
-      "content": "Құрметті ағайын-туыс, құда-жекжат, дос-жаран!",
+      "content": "Құрметті ағайын-туыс,\nқұда-жекжат, дос-жаран!",
       "tag": "p",
       "__animation": {
        "type": "fadeIn",
@@ -311,12 +312,12 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 28.7267,
+      "y": 29.0172,
       "z": 111
      },
      "size": {
-      "width": 320,
-      "height": 170
+      "width": 310,
+      "height": 220
      },
      "style": {
       "fontSize": "17px",
@@ -343,12 +344,12 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 34.472,
+      "y": 35.7254,
       "z": 112
      },
      "size": {
-      "width": 340,
-      "height": 60
+      "width": 360,
+      "height": 70
      },
      "style": {
       "fontSize": "30px",
@@ -362,7 +363,7 @@
       "content": "Ас беру күні",
       "tag": "p",
       "__animation": {
-       "type": "slideInUp",
+       "type": "fadeIn",
        "duration": 1.6,
        "isInfinite": false,
        "motionPath": null
@@ -374,7 +375,7 @@
      "type": "calendar",
      "position": {
       "x": 50,
-      "y": 43.1677,
+      "y": 44.4618,
       "z": 113
      },
      "size": {
@@ -407,7 +408,8 @@
       "daysColor": "#2b2f33",
       "eventMarkerType": "circle",
       "eventMarkerColor": "#7a6844",
-      "eventMarkerSize": 40,
+      "eventMarkerSize": 28,
+      "eventMarkerStatic": true,
       "__animation": {
        "type": "fadeIn",
        "duration": 1.8,
@@ -421,7 +423,7 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 52.4845,
+      "y": 55.0702,
       "z": 114
      },
      "size": {
@@ -448,12 +450,12 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 54.6584,
+      "y": 57.2543,
       "z": 115
      },
      "size": {
-      "width": 340,
-      "height": 60
+      "width": 360,
+      "height": 70
      },
      "style": {
       "fontSize": "30px",
@@ -467,7 +469,7 @@
       "content": "Мекенжайы",
       "tag": "p",
       "__animation": {
-       "type": "slideInUp",
+       "type": "fadeIn",
        "duration": 1.6,
        "isInfinite": false,
        "motionPath": null
@@ -479,7 +481,7 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 56.5217,
+      "y": 59.1264,
       "z": 116
      },
      "size": {
@@ -513,7 +515,7 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 58.5404,
+      "y": 61.1544,
       "z": 117
      },
      "size": {
@@ -545,7 +547,7 @@
      "type": "button",
      "position": {
       "x": 50,
-      "y": 61.3354,
+      "y": 63.9626,
       "z": 118
      },
      "size": {
@@ -566,7 +568,7 @@
       "fontFamily": "OwnMontserrat",
       "fontWeight": 600,
       "__animation": {
-       "type": "zoomIn",
+       "type": "fadeIn",
        "duration": 1.4,
        "isInfinite": false,
        "motionPath": null
@@ -578,7 +580,7 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 64.2857,
+      "y": 66.9267,
       "z": 119
      },
      "size": {
@@ -605,12 +607,12 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 66.4596,
+      "y": 69.1108,
       "z": 120
      },
      "size": {
-      "width": 340,
-      "height": 60
+      "width": 360,
+      "height": 70
      },
      "style": {
       "fontSize": "30px",
@@ -624,7 +626,7 @@
       "content": "Ас иелері",
       "tag": "p",
       "__animation": {
-       "type": "slideInUp",
+       "type": "fadeIn",
        "duration": 1.6,
        "isInfinite": false,
        "motionPath": null
@@ -636,7 +638,7 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 68.6335,
+      "y": 71.2949,
       "z": 121
      },
      "size": {
@@ -669,7 +671,7 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 71.4286,
+      "y": 74.103,
       "z": 122
      },
      "size": {
@@ -696,15 +698,15 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 73.7578,
+      "y": 76.4431,
       "z": 123
      },
      "size": {
-      "width": 340,
-      "height": 90
+      "width": 360,
+      "height": 70
      },
      "style": {
-      "fontSize": "28px",
+      "fontSize": "30px",
       "fontFamily": "\"OwnCormorant\", Georgia, serif",
       "color": "#2b2f33",
       "textAlign": "center",
@@ -715,7 +717,7 @@
       "content": "Келетініңізді растаңыз",
       "tag": "p",
       "__animation": {
-       "type": "slideInUp",
+       "type": "fadeIn",
        "duration": 1.6,
        "isInfinite": false,
        "motionPath": null
@@ -727,7 +729,7 @@
      "type": "form2",
      "position": {
       "x": 50,
-      "y": 81.677,
+      "y": 84.3994,
       "z": 124
      },
      "size": {
@@ -742,7 +744,7 @@
         "id": "1",
         "field_type": "text",
         "field_label": "Есіміңіз",
-        "placeholder": "Есіміңізді енгізіңіз",
+        "placeholder": "Аты-жөніңіз",
         "is_required": true,
         "field_name": "field_1"
        }
@@ -775,7 +777,7 @@
       "mainColor": "#3a4046",
       "submit_button_text": "ЖАУАП БЕРУ",
       "modal_button_text": "ЖІБЕРУ",
-      "modal_title": "Есіміңізді жазыңыз:",
+      "modal_title": "Есіміңізді жазыңыз",
       "submit_button_backgroundColor": "#3a4046",
       "submit_button_textColor": "#f2ede1",
       "submit_button_borderRadius": 24,
@@ -784,6 +786,7 @@
       "option_fontSize": 16,
       "option_fontFamily": "OwnMontserrat",
       "option_color": "#2b2f33",
+      "option_backgroundColor": "#fbfaf7",
       "option_borderRadius": 14,
       "option_height": 56,
       "submit_button_height": 54,
@@ -803,7 +806,7 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 90.9938,
+      "y": 90.9516,
       "z": 125
      },
      "size": {
@@ -830,7 +833,7 @@
      "type": "text",
      "position": {
       "x": 50,
-      "y": 95.6522,
+      "y": 95.6318,
       "z": 126
      },
      "size": {
@@ -862,12 +865,12 @@
      "type": "image",
      "position": {
       "x": 50,
-      "y": 98.7578,
+      "y": 98.6895,
       "z": 127
      },
      "size": {
-      "width": 430,
-      "height": 72
+      "width": 390,
+      "height": 66
      },
      "style": {
       "borderRadius": "0px",
