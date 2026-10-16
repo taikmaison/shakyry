@@ -45,6 +45,8 @@
   .pick input { padding: 9px 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font: inherit; }
   .pick .row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
   .pick .who { flex: 1 1 220px; min-width: 0; overflow-wrap: anywhere; }
+  .pick .code { font: 700 26px/1.2 ui-monospace, Consolas, monospace; letter-spacing: .08em; color: var(--accent); }
+  .pick textarea { width: 100%; min-height: 150px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font: inherit; font-size: 13px; resize: vertical; }
   button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 </style>
 </head>
@@ -111,6 +113,7 @@ function invitationItem(x) {
     if (reason === null) return;
     await post(`/api/admin/invitations/${x.id}/unpublish`, { reason }); reload();
   }));
+  acts.append(button('Код для клиента', '', async () => claimCode(x, item)));
   acts.append(button('Передать клиенту', '', async () => pickOwner(x, item)));
   acts.append(button('Удалить', 'bad', async () => {
     if (!confirm('Удалить приглашение вместе с ответами гостей и фото?')) return;
@@ -118,6 +121,26 @@ function invitationItem(x) {
   }));
   item.append(main, acts);
   return item;
+}
+
+// код для клиента: клиент открывает ссылку на бота (или отправляет боту код) — приглашение переходит к нему,
+// ответы и пожелания гостей приходят ему в Telegram. Входить на сайт клиенту не нужно
+async function claimCode(x, item) {
+  item.querySelector('.pick')?.remove();
+  const r = await post(`/api/admin/invitations/${x.id}/claim`);
+  const box = el('div', 'pick');
+  const msg = [
+    'Сәлеметсіз бе! Қонақтарыңыздың жауаптары Telegram-ға келіп тұруы үшін ' + (r.link ? `мына сілтемені ашып, «Start» батырмасын басыңыз: ${r.link}\nНемесе мына кодты ${r.bot} ботына жіберіңіз: ${r.code}` : `біздің ботқа мына кодты жіберіңіз: ${r.code}`),
+    '',
+    'Здравствуйте! Чтобы ответы гостей на ваше приглашение приходили вам в Telegram, ' + (r.link ? `откройте ссылку и нажмите «Start»: ${r.link}\nИли отправьте боту ${r.bot} код: ${r.code}` : `отправьте боту код: ${r.code}`),
+  ].join('\n');
+  const text = el('textarea'); text.readOnly = true; text.value = msg;
+  const copy = button('Скопировать сообщение', 'ok', async () => {
+    try { await navigator.clipboard.writeText(msg); copy.textContent = 'Скопировано'; } catch { text.select(); }
+  });
+  box.append(el('div', 'm', `Код действует до ${when(r.expires_at)}. Отправьте сообщение клиенту (например, в WhatsApp): он откроет ссылку или пришлёт боту код — и приглашение станет его. Новый код отменяет прежний.`),
+    el('div', 'code', r.code), text, Object.assign(el('div', 'acts'), {}).appendChild(copy).parentNode);
+  item.append(box);
 }
 
 // передать приглашение клиенту: ответы и пожелания гостей пойдут ему. Клиент должен хотя бы раз войти на сайт

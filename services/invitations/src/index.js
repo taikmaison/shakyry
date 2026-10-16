@@ -94,6 +94,23 @@ async function notify(pathname, body) {
   if (AUTH_API) await api(AUTH_API, pathname, { method: 'POST', body, timeout: 5000 }).catch(e => console.warn(`[invitations] уведомление не отправлено: ${e.message}`));
 }
 
+// коды «приглашение — клиенту»: клиент отправляет код боту (сервис входа), а владельца меняем здесь — сервис входа
+// к нам не обращается (на Vercel обратные связи запрещены), поэтому забираем такие записи сами: не чаще раза в 5 с,
+// перед ответами, где важен владелец (уведомления гостей, списки)
+let claimsAt = 0, claiming = null;
+function syncClaims() {
+  if (claiming) return claiming;
+  if (!AUTH_API || Date.now() - claimsAt < 5000) return Promise.resolve();
+  claimsAt = Date.now();
+  claiming = (async () => {
+    const { items } = await api(AUTH_API, '/_internal/claims/pending', { timeout: 4000 });
+    if (!items.length) return;
+    for (const it of items) if (Number.isSafeInteger(it.user_id) && it.user_id > 0) await db.run('UPDATE invitations SET user_id = ? WHERE id = ?', it.user_id, it.invitation_id);
+    await api(AUTH_API, '/_internal/claims/applied', { method: 'POST', body: { keys: items.map(it => it.key) }, timeout: 4000 });
+  })().catch(e => console.warn(`[invitations] коды клиентов не забраны: ${e.message}`)).finally(() => { claiming = null; });
+  return claiming;
+}
+
 async function validated(body) {
   let fields;
   try { fields = cleanFields(body); } catch (e) { if (e instanceof FieldError) throw new HttpError(400, e.message); throw e; }
@@ -124,6 +141,7 @@ createService('invitations', [
   // мои приглашения
   ['GET', '/api/invitations', async (req, res) => {
     const user = await requireUser(req);
+    await syncClaims();
     json(res, 200, (await db.all('SELECT * FROM invitations WHERE user_id = ? ORDER BY created_at DESC', user.id)).map(ownerView));
   }],
 
@@ -213,6 +231,7 @@ createService('invitations', [
 
   // для сервисов (шлюз снаружи закрывает /_internal): кому слать уведомления об ответах гостей
   ['GET', '/_internal/invitations/:id', async (req, res, { params }) => {
+    await syncClaims();
     const row = await get(params.id);
     if (!row) throw new HttpError(404, 'Приглашение не найдено');
     json(res, 200, { id: row.id, user_id: row.user_id, live: !!row.live_fields, title: title(row) });
@@ -221,6 +240,7 @@ createService('invitations', [
   // ---------- администратор ----------
   ['GET', '/api/admin/invitations', async (req, res, { url }) => {
     await requireAdmin(req);
+    await syncClaims();
     const q = (url.searchParams.get('q') || '').trim(), status = url.searchParams.get('status');
     // только целые в границах: Postgres не примет NaN или дробь в LIMIT/OFFSET
     const limit = Math.min(200, Math.max(1, parseInt(url.searchParams.get('limit'), 10) || 50));
@@ -270,6 +290,15 @@ createService('invitations', [
     if (!row) throw new HttpError(404, 'Приглашение не найдено');
     await notify('/_internal/notify', { user_id: row.user_id, text: `⛔ Приглашение «${title(row)}» снято с публикации${reason ? ': ' + reason : ''}` });
     json(res, 200, ownerView(row));
+  }],
+
+  // код для клиента: клиент отправляет его Telegram-боту (или открывает ссылку) — приглашение переходит к нему,
+  // ответы и пожелания гостей приходят ему в Telegram. Новый код отменяет прежний неиспользованный
+  ['POST', '/api/admin/invitations/:id/claim', async (req, res, { params }) => {
+    await requireAdmin(req);
+    const row = await get(params.id);
+    if (!row) throw new HttpError(404, 'Приглашение не найдено');
+    json(res, 200, await api(AUTH_API, '/_internal/claims', { method: 'POST', body: { invitation_id: row.id, title: title(row) }, timeout: 5000 }));
   }],
 
   // передать приглашение другому пользователю (клиенту, для которого его сделал администратор):

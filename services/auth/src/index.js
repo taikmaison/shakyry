@@ -78,12 +78,20 @@ const TEXT = {
     'Если вы не запрашивали код, просто не обращайте внимания на это письмо.',
   ].join('\n'),
   notifySubject: 'Хабарландыру / Уведомление',
-  tgHello: 'Сәлеметсіз бе! Бұл бот сайтқа кіруге көмектеседі: сайтта «Telegram арқылы кіру» батырмасын басыңыз.\n\n'
+  tgHello: 'Сәлеметсіз бе! Бұл бот сайтқа кіруге көмектеседі: сайтта «Войти через Telegram» батырмасын басыңыз.\n\n'
     + 'Здравствуйте! Этот бот помогает войти на сайт: нажмите на сайте «Войти через Telegram».',
   tgConfirmed: 'Кіру расталды — сайтқа оралыңыз.\nВход подтверждён — вернитесь на сайт.',
   tgExpired: 'Кіру сілтемесінің мерзімі өтіп кетті — сайтта қайтадан бастаңыз.\nСсылка для входа устарела — начните вход на сайте заново.',
   tgUsed: 'Бұл сілтеме басқа аккаунтпен пайдаланылған.\nЭта ссылка уже использована другим аккаунтом.',
   tgBlocked: 'Аккаунт бұғатталған.\nАккаунт заблокирован.',
+  claimOk: title => `Дайын! «${title}» шақыруы енді сіздікі: қонақтардың жауаптары мен тілектері осы чатқа келіп тұрады. `
+    + 'Қонақтар тізімін сайттан да көре аласыз — ол үшін «Войти через Telegram» батырмасын басып кіріңіз.\n\n'
+    + `Готово! Приглашение «${title}» теперь ваше: ответы и пожелания гостей будут приходить сюда. `
+    + 'Список гостей есть и на сайте — войдите через «Войти через Telegram».',
+  claimBad: 'Код табылмады немесе мерзімі өтіп кеткен — шақыруды жасаған адамнан жаңа код сұраңыз.\n'
+    + 'Код не найден или устарел — попросите новый код у того, кто сделал приглашение.',
+  claimUsed: 'Бұл кодты басқа адам пайдаланып қойған.\nЭтот код уже использовал другой человек.',
+  claimTooMany: 'Тым көп әрекет жасалды — бір сағаттан кейін қайталап көріңіз.\nСлишком много попыток — попробуйте через час.',
 };
 
 // ---------- запрос ----------
@@ -212,15 +220,46 @@ async function readNotice(req) {
   return { body, text, subject };
 }
 
+// ---------- коды «приглашение — клиенту» ----------
+// 8 знаков без похожих (0/O, 1/I/L): 31^8 ≈ 8·10^11 вариантов; показываем как ABCD-EFGH, принимаем в любом регистре, с пробелом или дефисом
+const CODE_ABC = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+const newClaimCode = () => Array.from(crypto.randomBytes(8), b => CODE_ABC[b % CODE_ABC.length]).join('');
+const normCode = s => String(s || '').toUpperCase().replace(/[\s-]/g, '');
+const CLAIM_TTL = 30 * DAY;
+// код от клиента в боте: приглашение переходит к пользователю этого Telegram (создаётся, если его ещё нет)
+async function redeemClaim(m, code, reply) {
+  const key = String(m.from.id);
+  const { n } = await db.get("SELECT COUNT(*) AS n FROM hits WHERE bucket = 'claim' AND key = ? AND at > ?", key, Date.now() - HOUR);
+  if (Number(n) >= 10) return reply(TEXT.claimTooMany);
+  const row = await db.get('SELECT * FROM invite_claims WHERE code_hash = ?', sha(normCode(code)));
+  if (!row || (Number(row.expires_at) <= Date.now() && !row.redeemed_at)) {
+    await db.run("INSERT INTO hits (bucket, key, at) VALUES ('claim', ?, ?)", key, Date.now());
+    return reply(TEXT.claimBad);
+  }
+  const user = await telegramUser({ telegram_id: m.from.id, first_name: m.from.first_name, last_name: m.from.last_name, username: m.from.username });
+  if (user.blocked) return reply(TEXT.tgBlocked);
+  if (row.user_id && Number(row.user_id) !== Number(user.id)) return reply(TEXT.claimUsed);
+  if (!row.user_id) {
+    await db.run('UPDATE invite_claims SET user_id = ?, redeemed_at = ? WHERE code_hash = ? AND user_id IS NULL', user.id, Date.now(), row.code_hash);
+    const who = [user.name, user.telegram_username && '@' + user.telegram_username].filter(Boolean).join(' ');
+    for (const admin of await db.all("SELECT * FROM users WHERE role = 'admin'"))
+      await deliver(admin, `🔑 ${who || 'Клиент'} получил(а) приглашение «${row.title || row.invitation_id}» по коду — ответы гостей теперь приходят ему(ей).`, TEXT.notifySubject);
+  }
+  return reply(TEXT.claimOk(row.title || 'Шақыру'));
+}
+
 // ---------- Telegram: обработка сообщений боту (и из long-polling, и из webhook) ----------
-// /start <токен> — подтвердить вход; /start без токена — приветствие; остальное не трогаем
+// /start <токен> — подтвердить вход; /start c_<код> или просто код — приглашение клиенту; /start без токена — приветствие
 async function handleUpdate(update) {
   const m = update && update.message;
   if (!m || !m.from || !m.chat || typeof m.text !== 'string') return;
-  const cmd = /^\/start(?:@\w+)?(?:\s+(\S+))?\s*$/.exec(m.text.trim());
-  if (!cmd) return;
   const reply = text => bot.send(m.chat.id, text).catch(e => console.warn(`[auth] Telegram: ответ не отправлен: ${e.message}`));
+  const text = m.text.trim();
+  if (/^[A-Za-z0-9]{4}[\s-]?[A-Za-z0-9]{4}$/.test(text)) return redeemClaim(m, text, reply);
+  const cmd = /^\/start(?:@\w+)?(?:\s+(\S+))?\s*$/.exec(text);
+  if (!cmd) return;
   if (!cmd[1]) return reply(TEXT.tgHello);
+  if (cmd[1].startsWith('c_')) return redeemClaim(m, cmd[1].slice(2), reply);
   const hash = sha(cmd[1]);
   const row = await db.get('SELECT * FROM telegram_logins WHERE token_hash = ?', hash);
   if (!row || row.expires_at <= Date.now()) return reply(TEXT.tgExpired);
@@ -260,6 +299,7 @@ function sweep() {
       ['DELETE FROM sessions WHERE expires_at <= ?', now],
       ['DELETE FROM email_codes WHERE expires_at <= ?', now],
       ['DELETE FROM telegram_logins WHERE expires_at <= ?', now],
+      ['DELETE FROM invite_claims WHERE (redeemed_at IS NULL AND expires_at <= ?) OR applied_at <= ?', now, now - 90 * DAY],
       ['DELETE FROM hits WHERE at <= ?', now - HOUR],
     ]).catch(e => console.warn(`[auth] уборка не удалась: ${e.message}`)).finally(() => { sweeping = null; });
   }
@@ -452,6 +492,33 @@ const routes = [
     const user = await getUser(id);
     if (!user) throw new HttpError(404, 'Пользователь не найден');
     json(res, 200, { sent: await deliver(user, text, subject) });
+  }],
+
+  // код «приглашение — клиенту» (запрашивает сервис приглашений по кнопке админа); прежний неиспользованный код
+  // этого приглашения больше не действует
+  ['POST', '/_internal/claims', async (req, res) => {
+    const body = await readBody(req);
+    const invitationId = String(body.invitation_id || '');
+    if (!/^[a-z0-9]{4,16}$/.test(invitationId)) throw new HttpError(400, 'Укажите invitation_id');
+    const title = String(body.title || '').replace(/\s+/g, ' ').trim().slice(0, 120) || null;
+    const code = newClaimCode(), expires = Date.now() + CLAIM_TTL;
+    await db.batch([
+      ['DELETE FROM invite_claims WHERE invitation_id = ? AND user_id IS NULL', invitationId],
+      ['INSERT INTO invite_claims (code_hash, invitation_id, title, expires_at) VALUES (?, ?, ?, ?)', sha(code), invitationId, title, expires],
+    ]);
+    const name = bot && !bot.disabled ? await within(botName(), 3000).catch(() => null) : null;
+    json(res, 200, { code: code.slice(0, 4) + '-' + code.slice(4), bot: name ? '@' + name : null,
+      link: name ? `https://t.me/${name}?start=c_${code}` : null, expires_at: new Date(expires).toISOString() });
+  }],
+  // коды, по которым клиент уже получил приглашение, а владелец ещё не сменён; затем — отметка «сменён»
+  ['GET', '/_internal/claims/pending', async (req, res) => {
+    json(res, 200, { items: (await db.all('SELECT code_hash, invitation_id, user_id FROM invite_claims WHERE redeemed_at IS NOT NULL AND applied_at IS NULL LIMIT 100'))
+      .map(r => ({ key: r.code_hash, invitation_id: r.invitation_id, user_id: Number(r.user_id) })) });
+  }],
+  ['POST', '/_internal/claims/applied', async (req, res) => {
+    const keys = ((await readBody(req)).keys || []).filter(k => /^[0-9a-f]{64}$/.test(k)).slice(0, 100);
+    if (keys.length) await db.batch(keys.map(k => ['UPDATE invite_claims SET applied_at = ? WHERE code_hash = ?', Date.now(), k]));
+    json(res, 200, { applied: keys.length });
   }],
 
   // кому администратор передаёт приглашение: есть ли такой пользователь, не заблокирован ли

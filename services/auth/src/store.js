@@ -108,7 +108,29 @@ const MIGRATIONS = [{ pg: PG_SCHEMA, sqlite:
      at INTEGER NOT NULL
    );
    CREATE INDEX hits_key ON hits (bucket, key, at);`,
-}];
+},
+// коды «приглашение — клиенту»: админ выдаёт код (хранится sha256), клиент отправляет его боту → user_id, redeemed_at;
+// сервис приглашений забирает такие записи и меняет владельца → applied_at
+{ pg: `CREATE TABLE invite_claims (
+     code_hash TEXT PRIMARY KEY,
+     invitation_id TEXT NOT NULL,
+     title TEXT,
+     expires_at BIGINT NOT NULL,
+     user_id BIGINT,
+     redeemed_at BIGINT,
+     applied_at BIGINT
+   );
+   CREATE INDEX auth_invite_claims_invitation ON invite_claims (invitation_id);`,
+  sqlite: `CREATE TABLE invite_claims (
+     code_hash TEXT PRIMARY KEY,
+     invitation_id TEXT NOT NULL,
+     title TEXT,
+     expires_at INTEGER NOT NULL,
+     user_id INTEGER,
+     redeemed_at INTEGER,
+     applied_at INTEGER
+   );
+   CREATE INDEX invite_claims_invitation ON invite_claims (invitation_id);` }];
 
 const dbFile = () => env('DB_FILE', path.join(__dirname, '..', 'data', 'auth.db'));
 // DATABASE_URL задан — Postgres (Neon), иначе файл SQLite
