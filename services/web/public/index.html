@@ -343,11 +343,17 @@ function renderGrid() {
   }));
 }
 async function chooseTemplate(id) {
-  const t = templates.find(x => String(x.id) === String(id));
+  let t = templates.find(x => String(x.id) === String(id));
+  // шаблон по заказу (копия под конкретного клиента) в каталоге не показан — открывается по номеру
+  let info = null;
+  if (!t && /^\d+$/.test(String(id))) {
+    try { info = await api('/api/templates/' + id); t = { id: info.id, category: info.category, lang: info.lang, price: info.price, currency: info.currency, preview: info.preview, special: true }; } catch { info = null; }
+  }
   $('#chPic').replaceWith(Object.assign(pic(t), { id: 'chPic' }));
   if (!t) { $('#chInfo').textContent = id ? 'Нет такого шаблона' : 'Выберите шаблон слева или введите ID'; current = null; return showFields(null); }
-  $('#chInfo').textContent = (CAT[t.category] || t.category) + ' · ' + (t.lang === 'ru' ? 'русский' : 'қазақша') + (t.price != null ? ' · ' + money(t) : '');
-  try { current = await api('/api/templates/' + id); } catch { current = null; }
+  $('#chInfo').textContent = (t.special ? 'Шаблон по заказу · ' : '') + (CAT[t.category] || t.category) + ' · ' + (t.lang === 'ru' ? 'русский' : 'қазақша') + (t.price != null ? ' · ' + money(t) : '');
+  if (!info) { try { info = await api('/api/templates/' + id); } catch { info = null; } }
+  current = info;
   showFields(current);
 }
 function showFields(info) {

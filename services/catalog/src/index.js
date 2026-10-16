@@ -16,8 +16,10 @@ let music = null;
 // исправления шаблонов и шрифтов храним в git (content/ — архив из Google Drive, его не правим):
 //   fixes/templates.json — { templates: { "<id>": [{ id | type, text?, set: { "data.mainColor": "#fff", "size.height": 400 } }] } }
 //   fixes/fonts.css      — дописывается к content/fonts.css (казахские буквы из шрифтов, где они нарисованы неверно)
+//   fixes/custom.json    — заказные копии шаблонов: { templates: { "<новый id>": { base: 150, set: [ …как в templates.json… ] } } };
+//                          в каталоге не видны, открываются по номеру; картинки — только из content/media
 const FIXES = path.join(__dirname, '..', 'fixes');
-let fixes = {};
+let fixes = {}, custom = {};
 
 function load() {
   const f = path.join(CONTENT, 'templates.json');
@@ -26,6 +28,8 @@ function load() {
   prices = fs.existsSync(pf) ? JSON.parse(fs.readFileSync(pf, 'utf8')) : {};
   const ff = path.join(FIXES, 'templates.json');
   fixes = fs.existsSync(ff) ? JSON.parse(fs.readFileSync(ff, 'utf8')).templates || {} : {};
+  const cf = path.join(FIXES, 'custom.json');
+  custom = fs.existsSync(cf) ? JSON.parse(fs.readFileSync(cf, 'utf8')).templates || {} : {};
   cache.clear();
   music = null;
   console.log(`[catalog] шаблонов: ${catalog.length}`);
@@ -34,15 +38,22 @@ function template(id) {
   id = Number(id);
   if (!Number.isInteger(id)) return null;
   if (!cache.has(id)) {
-    const f = path.join(CONTENT, 'templates', `${id}.json`);
-    if (!fs.existsSync(f)) return null;
-    cache.set(id, patch(JSON.parse(fs.readFileSync(f, 'utf8'))));
+    const own = custom[id];
+    if (own) {
+      const base = own.base !== id && template(own.base);
+      if (!base) return null;
+      cache.set(id, patch({ ...structuredClone(base), id }, own.set || []));
+    } else {
+      const f = path.join(CONTENT, 'templates', `${id}.json`);
+      if (!fs.existsSync(f)) return null;
+      cache.set(id, patch(JSON.parse(fs.readFileSync(f, 'utf8'))));
+    }
   }
   return cache.get(id);
 }
 // компонент выбирается по id или по типу (+ точному тексту); set — значения по путям «data.x», «position.y»…
-function patch(tpl) {
-  for (const f of fixes[tpl.id] || []) {
+function patch(tpl, list = fixes[tpl.id] || []) {
+  for (const f of list) {
     let hit = 0;
     for (const b of tpl.blocks || []) for (const c of b.components || []) {
       if (f.id ? c.id !== f.id : c.type !== f.type) continue;
