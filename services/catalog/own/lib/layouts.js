@@ -89,7 +89,7 @@ function build(spec) {
     bandAt(38, bandDark, { anim: 'slideInDown' });
     if (spec.motif) image(my, motif(D), spec.motifW || 240, mh, { anim: 'zoomIn', dur: 1.8 });
     const k = (spec.motif ? my + mh / 2 : 100) + 40;
-    text(k, 'DATE', { size: 15, weight: 600, ls: '0.3em', color: P.accent, h: 40 });
+    text(k, 'DATE', { size: 15, weight: 600, ls: '0.3em', color: readable(P.accent, [P.dark], P.light), h: 40 });
     text(k + 60, 'TITLE', { font: SERIF, size: 30, weight: 500, h: 90, fit: true, color: P.light, anim: 'slideInUp' });
     text(k + 175, 'ИМЯ', { font: SERIF, size: 58, weight: 500, italic: true, h: 130, w: 360, fit: true, color: P.light, anim: 'zoomIn', dur: 1.8 });
     bandAt(heroH - 40, bandDark);
@@ -182,8 +182,8 @@ function build(spec) {
   // узорные полосы по краям — во всю высоту
   if (L === 'bordered') {
     const s = file('side.svg', O.side(P.accent, P.ink, height));
-    image(height / 2, s, 26, height, { x: 3.4, none: true });
-    image(height / 2, s, 26, height, { x: 96.6, none: true });
+    image(height / 2, s, 50, height, { x: 3.4, none: true });
+    image(height / 2, s, 50, height, { x: 96.6, none: true });
   }
 
   if (music) add('audio-fixed', 0, 200, 80, {}, { audio_url: music, button_text: 'Әуен қосу', button_color: P.button, text_color: P.buttonText, font_family: 'OwnMontserrat', font_size: 16, button_height: 52 });
@@ -195,7 +195,7 @@ function build(spec) {
     media,
     tpl: {
       id: spec.id, category: spec.category, lang: 'kz', updated_at: '2026-10-16T00:00:00', own: true,
-      envelope: JSON.stringify({ theme: 'champagne', lang: 'kz', color: spec.envelope[0], text_color: spec.envelope[1], background: null, button_image: null }),
+      envelope: { theme: 'champagne', lang: 'kz', color: spec.envelope[0], text_color: spec.envelope[1], background: null, button_image: null },
       blocks: [{ type: 'canvas', style: { backgroundColor: P.bg, backgroundImage: '', minHeight: '500px', height: height + 'px', margin: '0px', padding: '20px', borderRadius: '0px', border: 'none', boxShadow: 'none' }, components: comps }],
     },
   };

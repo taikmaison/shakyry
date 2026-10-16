@@ -4,7 +4,14 @@
  "lang": "kz",
  "updated_at": "2026-10-16T00:00:00",
  "own": true,
- "envelope": "{\"theme\":\"champagne\",\"lang\":\"kz\",\"color\":\"#4a6f97\",\"text_color\":\"#ffffff\",\"background\":null,\"button_image\":null}",
+ "envelope": {
+  "theme": "champagne",
+  "lang": "kz",
+  "color": "#4a6f97",
+  "text_color": "#ffffff",
+  "background": null,
+  "button_image": null
+ },
  "blocks": [
   {
    "type": "canvas",
@@ -207,7 +214,7 @@
       "z": 107
      },
      "size": {
-      "width": 346,
+      "width": 326,
       "height": 360
      },
      "style": {
@@ -316,7 +323,7 @@
       "z": 111
      },
      "size": {
-      "width": 310,
+      "width": 290,
       "height": 220
      },
      "style": {
@@ -348,16 +355,18 @@
       "z": 112
      },
      "size": {
-      "width": 360,
-      "height": 70
+      "width": 300,
+      "height": 60
      },
      "style": {
-      "fontSize": "30px",
-      "fontFamily": "\"OwnCormorant\", Georgia, serif",
-      "color": "#33465c",
+      "fontSize": "16px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#836f48",
       "textAlign": "center",
-      "fontWeight": "500",
-      "lineHeight": "1.4"
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.26em",
+      "textTransform": "uppercase"
      },
      "data": {
       "content": "Той салтанаты",
@@ -453,16 +462,18 @@
       "z": 115
      },
      "size": {
-      "width": 360,
-      "height": 70
+      "width": 300,
+      "height": 60
      },
      "style": {
-      "fontSize": "30px",
-      "fontFamily": "\"OwnCormorant\", Georgia, serif",
-      "color": "#33465c",
+      "fontSize": "16px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#836f48",
       "textAlign": "center",
-      "fontWeight": "500",
-      "lineHeight": "1.4"
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.26em",
+      "textTransform": "uppercase"
      },
      "data": {
       "content": "Мекенжайы",
@@ -518,7 +529,7 @@
       "z": 117
      },
      "size": {
-      "width": 330,
+      "width": 300,
       "height": 90
      },
      "style": {
@@ -610,16 +621,18 @@
       "z": 120
      },
      "size": {
-      "width": 360,
-      "height": 70
+      "width": 300,
+      "height": 60
      },
      "style": {
-      "fontSize": "30px",
-      "fontFamily": "\"OwnCormorant\", Georgia, serif",
-      "color": "#33465c",
+      "fontSize": "16px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#836f48",
       "textAlign": "center",
-      "fontWeight": "500",
-      "lineHeight": "1.4"
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.26em",
+      "textTransform": "uppercase"
      },
      "data": {
       "content": "Той иелері",
@@ -641,7 +654,7 @@
       "z": 121
      },
      "size": {
-      "width": 340,
+      "width": 300,
       "height": 90
      },
      "style": {
@@ -674,7 +687,7 @@
       "z": 122
      },
      "size": {
-      "width": 346,
+      "width": 326,
       "height": 170
      },
      "style": {
@@ -766,16 +779,18 @@
       "z": 125
      },
      "size": {
-      "width": 360,
-      "height": 70
+      "width": 300,
+      "height": 60
      },
      "style": {
-      "fontSize": "30px",
-      "fontFamily": "\"OwnCormorant\", Georgia, serif",
-      "color": "#33465c",
+      "fontSize": "16px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#836f48",
       "textAlign": "center",
-      "fontWeight": "500",
-      "lineHeight": "1.4"
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.26em",
+      "textTransform": "uppercase"
      },
      "data": {
       "content": "Тойға келетініңізді растаңыз",
@@ -797,7 +812,7 @@
       "z": 126
      },
      "size": {
-      "width": 380,
+      "width": 326,
       "height": 400
      },
      "style": {},
@@ -906,16 +921,18 @@
       "z": 128
      },
      "size": {
-      "width": 360,
-      "height": 70
+      "width": 300,
+      "height": 60
      },
      "style": {
-      "fontSize": "30px",
-      "fontFamily": "\"OwnCormorant\", Georgia, serif",
-      "color": "#33465c",
+      "fontSize": "16px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#836f48",
       "textAlign": "center",
-      "fontWeight": "500",
-      "lineHeight": "1.4"
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.26em",
+      "textTransform": "uppercase"
      },
      "data": {
       "content": "Ізгі тілектер",
@@ -937,7 +954,7 @@
       "z": 129
      },
      "size": {
-      "width": 400,
+      "width": 326,
       "height": 380
      },
      "style": {},
@@ -1045,11 +1062,53 @@
     },
     {
      "id": "own9003_33",
+     "type": "image",
+     "position": {
+      "x": 3.4,
+      "y": 50,
+      "z": 133
+     },
+     "size": {
+      "width": 50,
+      "height": 4035
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/besik-side.svg",
+      "isPhoto": false
+     }
+    },
+    {
+     "id": "own9003_34",
+     "type": "image",
+     "position": {
+      "x": 96.6,
+      "y": 50,
+      "z": 134
+     },
+     "size": {
+      "width": 50,
+      "height": 4035
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/besik-side.svg",
+      "isPhoto": false
+     }
+    },
+    {
+     "id": "own9003_35",
      "type": "audio-fixed",
      "position": {
       "x": 50,
       "y": 0,
-      "z": 133
+      "z": 135
      },
      "size": {
       "width": 200,
@@ -1067,12 +1126,12 @@
      }
     },
     {
-     "id": "own9003_34",
+     "id": "own9003_36",
      "type": "fixed-wishes",
      "position": {
       "x": 50,
       "y": 0,
-      "z": 134
+      "z": 136
      },
      "size": {
       "width": 200,

@@ -11,7 +11,8 @@ const horn = (c, sw = 5) => `<g fill="none" stroke="${c}" stroke-width="${sw}" s
 const halfHorn = (c, sw = 5) => `<path d="${HORN}" fill="none" stroke="${c}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>`;
 const diamond = (c, s = 7) => `<path d="M0,${-s} L${s * .8},0 L0,${s} L${-s * .8},0 Z" fill="${c}"/>`;
 // тұмар — треугольный оберег
-const tumar = (c, s = 10) => `<path d="M0,${-s} L${s * .9},${s * .6} L${-s * .9},${s * .6} Z" fill="none" stroke="${c}" stroke-width="${Math.max(1.2, s / 6)}" stroke-linejoin="round"/><circle cx="0" cy="${s * .1}" r="${s * .18}" fill="${c}"/>`;
+// тұмар: треугольный оберег — контур и залитый треугольник внутри (с точкой в центре он читался как «глаз в треугольнике»)
+const tumar = (c, s = 10) => `<path d="M0,${-s} L${s * .9},${s * .6} L${-s * .9},${s * .6} Z" fill="none" stroke="${c}" stroke-width="${Math.max(1.2, s / 6)}" stroke-linejoin="round"/><path d="M0,${-s * .38} L${s * .4},${s * .3} L${-s * .4},${s * .3} Z" fill="${c}"/>`;
 const star = (c, r = 8, n = 4) => {
   const pts = [];
   for (let i = 0; i < n * 2; i++) { const a = Math.PI * i / n - Math.PI / 2, rr = i % 2 ? r * .32 : r; pts.push(`${(Math.cos(a) * rr).toFixed(2)},${(Math.sin(a) * rr).toFixed(2)}`); }
@@ -106,6 +107,8 @@ function arch(c, c2, fill = 'none') {
   s += `<g transform="translate(180,18) scale(.5)">${horn(c, 7)}</g>`;
   for (let y = 230; y < 460; y += 46) s += `<g transform="translate(38,${y})">${diamond(c2, 4)}</g><g transform="translate(322,${y})">${diamond(c2, 4)}</g>`;
   s += `<g transform="translate(70,150) rotate(-38) scale(.3)">${horn(c2, 8)}</g><g transform="translate(290,150) rotate(38) scale(.3)">${horn(c2, 8)}</g>`;
+  // двойной цоколь внизу — арка не обрывается
+  s += `<path d="M20,470 L340,470" stroke="${c}" stroke-width="3" stroke-linecap="round"/><path d="M30,477 L330,477" stroke="${c}" stroke-width="1.4" stroke-linecap="round"/>`;
   return svg(360, 480, s);
 }
 

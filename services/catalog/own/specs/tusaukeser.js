@@ -121,7 +121,8 @@ function wreath(P, O) {
   const q = [[cx, cy + R], [cx - R, cy], [cx, cy - R], [cx + R, cy], [cx, cy + R]];
   const arc = i => { const [a, b] = [q[i], q[i + 1]], d = R * k; const ta = [[-1, 0], [0, -1], [1, 0], [0, 1]][i], tb = [[0, -1], [1, 0], [0, 1], [-1, 0]][i];
     return [a[0], a[1], a[0] + ta[0] * d, a[1] + ta[1] * d, b[0] - tb[0] * d, b[1] - tb[1] * d, b[0], b[1]]; };
-  const ring = rope([0, 1, 2, 3].map(arc), 12);
+  // ала жіп разрезан сверху: разрыв с распушёнными концами — сам обряд тұсаукесер
+  const ring = rope([0, 1, 2, 3].map(arc), 12) + `<rect x="${cx - 18}" y="${cy - R - 10}" width="36" height="20" fill="${P.bg}"/>` + fray(cx - 18, cy - R, 1, 12) + fray(cx + 18, cy - R, -1, 12);
   const by = cy + R;
   const e = { edge: P.bg };
   const bow = rope([[cx, by, cx - 8, by + 12, cx - 22, by + 22, cx - 30, by + 38]], 9, e) + rope([[cx, by, cx + 8, by + 12, cx + 22, by + 22, cx + 30, by + 38]], 9, e)

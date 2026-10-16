@@ -53,7 +53,7 @@ function meshit(P, O) {
 // тәспі: овал из бусин с двумя бусинами-разделителями; внизу нить сходится к имаме (длинной бусине) и кисточке; внутри — месяц
 function taspi(P, O) {
   const c = P.ink, a = P.accent, t = P.sand || a;
-  const cx = 130, cy = 88, RX = 84, RY = 60, gap = 22, N = 31;
+  const cx = 130, cy = 88, RX = 84, RY = 60, gap = 22, N = 35;
   let s = `<defs><radialGradient id="b" cx=".35" cy=".32" r=".75"><stop offset="0" stop-color="#ffffff" stop-opacity=".55"/><stop offset=".45" stop-color="#ffffff" stop-opacity="0"/></radialGradient></defs>`;
   const pts = [];
   for (let i = 0; i < N; i++) {
@@ -65,7 +65,7 @@ function taspi(P, O) {
   s += `<path d="M${f(p0[0])},${f(p0[1])} A${RX},${RY} 0 1,1 ${f(p1[0])},${f(p1[1])}" fill="none" stroke="${c}" stroke-width="1.4"/>`;
   s += `<path d="M${f(p0[0])},${f(p0[1])} L${cx},160 L${f(p1[0])},${f(p1[1])}" fill="none" stroke="${c}" stroke-width="1.8"/>`;
   pts.forEach(([x, y], i) => {
-    const sep = i === 10 || i === 20, r = sep ? 8.6 : 7;
+    const sep = i === 11 || i === 23, r = sep ? 7.6 : 6.2;   // 11 + 11 + 11 зёрен и два разделителя
     s += `<circle cx="${f(x)}" cy="${f(y)}" r="${r}" fill="${sep ? t : c}"/><circle cx="${f(x)}" cy="${f(y)}" r="${r}" fill="url(#b)"/>`;
   });
   // имаме и кисточка
@@ -111,7 +111,7 @@ module.exports = [
   { ...AS, id: 9010, slug: 'as-meshit', layout: 'darkhero',
     palette: { bg: '#eef2ee', card: '#fafcf9', line: '#c7d3c9', ink: '#22332c', name: '#1e3b31', accent: '#9a8152', soft: '#dfe7df',
       button: '#1e3b31', buttonText: '#efe7d2', dark: '#1a3029', light: '#ede5cf' },
-    envelope: ['#1e3b31', '#e9dcb8'], style: { band: 'tumar', divider: 'tumar', rosette: 'flower', heading: 'serif' },
+    envelope: ['#1e3b31', '#e9dcb8'], style: { band: 'wave', divider: 'diamond', rosette: 'flower', heading: 'serif' },
     motif: meshit, motifW: 280, motifH: 220, footer: 'Иманды болсын' },
   { ...AS, id: 9011, slug: 'as-taspi', layout: 'arch',
     palette: { bg: '#eef1f5', card: '#fafbfd', line: '#c9d1dd', ink: '#263247', name: '#1f2d4a', accent: '#5e7192', soft: '#dfe5ee',

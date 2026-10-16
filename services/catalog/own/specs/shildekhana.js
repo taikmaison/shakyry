@@ -34,21 +34,26 @@ ${[34, 58, 82].map(y => `<path d="M-11,${y} L11,${y}" stroke="${c}" stroke-width
 <g transform="translate(206,40)">${O.star(c, 9)}</g><g transform="translate(32,46)">${O.star(c, 7)}</g><g transform="translate(222,170)">${O.star(c, 6)}</g><g transform="translate(36,196)">${O.star(nm, 5)}</g>`);
 }
 
-// #9030: малыш в қундақ (пелёнке с лентой) спит в золотом месяце; с рога месяца свисает тұмар; вокруг звёзды
-function moonBaby(P, O) {
+// #9030: шілдехана — ночь бдения: горит шырақ (свеча в узорном шамдале) с ореолом, рядом на нити тұмар; вокруг звёзды
+function shyraq(P, O) {
   const c = P.accent, ink = P.ink, dk = P.soft;
-  const baby = `
-<path d="M-62,-24 C-20,-36 40,-32 68,-14 C84,-4 82,16 62,22 C30,32 -30,32 -64,22 C-88,14 -88,-20 -62,-24 Z" fill="${ink}" stroke="${dk}" stroke-width="3"/>
-<path d="M2,-31 C8,-10 8,10 2,29 L18,29 C24,10 24,-10 18,-31 Z" fill="${c}"/><g transform="translate(10,0)">${O.diamond(dk, 5)}</g>
-<circle cx="-52" cy="-2" r="20" fill="#f3d6bd"/><path d="M-74,-2 C-74,-28 -30,-30 -30,-4" fill="none" stroke="${c}" stroke-width="5" stroke-linecap="round"/>
-<path d="M-62,-4 q4,4 8,0 M-48,-4 q4,4 8,0" fill="none" stroke="#6b4a3a" stroke-width="2" stroke-linecap="round"/><circle cx="-60" cy="6" r="3.5" fill="#eaa38f"/><circle cx="-40" cy="6" r="3.5" fill="#eaa38f"/>
-<path d="M-53,10 q3,2 6,0" fill="none" stroke="#6b4a3a" stroke-width="1.8" stroke-linecap="round"/>`;
   return O.svg(290, 222, `
-<defs><mask id="cm"><circle cx="130" cy="118" r="94" fill="#fff"/><circle cx="145.4" cy="84.9" r="72.9" fill="#000"/></mask></defs>
-<circle cx="130" cy="118" r="94" fill="${c}" mask="url(#cm)"/>
-<path d="M99,33 L99,52" stroke="${ink}" stroke-width="1.8"/><circle cx="99" cy="33" r="3" fill="${c}"/><g transform="translate(99,64)">${O.tumar(ink, 12)}</g><path d="M99,71 L99,79" stroke="${ink}" stroke-width="1.8"/><g transform="translate(99,83)">${O.diamond(c, 4)}</g>
-<g transform="translate(150,138) rotate(14)">${baby}</g>
-<g transform="translate(250,40)">${O.star(ink, 9)}</g><g transform="translate(270,120)">${O.star(c, 7)}</g><g transform="translate(36,24)">${O.star(c, 8)}</g><g transform="translate(240,190)">${O.star(ink, 5)}</g><g transform="translate(104,10)">${O.star(ink, 5)}</g>`);
+<defs><radialGradient id="gl" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="${c}" stop-opacity=".6"/><stop offset=".4" stop-color="${c}" stop-opacity=".2"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient></defs>
+<circle cx="145" cy="68" r="66" fill="url(#gl)"/>
+<path d="M145,14 C157,34 164,48 164,62 C164,76 155,86 145,86 C135,86 126,76 126,62 C126,48 133,34 145,14 Z" fill="${c}"/>
+<path d="M145,40 C152,52 155,60 155,68 C155,76 150,80 145,80 C140,80 135,76 135,68 C135,60 138,52 145,40 Z" fill="${ink}"/>
+<path d="M145,78 L145,92" stroke="${dk}" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M130,92 C130,88 160,88 160,92 L160,150 L130,150 Z" fill="${ink}"/>
+<path d="M136,94 C136,104 140,108 140,116" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round" opacity=".55"/>
+<path d="M98,150 L192,150 C190,164 172,172 145,172 C118,172 100,164 98,150 Z" fill="${c}"/>
+<g transform="translate(145,163) scale(.26)">${O.horn(dk, 10)}</g>
+<g transform="translate(110,156)">${O.diamond(dk, 3)}</g><g transform="translate(180,156)">${O.diamond(dk, 3)}</g>
+<rect x="139" y="171" width="12" height="20" fill="${c}"/><circle cx="145" cy="182" r="6.5" fill="${c}" stroke="${dk}" stroke-width="1.6"/>
+<path d="M112,208 C116,196 128,190 145,190 C162,190 174,196 178,208 Z" fill="${c}"/><rect x="104" y="206" width="82" height="9" rx="3" fill="${c}"/>
+<path d="M62,0 L62,64" stroke="${ink}" stroke-width="1.6"/><circle cx="62" cy="64" r="3" fill="${c}"/><g transform="translate(62,82)">${O.tumar(ink, 14)}</g>
+<path d="M62,92 L62,104" stroke="${ink}" stroke-width="1.6"/><g transform="translate(62,110)">${O.diamond(c, 5)}</g>
+<g fill="none" stroke="${c}" stroke-width="1.8" stroke-linecap="round"><path d="M56,116 L52,136 M62,116 L62,138 M68,116 L72,136"/></g>
+<g transform="translate(236,36)">${O.star(ink, 9)}</g><g transform="translate(262,104)">${O.star(c, 7)}</g><g transform="translate(24,30)">${O.star(c, 8)}</g><g transform="translate(222,176)">${O.star(ink, 5)}</g><g transform="translate(30,168)">${O.star(ink, 5)}</g><g transform="translate(204,84)">${O.star(c, 4)}</g>`);
 }
 
 module.exports = [
@@ -64,5 +69,5 @@ module.exports = [
     palette: { bg: '#f5f2f8', card: '#fdfcff', line: '#dcd6e8', ink: '#2f2747', name: '#3d2f6b', accent: '#bf9037', soft: '#e9e4f2', button: '#3d2f6b', buttonText: '#f7e7bd',
       dark: '#2a2152', light: '#f6f0e1' },
     envelope: ['#2a2152', '#f0d79c'], style: { band: 'wave', divider: 'tumar', rosette: 'horn8', heading: 'serif' },
-    motif: moonBaby, motifW: 290, motifH: 222 },
+    motif: shyraq, motifW: 290, motifH: 222 },
 ];

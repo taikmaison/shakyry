@@ -76,16 +76,16 @@ const starN = (c, r, n = 5, k = .45) => {
   return `<path d="M${pts.join(' L')} Z" fill="${c}"/>`;
 };
 
-// тақа (подкова) концами вверх — на счастье; внутри звезда, по бокам рога
+// тақа (подкова) концами вверх — на счастье (золотая, P.gold); внутри сегіз қырлы жұлдыз, по бокам рога
 function taqa(P, O) {
-  const c = P.accent, ink = P.ink, w = P.card;
+  const c = P.gold || P.accent, ink = P.ink, w = P.card;
   const cx = 100, cy = 56, r = 34;
   const pt = a => [cx + r * Math.cos(a * Math.PI / 180), cy + r * Math.sin(a * Math.PI / 180)].map(v => v.toFixed(1));
   const [x1, y1] = pt(-122), [x2, y2] = pt(-58);
   const arc = `M${x1},${y1} A${r},${r} 0 1,0 ${x2},${y2}`;
   let s = `<path d="${arc}" fill="none" stroke="${ink}" stroke-width="19"/><path d="${arc}" fill="none" stroke="${c}" stroke-width="14"/>`;
   s += [200, 165, 130, -20, 15, 50].map(a => { const [x, y] = pt(a); return `<circle cx="${x}" cy="${y}" r="2.4" fill="${w}"/>`; }).join('');
-  s += `<g transform="translate(${cx},${cy + 2})">${starN(ink, 16)}</g><g transform="translate(${cx},16)">${O.star(c, 7)}</g><g transform="translate(${cx - 16},6)">${O.star(c, 4)}</g><g transform="translate(${cx + 16},6)">${O.star(c, 4)}</g>`;
+  s += `<g transform="translate(${cx},${cy + 2})">${star8(ink, 14)}</g><g transform="translate(${cx},16)">${O.star(c, 7)}</g><g transform="translate(${cx - 16},6)">${O.star(c, 4)}</g><g transform="translate(${cx + 16},6)">${O.star(c, 4)}</g>`;
   // боковые рога
   s += `<line x1="18" y1="64" x2="56" y2="64" stroke="${c}" stroke-width="1.6"/><line x1="144" y1="64" x2="182" y2="64" stroke="${c}" stroke-width="1.6"/>
 <g transform="translate(40,54) scale(.3)">${O.horn(ink, 8)}</g><g transform="translate(160,54) scale(.3)">${O.horn(ink, 8)}</g>
@@ -119,20 +119,20 @@ function aiJuldyz(P, O) {
 }
 
 module.exports = [
-  { id: 9017, slug: 'sundet-akboz', category: 'sundet', layout: 'darkhero',
+  { id: 9017, slug: 'sundet-akboz', category: 'sundet', layout: 'darkhero', marker: 'circle',
     palette: { bg: '#f5f2ea', card: '#fffcf4', line: '#d9cca8', ink: '#1b2438', name: '#1b2438', accent: '#c29433', soft: '#ebe3cf', button: '#16203a', buttonText: '#f0d99a',
       dark: '#121a30', light: '#f6ead0' },
     envelope: ['#16203a', '#e9cf8e'], style: { band: 'diamond', divider: 'wave', rosette: 'star8', heading: 'caps' },
     motif: tulpar, motifW: 320, motifH: 240 },
-  { id: 9018, slug: 'sundet-takiya', category: 'sundet', layout: 'bordered',
+  { id: 9018, slug: 'sundet-takiya', category: 'sundet', layout: 'bordered', marker: 'circle',
     palette: { bg: '#f8f1e9', card: '#fffbf6', line: '#e4d0c0', ink: '#3a1d22', name: '#7a1f2e', accent: '#b38a3c', soft: '#f2e2d6', button: '#7a1f2e', buttonText: '#fdf0d2' },
     envelope: ['#6e1a28', '#f3d9a4'], style: { band: 'horn', divider: 'diamond', rosette: 'horn8', heading: 'caps' },
     motif: takiya, motifW: 250, motifH: 192 },
-  { id: 9019, slug: 'sundet-taqa', category: 'sundet', layout: 'medallion',
-    palette: { bg: '#eef7fc', card: '#ffffff', line: '#bcdaee', ink: '#173a57', name: '#145c8c', accent: '#2f8ac4', soft: '#dceefa', button: '#1d6fa5', buttonText: '#ffffff' },
-    envelope: ['#2a7fb8', '#ffffff'], style: { band: 'tumar', divider: 'horn', rosette: 'flower', heading: 'serif' },
+  { id: 9019, slug: 'sundet-taqa', category: 'sundet', layout: 'medallion', marker: 'circle',
+    palette: { bg: '#eef7fc', card: '#ffffff', line: '#bcdaee', ink: '#173a57', name: '#145c8c', accent: '#2f8ac4', soft: '#dceefa', button: '#1d6fa5', buttonText: '#ffffff', gold: '#c08a2e' },
+    envelope: ['#1f6fa6', '#ffffff'], style: { band: 'tumar', divider: 'horn', rosette: 'flower', heading: 'serif' },
     motif: taqa, motifW: 200, motifH: 110 },
-  { id: 9020, slug: 'sundet-ai', category: 'sundet', layout: 'classic',
+  { id: 9020, slug: 'sundet-ai', category: 'sundet', layout: 'classic', marker: 'circle',
     palette: { bg: '#f0f6f5', card: '#ffffff', line: '#c2dedb', ink: '#163c3d', name: '#0c6466', accent: '#b5892e', soft: '#dcefed', button: '#0c6466', buttonText: '#fdf2d3' },
     envelope: ['#0c6466', '#f3dfa6'], style: { band: 'wave', divider: 'tumar', rosette: 'star8', heading: 'serif' },
     motif: aiJuldyz, motifW: 236, motifH: 228 },

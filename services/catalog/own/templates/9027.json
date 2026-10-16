@@ -4,12 +4,19 @@
  "lang": "kz",
  "updated_at": "2026-10-16T00:00:00",
  "own": true,
- "envelope": "{\"theme\":\"champagne\",\"lang\":\"kz\",\"color\":\"#22403a\",\"text_color\":\"#f1dfa8\",\"background\":null,\"button_image\":null}",
+ "envelope": {
+  "theme": "champagne",
+  "lang": "kz",
+  "color": "#33261c",
+  "text_color": "#f1dfa8",
+  "background": null,
+  "button_image": null
+ },
  "blocks": [
   {
    "type": "canvas",
    "style": {
-    "backgroundColor": "#f1f3ee",
+    "backgroundColor": "#f6f1e8",
     "backgroundImage": "",
     "minHeight": "500px",
     "height": "4043px",
@@ -33,7 +40,7 @@
       "height": 667
      },
      "style": {
-      "backgroundColor": "#22403a",
+      "backgroundColor": "#33261c",
       "borderRadius": "0px"
      },
      "data": {
@@ -231,10 +238,10 @@
       "height": 360
      },
      "style": {
-      "backgroundColor": "#fcfdf9",
-      "border": "1.5px solid #d2d9cc",
+      "backgroundColor": "#fffcf6",
+      "border": "1.5px solid #e2d6c2",
       "borderRadius": "18px",
-      "boxShadow": "inset 0 0 0 6px #fcfdf9, inset 0 0 0 7px #d2d9cc"
+      "boxShadow": "inset 0 0 0 6px #fffcf6, inset 0 0 0 7px #e2d6c2"
      },
      "data": {
       "shapeType": "rectangle"
@@ -310,7 +317,7 @@
      "style": {
       "fontSize": "26px",
       "fontFamily": "\"OwnCormorant\", Georgia, serif",
-      "color": "#26352f",
+      "color": "#33261c",
       "textAlign": "center",
       "fontWeight": "500",
       "lineHeight": "1.4",
@@ -342,7 +349,7 @@
      "style": {
       "fontSize": "17px",
       "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
-      "color": "#26352f",
+      "color": "#33261c",
       "textAlign": "center",
       "fontWeight": "400",
       "lineHeight": "1.6"
@@ -374,7 +381,7 @@
      "style": {
       "fontSize": "30px",
       "fontFamily": "\"OwnCormorant\", Georgia, serif",
-      "color": "#26352f",
+      "color": "#33261c",
       "textAlign": "center",
       "fontWeight": "500",
       "lineHeight": "1.4"
@@ -408,7 +415,7 @@
       "borderRadius": 8,
       "titleFontSize": 16,
       "titleFontFamily": "OwnMontserrat",
-      "titleColor": "#26352f",
+      "titleColor": "#33261c",
       "calendarLanguage": "kz",
       "event_dates": [
        {
@@ -422,12 +429,12 @@
       "titleText": "",
       "weekdaysFontSize": 12,
       "weekdaysFontFamily": "OwnMontserrat",
-      "weekdaysColor": "#826c2f",
+      "weekdaysColor": "#886627",
       "daysFontSize": 15,
       "daysFontFamily": "OwnMontserrat",
-      "daysColor": "#26352f",
+      "daysColor": "#33261c",
       "eventMarkerType": "circle",
-      "eventMarkerColor": "#826c2f",
+      "eventMarkerColor": "#886627",
       "eventMarkerSize": 28,
       "__animation": {
        "type": "fadeIn",
@@ -479,7 +486,7 @@
      "style": {
       "fontSize": "30px",
       "fontFamily": "\"OwnCormorant\", Georgia, serif",
-      "color": "#26352f",
+      "color": "#33261c",
       "textAlign": "center",
       "fontWeight": "500",
       "lineHeight": "1.4"
@@ -510,7 +517,7 @@
      "style": {
       "fontSize": "15px",
       "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
-      "color": "#826c2f",
+      "color": "#886627",
       "textAlign": "center",
       "fontWeight": "600",
       "lineHeight": "1.4",
@@ -544,7 +551,7 @@
      "style": {
       "fontSize": "18px",
       "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
-      "color": "#26352f",
+      "color": "#33261c",
       "textAlign": "center",
       "fontWeight": "400",
       "lineHeight": "1.5"
@@ -575,12 +582,12 @@
      },
      "style": {},
      "data": {
-      "backgroundColor": "#22403a",
+      "backgroundColor": "#4a3424",
       "borderRadius": 24,
       "text": "Картаны ашу",
       "url": "https://example.com",
       "textColor": "#f7e9bf",
-      "borderColor": "#22403a",
+      "borderColor": "#4a3424",
       "borderWidth": 0,
       "openInNewTab": true,
       "fontSize": 15,
@@ -636,7 +643,7 @@
      "style": {
       "fontSize": "30px",
       "fontFamily": "\"OwnCormorant\", Georgia, serif",
-      "color": "#26352f",
+      "color": "#33261c",
       "textAlign": "center",
       "fontWeight": "500",
       "lineHeight": "1.4"
@@ -667,7 +674,7 @@
      "style": {
       "fontSize": "24px",
       "fontFamily": "\"OwnCormorant\", Georgia, serif",
-      "color": "#26352f",
+      "color": "#33261c",
       "textAlign": "center",
       "fontWeight": "500",
       "lineHeight": "1.4",
@@ -698,10 +705,10 @@
       "height": 170
      },
      "style": {
-      "backgroundColor": "#fcfdf9",
-      "border": "1.5px solid #d2d9cc",
+      "backgroundColor": "#fffcf6",
+      "border": "1.5px solid #e2d6c2",
       "borderRadius": "18px",
-      "boxShadow": "inset 0 0 0 6px #fcfdf9, inset 0 0 0 7px #d2d9cc"
+      "boxShadow": "inset 0 0 0 6px #fffcf6, inset 0 0 0 7px #e2d6c2"
      },
      "data": {
       "shapeType": "rectangle"
@@ -733,13 +740,13 @@
       "borderRadius": 8,
       "titleFontSize": 14,
       "titleFontFamily": "OwnMontserrat",
-      "titleColor": "#826c2f",
+      "titleColor": "#886627",
       "numbersFontSize": 30,
       "numbersFontFamily": "OwnMontserrat",
-      "numbersColor": "#26352f",
+      "numbersColor": "#33261c",
       "labelsFontSize": 12,
       "labelsFontFamily": "OwnMontserrat",
-      "labelsColor": "#826c2f",
+      "labelsColor": "#886627",
       "showLabels": true,
       "spacing": 14,
       "__animation": {
@@ -792,7 +799,7 @@
      "style": {
       "fontSize": "30px",
       "fontFamily": "\"OwnCormorant\", Georgia, serif",
-      "color": "#26352f",
+      "color": "#33261c",
       "textAlign": "center",
       "fontWeight": "500",
       "lineHeight": "1.4"
@@ -852,36 +859,36 @@
       ],
       "field_fontSize": 15,
       "field_fontFamily": "OwnMontserrat",
-      "field_color": "#26352f",
+      "field_color": "#33261c",
       "field_backgroundColor": "#ffffff",
-      "field_borderColor": "#d2d9cc",
+      "field_borderColor": "#e2d6c2",
       "field_borderRadius": 12,
       "button_fontSize": 15,
       "button_fontFamily": "OwnMontserrat",
       "label_fontSize": 14,
       "label_fontFamily": "OwnMontserrat",
-      "label_color": "#26352f",
+      "label_color": "#33261c",
       "formLang": "kz",
       "lang": "kz",
-      "mainColor": "#22403a",
+      "mainColor": "#4a3424",
       "submit_button_text": "ЖАУАП БЕРУ",
       "modal_button_text": "ЖІБЕРУ",
       "modal_title": "Есіміңізді жазыңыз",
-      "submit_button_backgroundColor": "#22403a",
+      "submit_button_backgroundColor": "#4a3424",
       "submit_button_textColor": "#f7e9bf",
       "submit_button_borderRadius": 24,
       "submit_button_fontSize": 15,
       "submit_button_fontFamily": "OwnMontserrat",
       "option_fontSize": 16,
       "option_fontFamily": "OwnMontserrat",
-      "option_color": "#26352f",
-      "option_backgroundColor": "#fcfdf9",
+      "option_color": "#33261c",
+      "option_backgroundColor": "#fffcf6",
       "option_borderRadius": 14,
       "option_height": 56,
       "submit_button_height": 54,
       "field_height": 48,
       "field_borderWidth": 1,
-      "button_color": "#22403a",
+      "button_color": "#4a3424",
       "__animation": {
        "type": "fadeIn",
        "duration": 1.6,
@@ -932,7 +939,7 @@
      "style": {
       "fontSize": "30px",
       "fontFamily": "\"OwnCormorant\", Georgia, serif",
-      "color": "#26352f",
+      "color": "#33261c",
       "textAlign": "center",
       "fontWeight": "500",
       "lineHeight": "1.4"
@@ -964,9 +971,9 @@
      "data": {
       "form_lang": "kz",
       "button_text": "БАРЛЫҚ ТІЛЕКТЕРДІ ОҚУ",
-      "title_color": "#26352f",
+      "title_color": "#33261c",
       "card_bg_color": "#ffffff",
-      "button_color": "#22403a",
+      "button_color": "#4a3424",
       "font_family": "OwnMontserrat",
       "auto_scroll_interval": 3500,
       "__animation": {
@@ -1019,7 +1026,7 @@
      "style": {
       "fontSize": "26px",
       "fontFamily": "\"OwnCormorant\", Georgia, serif",
-      "color": "#26352f",
+      "color": "#33261c",
       "textAlign": "center",
       "fontWeight": "500",
       "lineHeight": "1.4",
@@ -1079,7 +1086,7 @@
      "data": {
       "audio_url": "/media/cd/0ad6707e677a88.mp3",
       "button_text": "Әуен қосу",
-      "button_color": "#22403a",
+      "button_color": "#4a3424",
       "text_color": "#f7e9bf",
       "font_family": "OwnMontserrat",
       "font_size": 16,
@@ -1101,7 +1108,7 @@
      "style": {},
      "data": {
       "button_text": "ТІЛЕК ЖАЗУ",
-      "button_color": "#22403a",
+      "button_color": "#4a3424",
       "text_color": "#f7e9bf",
       "font_family": "OwnMontserrat",
       "font_size": 16,

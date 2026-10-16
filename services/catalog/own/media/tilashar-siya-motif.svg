@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="260" height="212" viewBox="0 0 260 212">
 <g transform="translate(100,132) rotate(-27) scale(.84)">
 <path d="M0,-36 C-15,-62 -22,-108 -15,-150 C-11,-165 -4,-172 2,-176 C10,-158 15,-120 13,-80 C12,-58 6,-44 0,-36 Z" fill="#c0912f"/>
-<g stroke="#22403a" stroke-width="2.2" stroke-linecap="round" fill="none"><path d="M0,-44 L0,-164"/><path d="M-1,-70 L-14,-84 M-1,-100 L-18,-116 M-1,-130 L-14,-146 M1,-84 L12,-96 M1,-114 L13,-128"/></g>
+<g stroke="#33261c" stroke-width="2.2" stroke-linecap="round" fill="none"><path d="M0,-44 L0,-164"/><path d="M-1,-70 L-14,-84 M-1,-100 L-18,-116 M-1,-130 L-14,-146 M1,-84 L12,-96 M1,-114 L13,-128"/></g>
 <path d="M0,-4 L0,-40" stroke="#f4efdf" stroke-width="3.2" stroke-linecap="round"/>
-<path d="M0,3 L-4.5,-9 L-4.5,-20 L4.5,-20 L4.5,-9 Z" fill="#f4efdf"/><path d="M0,1 L0,-11" stroke="#22403a" stroke-width="1.2"/><circle cx="0" cy="-13" r="1.8" fill="#22403a"/></g>
-<path d="M58,206 C40,206 34,192 36,176 C38,154 56,142 80,138 L80,126 L74,126 L74,110 L118,110 L118,126 L112,126 L112,138 C136,142 154,154 156,176 C158,192 152,206 134,206 Z" fill="#22403a" stroke="#f4efdf" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M0,3 L-4.5,-9 L-4.5,-20 L4.5,-20 L4.5,-9 Z" fill="#f4efdf"/><path d="M0,1 L0,-11" stroke="#33261c" stroke-width="1.2"/><circle cx="0" cy="-13" r="1.8" fill="#33261c"/></g>
+<path d="M58,206 C40,206 34,192 36,176 C38,154 56,142 80,138 L80,126 L74,126 L74,110 L118,110 L118,126 L112,126 L112,138 C136,142 154,154 156,176 C158,192 152,206 134,206 Z" fill="#33261c" stroke="#f4efdf" stroke-width="3.5" stroke-linejoin="round"/>
 <rect x="74" y="110" width="44" height="9" fill="#c0912f"/>
 <g transform="translate(96,172) scale(.46)"><g fill="none" stroke="#c0912f" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><path d="M0,46 C0,22 4,6 18,-4 C34,-15 56,-10 60,6 C64,22 50,34 37,29 C26,25 27,10 38,10 C45,10 47,18 42,21"/><path d="M0,46 C0,22 4,6 18,-4 C34,-15 56,-10 60,6 C64,22 50,34 37,29 C26,25 27,10 38,10 C45,10 47,18 42,21" transform="scale(-1,1)"/></g></g><g transform="translate(96,194)"><path d="M0,-4 L3.2,0 L0,4 L-3.2,0 Z" fill="#c0912f"/></g>
 <g transform="translate(60,182)"><path d="M0,-3 L2.4000000000000004,0 L0,3 L-2.4000000000000004,0 Z" fill="#f4efdf"/></g><g transform="translate(132,182)"><path d="M0,-3 L2.4000000000000004,0 L0,3 L-2.4000000000000004,0 Z" fill="#f4efdf"/></g>

@@ -157,6 +157,6 @@ module.exports = [
     palette: { bg: '#f8f0f1', card: '#fffbfb', line: '#ddd0d4', ink: '#3d404b', name: '#9b4d63', accent: '#7c8191', soft: '#efdfe2',
       button: '#5c6272', buttonText: '#ffffff', gem: '#e48aa3' },
     envelope: ['#5c6272', '#f8e9ec'],
-    style: { band: 'diamond', divider: 'wave', rosette: 'flower', heading: 'caps' },
+    style: { band: 'diamond', divider: 'wave', rosette: 'horn8', heading: 'caps' },
     motif: ringAndEarrings, motifW: 200, motifH: 112 },
 ];

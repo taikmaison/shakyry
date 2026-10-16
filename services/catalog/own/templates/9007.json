@@ -4,7 +4,14 @@
  "lang": "kz",
  "updated_at": "2026-10-16T00:00:00",
  "own": true,
- "envelope": "{\"theme\":\"champagne\",\"lang\":\"kz\",\"color\":\"#62468f\",\"text_color\":\"#f3e6c4\",\"background\":null,\"button_image\":null}",
+ "envelope": {
+  "theme": "champagne",
+  "lang": "kz",
+  "color": "#62468f",
+  "text_color": "#f3e6c4",
+  "background": null,
+  "button_image": null
+ },
  "blocks": [
   {
    "type": "canvas",

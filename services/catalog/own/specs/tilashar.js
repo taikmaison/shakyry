@@ -16,7 +16,7 @@ const quill = (c, ink, cut) => `
 <path d="M0,-4 L0,-40" stroke="${ink}" stroke-width="3.2" stroke-linecap="round"/>
 <path d="M0,3 L-4.5,-9 L-4.5,-20 L4.5,-20 L4.5,-9 Z" fill="${ink}"/><path d="M0,1 L0,-11" stroke="${cut}" stroke-width="1.2"/><circle cx="0" cy="-13" r="1.8" fill="${cut}"/>`;
 
-// #9025: раскрытая книга, на левой странице «Ә Б», на правой — строчки и перо, которое их пишет
+// #9025: раскрытая книга, на левой странице «А Ә Б», на правой — строчки и перо, которое их пишет
 function bookQuill(P, O) {
   const c = P.accent, ink = P.ink, pg = P.card, soft = P.soft;
   const page = (x, dy, fill, sw) => `<path d="M160,${64 + dy} C128,${48 + dy} ${x + 48},${44 + dy} ${x},${56 + dy} L${x},${166 + dy} C${x + 48},${154 + dy} 128,${158 + dy} 160,${174 + dy} Z" fill="${fill}" stroke="${ink}" stroke-width="${sw}" stroke-linejoin="round"/>`;
@@ -29,13 +29,13 @@ function bookQuill(P, O) {
 <path d="M155,184 L155,203 L160,198 L165,203 L165,184 Z" fill="${c}"/>
 ${half}<g transform="translate(320,0) scale(-1,1)">${half}</g>
 <path d="M160,64 L160,174" stroke="${ink}" stroke-width="2"/>
-${letter('Ә', 44, 84, .62, c, 7)}${letter('Б', 98, 84, .62, c, 7)}
+${letter('А', 38, 90, .52, c, 6.5)}${letter('Ә', 76, 90, .52, c, 6.5)}${letter('Б', 114, 90, .52, c, 6.5)}
 <g transform="translate(92,148)">${O.diamond(c, 4)}</g><g transform="translate(74,148)">${O.diamond(ink, 2.6)}</g><g transform="translate(110,148)">${O.diamond(ink, 2.6)}</g>
 ${lines}
 <g transform="translate(224,140) rotate(33) scale(.82)">${quill(c, ink, pg)}</g>`);
 }
 
-// #9026: буквы «Ә» и «Б» в узорной рамке под рогами (внутри арки — рисунок узкий сверху)
+// #9026: буквы «А Ә Б» в узорной рамке под рогами (внутри арки — рисунок узкий сверху)
 function alipFrame(P, O) {
   const c = P.accent, ink = P.ink, nm = P.name, card = P.card, soft = P.soft;
   return O.svg(260, 220, `
@@ -43,7 +43,7 @@ function alipFrame(P, O) {
 <rect x="30" y="66" width="200" height="146" rx="22" fill="${soft}" stroke="${c}" stroke-width="5"/>
 <rect x="42" y="78" width="176" height="122" rx="14" fill="${card}" stroke="${c}" stroke-width="2"/>
 ${[[30, 66], [230, 66], [30, 212], [230, 212]].map(([x, y]) => `<g transform="translate(${x},${y})">${O.diamond(ink, 7)}</g>`).join('')}
-${letter('Ә', 54, 98, 1, nm, 12)}${letter('Б', 148, 98, 1, nm, 12)}`);
+${letter('А', 53, 108, .78, nm, 10)}${letter('Ә', 107, 108, .78, nm, 10)}${letter('Б', 161, 108, .78, nm, 10)}`);
 }
 
 // #9027: чернильница с орнаментом, в ней перо; из чернильницы взлетают буквы «А», «Ә», «Б» и звёзды
@@ -66,13 +66,13 @@ module.exports = [
     palette: { bg: '#f6f0e6', card: '#fffaf2', line: '#e3d4bd', ink: '#24464a', name: '#1d5258', accent: '#bc5c2b', soft: '#f2e3cc', button: '#1d5258', buttonText: '#fff3e2' },
     envelope: ['#1d5258', '#f6dcc0'], style: { band: 'diamond', divider: 'diamond', rosette: 'flower', heading: 'caps' },
     motif: bookQuill, motifW: 320, motifH: 205 },
-  { id: 9026, slug: 'tilashar-alip', category: 'tilashar', layout: 'arch',
+  { id: 9026, slug: 'tilashar-alip', category: 'tilashar', layout: 'arch', marker: 'circle',
     palette: { bg: '#f6f0f3', card: '#fffbfc', line: '#e3d0da', ink: '#40283f', name: '#62305c', accent: '#a8792a', soft: '#f1e3ec', button: '#62305c', buttonText: '#fff2d8' },
     envelope: ['#62305c', '#f6dfb0'], style: { band: 'wave', divider: 'wave', rosette: 'horn8', heading: 'caps' },
     motif: alipFrame, motifW: 130, motifH: 110 },
   { id: 9027, slug: 'tilashar-siya', category: 'tilashar', layout: 'darkhero', marker: 'circle',
-    palette: { bg: '#f1f3ee', card: '#fcfdf9', line: '#d2d9cc', ink: '#26352f', name: '#22403a', accent: '#c0912f', soft: '#e4eadf', button: '#22403a', buttonText: '#f7e9bf',
-      dark: '#22403a', light: '#f4efdf' },
-    envelope: ['#22403a', '#f1dfa8'], style: { band: 'horn', divider: 'horn', rosette: 'star8', heading: 'serif' },
+    palette: { bg: '#f6f1e8', card: '#fffcf6', line: '#e2d6c2', ink: '#33261c', name: '#4a3424', accent: '#c0912f', soft: '#ece2d2', button: '#4a3424', buttonText: '#f7e9bf',
+      dark: '#33261c', light: '#f4efdf' },
+    envelope: ['#33261c', '#f1dfa8'], style: { band: 'horn', divider: 'horn', rosette: 'star8', heading: 'serif' },
     motif: inkwell, motifW: 260, motifH: 212 },
 ];

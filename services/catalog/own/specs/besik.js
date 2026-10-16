@@ -137,7 +137,7 @@ function garland(P, O) {
 module.exports = [
   { id: 9013, slug: 'besik-korpe', category: 'besik', layout: 'classic',
     palette: { bg: '#fcf0f2', card: '#fffafb', line: '#f0d4da', ink: '#4a3540', name: '#a24f66', accent: '#a87c35', soft: '#f8e3e7', button: '#7a5a22', buttonText: '#ffffff' },
-    envelope: ['#c27f90', '#fffaf6'], style: { band: 'wave', divider: 'wave', rosette: 'horn8', heading: 'serif' },
+    envelope: ['#a85d72', '#fffaf6'], style: { band: 'wave', divider: 'wave', rosette: 'horn8', heading: 'serif' },
     motif: korpe, motifW: 300, motifH: 228 },
   { id: 9014, slug: 'besik-ay', category: 'besik', layout: 'darkhero',
     palette: { bg: '#f0f5f6', card: '#fbfdfd', line: '#d2e2e6', ink: '#1d3943', name: '#174a5c', accent: '#ad853c', soft: '#e1ecef', button: '#174a5c', buttonText: '#ffffff',
@@ -146,10 +146,10 @@ module.exports = [
     motif: ayBesik, motifW: 290, motifH: 242 },
   { id: 9015, slug: 'besik-uki', category: 'besik', layout: 'arch',
     palette: { bg: '#edf6f1', card: '#fbfefc', line: '#cfe4d8', ink: '#26443b', name: '#2a6050', accent: '#a07a45', soft: '#efe4cd', button: '#2f6a59', buttonText: '#ffffff' },
-    envelope: ['#4f8a76', '#fffaf0'], style: { band: 'tumar', divider: 'tumar', rosette: 'flower', heading: 'serif' },
+    envelope: ['#3f7a66', '#fffaf0'], style: { band: 'tumar', divider: 'tumar', rosette: 'flower', heading: 'serif' },
     motif: ukiTumar, motifW: 130, motifH: 110 },
   { id: 9016, slug: 'besik-shoq', category: 'besik', layout: 'medallion',
     palette: { bg: '#fbf5ee', card: '#fffbf6', line: '#ecd8c8', ink: '#45291f', name: '#a3482e', accent: '#b5573a', soft: '#f3e1d1', button: '#52705a', buttonText: '#ffffff' },
-    envelope: ['#b5573a', '#fff3e8'], style: { band: 'horn', divider: 'horn', rosette: 'flower', heading: 'caps' },
+    envelope: ['#a04a30', '#fff3e8'], style: { band: 'horn', divider: 'horn', rosette: 'horn8', heading: 'caps' },
     motif: garland, motifW: 200, motifH: 110 },
 ];

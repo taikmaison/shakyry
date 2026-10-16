@@ -4,7 +4,14 @@
  "lang": "kz",
  "updated_at": "2026-10-16T00:00:00",
  "own": true,
- "envelope": "{\"theme\":\"champagne\",\"lang\":\"kz\",\"color\":\"#62271a\",\"text_color\":\"#f0d39a\",\"background\":null,\"button_image\":null}",
+ "envelope": {
+  "theme": "champagne",
+  "lang": "kz",
+  "color": "#62271a",
+  "text_color": "#f0d39a",
+  "background": null,
+  "button_image": null
+ },
  "blocks": [
   {
    "type": "canvas",
@@ -109,7 +116,7 @@
      "style": {
       "fontSize": "15px",
       "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
-      "color": "#c48a32",
+      "color": "#cc994c",
       "textAlign": "center",
       "fontWeight": "600",
       "lineHeight": "1.4",
