@@ -454,6 +454,13 @@ const routes = [
     json(res, 200, { sent: await deliver(user, text, subject) });
   }],
 
+  // кому администратор передаёт приглашение: есть ли такой пользователь, не заблокирован ли
+  ['GET', '/_internal/users/:id', async (req, res, { params }) => {
+    const user = /^\d{1,16}$/.test(params.id) ? await getUser(Number(params.id)) : null;
+    if (!user) throw new HttpError(404, 'Пользователь не найден');
+    json(res, 200, { user: adminView(user) });
+  }],
+
   ['POST', '/_internal/notify-admins', async (req, res) => {
     const { text, subject } = await readNotice(req);
     let sent = 0;

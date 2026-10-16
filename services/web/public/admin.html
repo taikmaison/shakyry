@@ -41,6 +41,10 @@
   .badge.pending { color: var(--warn); } .badge.published { color: var(--ok); } .badge.rejected, .badge.blocked { color: var(--danger); }
   .empty, .deny { color: var(--muted); padding: 30px 0; text-align: center; }
   .more { margin-top: 12px; }
+  .pick { flex: 1 1 100%; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--line); padding-top: 10px; }
+  .pick input { padding: 9px 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font: inherit; }
+  .pick .row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+  .pick .who { flex: 1 1 220px; min-width: 0; overflow-wrap: anywhere; }
   button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 </style>
 </head>
@@ -107,12 +111,46 @@ function invitationItem(x) {
     if (reason === null) return;
     await post(`/api/admin/invitations/${x.id}/unpublish`, { reason }); reload();
   }));
+  acts.append(button('Передать клиенту', '', async () => pickOwner(x, item)));
   acts.append(button('Удалить', 'bad', async () => {
     if (!confirm('Удалить приглашение вместе с ответами гостей и фото?')) return;
     await api('/api/invitations/' + x.id, { method: 'DELETE' }); reload();
   }));
   item.append(main, acts);
   return item;
+}
+
+// передать приглашение клиенту: ответы и пожелания гостей пойдут ему. Клиент должен хотя бы раз войти на сайт
+function pickOwner(x, item) {
+  const old = item.querySelector('.pick');
+  if (old) return old.remove();
+  const box = el('div', 'pick'), q = el('input'), found = el('div', 'list');
+  q.type = 'search'; q.placeholder = '@ник в Telegram, имя, почта или #id клиента';
+  box.append(el('div', 'm', 'Клиент сначала один раз входит на сайт через Telegram — тогда ответы и пожелания гостей будут приходить ему в Telegram, а приглашение появится в его «Моих приглашениях».'), q, found);
+  let timer, seq = 0;
+  q.oninput = () => { clearTimeout(timer); timer = setTimeout(async () => {
+    const s = q.value.trim().replace(/^[@#]/, ''), my = ++seq;
+    if (!s) return found.replaceChildren();
+    const r = await loadUsers(s).catch(e => ({ users: [], error: e.message }));
+    if (my !== seq) return;
+    found.replaceChildren(...r.users.filter(u => u.id !== x.user_id && !u.blocked).slice(0, 8).map(u => {
+      const row = el('div', 'row'), who = el('span', 'who');
+      if (!u.telegram_id) who.append(el('span', 'badge rejected', 'нет Telegram'));
+      who.append([u.name, u.telegram_username ? '@' + u.telegram_username : null, u.email, '#' + u.id].filter(Boolean).join(' · '));
+      row.append(who, button('Передать', 'ok', async () => {
+        if (!confirm(`Передать «${x.fields.title || x.id}» пользователю ${userName(u.id)}? У вас приглашение пропадёт из «Моих приглашений».`)) return;
+        const r = await post(`/api/admin/invitations/${x.id}/owner`, { user_id: u.id });
+        alert(r.notified === 'telegram' ? 'Передано. Клиенту пришло сообщение в Telegram.'
+          : r.notified === 'email' ? 'Передано. Клиенту отправлено письмо на почту.'
+          : 'Передано, но сообщение клиенту не дошло: пусть откроет бота сайта в Telegram и нажмёт «Start».');
+        reload();
+      }));
+      return row;
+    }));
+    if (!found.children.length) found.append(el('div', 'm', r.error || 'Никого не найдено — клиент ещё не входил на сайт?'));
+  }, 300); };
+  item.append(box);
+  q.focus();
 }
 
 function userItem(u) {

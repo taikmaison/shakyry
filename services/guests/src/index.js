@@ -120,16 +120,16 @@ async function limit(req, kind, max) {
 
 const wishView = w => ({ id: w.id, name: w.name, message: w.message, created_at: w.created_at });
 const answerView = a => ({ id: a.id, form_id: a.form_id, status: a.status, action: a.action, action_text: a.action_text, fields: JSON.parse(a.fields), created_at: a.created_at });
-// уведомить хозяина о новом ответе. Ждём до ответа гостю (не дольше 5 с на всё): на Vercel
+// уведомить хозяина о новом ответе или пожелании. Ждём до ответа гостю (не дольше 5 с на всё): на Vercel
 // работа после ответа может не завершиться. Ошибка уведомления ответ гостя не портит.
 const ICON = { yes: '✅', plus_one: '👫', no: '❌', unknown: '❔' };
-async function notifyOwner(invitationId, status, name) {
+async function notifyOwner(invitationId, line) {
   if (!AUTH_API) return;
   const deadline = Date.now() + 5000, left = () => Math.max(1, deadline - Date.now());
   try {
     const x = await api(INVITATIONS_API, `/_internal/invitations/${encodeURIComponent(invitationId)}`, { timeout: left() });
     if (!x.user_id) return;
-    const text = `${ICON[status]} ${name || 'Гость'} — ${STATUS_RU[status]}
+    const text = `${line}
 ${x.title || 'Приглашение'}`;
     await api(AUTH_API, '/_internal/notify', { method: 'POST', body: { user_id: x.user_id, text }, timeout: left() });
   } catch (e) { console.warn('[guests] уведомление не отправлено:', e.message); }
@@ -176,7 +176,7 @@ createService('guests', [
         params.id, formId, action, actionText, JSON.stringify(fields), new Date().toISOString(), guestKey, status],
     ]);
     const guestName = Object.values(fields).find(v => v && v.length <= 80) || '';
-    await notifyOwner(params.id, status, guestName);
+    await notifyOwner(params.id, `${ICON[status]} ${guestName || 'Гость'} — ${STATUS_RU[status]}`);
     json(res, 200, { ok: true, status });
   }],
 
@@ -211,6 +211,7 @@ createService('guests', [
     const name = clip(b.name, 80), message = clip(b.message, 2000);
     if (!name || !message) throw new HttpError(400, 'Напишите имя и пожелание');
     await db.run('INSERT INTO wishes (invitation_id, name, message, created_at) VALUES (?, ?, ?, ?)', params.id, name, message, new Date().toISOString());
+    await notifyOwner(params.id, `💌 ${name}: ${message.length > 1500 ? message.slice(0, 1500) + '…' : message}`);
     json(res, 200, { ok: true });
   }],
 

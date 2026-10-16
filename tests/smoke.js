@@ -177,9 +177,20 @@ async function login(c, email) {
     ok(users.status === 200 && users.body.users.length === 1, 'поиск пользователя');
     ok((await admin.patch(`/api/admin/users/${otherUser.id}`, { role: 'admin' })).status === 400, 'роль через API не меняется');
     const meAdmin = (await admin.req('/api/auth/me')).body.user;
+
+    // ---------- передача приглашения клиенту ----------
+    const ownerId = (await owner.req('/api/auth/me')).body.user.id;
+    ok((await owner.post(`/api/admin/invitations/${id}/owner`, { user_id: otherUser.id })).status === 403, 'передать может только админ');
+    ok((await admin.post(`/api/admin/invitations/${id}/owner`, { user_id: 99999999 })).status === 404, 'передача несуществующему — 404');
+    const moved = await admin.post(`/api/admin/invitations/${id}/owner`, { user_id: otherUser.id });
+    ok(moved.status === 200 && moved.body.user_id === otherUser.id, 'приглашение передано другому пользователю');
+    ok((await other.req('/api/invitations')).body.some(x => x.id === id) && !(await owner.req('/api/invitations')).body.some(x => x.id === id), 'оно у нового владельца, у прежнего пропало');
+    ok((await other.req(`/api/i/${id}/answers`)).status === 200 && (await owner.req(`/api/i/${id}/answers`)).status === 403, 'ответы гостей видит новый владелец');
+    ok((await admin.post(`/api/admin/invitations/${id}/owner`, { user_id: ownerId })).body.user_id === ownerId, 'передано обратно');
     ok((await admin.patch(`/api/admin/users/${meAdmin.id}`, { blocked: true })).status === 400, 'админа не заблокировать');
     ok((await admin.patch(`/api/admin/users/${otherUser.id}`, { blocked: true })).body.user.blocked === true, 'пользователь заблокирован');
     ok((await other.req('/api/auth/me')).status === 401, 'сессия заблокированного закрыта');
+    ok((await admin.post(`/api/admin/invitations/${id}/owner`, { user_id: otherUser.id })).status === 400, 'заблокированному не передать');
 
     // ---------- снятие с публикации ----------
     await admin.post(`/api/admin/invitations/${id}/unpublish`, { reason: 'тест' });

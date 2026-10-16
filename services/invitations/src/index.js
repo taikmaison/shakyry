@@ -271,4 +271,23 @@ createService('invitations', [
     await notify('/_internal/notify', { user_id: row.user_id, text: `⛔ Приглашение «${title(row)}» снято с публикации${reason ? ': ' + reason : ''}` });
     json(res, 200, ownerView(row));
   }],
+
+  // передать приглашение другому пользователю (клиенту, для которого его сделал администратор):
+  // ответы гостей и пожелания приходят владельцу, приглашение появляется в его «Моих приглашениях»
+  ['POST', '/api/admin/invitations/:id/owner', async (req, res, { params }) => {
+    await requireAdmin(req);
+    if (!await get(params.id)) throw new HttpError(404, 'Приглашение не найдено');
+    const userId = Number((await readJson(req)).user_id);
+    if (!Number.isSafeInteger(userId) || userId <= 0) throw new HttpError(400, 'Укажите user_id');
+    const { user } = await api(AUTH_API, `/_internal/users/${userId}`, { timeout: 5000 });
+    if (user.blocked) throw new HttpError(400, 'Пользователь заблокирован');
+    const row = await update('UPDATE invitations SET user_id = ? WHERE id = ?', user.id, params.id);
+    if (!row) throw new HttpError(404, 'Приглашение не найдено');
+    const text = `📨 Вам передано приглашение «${title(row)}».
+Сюда будут приходить ответы гостей и их пожелания. Список гостей — на сайте в «Мои приглашения»: ${PUBLIC_URL}/`
+      + (row.live_fields ? `\nСсылка для гостей: ${PUBLIC_URL}/i/${row.id}` : '');
+    const sent = AUTH_API && await api(AUTH_API, '/_internal/notify', { method: 'POST', body: { user_id: user.id, text }, timeout: 5000 })
+      .then(r => r.sent, e => { console.warn(`[invitations] уведомление не отправлено: ${e.message}`); return null; });
+    json(res, 200, { ...ownerView(row), user_id: row.user_id, notified: sent || null });
+  }],
 ]);
