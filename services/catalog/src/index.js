@@ -152,7 +152,12 @@ createService('catalog', [
     const f = path.join(CONTENT, 'fonts.css'), fix = path.join(FIXES, 'fonts.css');
     if (!fs.existsSync(f)) return notFound(res);
     const body = fs.readFileSync(f, 'utf8') + (fs.existsSync(fix) ? '\n' + fs.readFileSync(fix, 'utf8') : '');
-    send(res, 200, TYPES['.css'], body, { 'Cache-Control': 'public, max-age=604800', 'Vercel-CDN-Cache-Control': 'public, max-age=31536000, immutable' });
+    // браузер каждый раз сверяется (не изменился — короткий ответ 304): исправления шрифтов видны сразу,
+    // а не через неделю кэша; CDN Vercel хранит файл до следующего деплоя
+    const etag = '"' + require('crypto').createHash('sha1').update(body).digest('hex').slice(0, 16) + '"';
+    const headers = { 'Cache-Control': 'no-cache', ETag: etag, 'Vercel-CDN-Cache-Control': 'public, max-age=31536000, immutable' };
+    if (req.headers['if-none-match'] === etag) { res.writeHead(304, headers); return res.end(); }
+    send(res, 200, TYPES['.css'], body, headers);
   }],
   ['GET', '/media/*', files('media', true)],
   ['GET', '/fonts/*', files('fonts', true)],
