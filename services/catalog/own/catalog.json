@@ -1,0 +1,30 @@
+[
+ {
+  "id": 9001,
+  "category": "tusaukeser",
+  "lang": "kz",
+  "popularity": 100,
+  "own": true
+ },
+ {
+  "id": 9002,
+  "category": "as_beru",
+  "lang": "kz",
+  "popularity": 100,
+  "own": true
+ },
+ {
+  "id": 9003,
+  "category": "besik",
+  "lang": "kz",
+  "popularity": 100,
+  "own": true
+ },
+ {
+  "id": 9004,
+  "category": "sundet",
+  "lang": "kz",
+  "popularity": 100,
+  "own": true
+ }
+]

@@ -210,7 +210,8 @@
 const CAT = { wedding: 'Үйлену той / Свадьба', bachelorette: 'Қыз ұзату', merey: 'Мерей той / Юбилей', birthday: 'Туған күн / День рождения',
   reception: 'Той / Приём', sundet: 'Сүндет той', 'nişan': 'Нишан / Помолвка', nikah: 'Неке қию / Никах', syrga_salu: 'Сырға салу',
   tilashar: 'Тұсаукесер / Тілашар', ramadan: 'Ораза / Рамадан', besik: 'Бесік той', kudalyk: 'Құдалық', kyryk: 'Қырқынан шығару',
-  shildekhana: 'Шілдехана', konys: 'Қоныс той', betashar: 'Беташар', 'merey-sundet': 'Мерей + сүндет', baptism: 'Крещение' };
+  shildekhana: 'Шілдехана', konys: 'Қоныс той', betashar: 'Беташар', 'merey-sundet': 'Мерей + сүндет', baptism: 'Крещение',
+  tusaukeser: 'Тұсаукесер', as_beru: 'Ас беру' };
 const STATUS = { draft: 'Черновик', pending: 'Ждёт оплаты и проверки', published: 'Опубликовано', rejected: 'Отклонено' };
 const $ = s => document.querySelector(s);
 const form = $('#form');
@@ -371,7 +372,7 @@ function showFields(info) {
   for (const box of form.querySelectorAll('[data-f]')) box.classList.toggle('hidden', !!info && !tokens.has(box.dataset.f) && !form[box.dataset.f].value);
   for (const f of ['title', 'name1', 'name2', 'age', 'city', 'address', 'hosts', 'invite_text'])
     form[f].placeholder = ex[f] ? 'напр.: ' + ex[f].replace(/\s+/g, ' ').slice(0, 80) : '';
-  $('#l_name1').textContent = tokens.has('name2') ? 'Имя: жених' : 'Имя: виновник торжества';
+  $('#l_name1').textContent = tokens.has('name2') ? 'Имя: жених' : info && info.category === 'as_beru' ? 'Имя: марқұм (в память о ком ас)' : 'Имя: виновник торжества';
 }
 function counter() {
   const n = [...form.invite_text.value].length;

@@ -23,10 +23,17 @@ const MUSIC_URL = /^\/media\/[0-9a-f]{2}\/[0-9a-f]+\.(mp3|m4a|ogg|wav)$/i;   // 
 //                          в каталоге не видны, открываются по номеру; картинки — только из content/media
 const FIXES = path.join(__dirname, '..', 'fixes');
 let fixes = {}, custom = {};
+// свои шаблоны (рисуем сами, права наши — лежат в git): own/catalog.json — карточки каталога, own/templates/<id>.json,
+// own/media/* (адрес /media/own/…), own/previews/<id>.webp; собираются скриптом own/build.js
+const OWN = path.join(__dirname, '..', 'own');
 
 function load() {
   const f = path.join(CONTENT, 'templates.json');
   catalog = fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : [];
+  const of = path.join(OWN, 'catalog.json');
+  const ownCards = fs.existsSync(of) ? JSON.parse(fs.readFileSync(of, 'utf8')) : [];
+  const known = new Set(catalog.map(t => t.id));
+  catalog = ownCards.filter(t => !known.has(t.id)).concat(catalog);   // свои — первыми в каталоге
   const pf = path.join(CONTENT, 'prices.json');
   prices = fs.existsSync(pf) ? JSON.parse(fs.readFileSync(pf, 'utf8')) : {};
   const ff = path.join(FIXES, 'templates.json');
@@ -49,8 +56,8 @@ function template(id) {
       if (!base) return null;
       cache.set(id, patch({ ...structuredClone(base), id }, own.set || []));
     } else {
-      const f = path.join(CONTENT, 'templates', `${id}.json`);
-      if (!fs.existsSync(f)) return null;
+      const f = [path.join(OWN, 'templates', `${id}.json`), path.join(CONTENT, 'templates', `${id}.json`)].find(x => fs.existsSync(x));
+      if (!f) return null;
       cache.set(id, patch(JSON.parse(fs.readFileSync(f, 'utf8'))));
     }
   }
@@ -76,7 +83,7 @@ function patch(tpl, list = fixes[tpl.id] || []) {
   return tpl;
 }
 const need = id => { const t = template(id); if (!t) throw new HttpError(404, 'Шаблон не найден'); return t; };
-const preview = id => fs.existsSync(path.join(CONTENT, 'previews', `${id}.webp`)) ? `/previews/${id}.webp` : null;
+const preview = id => [CONTENT, OWN].some(d => fs.existsSync(path.join(d, 'previews', `${id}.webp`))) ? `/previews/${id}.webp` : null;
 
 // названия треков из тегов mp3 (если есть)
 function mp3Title(file) {
@@ -131,6 +138,14 @@ const file = (req, res, f, cache) => {
   return sendFile(req, res, f, { cache });
 };
 const files = (dir, cache) => (req, res, { params }) => file(req, res, inside(path.join(CONTENT, dir), params.rest), cache);
+// /media/own/… — из own/media; /previews/… — из content, иначе из own/previews
+const media = (req, res, { params }) => params.rest.startsWith('own/')
+  ? file(req, res, inside(path.join(OWN, 'media'), params.rest.slice(4)), true)
+  : files('media', true)(req, res, { params });
+const previews = (req, res, { params }) => {
+  const f = inside(path.join(CONTENT, 'previews'), params.rest);
+  return file(req, res, f && fs.existsSync(f) ? f : inside(path.join(OWN, 'previews'), params.rest), false);
+};
 
 createService('catalog', [
   ['GET', '/api/templates', (req, res) => json(res, 200, catalog.map(t => ({ ...t, preview: preview(t.id), price: price(t.id), currency: CURRENCY })))],
@@ -149,9 +164,10 @@ createService('catalog', [
 
   ['GET', '/api/music', (req, res) => json(res, 200, musicLibrary())],
   ['GET', '/fonts.css', (req, res) => {
-    const f = path.join(CONTENT, 'fonts.css'), fix = path.join(FIXES, 'fonts.css');
+    const f = path.join(CONTENT, 'fonts.css');
     if (!fs.existsSync(f)) return notFound(res);
-    const body = fs.readFileSync(f, 'utf8') + (fs.existsSync(fix) ? '\n' + fs.readFileSync(fix, 'utf8') : '');
+    // шрифты архива + исправления (fixes/) + шрифты своих шаблонов (own/)
+    const body = [f, path.join(FIXES, 'fonts.css'), path.join(OWN, 'fonts.css')].filter(x => fs.existsSync(x)).map(x => fs.readFileSync(x, 'utf8')).join('\n');
     // браузер каждый раз сверяется (не изменился — короткий ответ 304): исправления шрифтов видны сразу,
     // а не через неделю кэша; CDN Vercel хранит файл до следующего деплоя
     const etag = '"' + require('crypto').createHash('sha1').update(body).digest('hex').slice(0, 16) + '"';
@@ -159,9 +175,10 @@ createService('catalog', [
     if (req.headers['if-none-match'] === etag) { res.writeHead(304, headers); return res.end(); }
     send(res, 200, TYPES['.css'], body, headers);
   }],
-  ['GET', '/media/*', files('media', true)],
-  ['GET', '/fonts/*', files('fonts', true)],
-  ['GET', '/previews/*', files('previews', false)],
+  ['GET', '/media/*', media],
+  ['GET', '/fonts/*', (req, res, { params }) => params.rest.startsWith('own/')
+    ? file(req, res, inside(path.join(OWN, 'fonts'), params.rest.slice(4)), true) : files('fonts', true)(req, res, { params })],
+  ['GET', '/previews/*', previews],
   // перечитать content/ после обновления шаблонов (шлюз /_internal наружу не пускает)
   ['POST', '/_internal/reload', (req, res) => { load(); json(res, 200, { templates: catalog.length }); }],
 ]);

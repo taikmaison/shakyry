@@ -4,12 +4,13 @@
 //   node tools/previews.js --force     — все заново
 //   node tools/previews.js 296 310     — только эти (заново)
 // Результат: content/previews/<id>.webp (каталог, 390×693) и <id>.jpg (og:image, 780×1380)
+// Свои шаблоны (own/) — в own/previews: PREVIEWS_DIR=own/previews node tools/previews.js 9001 9002
 const fs = require('fs');
 const path = require('path');
 const puppeteer = require('puppeteer');
 
 const BASE = process.env.BASE || 'http://127.0.0.1:8024';
-const OUT = path.join(__dirname, '..', 'content', 'previews');
+const OUT = process.env.PREVIEWS_DIR ? path.resolve(process.env.PREVIEWS_DIR) : path.join(__dirname, '..', 'content', 'previews');
 const PARALLEL = Number(process.env.PARALLEL) || 3;
 fs.mkdirSync(OUT, { recursive: true });
 

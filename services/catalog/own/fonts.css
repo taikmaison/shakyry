@@ -1,0 +1,4 @@
+/* Свои шаблоны: шрифты под SIL Open Font License (own/fonts/OFL.txt), с казахскими буквами */
+@font-face{font-family:"OwnCormorant";src:url("/fonts/own/OwnCormorant.woff") format("woff");font-weight:300 700;font-style:normal;font-display:swap;}
+@font-face{font-family:"OwnCormorant";src:url("/fonts/own/OwnCormorantItalic.woff") format("woff");font-weight:300 700;font-style:italic;font-display:swap;}
+@font-face{font-family:"OwnMontserrat";src:url("/fonts/own/OwnMontserrat.woff") format("woff");font-weight:100 900;font-style:normal;font-display:swap;}

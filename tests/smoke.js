@@ -47,6 +47,14 @@ async function login(c, email) {
   const rendered = await guest.post(`/api/templates/${tid}/render`, { fields: { name1: 'Айдос', date: '2027-06-12' } });
   ok(rendered.status === 200 && JSON.stringify(rendered.body.blocks).includes('Айдос'), 'сборка приглашения в каталоге');
   ok((await guest.req('/api/music')).status === 200 && (await guest.req('/fonts.css')).status === 200, 'музыка и шрифты');
+  // свои шаблоны (catalog/own): в каталоге, собираются, орнаменты и шрифты отдаются
+  const ownTpl = cat.body.filter(t => t.own);
+  ok(ownTpl.length >= 4 && ownTpl.every(t => t.preview), `свои шаблоны в каталоге с превью: ${ownTpl.map(t => '#' + t.id).join(', ')}`);
+  const ownR = await guest.post(`/api/templates/${ownTpl[0].id}/render`, { fields: { name1: 'Айсұлу', date: '2027-06-12' } });
+  const ownJson = JSON.stringify(ownR.body.blocks || []);
+  ok(ownR.status === 200 && ownJson.includes('Айсұлу') && ownJson.includes('12.06.2027'), 'свой шаблон собирается с данными');
+  const ownImg = (ownJson.match(/\/media\/own\/[a-z0-9-]+\.svg/) || [])[0];
+  ok(ownImg && (await guest.req(ownImg)).status === 200 && /OwnCormorant/.test((await guest.req('/fonts.css')).body) && (await guest.req('/fonts/own/OwnCormorant.woff')).status === 200, 'орнаменты и шрифты своих шаблонов');
   ok((await guest.req('/')).status === 200 && (await guest.req(`/t/${tid}`)).status === 200, 'главная и пример шаблона');
   ok((await guest.req('/kz/')).status === 200 && (await guest.req('/ru/wedding/')).status === 200, 'посадочные страницы');
   ok((await guest.req('/robots.txt')).status === 200 && (await guest.req('/sitemap.xml')).status === 200, 'robots.txt и sitemap.xml');
