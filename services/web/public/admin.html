@@ -113,6 +113,7 @@ function invitationItem(x) {
     if (reason === null) return;
     await post(`/api/admin/invitations/${x.id}/unpublish`, { reason }); reload();
   }));
+  acts.append(button('Пожелания', '', async () => wishesBox(x, item)));
   acts.append(button('Код для клиента', '', async () => claimCode(x, item)));
   acts.append(button('Передать клиенту', '', async () => pickOwner(x, item)));
   acts.append(button('Удалить', 'bad', async () => {
@@ -121,6 +122,26 @@ function invitationItem(x) {
   }));
   item.append(main, acts);
   return item;
+}
+
+// пожелания гостей приглашения — с удалением (спам, ошибки)
+async function wishesBox(x, item) {
+  const old = item.querySelector('.pick');
+  if (old) { old.remove(); if (old.dataset.kind === 'wishes') return; }
+  const list = await api(`/api/i/${x.id}/wishes`);
+  const box = el('div', 'pick'); box.dataset.kind = 'wishes';
+  box.append(el('div', 'm', list.length ? `Пожеланий: ${list.length}. Удалённое гости больше не увидят.` : 'Пожеланий пока нет.'));
+  for (const w of list) {
+    const row = el('div', 'row'), who = el('span', 'who');
+    who.append(el('b', null, w.name), el('span', 'm', ' · ' + when(w.created_at)), el('div', null, w.message));
+    row.append(who, button('Удалить', 'bad', async () => {
+      if (!confirm(`Удалить пожелание от «${w.name}»?`)) return;
+      await api(`/api/i/${x.id}/wishes/${w.id}`, { method: 'DELETE' });
+      row.remove();
+    }));
+    box.append(row);
+  }
+  item.append(box);
 }
 
 // код для клиента: клиент открывает ссылку на бота (или отправляет боту код) — приглашение переходит к нему,

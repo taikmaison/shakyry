@@ -215,6 +215,15 @@ createService('guests', [
     json(res, 200, { ok: true });
   }],
 
+  // удалить пожелание — владелец приглашения или администратор (права по cookie проверяет сервис приглашений)
+  ['DELETE', '/api/i/:id/wishes/:wid', async (req, res, { params }) => {
+    await requireOwner(req, params.id);
+    const wid = /^\d{1,15}$/.test(params.wid) ? Number(params.wid) : 0;
+    const r = wid ? await db.run('DELETE FROM wishes WHERE id = ? AND invitation_id = ?', wid, params.id) : { changes: 0 };
+    if (!r.changes) throw new HttpError(404, 'Пожелание не найдено');
+    json(res, 200, { ok: true });
+  }],
+
   // счётчики для «Моих приглашений»: ?ids=a,b,c — только по своим. Список своих берём у сервиса приглашений
   // с cookie вызывающего (без входа — 401), чужие и несуществующие id молча пропускаем.
   // Два запроса с GROUP BY за один заход в базу

@@ -150,6 +150,11 @@ async function login(c, email) {
     ok((await guest.post(`/api/i/${id}/wishes`, { name: 'Гость', message: 'Бақытты болыңдар!' })).status === 200, 'пожелание');
     const wishes = await guest.req(`/api/i/${id}/wishes`);
     ok(wishes.body.length === 1 && wishes.body[0].message === 'Бақытты болыңдар!', 'пожелание видно в списке');
+    await guest.post(`/api/i/${id}/wishes`, { name: 'Спам', message: 'реклама' });
+    const spam = (await guest.req(`/api/i/${id}/wishes`)).body.find(w => w.name === 'Спам');
+    ok((await guest.del(`/api/i/${id}/wishes/${spam.id}`)).status === 401 && (await other.del(`/api/i/${id}/wishes/${spam.id}`)).status === 403, 'чужой и гость не удаляют пожелание');
+    ok((await owner.del(`/api/i/${id}/wishes/${spam.id}`)).status === 200 && !(await guest.req(`/api/i/${id}/wishes`)).body.some(w => w.name === 'Спам'), 'владелец удалил пожелание');
+    ok((await owner.del(`/api/i/${id}/wishes/${spam.id}`)).status === 404, 'удалённое повторно — 404');
     const gs = await owner.req(`/api/guests/stats?ids=${id}`), gsOther = await other.req(`/api/guests/stats?ids=${id}`);
     ok(gs.status === 200 && gs.body[id]?.answers === 2 && gs.body[id]?.wishes === 1 && gsOther.status === 200 && !gsOther.body[id], 'счётчики гостей видит только владелец');
 

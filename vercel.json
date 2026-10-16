@@ -201,6 +201,12 @@
       }
     },
     {
+      "source": "/api/i/:id/wishes/:wid",
+      "destination": {
+        "service": "guests"
+      }
+    },
+    {
       "source": "/api/guests/:path*",
       "destination": {
         "service": "guests"

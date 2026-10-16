@@ -90,6 +90,7 @@
   .ans { display: flex; flex-direction: column; gap: 8px; }
   .ans div { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; overflow-wrap: anywhere; }
   .ans small { display: block; color: var(--muted); }
+  .ans .del { float: right; margin: -4px -6px 0 8px; padding: 4px 10px; font-size: 13px; }
   .sum { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
   .sum div { background: var(--accent-soft); border-radius: 10px; padding: 8px; text-align: center; }
   .sum b { display: block; font-size: 20px; font-variant-numeric: tabular-nums; }
@@ -494,13 +495,20 @@ async function showAnswers(id) {
   const fields = a => Object.entries(a.fields || {}).map(([k, v]) => `${esc(k.replace(/:$/, ''))}: ${esc(v)}`).join('<br>');
   const s = data.summary;
   const ans = data.answers.map(a => `<div><b>${esc(STATUS_RSVP[a.status])}</b>${a.action_text ? ' · ' + esc(a.action_text) : ''}<br>${fields(a)}<small>${when(a.created_at)}</small></div>`);
-  const ws = wishes.map(w => `<div><b>${esc(w.name)}</b><br>${esc(w.message)}<small>${when(w.created_at)}</small></div>`);
+  const ws = wishes.map(w => `<div><button class="btn ghost danger del" type="button" data-wish="${w.id}">Удалить</button><b>${esc(w.name)}</b><br>${esc(w.message)}<small>${when(w.created_at)}</small></div>`);
   $('#ansBody').innerHTML = `<h3>Кто придёт</h3>
     <div class="sum"><div><b>${s.yes}</b>придут</div><div><b>${s.plus_one}</b>с парой</div><div><b>${s.people}</b>человек</div><div><b>${s.no}</b>не придут</div></div>
     <p><a class="btn ghost" href="/api/i/${encodeURIComponent(id)}/answers.csv">Скачать для Excel</a></p>
     ${ans.length ? `<div class="ans">${ans.join('')}</div>` : '<p class="muted">Пока никто не ответил</p>'}
     <h3>Пожелания (${ws.length})</h3>${ws.length ? `<div class="ans">${ws.join('')}</div>` : '<p class="muted">Пока нет</p>'}`;
-  $('#answers').showModal();
+  // удалить пожелание (например, спам или ошибку гостя) — гости его больше не увидят
+  for (const b of $('#ansBody').querySelectorAll('[data-wish]')) b.onclick = async () => {
+    if (!confirm('Удалить это пожелание? Гости его больше не увидят.')) return;
+    b.disabled = true;
+    try { await api(`/api/i/${encodeURIComponent(id)}/wishes/${b.dataset.wish}`, { method: 'DELETE' }); await showAnswers(id); loadList(); }
+    catch (e) { alert(e.message); b.disabled = false; }
+  };
+  if (!$('#answers').open) $('#answers').showModal();
 }
 const STATUS_RSVP = { yes: 'Придёт', plus_one: 'Придёт с парой', no: 'Не придёт', unknown: 'Ответ без выбора' };
 
