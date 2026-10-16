@@ -49,13 +49,18 @@ function sampleFields(tpl) {
   };
 }
 
+// метка → поле, без учёта регистра: в части шаблонов метки написаны как «host», «имя», «категория», «invite_text»
+const TOKENS_LC = Object.fromEntries(Object.entries(TEXT_TOKENS).map(([k, v]) => [k.toLowerCase(), v]));
+const own = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+const tokenOf = key => own(TEXT_TOKENS, key) ? TEXT_TOKENS[key] : own(TOKENS_LC, key.toLowerCase()) ? TOKENS_LC[key.toLowerCase()] : null;
+
 const pad = n => String(n).padStart(2, '0');
 const components = tpl => (tpl.blocks || []).flatMap(b => b.components || []);
 
 // незаполненное поле — пустой текст: гость не должен видеть служебные метки
 function replaceText(content, v) {
-  const key = content.trim();
-  if (Object.prototype.hasOwnProperty.call(TEXT_TOKENS, key)) return v[TEXT_TOKENS[key]] || '';
+  const key = content.trim(), token = tokenOf(key);
+  if (token) return v[token] || '';
   if (LONE_DATE.test(key)) return v._date || '';
   return content.replace(INLINE, (m, pre, word) => pre + (v[TEXT_TOKENS[word]] || ''));
 }
@@ -66,8 +71,8 @@ function tokensOf(tpl) {
   for (const c of components(tpl)) {
     const d = c.data || {};
     if (typeof d.content === 'string') {
-      const key = d.content.trim();
-      if (Object.prototype.hasOwnProperty.call(TEXT_TOKENS, key)) found.add(TEXT_TOKENS[key]);
+      const token = tokenOf(d.content.trim());
+      if (token) found.add(token);
       for (const m of d.content.matchAll(INLINE)) found.add(TEXT_TOKENS[m[2]]);
     }
     if (c.type === 'button' && (!d.url || MAP_URL.test(d.url))) { found.add('map_link'); found.add('city'); found.add('address'); }
