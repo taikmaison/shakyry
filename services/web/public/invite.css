@@ -230,10 +230,10 @@ body.locked { overflow: hidden; }
   clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: top center; transition: transform .8s cubic-bezier(.4, .1, .3, 1); filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .15)); }
 .env.open .flap { transform: rotateX(180deg); }
 .env .top { position: absolute; top: 8%; left: 0; right: 0; text-align: center; padding: 0 24px; z-index: 2; transition: opacity .4s; }
-.env .kicker { font: 500 12px/1 "Cormorant Garamond", Georgia, serif; letter-spacing: .35em; text-transform: uppercase; opacity: .85; }
-.env .ttl { font: 40px/1.15 "KZGoodVibes", "greatvibes", "Great Vibes", cursive; margin-top: 14px; overflow-wrap: anywhere; }
+.env .kicker { font: 500 14px/1 "Cormorant Garamond", Georgia, serif; letter-spacing: .35em; text-transform: uppercase; opacity: .85; }
+.env .ttl { font: 52px/1.15 "KZGoodVibes", "greatvibes", "Great Vibes", cursive; margin-top: 14px; overflow-wrap: anywhere; }
 .env .ttl.clamp3 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
-.env .names { font: italic 500 22px/1.3 "Cormorant Garamond", Georgia, serif; margin-top: 8px; letter-spacing: .03em; }
+.env .names { font: italic 500 28px/1.3 "Cormorant Garamond", Georgia, serif; margin-top: 8px; letter-spacing: .03em; }
 .env .seal { position: absolute; left: 50%; top: 55%; width: 112px; height: 112px; transform: translate(-50%, -50%); border-radius: 50%; border: 0; cursor: pointer; z-index: 3;
   background: radial-gradient(circle at 34% 30%, color-mix(in srgb, var(--seal) 70%, #fff) 0%, var(--seal) 45%, color-mix(in srgb, var(--seal) 70%, #000) 100%);
   box-shadow: 0 10px 24px rgba(0, 0, 0, .35), inset 0 -4px 10px rgba(0, 0, 0, .25), inset 0 3px 6px rgba(255, 255, 255, .25);
@@ -242,7 +242,7 @@ body.locked { overflow: hidden; }
 .env .seal span { font: 600 30px/1 "Cormorant Garamond", Georgia, serif; letter-spacing: .04em; text-shadow: 0 1px 2px rgba(0, 0, 0, .3); }
 .env.open .seal { transform: translate(-50%, -50%) scale(.2); opacity: 0; animation: none; }
 .env.open .top { opacity: 0; }
-.env .hint { position: absolute; bottom: 9%; left: 0; right: 0; text-align: center; font: 15px/1.4 "Cormorant Garamond", Georgia, serif; letter-spacing: .05em; opacity: .9; padding: 0 30px; }
+.env .hint { position: absolute; bottom: 9%; left: 0; right: 0; text-align: center; font: 16px/1.4 "Cormorant Garamond", Georgia, serif; letter-spacing: .05em; opacity: .9; padding: 0 30px; }
 .env.open .hint { opacity: 0; transition: opacity .3s; }
 
 /* ---------- альбом ---------- */
