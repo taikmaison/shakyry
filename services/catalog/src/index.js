@@ -12,7 +12,10 @@ const cache = new Map();
 const PRICE = Number(env('PRICE', 3500)), CURRENCY = env('CURRENCY', 'KZT');
 let prices = {};
 const price = id => { const p = Number(prices[id]); return Number.isFinite(p) && p >= 0 ? p : PRICE; };
-let music = null;
+let music = null, extraMusic = [];
+// своя музыка сверх песен из шаблонов: content/music.json { "tracks": [{ "url": "/media/ab/….mp3", "title": "Исполнитель — Песня" }] }
+// (приходит вместе с файлами отдельным архивом, см. tools/fetch-content.js --extra: песни не кладём в публичный git)
+const MUSIC_URL = /^\/media\/[0-9a-f]{2}\/[0-9a-f]+\.(mp3|m4a|ogg|wav)$/i;   // как проверяет поле music в templates.js
 // исправления шаблонов и шрифтов храним в git (content/ — архив из Google Drive, его не правим):
 //   fixes/templates.json — { templates: { "<id>": [{ id | type, text?, set: { "data.mainColor": "#fff", "size.height": 400 } }] } }
 //   fixes/fonts.css      — дописывается к content/fonts.css (казахские буквы из шрифтов, где они нарисованы неверно)
@@ -30,6 +33,8 @@ function load() {
   fixes = fs.existsSync(ff) ? JSON.parse(fs.readFileSync(ff, 'utf8')).templates || {} : {};
   const cf = path.join(FIXES, 'custom.json');
   custom = fs.existsSync(cf) ? JSON.parse(fs.readFileSync(cf, 'utf8')).templates || {} : {};
+  const mf = path.join(CONTENT, 'music.json');
+  extraMusic = fs.existsSync(mf) ? JSON.parse(fs.readFileSync(mf, 'utf8')).tracks || [] : [];
   cache.clear();
   music = null;
   console.log(`[catalog] шаблонов: ${catalog.length}`);
@@ -95,6 +100,9 @@ function mp3Title(file) {
           s = new TextDecoder(be ? 'utf-16be' : 'utf-16le').decode(data);
         } else if (enc === 3) s = data.toString('utf8');
         else s = new TextDecoder(data.some(x => x >= 0xc0) ? 'windows-1251' : 'latin1').decode(data);   // старые теги часто в cp1251
+        // теги, когда-то перекодированные из cp1251 как latin1 («Øîïåí» вместо «Шопен»), — обратно
+        if (/[À-ÿ]{3}/.test(s) && !/[Ѐ-ӿ]/.test(s) && [...s].every(ch => ch.charCodeAt(0) < 256))
+          s = new TextDecoder('windows-1251').decode(Buffer.from(s, 'latin1'));
         tags[id] = s.replace(/\u0000|﻿|￾/g, '').replace(/\s*[\[(](sefon|muzzonas|lmusic|agugai|kztrack|muzdown)[^\])]*[\])]/ig, '').trim();
       }
       pos += 10 + len;
@@ -106,7 +114,11 @@ function musicLibrary() {
   if (music) return music;
   const set = new Set();
   for (const t of catalog) { const tpl = template(t.id); if (tpl) T.templateMusic(tpl).forEach(u => set.add(u)); }
-  music = [...set].filter(u => fs.existsSync(path.join(CONTENT, u))).map((url, i) => ({ url, title: mp3Title(path.join(CONTENT, url)) || `Әуен ${i + 1}` }));
+  const own = extraMusic.filter(t => t && MUSIC_URL.test(t.url) && fs.existsSync(path.join(CONTENT, t.url)))
+    .map(t => ({ url: t.url, title: String(t.title || '').trim() || mp3Title(path.join(CONTENT, t.url)) || 'Әуен' }));
+  const ownUrls = new Set(own.map(t => t.url));
+  // своя музыка — первой; номер «Әуен N» у песен из шаблонов не меняется
+  music = own.concat([...set].filter(u => fs.existsSync(path.join(CONTENT, u))).map((url, i) => ({ url, title: mp3Title(path.join(CONTENT, url)) || `Әуен ${i + 1}` })).filter(t => !ownUrls.has(t.url)));
   return music;
 }
 
