@@ -7,6 +7,7 @@ const O = require('./ornaments');
 const { SERIF, SANS } = require('./layouts');
 
 const SCRIPT = '"KZGoodVibes", "Great Vibes", cursive';   // рукописный шрифт сайта (fonts.css), им же подписан конверт
+const WALTZ = '/media/59/1280ec9b389e67.mp3';   // «Шопен — Весенний вальс» из музыки сайта: нежно и без слов
 
 // нить через всю ширину с сердцем-печатью посередине (рисуем сами)
 const heartThread = (c, c2) => O.svg(390, 90, `
@@ -94,7 +95,11 @@ function buildDate(spec) {
   script(y + 270, X.love, { size: 40 });
   script(y + 350, 'HOST', { size: 62, color: P.ink, h: 96, fit: true, anim: 'zoomIn' });
   image(y + 440, thread, 390, 90, { dur: 2.2 });
-  const height = y + 520;
+  // музыка: кнопка внизу экрана, играет после открытия обложки; песню хозяин может сменить в форме сайта
+  const music = spec.music === undefined ? WALTZ : spec.music;
+  const height = y + 520 + (music ? 76 : 0);
+  if (music) add('audio-fixed', 0, 200, 80, {}, { audio_url: music, button_text: X.music || 'Музыка', button_color: P.button, text_color: P.buttonText,
+    font_family: 'OwnMontserrat', font_size: 16, button_height: 52 });
 
   for (const c of comps) c.position.y = +(c.position.y / height * 100).toFixed(4);
   return {
