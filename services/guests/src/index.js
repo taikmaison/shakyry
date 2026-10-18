@@ -176,7 +176,14 @@ createService('guests', [
         params.id, formId, action, actionText, JSON.stringify(fields), new Date().toISOString(), guestKey, status],
     ]);
     const guestName = Object.values(fields).find(v => v && v.length <= 80) || '';
-    await notifyOwner(params.id, `${ICON[status]} ${guestName || 'Гость'} — ${STATUS_RU[status]}`);
+    // остальные ответы анкеты (например, выбранная гостем дата свидания) — строками ниже, коротко
+    let nameShown = false;
+    const more = Object.entries(fields).filter(([, v]) => {
+      if (!v) return false;
+      if (!nameShown && v === guestName) { nameShown = true; return false; }
+      return true;
+    }).slice(0, 4).map(([k, v]) => `${k.replace(/:$/, '')}: ${v.length > 200 ? v.slice(0, 200).replace(/[\ud800-\udbff]$/, '') + '…' : v}`);
+    await notifyOwner(params.id, [`${ICON[status]} ${guestName || 'Гость'} — ${STATUS_RU[status]}`, ...more].join('\n'));
     json(res, 200, { ok: true, status });
   }],
 

@@ -8,6 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const { build } = require('./lib/layouts');
+const { buildDate } = require('./lib/date-layout');
 
 const OWN = __dirname;
 const write = (rel, s) => { fs.mkdirSync(path.dirname(path.join(OWN, rel)), { recursive: true }); fs.writeFileSync(path.join(OWN, rel), s); };
@@ -31,13 +32,13 @@ for (const f of files) {
     if (ids.has(s.id)) { console.error(`✗ ${f}: #${s.id} уже есть в ${ids.get(s.id)}`); failed++; continue; }
     if (slugs.has(s.slug)) { console.error(`✗ ${f}: slug «${s.slug}» уже есть в ${slugs.get(s.slug)}`); failed++; continue; }
     ids.set(s.id, f); slugs.set(s.slug, f);
-    cards.push({ id: s.id, category: s.category, lang: 'kz', popularity: 0, own: true });   // 0 — на посадочных страницах после шаблонов архива
+    cards.push({ id: s.id, category: s.category, lang: s.layout === 'date' ? 'ru' : 'kz', popularity: 0, own: true });   // 0 — на посадочных страницах после шаблонов архива
     if (!rebuild) continue;
     try {
-      const { tpl, media } = build(s);
+      const { tpl, media } = s.layout === 'date' ? buildDate(s) : build(s);
       // старые файлы этого шаблона, которые раскладка больше не создаёт (только точные имена частей:
       // slug «as» не должен задевать файлы шаблона «as-meshit»)
-      const own = new RegExp(`^${s.slug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-(band|band-dark|divider|corner|rosette|motif|arch|medallion|side)\\.svg$`);
+      const own = new RegExp(`^${s.slug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-(band|band-dark|divider|corner|rosette|motif|arch|medallion|side|heart)\\.svg$`);
       for (const f of fs.readdirSync(path.join(OWN, 'media'))) if (own.test(f) && !(f in media)) fs.unlinkSync(path.join(OWN, 'media', f));
       for (const [name, text] of Object.entries(media)) write(`media/${name}`, text);
       write(`templates/${s.id}.json`, JSON.stringify(tpl, null, 1) + '\n');

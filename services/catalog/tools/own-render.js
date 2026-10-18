@@ -20,7 +20,10 @@ const SAMPLE = {
   tilashar: { name1: 'Ерасыл', hosts: 'Ата-анасы: Дәулет – Айгүл', invite_text: 'Сіздерді ұлымыз Ерасылдың тілашар тойына арналған ақ дастарханымыздың қадірлі қонағы болуға шақырамыз!' },
   shildekhana: { name1: 'Інжу', hosts: 'Ата-анасы: Арман – Жанар', invite_text: 'Сіздерді қызымыз Інжудің дүниеге келуіне арналған шілдехана тойымызға шақырамыз!' },
 };
-const TITLE = { tusaukeser: 'Тұсаукесер тойына шақыру', as_beru: 'Асқа шақыру', besik: 'Бесік тойына шақыру', sundet: 'Сүндет тойына шақыру',
+// приглашение на свидание: свои время, город и место (дату выбирает гость)
+SAMPLE.svidanie = { name1: 'Дана', hosts: 'Мерейбек', time: '21:00', city: 'Атырау', address: 'Bonasera, ул. Айтеке би, 75',
+  invite_text: 'Приглашаю тебя на ужин. Хочу провести этот вечер с тобой — тёплая атмосфера, вкусная еда и долгие разговоры.' };
+const TITLE = { svidanie: 'Приглашение на свидание', tusaukeser: 'Тұсаукесер тойына шақыру', as_beru: 'Асқа шақыру', besik: 'Бесік тойына шақыру', sundet: 'Сүндет тойына шақыру',
   syrga_salu: 'Сырға салу тойына шақыру', tilashar: 'Тілашар тойына шақыру', shildekhana: 'Шілдеханаға шақыру' };
 
 (async () => {
@@ -42,7 +45,7 @@ const TITLE = { tusaukeser: 'Тұсаукесер тойына шақыру', as
     }, fields)]);
     await p.addStyleTag({ content: '.autoscroll,.fixedbar{display:none!important}' });
     await p.evaluate(() => document.fonts.ready);
-    if (await p.$('.seal')) { await p.click('.seal'); await new Promise(r => setTimeout(r, 2800)); }
+    if (await p.$('.seal')) { await p.screenshot({ path: path.join(outDir, `${id}-env.png`) }); await p.click('.seal'); await new Promise(r => setTimeout(r, 2800)); }
     await p.evaluate(async () => { for (let y = 0; y < document.documentElement.scrollHeight; y += 220) { scrollTo(0, y); await new Promise(r => setTimeout(r, 150)); } });
     await new Promise(r => setTimeout(r, 2500));
     await p.evaluate(() => scrollTo(0, 0)); await new Promise(r => setTimeout(r, 300));

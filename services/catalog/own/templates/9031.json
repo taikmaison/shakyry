@@ -1,0 +1,855 @@
+{
+ "id": 9031,
+ "category": "svidanie",
+ "lang": "ru",
+ "updated_at": "2026-10-18T00:00:00",
+ "own": true,
+ "guest_date": true,
+ "envelope": {
+  "theme": "wine_red",
+  "lang": "ru",
+  "style": "cover",
+  "kicker": false,
+  "color": "#3d0c16",
+  "text_color": "#f7e6cf",
+  "background": "/media/own/svidanie-cover.jpg",
+  "button_image": null
+ },
+ "blocks": [
+  {
+   "type": "canvas",
+   "style": {
+    "backgroundColor": "#f6ede3",
+    "backgroundImage": "",
+    "minHeight": "500px",
+    "height": "2810px",
+    "margin": "0px",
+    "padding": "20px",
+    "borderRadius": "0px",
+    "border": "none",
+    "boxShadow": "none"
+   },
+   "components": [
+    {
+     "id": "own9031_1",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 2.2776,
+      "z": 101
+     },
+     "size": {
+      "width": 340,
+      "height": 34
+     },
+     "style": {
+      "fontSize": "13px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#7a1c2b",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.3em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "Приглашение на свидание",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_2",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 4.9822,
+      "z": 102
+     },
+     "size": {
+      "width": 360,
+      "height": 76
+     },
+     "style": {
+      "fontSize": "44px",
+      "fontFamily": "\"KZGoodVibes\", \"Great Vibes\", cursive",
+      "color": "#7a1c2b",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.15"
+     },
+     "data": {
+      "content": "Дорогая",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_3",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 8.0427,
+      "z": 103
+     },
+     "size": {
+      "width": 360,
+      "height": 110
+     },
+     "style": {
+      "fontSize": "76px",
+      "fontFamily": "\"KZGoodVibes\", \"Great Vibes\", cursive",
+      "color": "#3a1d21",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.15"
+     },
+     "data": {
+      "content": "ИМЯ",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "zoomIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_4",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 11.3167,
+      "z": 104
+     },
+     "size": {
+      "width": 390,
+      "height": 90
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/svidanie-heart.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 2.2,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_5",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 16.6548,
+      "z": 105
+     },
+     "size": {
+      "width": 320,
+      "height": 190
+     },
+     "style": {
+      "fontSize": "21px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#3a1d21",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.5",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "INVITE_TEXT",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_6",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 27.1886,
+      "z": 106
+     },
+     "size": {
+      "width": 300,
+      "height": 360
+     },
+     "style": {
+      "borderRadius": "150px 150px 22px 22px",
+      "objectFit": "cover",
+      "boxShadow": "0 18px 40px rgba(80, 20, 30, .28)"
+     },
+     "data": {
+      "src": "/media/own/svidanie-photo.jpg",
+      "isPhoto": true,
+      "__animation": {
+       "type": "zoomIn",
+       "duration": 2,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_7",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 35.2313,
+      "z": 107
+     },
+     "size": {
+      "width": 260,
+      "height": 30
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/svidanie-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_8",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 37.9359,
+      "z": 108
+     },
+     "size": {
+      "width": 360,
+      "height": 76
+     },
+     "style": {
+      "fontSize": "46px",
+      "fontFamily": "\"KZGoodVibes\", \"Great Vibes\", cursive",
+      "color": "#7a1c2b",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.15"
+     },
+     "data": {
+      "content": "Выбор за тобой",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_9",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 40.7829,
+      "z": 109
+     },
+     "size": {
+      "width": 320,
+      "height": 76
+     },
+     "style": {
+      "fontSize": "15px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#3a1d21",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.6"
+     },
+     "data": {
+      "content": "Выбери день, когда тебе удобно, — остальное я возьму на себя.",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_10",
+     "type": "form3",
+     "position": {
+      "x": 50,
+      "y": 45.9075,
+      "z": 110
+     },
+     "size": {
+      "width": 340,
+      "height": 176
+     },
+     "style": {},
+     "data": {
+      "form_id": "form3_own9031",
+      "formLang": "ru",
+      "send_names": true,
+      "names_label": "Имя",
+      "answer_action": "yes",
+      "answer_action_text": "Согласна",
+      "questions": [
+       {
+        "type": "date",
+        "label": "",
+        "field_name": "Дата свидания",
+        "placeholder": "Выбери дату…",
+        "modal_title": "Выбери день свидания",
+        "required_text": "Сначала выбери дату",
+        "is_required": true,
+        "max_days": 180
+       }
+      ],
+      "done_text": "Дата выбрана — до встречи!",
+      "thanks_text": "Спасибо! Жду нашей встречи",
+      "form_backgroundColor": "transparent",
+      "form_padding": 8,
+      "mainColor": "#7a1c2b",
+      "label_color": "#3a1d21",
+      "field_height": 54,
+      "field_borderRadius": 27,
+      "field_borderWidth": 1.5,
+      "field_borderColor": "#d9c3ad",
+      "field_backgroundColor": "#fffaf4",
+      "field_color": "#3a1d21",
+      "field_fontSize": 16,
+      "field_fontFamily": "OwnMontserrat",
+      "submit_button_text": "Отправить",
+      "submit_button_backgroundColor": "#7a1c2b",
+      "submit_button_textColor": "#fff7ef",
+      "submit_button_borderRadius": 27,
+      "submit_button_height": 54,
+      "submit_button_fontSize": 15,
+      "submit_button_fontFamily": "OwnMontserrat",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_11",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 50.5338,
+      "z": 111
+     },
+     "size": {
+      "width": 260,
+      "height": 30
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/svidanie-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_12",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 53.0961,
+      "z": 112
+     },
+     "size": {
+      "width": 360,
+      "height": 76
+     },
+     "style": {
+      "fontSize": "42px",
+      "fontFamily": "\"KZGoodVibes\", \"Great Vibes\", cursive",
+      "color": "#7a1c2b",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.15"
+     },
+     "data": {
+      "content": "Время",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_13",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 55.8719,
+      "z": 113
+     },
+     "size": {
+      "width": 300,
+      "height": 76
+     },
+     "style": {
+      "fontSize": "56px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#7a1c2b",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.4"
+     },
+     "data": {
+      "content": "FULL_TIME",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_14",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 59.0747,
+      "z": 114
+     },
+     "size": {
+      "width": 260,
+      "height": 30
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/svidanie-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_15",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 61.637,
+      "z": 115
+     },
+     "size": {
+      "width": 360,
+      "height": 76
+     },
+     "style": {
+      "fontSize": "42px",
+      "fontFamily": "\"KZGoodVibes\", \"Great Vibes\", cursive",
+      "color": "#7a1c2b",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.15"
+     },
+     "data": {
+      "content": "Место",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_16",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 64.6263,
+      "z": 116
+     },
+     "size": {
+      "width": 330,
+      "height": 96
+     },
+     "style": {
+      "fontSize": "24px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#3a1d21",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.35"
+     },
+     "data": {
+      "content": "ADDRESS",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_17",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 67.1174,
+      "z": 117
+     },
+     "size": {
+      "width": 340,
+      "height": 34
+     },
+     "style": {
+      "fontSize": "12px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#7a1c2b",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.3em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "CITY",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_18",
+     "type": "button",
+     "position": {
+      "x": 50,
+      "y": 69.4662,
+      "z": 118
+     },
+     "size": {
+      "width": 230,
+      "height": 50
+     },
+     "style": {},
+     "data": {
+      "backgroundColor": "#7a1c2b",
+      "borderRadius": 25,
+      "text": "Открыть в 2GIS",
+      "url": "https://example.com",
+      "textColor": "#fff7ef",
+      "borderColor": "#7a1c2b",
+      "borderWidth": 0,
+      "openInNewTab": true,
+      "fontSize": 15,
+      "fontFamily": "OwnMontserrat",
+      "fontWeight": 600,
+      "__animation": {
+       "type": "zoomIn",
+       "duration": 1.4,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_19",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 72.5979,
+      "z": 119
+     },
+     "size": {
+      "width": 260,
+      "height": 30
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/svidanie-divider.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_20",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 75.1601,
+      "z": 120
+     },
+     "size": {
+      "width": 360,
+      "height": 76
+     },
+     "style": {
+      "fontSize": "42px",
+      "fontFamily": "\"KZGoodVibes\", \"Great Vibes\", cursive",
+      "color": "#7a1c2b",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.15"
+     },
+     "data": {
+      "content": "Дресс-код",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_21",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 77.5801,
+      "z": 121
+     },
+     "size": {
+      "width": 340,
+      "height": 34
+     },
+     "style": {
+      "fontSize": "13px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#3a1d21",
+      "textAlign": "center",
+      "fontWeight": "600",
+      "lineHeight": "1.4",
+      "letterSpacing": "0.3em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "Вечерний образ",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_22",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 79.7153,
+      "z": 122
+     },
+     "size": {
+      "width": 320,
+      "height": 70
+     },
+     "style": {
+      "fontSize": "23px",
+      "fontFamily": "\"OwnCormorant\", Georgia, serif",
+      "color": "#7a1c2b",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.4",
+      "fontStyle": "italic"
+     },
+     "data": {
+      "content": "…хотя ты прекрасна в любом наряде",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_23",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 85.7651,
+      "z": 123
+     },
+     "size": {
+      "width": 300,
+      "height": 300
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/svidanie-roses.png",
+      "isPhoto": false,
+      "__animation": {
+       "type": "zoomIn",
+       "duration": 2,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_24",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 91.1032,
+      "z": 124
+     },
+     "size": {
+      "width": 360,
+      "height": 76
+     },
+     "style": {
+      "fontSize": "40px",
+      "fontFamily": "\"KZGoodVibes\", \"Great Vibes\", cursive",
+      "color": "#7a1c2b",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.15"
+     },
+     "data": {
+      "content": "С любовью,",
+      "tag": "p",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_25",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 93.9502,
+      "z": 125
+     },
+     "size": {
+      "width": 360,
+      "height": 96
+     },
+     "style": {
+      "fontSize": "62px",
+      "fontFamily": "\"KZGoodVibes\", \"Great Vibes\", cursive",
+      "color": "#3a1d21",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.15"
+     },
+     "data": {
+      "content": "HOST",
+      "tag": "p",
+      "__fit": true,
+      "__animation": {
+       "type": "zoomIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9031_26",
+     "type": "image",
+     "position": {
+      "x": 50,
+      "y": 97.153,
+      "z": 126
+     },
+     "size": {
+      "width": 390,
+      "height": 90
+     },
+     "style": {
+      "borderRadius": "0px",
+      "objectFit": "contain"
+     },
+     "data": {
+      "src": "/media/own/svidanie-heart.svg",
+      "isPhoto": false,
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 2.2,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    }
+   ]
+  }
+ ]
+}

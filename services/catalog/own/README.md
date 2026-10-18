@@ -9,12 +9,17 @@ own/
   build.js            сборка: node own/build.js [префикс файла описаний]   (из папки services/catalog)
   lib/ornaments.js    библиотека орнаментов (рог «қошқар мүйіз», ромбы, тұмар, волна, розетки, арка, уголки)
   lib/layouts.js      раскладки страницы (5 видов шапки + общая часть)
+  lib/date-layout.js  раскладка 'date' — приглашение на свидание (#9031): обложка-картинка, гость сам выбирает дату
   specs/*.js          описания шаблонов — каждый файл: module.exports = [ {…}, {…} ]
   templates/<id>.json media/<slug>-*.svg catalog.json fonts.css previews/  — результат (в git)
   fonts/              OwnCormorant(.woff, обычный и курсив), OwnMontserrat — с казахскими буквами и ₸
 ```
 
 Каталог сайта показывает свои шаблоны в конце; картинки — `/media/own/<файл>`, шрифты — `/fonts/own/<файл>`.
+
+**Свидание (`layout: 'date'`, `specs/svidanie.js`).** Свои тексты в `text`, картинки `media/<slug>-cover.jpg | -photo.jpg | -roses.png`
+(сгенерированы в Google Flow). Шаблон помечен `guest_date: true` — в форме сайта нет даты, её выбирает девушка в окне-календаре
+(анкета form3, вопрос `type: 'date'`); ответ с её именем и датой приходит хозяину приглашения в Telegram. Проверка: `tests/date-invite.js`.
 
 ## Описание шаблона (spec)
 

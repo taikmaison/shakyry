@@ -141,7 +141,7 @@
         <div data-f="name2"><label for="f_name2">Имя: невеста</label><input id="f_name2" name="name2" maxlength="40"></div>
         <div data-f="age"><label for="f_age">Возраст</label><input id="f_age" name="age" inputmode="numeric" maxlength="3"></div>
         <div class="row">
-          <div><label for="f_date">Дата</label><input id="f_date" name="date" type="date" min="2000-01-01" max="2100-12-31"></div>
+          <div data-f="date"><label for="f_date">Дата</label><input id="f_date" name="date" type="date" min="2000-01-01" max="2100-12-31"></div>
           <div><label for="f_time">Время</label><input id="f_time" name="time" type="time" value="18:00"></div>
         </div>
         <div data-f="city"><label for="f_city">Город</label><input id="f_city" name="city" maxlength="60"></div>
@@ -211,7 +211,7 @@ const CAT = { wedding: 'Үйлену той / Свадьба', bachelorette: 'Қ
   reception: 'Той / Приём', sundet: 'Сүндет той', 'nişan': 'Нишан / Помолвка', nikah: 'Неке қию / Никах', syrga_salu: 'Сырға салу',
   tilashar: 'Тілашар', ramadan: 'Ораза / Рамадан', besik: 'Бесік той', kudalyk: 'Құдалық', kyryk: 'Қырқынан шығару',
   shildekhana: 'Шілдехана', konys: 'Қоныс той', betashar: 'Беташар', 'merey-sundet': 'Мерей + сүндет', baptism: 'Крещение',
-  tusaukeser: 'Тұсаукесер', as_beru: 'Ас беру' };
+  tusaukeser: 'Тұсаукесер', as_beru: 'Ас беру', svidanie: 'Свидание / Кездесу' };
 const STATUS = { draft: 'Черновик', pending: 'Ждёт оплаты и проверки', published: 'Опубликовано', rejected: 'Отклонено' };
 const $ = s => document.querySelector(s);
 const form = $('#form');
@@ -372,8 +372,9 @@ function showFields(info) {
   for (const box of form.querySelectorAll('[data-f]')) box.classList.toggle('hidden', !!info && !tokens.has(box.dataset.f) && !form[box.dataset.f].value);
   for (const f of ['title', 'name1', 'name2', 'age', 'city', 'address', 'hosts', 'invite_text'])
     form[f].placeholder = ex[f] ? 'напр.: ' + ex[f].replace(/\s+/g, ' ').slice(0, 80) : '';
-  $('#l_name1').textContent = tokens.has('name2') ? 'Имя: жених' : info && info.category === 'as_beru' ? 'Имя: марқұм (в память о ком ас)' : 'Имя: виновник торжества';
-  $('label[for=f_hosts]').textContent = info && info.category === 'as_beru' ? 'Ас иелері / организаторы' : 'Той иелері / организаторы';
+  const cat = info && info.category;
+  $('#l_name1').textContent = tokens.has('name2') ? 'Имя: жених' : cat === 'as_beru' ? 'Имя: марқұм (в память о ком ас)' : cat === 'svidanie' ? 'Имя: кого приглашаете' : 'Имя: виновник торжества';
+  $('label[for=f_hosts]').textContent = cat === 'as_beru' ? 'Ас иелері / организаторы' : cat === 'svidanie' ? 'Ваше имя (подпись в конце)' : 'Той иелері / организаторы';
 }
 function counter() {
   const n = [...form.invite_text.value].length;
@@ -415,7 +416,7 @@ async function loadList() {
       <button class="btn ghost danger" type="button" data-a="del">Удалить</button></div>`;
     el.querySelector('.t').innerHTML = `<span class="badge ${x.status}">${STATUS[x.status]}</span> `;
     el.querySelector('.t').append((f.title || 'Приглашение') + (names ? ' — ' + names : ''));
-    el.querySelector('.muted').textContent = `${f.date} ${f.time || ''} · шаблон #${x.template_id}${x.live && x.status !== 'published' ? ' · гости видят прежнюю одобренную версию' : ''}`;
+    el.querySelector('.muted').textContent = `${[f.date, f.time].filter(Boolean).join(' ')} · шаблон #${x.template_id}${x.live && x.status !== 'published' ? ' · гости видят прежнюю одобренную версию' : ''}`;
     if (x.status === 'rejected' && x.moderation_note) { const n = el.querySelector('.note'); n.textContent = 'Причина: ' + x.moderation_note; n.classList.remove('hidden'); }
     el.querySelector('[data-a=view]').href = x.live && x.status === 'published' ? x.url : x.url + '?draft';
     const q = s => el.querySelector(`[data-a=${s}]`);
@@ -522,7 +523,8 @@ async function save(opts = {}) {
   $('#player').pause();
   const data = Object.fromEntries(new FormData(form));
   if (!data.template_id) return setMsg($('#msg'), 'err', 'Выберите шаблон');
-  if (!data.date) return setMsg($('#msg'), 'err', 'Укажите дату');
+  // дата не нужна, если её выбирает сам гость (шаблон без даты — приглашение на свидание)
+  if (!data.date && !(current && Array.isArray(current.tokens) && !current.tokens.includes('date'))) return setMsg($('#msg'), 'err', 'Укажите дату');
   if (!me) return openLogin('Чтобы сохранить приглашение, войдите — это займёт минуту. Регистрация происходит при первом входе.', save);
   const id = data.id;
   delete data.id;

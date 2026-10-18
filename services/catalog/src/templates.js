@@ -29,9 +29,10 @@ const TITLES = {
     syrga_salu: 'Сырға салу тойына шақыру', betashar: 'Беташарға шақыру', kyryk: 'Қырқынан шығару тойына шақыру',
     shildekhana: 'Шілдеханаға шақыру', konys: 'Қоныс тойына шақыру', nikah: 'Неке қию рәсіміне шақыру', ramadan: 'Ауызашарға шақыру',
     reception: 'Тойға шақыру', 'nişan': 'Құдалыққа шақыру', 'merey-sundet': 'Тойға шақыру', baptism: 'Тойға шақыру',
-    tusaukeser: 'Тұсаукесер тойына шақыру', as_beru: 'Асқа шақыру' },
+    tusaukeser: 'Тұсаукесер тойына шақыру', as_beru: 'Асқа шақыру', svidanie: 'Кездесуге шақыру' },
   ru: { wedding: 'Приглашение на свадьбу', birthday: 'Приглашение на день рождения', merey: 'Приглашение на юбилей',
-    bachelorette: 'Приглашение на кыз узату', sundet: 'Приглашение на сундет той', reception: 'Приглашение на торжество' },
+    bachelorette: 'Приглашение на кыз узату', sundet: 'Приглашение на сундет той', reception: 'Приглашение на торжество',
+    svidanie: 'Приглашение на свидание' },
 };
 const SAMPLE = {
   kz: { name1: 'Айдос', name2: 'Аружан', age: '60', city: 'Алматы', address: '«Той сарайы» мейрамханасы\nАбай даңғылы, 1',
@@ -42,7 +43,9 @@ const SAMPLE = {
 
 // свои примеры для видов, где праздничный пример неуместен
 const SAMPLE_BY_CAT = { kz: { as_beru: { name1: 'Әбдіғаппар Сәрсенбайұлы', hosts: 'Балалары мен немерелері',
-  invite_text: 'Сіздерді марқұм әкеміз Әбдіғаппар Сәрсенбайұлының бір жылдық асына келіп, Құран бағыштауға шақырамыз.' } } };
+  invite_text: 'Сіздерді марқұм әкеміз Әбдіғаппар Сәрсенбайұлының бір жылдық асына келіп, Құран бағыштауға шақырамыз.' } },
+  ru: { svidanie: { name1: 'Аружан', name2: '', hosts: 'Арман', address: 'Ресторан «Той сарайы»\nпр. Абая, 1',
+    invite_text: 'Приглашаю тебя на ужин. Хочу провести этот вечер с тобой — тёплая атмосфера, вкусная еда и долгие разговоры.' } } };
 
 function sampleFields(tpl) {
   const lang = tpl.lang === 'ru' ? 'ru' : 'kz';
@@ -51,7 +54,7 @@ function sampleFields(tpl) {
     ...SAMPLE[lang],
     ...(((SAMPLE_BY_CAT[lang] || {})[tpl.category]) || {}),
     title: (TITLES[lang] && TITLES[lang][tpl.category]) || TITLES[lang].wedding,
-    date: d.toISOString().slice(0, 10), time: tpl.category === 'as_beru' ? '13:00' : '18:00', map_link: 'https://2gis.kz',
+    date: d.toISOString().slice(0, 10), time: tpl.category === 'as_beru' ? '13:00' : tpl.category === 'svidanie' ? '20:00' : '18:00', map_link: 'https://2gis.kz',
   };
 }
 
@@ -85,6 +88,8 @@ function tokensOf(tpl) {
     if (c.type === 'audio' || c.type === 'audio-fixed') found.add('music');
   }
   found.delete('_date'); found.delete('_time');
+  // дату выбирает сам гость (приглашение на свидание) — в форме её нет
+  if (tpl.guest_date) found.delete('date');
   return [...found];
 }
 

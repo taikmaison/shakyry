@@ -18,6 +18,7 @@
       wishTitle: 'Тілек жазу', yourName: 'Атыңыз', yourWish: 'Тілегіңіз', send: 'Жіберу', wishThanks: 'Рахмет! Тілегіңіз қосылды',
       noWishes: 'Әзірше тілектер жоқ.\nБірінші болып тілек жазыңыз!', allWishes: 'Барлық тілектер', close: 'Жабу', required: 'Міндетті өріс',
       autoOn: 'Автоматты айналдыруды қосу', autoOff: 'Автоматты айналдыруды тоқтату',
+      pickDate: 'Күнді таңдаңыз', dateNeeded: 'Күнді таңдаңыз', prevMonth: 'Алдыңғы ай', nextMonth: 'Келесі ай',
     },
     ru: {
       kicker: 'Вам приглашение', open: 'Нажмите на печать, чтобы открыть',
@@ -29,6 +30,7 @@
       wishTitle: 'Написать пожелание', yourName: 'Ваше имя', yourWish: 'Ваше пожелание', send: 'Отправить', wishThanks: 'Спасибо! Пожелание добавлено',
       noWishes: 'Пока нет пожеланий.\nНапишите первым!', allWishes: 'Все пожелания', close: 'Закрыть', required: 'Обязательное поле',
       autoOn: 'Включить автопрокрутку', autoOff: 'Остановить автопрокрутку',
+      pickDate: 'Выберите дату', dateNeeded: 'Выберите дату', prevMonth: 'Предыдущий месяц', nextMonth: 'Следующий месяц',
     },
     en: {
       kicker: "You're invited", open: 'Tap the seal to open',
@@ -40,6 +42,7 @@
       wishTitle: 'Write a wish', yourName: 'Your name', yourWish: 'Your wish', send: 'Send', wishThanks: 'Thank you! Your wish was added',
       noWishes: 'No wishes yet.\nBe the first!', allWishes: 'All wishes', close: 'Close', required: 'Required',
       autoOn: 'Start auto-scroll', autoOff: 'Stop auto-scroll',
+      pickDate: 'Choose a date', dateNeeded: 'Please choose a date', prevMonth: 'Previous month', nextMonth: 'Next month',
     },
     ky: {
       kicker: 'Сизге чакыруу', open: 'Ачуу үчүн мөөрдү басыңыз',
@@ -552,6 +555,51 @@
     return node;
   };
 
+  // ---------------- выбор даты гостем ----------------
+  const CAL_ICON = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M7 13h2M11 13h2M15 13h2M7 16.5h2M11 16.5h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+  // «5 ноября 2026, четверг» / «5 қараша 2026 ж., бейсенбі»
+  function dateText(dt, lang) {
+    const l = langOf(lang), d = dt.getDate(), m = dt.getMonth(), y = dt.getFullYear(), wd = t('wdFull', l)[(dt.getDay() + 6) % 7];
+    if (l === 'ru') return `${d} ${MONTHS_GEN.ru[m]} ${y}, ${wd.toLowerCase()}`;
+    if (l === 'en') return `${wd}, ${t('months', l)[m]} ${d}, ${y}`;
+    return `${d} ${t('months', l)[m].toLowerCase()} ${y}${l === 'kz' ? ' ж.' : ''}, ${wd.toLowerCase()}`;
+  }
+  // окно-календарь: месяц, стрелки, дни (с понедельника); прошедшие и дальше maxDays — недоступны
+  function pickDate({ lang, accent, value, maxDays, title, onPick }) {
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const last = new Date(today); last.setDate(last.getDate() + (Number(maxDays) > 0 ? Number(maxDays) : 365));
+    const base = value || today, view = new Date(base.getFullYear(), base.getMonth(), 1);
+    const firstMonth = new Date(today.getFullYear(), today.getMonth(), 1), lastMonth = new Date(last.getFullYear(), last.getMonth(), 1);
+    const body = el('div', { class: 'dp' });
+    let close = () => {};
+    // фокус — в календаре (клавиатура, экранные дикторы): после перелистывания остаётся на той же стрелке
+    const focusDay = () => (body.querySelector('.day.on') || body.querySelector('.day.today:not(:disabled)') || body.querySelector('.day:not(:disabled)') || body.querySelector('.nav:not(:disabled)'));
+    const draw = navIdx => {
+      body.replaceChildren();
+      const prev = el('button', { class: 'nav', type: 'button', text: '‹', 'aria-label': t('prevMonth', lang), onclick: () => { view.setMonth(view.getMonth() - 1); draw(0); } });
+      const next = el('button', { class: 'nav', type: 'button', text: '›', 'aria-label': t('nextMonth', lang), onclick: () => { view.setMonth(view.getMonth() + 1); draw(1); } });
+      prev.disabled = view <= firstMonth; next.disabled = view >= lastMonth;
+      body.append(el('div', { class: 'head' }, prev, el('b', { text: `${t('months', lang)[view.getMonth()]} ${view.getFullYear()}` }), next));
+      const grid = el('div', { class: 'grid' }, ...t('wd', lang).map(w => el('span', { class: 'wd', text: w })));
+      for (let i = (view.getDay() + 6) % 7; i > 0; i--) grid.append(el('span'));
+      const days = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+      for (let n = 1; n <= days; n++) {
+        const dt = new Date(view.getFullYear(), view.getMonth(), n);
+        const b = el('button', { class: 'day', type: 'button', text: String(n), 'aria-label': dateText(dt, lang) });
+        if (dt < today || dt > last) b.disabled = true;
+        if (+dt === +today) { b.classList.add('today'); b.setAttribute('aria-current', 'date'); }
+        if (value && +dt === +value) { b.classList.add('on'); b.setAttribute('aria-pressed', 'true'); }
+        b.addEventListener('click', () => { onPick(dt); close(); });
+        grid.append(b);
+      }
+      body.append(grid);
+      if (navIdx !== undefined) { const nav = body.querySelectorAll('.nav')[navIdx]; (nav && !nav.disabled ? nav : focusDay())?.focus(); }
+    };
+    draw();
+    close = modal(title, body, accent);
+    setTimeout(() => focusDay()?.focus(), 50);
+  }
+
   // ---------------- анкеты ----------------
   function answeredKey(id) { return `rsvp:${D.id || D.template_id}:${id}`; }
   // случайный id устройства гостя (один на приглашение): повторный ответ заменяет прежний на сервере
@@ -571,10 +619,10 @@
     try { await post(D.api.rsvp, { form_id: formId, ...payload, guest_key: guestKey() }); return 'ok'; }
     catch { toast(t('fail', lang)); return null; }
   }
-  function answeredNow(formId, lang, rebuild) { store.set(answeredKey(formId), true); toast(t('thanks', lang)); rebuild(); }
+  function answeredNow(formId, lang, rebuild, thanks, value = true) { store.set(answeredKey(formId), value); toast(thanks || t('thanks', lang)); rebuild(); }
   // «Сіз жауап бердіңіз»: цвет — как у вариантов ответа этой формы (на тёмной форме тёмный текст не виден)
-  function doneView(node, formId, lang, rebuild, color) {
-    node.replaceChildren(el('div', { class: 'done', style: color ? { color } : {} }, el('div', { text: t('answered', lang) }),
+  function doneView(node, formId, lang, rebuild, color, text) {
+    node.replaceChildren(el('div', { class: 'done', style: color ? { color } : {} }, el('div', { text: text || t('answered', lang) }),
       el('button', { class: 'again', type: 'button', text: t('change', lang), onclick: () => { store.set(answeredKey(formId), null); rebuild(); } })));
   }
   function optionList(d, options, onPick, bg) {
@@ -691,13 +739,29 @@
     Object.assign(node.style, { background: d.form_backgroundColor || 'transparent', borderRadius: px(d.form_borderRadius ?? 16), padding: px(d.form_padding ?? 16) });
     const build = () => {
       node.replaceChildren();
-      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build, readableOn(d.label_color || d.mainColor, d.form_backgroundColor));
+      const was = store.get(answeredKey(d.form_id));
+      if (was) return doneView(node, d.form_id, lang, build, readableOn(d.label_color || d.mainColor, d.form_backgroundColor),
+        [d.done_text || t('answered', lang), was && typeof was.date === 'string' ? was.date : ''].filter(Boolean).join('\n'));
       const qs = (d.questions || []).map(q => {
         const box = el('div', { class: 'q' }, el('label', { text: q.label || '', style: { fontSize: px(d.label_fontSize || 14), fontFamily: d.label_fontFamily || '', color: d.label_color || d.mainColor || '' } }));
         let get;
         if (q.type === 'choice') {
           const o = optionList(d, (q.options || []).map(x => ({ text: x.text, value: x.value })));
           box.append(...o.items); get = () => o.get() && o.get().value;
+        } else if (q.type === 'date') {
+          // дату выбирает гость: своё окно с календарём (одинаковое на всех телефонах), прошедшие дни недоступны
+          let picked = null;
+          const ph = el('span', { class: 'ph', text: q.placeholder || t('pickDate', lang) });
+          const field = el('button', { class: 'datefield', type: 'button', 'aria-haspopup': 'dialog' }, ph, el('span', { class: 'ic' }));
+          field.lastChild.innerHTML = CAL_ICON;
+          Object.assign(field.style, inputStyle(d));
+          field.addEventListener('click', () => {
+            if (document.querySelector('.modal .dp')) return;   // окно уже открыто (двойное нажатие, Enter)
+            pickDate({ lang, accent: d.mainColor || d.submit_button_backgroundColor, value: picked, maxDays: q.max_days,
+              title: q.modal_title || q.placeholder || t('pickDate', lang),
+              onPick: dt => { picked = dt; ph.textContent = dateText(dt, lang); field.classList.add('set'); setTimeout(() => field.focus(), 0); } });
+          });
+          box.append(field); get = () => picked ? dateText(picked, lang) : '';
         } else {
           const input = el(Number(q.lines) > 1 ? 'textarea' : 'input', { type: 'text', placeholder: q.placeholder || '' });
           Object.assign(input.style, inputStyle(d));
@@ -709,12 +773,17 @@
       const btn = submitButton(d, d.submit_button_text || t('send', lang));
       btn.addEventListener('click', async () => {
         const miss = qs.find(x => x.q.is_required && !x.get());
-        if (miss) return toast(`${miss.q.label || ''} — ${t('required', lang)}`);
+        if (miss) return toast(miss.q.required_text || (miss.q.type === 'date' ? t('dateNeeded', lang) : `${miss.q.label || ''} — ${t('required', lang)}`));
         btn.disabled = true;
-        const fields = Object.fromEntries(qs.map(x => [x.q.label || x.q.field_name, x.get() || '']));
-        const r = await sendAnswer(d.form_id, { fields }, lang);
+        // send_names — анкета для одного гостя (свидание): его имя из приглашения идёт первым полем, чтобы хозяин видел, кто ответил
+        const named = d.send_names && D.names.length ? [[d.names_label || t('yourName', lang), D.names.join(' & ')]] : [];
+        const fields = Object.fromEntries([...named, ...qs.map(x => [x.q.label || x.q.field_name, x.get() || ''])]);
+        const r = await sendAnswer(d.form_id, { fields, ...(d.answer_action ? { action: d.answer_action, action_text: d.answer_action_text || null } : {}) }, lang);
         btn.disabled = false;
-        if (r === 'ok') answeredNow(d.form_id, lang, build);
+        if (r === 'ok') {
+          const dq = qs.find(x => x.q.type === 'date');   // выбранная дата — видна и после ответа
+          answeredNow(d.form_id, lang, build, d.thanks_text, dq && dq.get() ? { date: dq.get() } : true);
+        }
       });
       node.append(btn);
     };
@@ -1157,7 +1226,11 @@
   function fitEnvelope(paper) {
     const top = paper.querySelector('.top'), ttl = paper.querySelector('.ttl'), names = paper.querySelector('.names'), seal = paper.querySelector('.seal');
     if (!top || !seal) return;
-    const room = () => seal.getBoundingClientRect().top - 14 - top.getBoundingClientRect().bottom;
+    // обложка: блок прижат к печати снизу — следим ещё, чтобы он не уходил за верх экрана
+    const cover = paper.parentNode && paper.parentNode.classList.contains('cover');
+    const room = cover
+      ? () => Math.min(seal.getBoundingClientRect().top - 14 - top.getBoundingClientRect().bottom, top.getBoundingClientRect().top - 12)
+      : () => seal.getBoundingClientRect().top - 14 - top.getBoundingClientRect().bottom;
     const lines = n => { const cs = getComputedStyle(n); return Math.round(n.scrollHeight / parseFloat(cs.lineHeight)); };
     let k = 0;
     while (ttl && (lines(ttl) > 3 || room() < 0) && parseFloat(getComputedStyle(ttl).fontSize) > 22 && k++ < 40) ttl.style.fontSize = (parseFloat(getComputedStyle(ttl).fontSize) - 1) + 'px';
@@ -1177,14 +1250,16 @@
     const [bg, fg, seal] = THEMES[e.theme] || THEMES.champagne;
     const lang = LANG;   // язык интерфейса конверта — язык шаблона (envelope.lang бывает неверным)
     const initials = D.names.map(firstChar).filter(Boolean).join(' & ') || '♡';
-    const root = el('div', { class: 'env' });
+    // style 'cover' — обложка-картинка во весь экран вместо конверта с клапаном (приглашение на свидание)
+    const cover = e.style === 'cover' && !!e.background;
+    const root = el('div', { class: cover ? 'env cover' : 'env' });
     const paper = el('div', { class: 'paper', style: { '--env': e.color || bg, '--env-text': e.text_color || fg, '--seal': seal } });
     paper.style.setProperty('--env', e.color || bg); paper.style.setProperty('--env-text', e.text_color || fg); paper.style.setProperty('--seal', seal);
     if (e.background) paper.style.backgroundImage = `url("${e.background}")`;
     const sealBtn = el('button', { class: 'seal', type: 'button', 'aria-label': t('open', lang) }, el('span', { text: initials }));
     paper.append(
       el('div', { class: 'side' }), el('div', { class: 'bottom' }), el('div', { class: 'flap' }),
-      el('div', { class: 'top' }, el('div', { class: 'kicker', text: t('kicker', lang) }), D.title ? el('div', { class: 'ttl', text: D.title }) : null,
+      el('div', { class: 'top' }, e.kicker === false ? null : el('div', { class: 'kicker', text: typeof e.kicker === 'string' ? e.kicker : t('kicker', lang) }), D.title ? el('div', { class: 'ttl', text: D.title }) : null,
         D.names.length ? el('div', { class: 'names', text: D.names.join(' & ') }) : null),
       sealBtn, el('div', { class: 'hint', text: t('open', lang) }));
     root.append(paper);

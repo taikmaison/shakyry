@@ -115,10 +115,11 @@ async function validated(body) {
   let fields;
   try { fields = cleanFields(body); } catch (e) { if (e instanceof FieldError) throw new HttpError(400, e.message); throw e; }
   if (!fields.template_id) throw new HttpError(400, 'Укажите ID шаблона');
-  if (!fields.date) throw new HttpError(400, 'Укажите дату');
-  await api(CATALOG_API, `/api/templates/${fields.template_id}`).catch(e => {
+  const info = await api(CATALOG_API, `/api/templates/${fields.template_id}`).catch(e => {
     throw e.status === 404 ? new HttpError(400, 'Нет такого шаблона') : new HttpError(503, 'Каталог шаблонов недоступен');
   });
+  // дата обязательна, если шаблон её показывает (в приглашении на свидание дату выбирает гость)
+  if (!fields.date && !(info && Array.isArray(info.tokens) && !info.tokens.includes('date'))) throw new HttpError(400, 'Укажите дату');
   return fields;
 }
 

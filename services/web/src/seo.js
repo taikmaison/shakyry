@@ -469,6 +469,8 @@ const CATS = [
   // в каталоге один шаблон, по содержанию — свадебный; отдельную посадочную не делаем
   { key: 'as_beru', slug: 'as-beru', landing: false, kz: { name: 'Ас беру', invite: 'Асқа шақыру' }, ru: { name: 'Ас беру', invite: 'Приглашение на ас' } },
   { key: 'tusaukeser', slug: 'tusaukeser', landing: false, kz: { name: 'Тұсаукесер', invite: 'Тұсаукесер тойына шақыру' }, ru: { name: 'Тусаукесер', invite: 'Приглашение на тусаукесер' } },
+  // приглашение на свидание (гость сам выбирает дату) — не той, отдельную посадочную не делаем
+  { key: 'svidanie', slug: 'svidanie', landing: false, kz: { name: 'Кездесу', invite: 'Кездесуге шақыру' }, ru: { name: 'Свидание', invite: 'Приглашение на свидание' } },
   { key: 'baptism', slug: 'baptism', landing: false, kz: { name: 'Той', invite: 'Тойға шақыру' }, ru: { name: 'Торжество', invite: 'Приглашение на торжество' } },
 ];
 const CAT_BY_KEY = new Map(CATS.map(c => [c.key, c]));
@@ -716,7 +718,11 @@ function templateHead({ config, tpl, fields, url, image } = {}) {
   const title = lang === 'ru'
     ? `${L.invite} — шаблон ${num} на русском | ${name}`
     : `${L.invite} — ${num} үлгі, қазақ тілінде | ${name}`;
-  const description = lang === 'ru'
+  const description = tpl.category === 'svidanie'
+    ? (lang === 'ru'
+      ? `Шаблон приглашения на свидание ${num}, на русском языке. Впишите её имя, время и место — дату она выберет сама в календаре, а ответ придёт вам в Telegram.`
+      : `${num} кездесуге шақыру үлгісі, қазақ тілінде. Қыздың есімін, уақыт пен орынды жазыңыз — күнді ол күнтізбеден өзі таңдайды, жауабы Telegram-ға келеді.`)
+    : lang === 'ru'
     ? `Шаблон онлайн-приглашения ${num} (${lcFirst(L.name)}), на русском языке. Впишите имена, дату и адрес — и отправьте гостям ссылку в WhatsApp или Telegram.`
     : `${num} онлайн шақыру үлгісі (${lcFirst(L.name)}), қазақ тілінде. Есімдерді, күнді және мекенжайды жазып, қонақтарға WhatsApp не Telegram арқылы сілтеме жіберіңіз.`;
 
@@ -792,9 +798,11 @@ function inviteHead({ config, data, url, image } = {}) {
   else title = ttl || joined || cat[lang].invite;
   title = oneLine(title, 120);
 
-  const when = formatWhen(lang, data.date, data.time);
+  let when = formatWhen(lang, data.date, data.time);
+  // без даты (свидание: дату выбирает гость) время стоит первым — с большой буквы
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(data.date || ''))) when = when.replace(/^в /, 'В ').replace(/^сағат /, 'Сағат ');
   const city = oneLine(data.city, 60);
-  const lead = lang === 'ru' ? 'Приглашаем вас!' : 'Сізді шақырамыз!';
+  const lead = data.category === 'svidanie' ? (lang === 'ru' ? 'Приглашаю тебя!' : 'Сені шақырамын!') : lang === 'ru' ? 'Приглашаем вас!' : 'Сізді шақырамыз!';
   const description = [lead, [when, city].filter(Boolean).join(' · ')].filter(Boolean).join(' ');
 
   const tid = Number(data.template_id);
