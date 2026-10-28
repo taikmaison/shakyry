@@ -5,6 +5,8 @@
 //   darkhero  — тёмная шапка во всю ширину, светлый текст
 //   bordered  — как classic, плюс узорные полосы по краям во всю высоту
 //   medallion — имя внутри большой розетки
+//   emerald   — тёмная страница (бархат), картинка-акварель и гирлянда сверху, два имени с подписями (мерей + сүндет),
+//               текст на кремовой карточке с гравюрой гор; картинки — own/media/<slug>-hero.jpg и <slug>-flowers.webp
 // Все y — в пикселях от верха страницы; в проценты переводятся в конце (от итоговой высоты).
 const O = require('./ornaments');
 
@@ -30,12 +32,14 @@ function build(spec) {
   const L = spec.layout || 'classic', calm = !!spec.calm;
   // акцент для мелкого текста (дата, город, дни недели, подписи отсчёта) — темнее, если золото на светлом фоне бледное
   const AT = P.accentText || readable(P.accent, [P.bg, P.card], P.ink);
+  // тот же акцент, но для кремовых карточек (на тёмной странице AT светлый и на креме не читается)
+  const ATcard = readable(AT, [P.card], P.ink);
   const media = {}, M = `/media/own/${spec.slug}-`;
   const file = (name, svgText) => { media[`${spec.slug}-${name}`] = svgText; return M + name; };
   const band = file('band.svg', O.bands[st.band](P.accent, P.ink));
-  const divider = file('divider.svg', O.dividers[st.divider](P.accent, P.ink));
+  const divider = file('divider.svg', O.dividers[st.divider](P.accent, L === 'emerald' ? P.light : P.ink));
   const crest = file('corner.svg', O.corner(P.accent, P.card));
-  const rosette = file('rosette.svg', O.rosettes[st.rosette](P.accent, P.ink));
+  const rosette = file('rosette.svg', O.rosettes[st.rosette](P.accent, L === 'emerald' ? P.light : P.ink));
 
   let n = 0, z = 100;
   const comps = [];
@@ -46,16 +50,19 @@ function build(spec) {
     fontSize: (o.size || 18) + 'px', fontFamily: o.font || SANS, color: o.color || P.ink, textAlign: 'center', fontWeight: String(o.weight || 400),
     lineHeight: String(o.lh || 1.4), ...(o.italic ? { fontStyle: 'italic' } : {}), ...(o.ls ? { letterSpacing: o.ls } : {}), ...(o.upper ? { textTransform: 'uppercase' } : {}),
     ...(o.shadow ? { textShadow: o.shadow } : {}),
-  }, { content, tag: 'p', ...(o.fit ? { __fit: true } : {}), __animation: anim(o.anim || 'fadeIn', o.dur || 1.6) });
-  const image = (y, src, w, h, o = {}) => add('image', y, w, h, { borderRadius: '0px', objectFit: 'contain', ...(o.rot ? { transform: `rotate(${o.rot}deg)` } : {}) },
-    { src, isPhoto: false, __animation: o.spin && !calm ? { type: 'spin', duration: o.spin, isInfinite: true, motionPath: null } : o.none ? null : anim(o.anim || 'fadeIn', o.dur || 1.8) }, o.x);
+  }, { content, tag: 'p', ...(o.fit ? { __fit: true } : {}), ...(o.needs ? { __needs: o.needs } : {}),
+    ...(o.textEffect ? { __textEffect: o.textEffect, __textEffectSpeed: o.textEffectSpeed || 0.8 } : {}), __animation: anim(o.anim || 'fadeIn', o.dur || 1.6) });
+  const image = (y, src, w, h, o = {}) => add('image', y, w, h, { borderRadius: o.radius || '0px', objectFit: o.fit || 'contain', ...(o.rot ? { transform: `rotate(${o.rot}deg)` } : {}) },
+    { src, isPhoto: false, ...(o.needs ? { __needs: o.needs } : {}),
+      __animation: o.animObj ? o.animObj : (o.spin && !calm ? { type: 'spin', duration: o.spin, isInfinite: true, motionPath: null } : (o.none ? null : anim(o.anim || 'fadeIn', o.dur || 1.8))) }, o.x);
   const shape = (y, w, h, style) => add('shape', y, w, h, style, { shapeType: 'rectangle' });
   const narrow = L === 'bordered';
   // рамка: двойная линия; ширина с запасом, чтобы на экране 360 px края не обрезались
   const frame = (y, h) => shape(y, narrow ? 326 : 346, h, { backgroundColor: P.card, border: `1.5px solid ${P.line}`, borderRadius: '18px', boxShadow: `inset 0 0 0 6px ${P.card}, inset 0 0 0 7px ${P.line}` });
+  const textInk = L === 'emerald' ? P.light : P.ink;
   const heading = (y, s) => st.heading === 'caps'
     ? text(y, s, { size: 16, weight: 600, ls: '0.26em', upper: true, color: AT, h: 60, w: narrow ? 300 : 360, anim: 'slideInUp' })
-    : text(y, s, { font: SERIF, size: narrow ? 26 : 30, weight: 500, h: 70, w: narrow ? 300 : 360, anim: 'slideInUp' });
+    : text(y, s, { font: SERIF, size: narrow ? 26 : 30, weight: 500, h: 70, w: narrow ? 300 : 360, color: (L === 'emerald' ? P.accent : (P.heading || P.ink)), anim: 'slideInUp' });
   const motif = (pal = P) => spec.motif ? file('motif.svg', spec.motif(pal, O)) : null;
   // полосы — 390×66: на экране 390 px узор не обрезается по краям
   const bandAt = (y, src = band, o = {}) => image(y, src, 390, 66, o);
@@ -103,21 +110,80 @@ function build(spec) {
     text(545, 'TITLE', { font: SERIF, size: 30, weight: 500, h: 90, fit: true, anim: 'slideInUp' });
     if (spec.motif) image(650, motif(), Math.min(200, spec.motifW || 200), Math.min(110, spec.motifH || 110), { anim: 'fadeIn' });
     y = spec.motif ? 730 : 620;
+  } else if (L === 'emerald') {
+    const bandDark = file('band-dark.svg', O.bands[st.band](P.accent, P.light));
+    bandAt(36, bandDark, { anim: 'slideInDown' });
+    // картинка-акварель в золотой рамке с тенью (рамка — отдельная фигура: у картинок сайт рамку не рисует)
+    shape(205, 358, 296, { backgroundColor: P.line, borderRadius: '24px', boxShadow: '0 16px 40px rgba(0,0,0,.5)' });
+    image(205, M + 'hero.jpg', 352, 290, { radius: '22px', fit: 'cover', anim: 'zoomIn', dur: 1.8 });
+    // гирлянда цветов — плавно «парит»
+    image(372, M + 'flowers.webp', 300, 102, { animObj: { type: 'float', duration: 4.5, isInfinite: true, motionPath: null } });
+    if (spec.bismillah) text(436, spec.bismillah, { font: SERIF, size: 21, italic: true, weight: 500, color: P.accent, h: 34 });
+    text(476, 'DATE', { size: 14, weight: 600, ls: '0.28em', color: AT, h: 32, anim: 'slideInDown' });
+    text(520, 'TITLE', {
+      font: SERIF, size: 24, weight: 600, upper: true, ls: '0.08em', color: P.light, h: 48, w: 370, fit: true,
+      textEffect: 'fade_letters', textEffectSpeed: 0.9, anim: 'slideInUp'
+    });
+    image(570, divider, 250, 42);
+    // два повода — два имени, под каждым подпись из описания (caption1/caption2); без имени подпись не показывается
+    text(618, 'жених', { font: SERIF, size: 36, weight: 600, italic: true, h: 58, w: 360, fit: true, color: P.name, anim: 'zoomIn', dur: 1.8 });
+    if (spec.caption1) text(654, spec.caption1, { font: SERIF, size: 16, italic: true, weight: 500, color: P.accent, h: 26, needs: 'name1' });
+    image(682, file('amp.svg', O.svg(60, 20, `<line x1="4" y1="10" x2="20" y2="10" stroke="${P.accent}" stroke-width="1.2"/><line x1="40" y1="10" x2="56" y2="10" stroke="${P.accent}" stroke-width="1.2"/><g transform="translate(30,10)">${O.diamond(P.accent, 5)}</g>`)), 60, 20, { needs: 'name2' });
+    text(716, 'невеста', { font: SERIF, size: 28, weight: 600, italic: true, h: 54, w: 360, fit: true, color: P.name, anim: 'zoomIn', dur: 1.8 });
+    if (spec.caption2) text(752, spec.caption2, { font: SERIF, size: 16, italic: true, weight: 500, color: P.accent, h: 26, needs: 'name2' });
+    bandAt(800, bandDark);
+    y = 852;
   } else throw new Error(`#${spec.id}: неизвестная раскладка ${L}`);
 
   // ---------- приветствие и текст (рамка с орнаментом по центру верхней и нижней линии) ----------
-  frame(y + 170, 360);
-  image(y - 10, crest, 84, 40);
-  image(y + 350, crest, 84, 40, { rot: 180 });
-  text(y + 50, spec.greeting || 'Құрметті ағайын-туыс,\nқұда-жекжат, дос-жаран!', { font: SERIF, size: 26, weight: 500, italic: true, h: 80, w: 320 });
-  text(y + 205, 'INVITE_TEXT', { size: 17, lh: 1.6, h: 220, w: narrow ? 290 : 310, fit: true });
-  y += 390;
+  if (L === 'emerald') {
+    const cardH = 690;
+    shape(y + cardH / 2, 356, cardH, {
+      backgroundColor: P.card,
+      border: `1.5px solid ${P.line}`,
+      borderRadius: '22px',
+      boxShadow: `0 18px 48px rgba(12, 55, 42, 0.08), inset 0 0 0 6px ${P.card}, inset 0 0 0 7.5px ${P.line}`
+    });
+    image(y, crest, 84, 40);
+    text(y + 60, spec.greeting || 'Құрметті ағайын-туыс,\nқұда-жекжат, дос-жаран!', {
+      font: SERIF, size: 24, weight: 600, italic: true, h: 76, w: 330, color: P.ink, anim: 'slideInUp'
+    });
+    text(y + 245, 'INVITE_TEXT', { size: 16, lh: 1.6, h: 290, w: 310, fit: true, color: P.ink });
+    image(y + 495, file('mountains.svg', O.mountains(P.accent)), 340, 115, { dur: 2 });
+    if (spec.blessing) text(y + 610, spec.blessing, { font: SERIF, size: 18, italic: true, weight: 500, color: ATcard, h: 40, w: 330 });
+    image(y + cardH, crest, 84, 40, { rot: 180 });
+    y += cardH + 40;
+
+    if (spec.quote) {
+      // тёмная плашка с золотым кантом и кремовой вставкой — пожелание гостям
+      shape(y + 55, 350, 96, {
+        backgroundColor: P.dark,
+        border: `1.5px solid ${P.line}`,
+        borderRadius: '16px',
+        boxShadow: '0 10px 28px rgba(0,0,0,0.45)'
+      });
+      shape(y + 55, 332, 78, {
+        backgroundColor: P.card,
+        border: `1px solid ${P.line}`,
+        borderRadius: '12px'
+      });
+      text(y + 55, spec.quote, { font: SERIF, size: 17, italic: true, weight: 600, color: P.ink, h: 60, w: 310 });
+      y += 135;
+    }
+  } else {
+    frame(y + 170, 360);
+    image(y - 10, crest, 84, 40);
+    image(y + 350, crest, 84, 40, { rot: 180 });
+    text(y + 50, spec.greeting || 'Құрметті ағайын-туыс,\nқұда-жекжат, дос-жаран!', { font: SERIF, size: 26, weight: 500, italic: true, h: 80, w: 320 });
+    text(y + 205, 'INVITE_TEXT', { size: 17, lh: 1.6, h: 220, w: narrow ? 290 : 310, fit: true });
+    y += 390;
+  }
 
   // ---------- дата ----------
   heading(y + 30, spec.dateTitle || 'Той салтанаты');
-  add('calendar', y + 310, 300, 470, {}, { backgroundColor: 'transparent', borderRadius: 8, titleFontSize: 16, titleFontFamily: 'OwnMontserrat', titleColor: P.ink,
+  add('calendar', y + 310, 300, 470, {}, { backgroundColor: 'transparent', borderRadius: 8, titleFontSize: 16, titleFontFamily: 'OwnMontserrat', titleColor: textInk,
     calendarLanguage: 'kz', event_dates: [{ date: '2027-06-12', time: '18:00', title: null, description: null }], padding: 20, titleText: '',
-    weekdaysFontSize: 12, weekdaysFontFamily: 'OwnMontserrat', weekdaysColor: AT, daysFontSize: 15, daysFontFamily: 'OwnMontserrat', daysColor: P.ink,
+    weekdaysFontSize: 12, weekdaysFontFamily: 'OwnMontserrat', weekdaysColor: AT, daysFontSize: 15, daysFontFamily: 'OwnMontserrat', daysColor: textInk,
     eventMarkerType: spec.marker || 'heart', eventMarkerColor: AT, eventMarkerSize: 28, ...(calm ? { eventMarkerStatic: true } : {}), __animation: anim('fadeIn', 1.8) });
   y += 650;   // запас на месяцы в 6 недель
 
@@ -125,7 +191,7 @@ function build(spec) {
   image(y, divider, 260, 46);
   heading(y + 70, 'Мекенжайы');
   text(y + 130, 'CITY', { size: 15, weight: 600, ls: '0.2em', upper: true, color: AT, h: 40, fit: true });
-  text(y + 195, 'ADDRESS', { size: 18, lh: 1.5, h: 90, w: narrow ? 300 : 330, fit: true });
+  text(y + 195, 'ADDRESS', { size: 18, lh: 1.5, h: 90, w: narrow ? 300 : 330, fit: true, color: textInk });
   add('button', y + 285, 200, 48, {}, { backgroundColor: P.button, borderRadius: 24, text: 'Картаны ашу', url: 'https://example.com', textColor: P.buttonText,
     borderColor: P.button, borderWidth: 0, openInNewTab: true, fontSize: 15, fontFamily: 'OwnMontserrat', fontWeight: 600, __animation: anim('zoomIn', 1.4) });
   y += 380;
@@ -133,7 +199,7 @@ function build(spec) {
   // ---------- той иелері ----------
   image(y, divider, 260, 46);
   heading(y + 70, spec.hostsTitle || 'Той иелері');
-  text(y + 140, 'HOST', { font: SERIF, size: 24, weight: 500, italic: true, h: 90, w: narrow ? 300 : 340, fit: true });
+  text(y + 140, 'HOST', { font: SERIF, size: 24, weight: 500, italic: true, h: 90, w: narrow ? 300 : 340, fit: true, color: textInk });
   y += 230;
 
   // ---------- отсчёт ----------
@@ -142,8 +208,8 @@ function build(spec) {
     frame(y + 85, 170);
     add('timer', y + 85, 320, 150, {}, { event_date: '2027-06-12T13:00:00.000Z', event_title: timer, timezone: 'Asia/Almaty', show_days: true, show_hours: true,
       show_minutes: true, show_seconds: true, timerLanguage: 'kz', backgroundColor: 'transparent', borderRadius: 8, titleFontSize: 14, titleFontFamily: 'OwnMontserrat',
-      titleColor: AT, numbersFontSize: 30, numbersFontFamily: 'OwnMontserrat', numbersColor: P.ink, labelsFontSize: 12, labelsFontFamily: 'OwnMontserrat',
-      labelsColor: AT, showLabels: true, spacing: 14, __animation: anim('fadeIn', 1.6) });
+      titleColor: ATcard, numbersFontSize: 30, numbersFontFamily: 'OwnMontserrat', numbersColor: P.ink, labelsFontSize: 12, labelsFontFamily: 'OwnMontserrat',
+      labelsColor: ATcard, showLabels: true, spacing: 14, __animation: anim('fadeIn', 1.6) });
     y += 230;
   }
 
@@ -154,7 +220,7 @@ function build(spec) {
   add('form2', y + 330, narrow ? 326 : 380, 400, {}, { form_id: `form2_own${spec.id}`, form_fields: [{ id: '1', field_type: 'text', field_label: 'Есіміңіз', placeholder: 'Аты-жөніңіз', is_required: true, field_name: 'field_1' }],
     form_buttons: rsvp.map((t, i) => ({ id: String(i + 1), button_text: t, button_value: rsvp.length === 2 ? ['yes', 'no'][i] : ['yes', 'plus_one', 'no'][i] })),
     field_fontSize: 15, field_fontFamily: 'OwnMontserrat', field_color: P.ink, field_backgroundColor: '#ffffff', field_borderColor: P.line, field_borderRadius: 12,
-    button_fontSize: 15, button_fontFamily: 'OwnMontserrat', label_fontSize: 14, label_fontFamily: 'OwnMontserrat', label_color: P.ink, formLang: 'kz', lang: 'kz',
+    button_fontSize: 15, button_fontFamily: 'OwnMontserrat', label_fontSize: 14, label_fontFamily: 'OwnMontserrat', label_color: (L === 'emerald' ? P.light : P.ink), formLang: 'kz', lang: 'kz',
     mainColor: P.button, submit_button_text: 'ЖАУАП БЕРУ', modal_button_text: 'ЖІБЕРУ', modal_title: 'Есіміңізді жазыңыз', submit_button_backgroundColor: P.button,
     submit_button_textColor: P.buttonText, submit_button_borderRadius: 24, submit_button_fontSize: 15, submit_button_fontFamily: 'OwnMontserrat',
     option_fontSize: 16, option_fontFamily: 'OwnMontserrat', option_color: P.ink, option_backgroundColor: P.card, option_borderRadius: 14, option_height: 56, submit_button_height: 54, field_height: 48,
@@ -167,14 +233,14 @@ function build(spec) {
     image(y, divider, 260, 46);
     heading(y + 70, spec.wishesTitle || 'Ізгі тілектер');
     add('wishes-list', y + 300, narrow ? 326 : 400, 380, {}, { form_lang: 'kz', button_text: 'БАРЛЫҚ ТІЛЕКТЕРДІ ОҚУ', title_color: P.ink, card_bg_color: '#ffffff',
-      button_color: P.button, font_family: 'OwnMontserrat', auto_scroll_interval: 3500, __animation: anim('fadeIn', 1.6) });
+      button_color: P.button, font_family: 'OwnMontserrat', auto_scroll_interval: 3500, ...(L === 'emerald' ? { dots_color: P.accent } : {}), __animation: anim('fadeIn', 1.6) });
     y += 470;
   }
 
   // ---------- низ ----------
   image(y + 110, rosette, 180, 180, { spin: 60 });
-  text(y + 260, spec.footer || 'Сіздерді асыға күтеміз!', { font: SERIF, size: 26, weight: 500, italic: true, h: 90, w: 340 });
-  bandAt(y + 358);
+  text(y + 260, spec.footer || 'Сіздерді асыға күтеміз!', { font: SERIF, size: 26, weight: 500, italic: true, h: 90, w: 340, color: textInk });
+  bandAt(y + 358, L === 'emerald' ? file('band-dark.svg', O.bands[st.band](P.accent, P.light)) : band);
   // музыка и кнопка пожеланий висят внизу экрана — оставляем под ними место, чтобы не закрывали нижнюю полосу
   const music = spec.music === undefined ? KIDS_MUSIC : spec.music;
   const height = y + 400 + (music || wishes ? 76 : 0);
@@ -195,7 +261,7 @@ function build(spec) {
     media,
     tpl: {
       id: spec.id, category: spec.category, lang: 'kz', updated_at: '2026-10-16T00:00:00', own: true,
-      envelope: { theme: 'champagne', lang: 'kz', color: spec.envelope[0], text_color: spec.envelope[1], background: null, button_image: null },
+      envelope: { theme: spec.envelopeTheme || (L === 'emerald' ? 'emerald_gold' : 'champagne'), lang: 'kz', color: spec.envelope[0], text_color: spec.envelope[1], background: null, button_image: null },
       blocks: [{ type: 'canvas', style: { backgroundColor: P.bg, backgroundImage: '', minHeight: '500px', height: height + 'px', margin: '0px', padding: '20px', borderRadius: '0px', border: 'none', boxShadow: 'none' }, components: comps }],
     },
   };

@@ -373,7 +373,8 @@ function showFields(info) {
   for (const f of ['title', 'name1', 'name2', 'age', 'city', 'address', 'hosts', 'invite_text'])
     form[f].placeholder = ex[f] ? 'напр.: ' + ex[f].replace(/\s+/g, ' ').slice(0, 80) : '';
   const cat = info && info.category;
-  $('#l_name1').textContent = tokens.has('name2') ? 'Имя: жених' : cat === 'as_beru' ? 'Имя: марқұм (в память о ком ас)' : cat === 'svidanie' ? 'Имя: кого приглашаете' : 'Имя: виновник торжества';
+  $('#l_name1').textContent = cat === 'merey-sundet' ? 'Имя юбиляра (можно с возрастом: «Ерлан (50 жас)»)' : tokens.has('name2') ? 'Имя: жених' : cat === 'as_beru' ? 'Имя: марқұм (в память о ком ас)' : cat === 'svidanie' ? 'Имя: кого приглашаете' : 'Имя: виновник торжества';
+  $('label[for=f_name2]').textContent = cat === 'merey-sundet' ? 'Имена мальчиков (сүндет той)' : 'Имя: невеста';
   $('label[for=f_hosts]').textContent = cat === 'as_beru' ? 'Ас иелері / организаторы' : cat === 'svidanie' ? 'Ваше имя (подпись в конце)' : 'Той иелері / организаторы';
 }
 function counter() {

@@ -8,7 +8,7 @@
 own/
   build.js            сборка: node own/build.js [префикс файла описаний]   (из папки services/catalog)
   lib/ornaments.js    библиотека орнаментов (рог «қошқар мүйіз», ромбы, тұмар, волна, розетки, арка, уголки)
-  lib/layouts.js      раскладки страницы (5 видов шапки + общая часть)
+  lib/layouts.js      раскладки страницы (6 видов шапки + общая часть; emerald — тёмная страница, мерей + сүндет, #9032)
   lib/date-layout.js  раскладка 'date' — приглашение на свидание (#9031): обложка-картинка, гость сам выбирает дату
   specs/*.js          описания шаблонов — каждый файл: module.exports = [ {…}, {…} ]
   templates/<id>.json media/<slug>-*.svg catalog.json fonts.css previews/  — результат (в git)
@@ -26,7 +26,7 @@ own/
 ```js
 {
   id: 9005, slug: 'tusau2', category: 'tusaukeser',      // id и slug — уникальные; category — ключ вида тоя
-  layout: 'arch',               // classic | arch | darkhero | bordered | medallion
+  layout: 'arch',               // classic | arch | darkhero | bordered | medallion | emerald | date (свидание)
   palette: {
     bg, card, line,             // фон страницы, фон рамок, цвет рамок
     ink, name, accent, soft,    // основной текст, имя, акцент (золото и т. п.), мягкий фон для рисунков
@@ -45,6 +45,9 @@ own/
   music: '/media/cd/0ad6707e677a88.mp3', // null — без музыки
   calm: false,                           // true — розетка внизу не вращается (ас беру)
   marker: 'heart',                       // отметка дня в календаре: heart | circle
+  // emerald: palette.accentText (акцент на тёмной странице; на кремовых карточках берётся читаемый вариант),
+  //   bismillah, caption1/caption2 (подписи под именами), quote (плашка), blessing, envelopeTheme;
+  //   картинки own/media/<slug>-hero.jpg и <slug>-flowers.webp
 }
 ```
 

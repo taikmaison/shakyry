@@ -207,7 +207,14 @@
     if (d.__textEffect === 'fade_letters' && !SHOT) {
       const speed = Number(d.__textEffectSpeed) || 0.7;
       const wrap = el('span');
-      [...text].forEach((ch, i) => wrap.append(el('span', { class: 'ltr', text: ch, style: { animationDelay: (i * 0.06 / speed).toFixed(2) + 's' } })));
+      let i = 0;   // буквы слова — в одной обёртке без переноса: строка ломается только на пробелах
+      for (const part of text.split(/(\s+)/)) {
+        if (!part) continue;
+        if (/^\s+$/.test(part)) { wrap.append(document.createTextNode(part)); i += part.length; continue; }
+        const word = el('span', { style: { whiteSpace: 'nowrap' } });
+        for (const ch of part) word.append(el('span', { class: 'ltr', text: ch, style: { animationDelay: (i++ * 0.06 / speed).toFixed(2) + 's' } }));
+        wrap.append(word);
+      }
       node.append(wrap);
     } else node.textContent = text;
     return node;
@@ -601,6 +608,8 @@
   }
 
   // ---------------- анкеты ----------------
+  // фон страницы (блока) под компонентом — для анкет без своего фона (тёмные шаблоны)
+  const pageBg = c => { const b = (D.blocks || []).find(x => (x.components || []).includes(c)); return b && b.style && b.style.backgroundColor || null; };
   function answeredKey(id) { return `rsvp:${D.id || D.template_id}:${id}`; }
   // случайный id устройства гостя (один на приглашение): повторный ответ заменяет прежний на сервере
   function guestKey() {
@@ -666,7 +675,7 @@
     if (st.backgroundColor) node.style.background = st.backgroundColor;
     const build = () => {
       node.replaceChildren();
-      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build, readableOn(d.option_color || d.mainColor, st.backgroundColor));
+      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build, readableOn(d.option_color || d.mainColor, st.backgroundColor || pageBg(c), 4.5));
       const opts = optionList(d, (d.form_buttons || []).map(b => ({ text: b.button_text, value: b.button_value })), null, st.backgroundColor);
       const btn = submitButton(d, d.submit_button_text || t('send', lang));
       btn.addEventListener('click', () => {
@@ -702,7 +711,7 @@
     Object.assign(node.style, { background: d.form_backgroundColor || st.backgroundColor || 'transparent', borderRadius: px(d.form_borderRadius ?? 8), padding: px(d.form_padding ?? 12) });
     const build = () => {
       node.replaceChildren();
-      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build, readableOn(d.option_color || d.button_color || d.title_color, d.form_backgroundColor || st.backgroundColor));
+      if (store.get(answeredKey(d.form_id))) return doneView(node, d.form_id, lang, build, readableOn(d.option_color || d.button_color || d.title_color, d.form_backgroundColor || st.backgroundColor || pageBg(c), 4.5));
       if (d.form_title) node.append(el('div', { class: 'title', text: d.form_title, style: { fontSize: px(d.title_fontSize || 22), fontFamily: d.title_fontFamily || '', color: d.title_color || '' } }));
       if (d.form_description) node.append(el('div', { class: 'title', text: d.form_description, style: { fontSize: px(d.description_fontSize || 14), fontFamily: d.description_fontFamily || '', color: d.description_color || '' } }));
       const inputs = (d.form_fields || []).map(f => {
@@ -740,7 +749,7 @@
     const build = () => {
       node.replaceChildren();
       const was = store.get(answeredKey(d.form_id));
-      if (was) return doneView(node, d.form_id, lang, build, readableOn(d.label_color || d.mainColor, d.form_backgroundColor),
+      if (was) return doneView(node, d.form_id, lang, build, readableOn(d.label_color || d.mainColor, d.form_backgroundColor || pageBg(c), 4.5),
         [d.done_text || t('answered', lang), was && typeof was.date === 'string' ? was.date : ''].filter(Boolean).join('\n'));
       const qs = (d.questions || []).map(q => {
         const box = el('div', { class: 'q' }, el('label', { text: q.label || '', style: { fontSize: px(d.label_fontSize || 14), fontFamily: d.label_fontFamily || '', color: d.label_color || d.mainColor || '' } }));
@@ -843,7 +852,7 @@
       const track = el('div', { class: 'track' });
       const list = wishes.slice(0, 12);
       list.forEach(w => track.append(wishCard(w, d.card_bg_color, accent, d.font_family)));
-      const dots = el('div', { class: 'dots' }, list.map((_, i) => el('i', { class: i ? '' : 'on' })));
+      const dots = el('div', { class: 'dots', style: d.dots_color ? { color: d.dots_color } : {} }, list.map((_, i) => el('i', { class: i ? '' : 'on' })));
       track.addEventListener('scroll', () => {
         const i = Math.round(track.scrollLeft / track.clientWidth);
         [...dots.children].forEach((x, j) => x.classList.toggle('on', i === j));
@@ -1212,7 +1221,7 @@
 
   // ---------------- конверт (свой) ----------------
   const THEMES = {
-    champagne: ['#e7d8bf', '#5d4a2c', '#a8763a'], forest_green: ['#2f4a3a', '#f3ecdf', '#b8924a'], classic_black: ['#1d1d1d', '#efe3cc', '#9c7a3c'],
+    champagne: ['#e7d8bf', '#5d4a2c', '#a8763a'], forest_green: ['#2f4a3a', '#f3ecdf', '#b8924a'], emerald_gold: ['#0c372a', '#e5c97f', '#c59b3f'], classic_black: ['#1d1d1d', '#efe3cc', '#9c7a3c'],
     dusty_blue: ['#8fa6ba', '#ffffff', '#45607a'], golden_luxury: ['#c9a24a', '#fffaf0', '#7a5418'], warm_beige: ['#b8a084', '#fff8ee', '#7d5a36'],
     elegant_burgundy: ['#6d1f2b', '#f7e9dc', '#c39a54'], sage_green: ['#9caf88', '#ffffff', '#5a6e46'], soft_pink: ['#ecc8cb', '#5a3a3d', '#b05a68'],
     wine_red: ['#7b1e2c', '#fbeee6', '#c39a54'], ivory: ['#f4efe4', '#5b5040', '#a8763a'], royal_blue: ['#284b8c', '#f5f1e6', '#c9a24a'],
@@ -1254,7 +1263,7 @@
     const cover = e.style === 'cover' && !!e.background;
     const root = el('div', { class: cover ? 'env cover' : 'env' });
     const paper = el('div', { class: 'paper', style: { '--env': e.color || bg, '--env-text': e.text_color || fg, '--seal': seal } });
-    paper.style.setProperty('--env', e.color || bg); paper.style.setProperty('--env-text', e.text_color || fg); paper.style.setProperty('--seal', seal);
+    paper.style.setProperty('--env', e.color || bg); paper.style.setProperty('--env-text', e.text_color || fg); paper.style.setProperty('--seal', e.seal || seal);
     if (e.background) paper.style.backgroundImage = `url("${e.background}")`;
     const sealBtn = el('button', { class: 'seal', type: 'button', 'aria-label': t('open', lang) }, el('span', { text: initials }));
     paper.append(

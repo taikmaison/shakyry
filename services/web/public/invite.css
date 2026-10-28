@@ -60,7 +60,7 @@ body.locked { overflow: hidden; }
 .c-calendar .a > .cal { height: auto; }
 .cal { line-height: 1.5; }
 .cal .ttl { text-align: center; margin-bottom: 20px; letter-spacing: .05em; }
-.cal .hd { display: flex; align-items: baseline; justify-content: space-between; padding: 0 4px; margin-bottom: 20px; }
+.cal .hd { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: .4em; padding: 0 4px; margin-bottom: 20px; }
 .cal .hd span { line-height: 1; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
 .cal .hd span + span { font-weight: 500; }
 .cal .wds { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 10px; }

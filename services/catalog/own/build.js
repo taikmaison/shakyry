@@ -38,7 +38,7 @@ for (const f of files) {
       const { tpl, media } = s.layout === 'date' ? buildDate(s) : build(s);
       // старые файлы этого шаблона, которые раскладка больше не создаёт (только точные имена частей:
       // slug «as» не должен задевать файлы шаблона «as-meshit»)
-      const own = new RegExp(`^${s.slug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-(band|band-dark|divider|corner|rosette|motif|arch|medallion|side|heart)\\.svg$`);
+      const own = new RegExp(`^${s.slug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-(band|band-dark|divider|corner|rosette|motif|arch|medallion|side|heart|mountains|amp)\\.svg$`);
       for (const f of fs.readdirSync(path.join(OWN, 'media'))) if (own.test(f) && !(f in media)) fs.unlinkSync(path.join(OWN, 'media', f));
       for (const [name, text] of Object.entries(media)) write(`media/${name}`, text);
       write(`templates/${s.id}.json`, JSON.stringify(tpl, null, 1) + '\n');
