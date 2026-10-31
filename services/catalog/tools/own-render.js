@@ -6,6 +6,7 @@ const path = require('path');
 const puppeteer = require('puppeteer');
 
 const BASE = process.env.BASE || 'http://127.0.0.1:8324';
+const WIDTH = Number(process.env.WIDTH) || 390;   // ширина экрана: WIDTH=360 … 430
 const [outDir, ...ids] = process.argv.slice(2);
 if (!outDir || !ids.length) { console.error('node tools/own-render.js <папка> <id> [id…]'); process.exit(2); }
 fs.mkdirSync(outDir, { recursive: true });
@@ -23,10 +24,12 @@ const SAMPLE = {
 // приглашение на свидание: свои время, город и место (дату выбирает гость)
 SAMPLE.svidanie = { name1: 'Дана', hosts: 'Мерейбек', time: '21:00', city: 'Атырау', address: 'Bonasera, ул. Айтеке би, 75',
   invite_text: 'Приглашаю тебя на ужин. Хочу провести этот вечер с тобой — тёплая атмосфера, вкусная еда и долгие разговоры.' };
+SAMPLE.bachelorette = { name1: 'Аружан', hosts: 'Ата-анасы: Ерлан – Гүлнәр', city: 'Алматы',
+  invite_text: 'Сіздерді аяулы қызымыз Аружанның ұзату тойына арналған салтанатты ақ дастарханымыздың қадірлі қонағы болуға шақырамыз!' };
 // мерей + сүндет: два имени (юбиляр и мальчики)
 SAMPLE['merey-sundet'] = { name1: 'Ерлан (50 жас)', name2: 'Әлихан мен Нұрислам', hosts: 'Ерлан – Гүлнәр', city: 'Шымкент',
   invite_text: 'Сіздерді Ерланның 50 жас мерейтойы мен ұлдарымыз Әлихан мен Нұрисламның сүндет тойына арналған салтанатты ақ дастарханымыздың қадірлі қонағы болуға шақырамыз!' };
-const TITLE = { 'merey-sundet': 'Қос қуанышқа шақыру', svidanie: 'Приглашение на свидание', tusaukeser: 'Тұсаукесер тойына шақыру', as_beru: 'Асқа шақыру', besik: 'Бесік тойына шақыру', sundet: 'Сүндет тойына шақыру',
+const TITLE = { bachelorette: 'Қыз ұзату тойына шақыру', 'merey-sundet': 'Қос қуанышқа шақыру', svidanie: 'Приглашение на свидание', tusaukeser: 'Тұсаукесер тойына шақыру', as_beru: 'Асқа шақыру', besik: 'Бесік тойына шақыру', sundet: 'Сүндет тойына шақыру',
   syrga_salu: 'Сырға салу тойына шақыру', tilashar: 'Тілашар тойына шақыру', shildekhana: 'Шілдеханаға шақыру' };
 
 (async () => {
@@ -38,7 +41,7 @@ const TITLE = { 'merey-sundet': 'Қос қуанышқа шақыру', svidanie
     const fields = { template_id: id, date: '2027-06-12', time: '18:00', city: 'Алматы', address: '«Алтын Орда» мейрамханасы, Абай даңғылы 10',
       title: TITLE[card.category] || 'Тойға шақыру', ...(SAMPLE[card.category] || SAMPLE.tusaukeser) };
     const p = await browser.newPage();
-    await p.setViewport({ width: 390, height: 844, deviceScaleFactor: 1, isMobile: true, hasTouch: true });
+    await p.setViewport({ width: WIDTH, height: 844, deviceScaleFactor: 1, isMobile: true, hasTouch: true });
     const errors = []; p.on('pageerror', e => errors.push(e.message));
     await p.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
     await Promise.all([p.waitForNavigation({ waitUntil: 'networkidle2', timeout: 60000 }), p.evaluate(f => {
@@ -53,7 +56,7 @@ const TITLE = { 'merey-sundet': 'Қос қуанышқа шақыру', svidanie
     await new Promise(r => setTimeout(r, 2500));
     await p.evaluate(() => scrollTo(0, 0)); await new Promise(r => setTimeout(r, 300));
     await p.screenshot({ path: path.join(outDir, `${id}-full.png`), fullPage: true });
-    await p.setViewport({ width: 390, height: 844, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
+    await p.setViewport({ width: WIDTH, height: 844, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
     await new Promise(r => setTimeout(r, 800));
     await p.screenshot({ path: path.join(outDir, `${id}-top.png`) });
     const bad = await p.evaluate(() => [...document.querySelectorAll('.c-text .txt, .c-text')].filter(e => e.scrollHeight > e.clientHeight + 2 || e.querySelector('.clampx')).map(e => e.textContent.slice(0, 30)));

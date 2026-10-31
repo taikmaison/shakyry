@@ -44,6 +44,9 @@ const SAMPLE = {
 // свои примеры для видов, где праздничный пример неуместен
 const SAMPLE_BY_CAT = { kz: { as_beru: { name1: 'Әбдіғаппар Сәрсенбайұлы', hosts: 'Балалары мен немерелері',
   invite_text: 'Сіздерді марқұм әкеміз Әбдіғаппар Сәрсенбайұлының бір жылдық асына келіп, Құран бағыштауға шақырамыз.' },
+  // қыз ұзату: имя девушки (иначе в примере — мужское имя из общего образца)
+  bachelorette: { name1: 'Аружан', name2: '', hosts: 'Ата-анасы: Ерлан – Гүлнәр',
+    invite_text: 'Сіздерді аяулы қызымыз Аружанның ұзату тойына арналған салтанатты ақ дастарханымыздың қадірлі қонағы болуға шақырамыз!' },
   // мерей + сүндет (свой шаблон #9032): придуманные имена — у юбиляра возраст, у мальчиков — два имени
   'merey-sundet': { name1: 'Ерлан (50 жас)', name2: 'Әлихан мен Нұрислам', hosts: 'Ерлан – Гүлнәр',
     invite_text: 'Сіздерді Ерланның 50 жас мерейтойы мен ұлдарымыз Әлихан мен Нұрисламның сүндет тойына арналған салтанатты ақ дастарханымыздың қадірлі қонағы болуға шақырамыз!' } },
@@ -56,6 +59,8 @@ function sampleFields(tpl) {
   return {
     ...SAMPLE[lang],
     ...(((SAMPLE_BY_CAT[lang] || {})[tpl.category]) || {}),
+    // қыз ұзату: большинство шаблонов архива пишут имя девушки во второе поле («невеста») — туда и пример
+    ...(tpl.category === 'bachelorette' && lang === 'kz' && !tokensOf(tpl).includes('name1') ? { name1: '', name2: 'Аружан' } : {}),
     title: (TITLES[lang] && TITLES[lang][tpl.category]) || TITLES[lang].wedding,
     date: d.toISOString().slice(0, 10), time: tpl.category === 'as_beru' ? '13:00' : tpl.category === 'svidanie' ? '20:00' : tpl.category === 'merey-sundet' ? '19:00' : '18:00', map_link: 'https://2gis.kz',
   };
@@ -134,9 +139,10 @@ function fill(tpl, f) {
       // __needs: подпись или украшение при поле (например, «сүндет тойы» под вторым именем) — без поля не показываем
       if (data.__needs && !v[data.__needs]) return false;
       // __fit: рендер уменьшает шрифт только у текстов с подставленными данными (как оригинал — остальные не трогает)
+      // и у тех, что генератор своих шаблонов пометил сам (заголовок в две строки на узком экране)
       if (typeof data.content === 'string') {
         const filled = replaceText(data.content, v);
-        data.__fit = filled !== data.content;
+        data.__fit = data.__fit === true || filled !== data.content;
         data.content = filled;
       }
       switch (c.type) {

@@ -1,8 +1,8 @@
 // Скачать архив шаблонов и медиа из Google Drive и распаковать в content/.
 //   node tools/fetch-content.js                  — ссылка из CONTENT_URL (окружение или .env в корне проекта)
 //   node tools/fetch-content.js <ссылка>         — ссылка напрямую
-//   node tools/fetch-content.js --extra [ссылка] — доп. архив поверх content/ (своя музыка: content/music.json + content/media/…),
-//                                                  ссылка из CONTENT_EXTRA_URL; нет ссылки — ничего не делает
+//   node tools/fetch-content.js --extra [ссылка] — доп. архивы поверх content/ (своя музыка: content/music.json, music-2.json… + content/media/…),
+//                                                  ссылки из CONTENT_EXTRA_URL (несколько — через пробел); нет ссылки — ничего не делает
 // Ссылка — «Поделиться → Копировать ссылку» на zip-файл (доступ: все, у кого есть ссылка).
 // Ссылку не храните в git: репозиторий может быть публичным.
 const fs = require('fs');
@@ -22,14 +22,21 @@ function fromEnvFile(name) {
   return m ? m[1].replace(/^(['"])(.*)\1$/, '$2') : null;
 }
 const VAR = EXTRA ? 'CONTENT_EXTRA_URL' : 'CONTENT_URL';
-const link = process.argv.slice(2).find(a => !a.startsWith('--')) || process.env[VAR] || fromEnvFile(VAR);
-if (!link && EXTRA) { console.log('Доп. архива нет (CONTENT_EXTRA_URL не задан) — пропускаю'); process.exit(0); }
-if (!link) { console.error('Нет ссылки: node tools/fetch-content.js <ссылка> или CONTENT_URL=... в .env'); process.exit(2); }
+const linkArg = process.argv.slice(2).find(a => !a.startsWith('--')) || process.env[VAR] || fromEnvFile(VAR);
+if (!linkArg && EXTRA) { console.log('Доп. архива нет (CONTENT_EXTRA_URL не задан) — пропускаю'); process.exit(0); }
+if (!linkArg) { console.error('Нет ссылки: node tools/fetch-content.js <ссылка> или CONTENT_URL=... в .env'); process.exit(2); }
+// несколько архивов своей музыки — ссылки через пробел, распаковываются по очереди (у каждого свой music-N.json)
+const links = EXTRA ? linkArg.split(/\s+/).filter(Boolean) : [linkArg];
 // /file/d/<id>/view, ?id=<id> — берём id и качаем напрямую (большие файлы — без страницы «не удалось проверить на вирусы»)
-const id = (link.match(/\/d\/([\w-]{20,})/) || link.match(/[?&]id=([\w-]{20,})/) || [])[1];
-if (!id) { console.error('Не похоже на ссылку Google Drive на файл: ' + link); process.exit(2); }
+const ids = links.map(link => {
+  const id = (link.match(/\/d\/([\w-]{20,})/) || link.match(/[?&]id=([\w-]{20,})/) || [])[1];
+  if (!id) { console.error('Не похоже на ссылку Google Drive на файл: ' + link); process.exit(2); }
+  return id;
+});
 
-(async () => {
+(async () => { for (const id of ids) await fetchOne(id); })().catch(e => { fs.rmSync(ZIP, { force: true }); console.error(e.message || e); process.exit(1); });
+
+async function fetchOne(id) {
   const res = await fetch(`https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t`);
   const type = res.headers.get('content-type') || '';
   if (!res.ok || type.includes('text/html')) throw new Error(`Google Drive не отдал файл (${res.status}). Проверьте доступ «Все, у кого есть ссылка».`);
@@ -58,4 +65,4 @@ if (!id) { console.error('Не похоже на ссылку Google Drive на 
   // если каталог запущен — перечитает шаблоны сам
   await fetch((process.env.CATALOG_URL || 'http://127.0.0.1:8031') + '/_internal/reload', { method: 'POST' })
     .then(() => console.log('Каталог перечитал шаблоны.')).catch(() => {});
-})().catch(e => { fs.rmSync(ZIP, { force: true }); console.error(e.message); process.exit(1); });
+}

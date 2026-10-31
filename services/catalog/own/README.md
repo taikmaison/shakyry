@@ -9,6 +9,7 @@ own/
   build.js            сборка: node own/build.js [префикс файла описаний]   (из папки services/catalog)
   lib/ornaments.js    библиотека орнаментов (рог «қошқар мүйіз», ромбы, тұмар, волна, розетки, арка, уголки)
   lib/layouts.js      раскладки страницы (6 видов шапки + общая часть; emerald — тёмная страница, мерей + сүндет, #9032)
+  lib/sage-layout.js  раскладка 'sage' — фото сверху, шалфейный круг с именем, полосы (қыз ұзату, #9033)
   lib/date-layout.js  раскладка 'date' — приглашение на свидание (#9031): обложка-картинка, гость сам выбирает дату
   specs/*.js          описания шаблонов — каждый файл: module.exports = [ {…}, {…} ]
   templates/<id>.json media/<slug>-*.svg catalog.json fonts.css previews/  — результат (в git)
@@ -26,7 +27,7 @@ own/
 ```js
 {
   id: 9005, slug: 'tusau2', category: 'tusaukeser',      // id и slug — уникальные; category — ключ вида тоя
-  layout: 'arch',               // classic | arch | darkhero | bordered | medallion | emerald | date (свидание)
+  layout: 'arch',               // classic | arch | darkhero | bordered | medallion | emerald | sage | date (свидание)
   palette: {
     bg, card, line,             // фон страницы, фон рамок, цвет рамок
     ink, name, accent, soft,    // основной текст, имя, акцент (золото и т. п.), мягкий фон для рисунков

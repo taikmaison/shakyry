@@ -14,6 +14,7 @@ let prices = {};
 const price = id => { const p = Number(prices[id]); return Number.isFinite(p) && p >= 0 ? p : PRICE; };
 let music = null, extraMusic = [];
 // своя музыка сверх песен из шаблонов: content/music.json { "tracks": [{ "url": "/media/ab/….mp3", "title": "Исполнитель — Песня" }] }
+// и content/music-<N>.json из следующих архивов (каждый архив добавляет свой файл списка, ничего не перезаписывая)
 // (приходит вместе с файлами отдельным архивом, см. tools/fetch-content.js --extra: песни не кладём в публичный git)
 const MUSIC_URL = /^\/media\/[0-9a-f]{2}\/[0-9a-f]+\.(mp3|m4a|ogg|wav)$/i;   // как проверяет поле music в templates.js
 // исправления шаблонов и шрифтов храним в git (content/ — архив из Google Drive, его не правим):
@@ -40,8 +41,10 @@ function load() {
   fixes = fs.existsSync(ff) ? JSON.parse(fs.readFileSync(ff, 'utf8')).templates || {} : {};
   const cf = path.join(FIXES, 'custom.json');
   custom = fs.existsSync(cf) ? JSON.parse(fs.readFileSync(cf, 'utf8')).templates || {} : {};
-  const mf = path.join(CONTENT, 'music.json');
-  extraMusic = fs.existsSync(mf) ? JSON.parse(fs.readFileSync(mf, 'utf8')).tracks || [] : [];
+  // новые части — первыми: music-3.json, music-2.json, затем music.json
+  const parts = fs.existsSync(CONTENT) ? fs.readdirSync(CONTENT).filter(f => /^music(-\d+)?\.json$/.test(f))
+    .sort((a, b) => (Number((b.match(/-(\d+)/) || [])[1]) || 1) - (Number((a.match(/-(\d+)/) || [])[1]) || 1)) : [];
+  extraMusic = parts.flatMap(f => { try { return JSON.parse(fs.readFileSync(path.join(CONTENT, f), 'utf8')).tracks || []; } catch { return []; } });
   cache.clear();
   music = null;
   console.log(`[catalog] шаблонов: ${catalog.length}`);
