@@ -47,7 +47,8 @@ function buildSage(spec) {
   const text = (y, content, o = {}) => add('text', y, o.w || 340, o.h || 60, {
     fontSize: (o.size || 18) + 'px', fontFamily: o.font || SANS, color: o.color || P.ink, textAlign: 'center', fontWeight: String(o.weight || 400),
     lineHeight: String(o.lh || 1.4), ...(o.italic ? { fontStyle: 'italic' } : {}), ...(o.ls ? { letterSpacing: o.ls } : {}), ...(o.upper ? { textTransform: 'uppercase' } : {}),
-  }, { content, tag: 'p', ...(o.fit ? { __fit: true } : {}), __animation: anim(o.anim || 'fadeIn', o.dur || 1.6) });
+  }, { content, tag: 'p', ...(o.fit ? { __fit: true } : {}), ...(o.needs ? { __needs: o.needs } : {}), ...(o.without ? { __without: o.without } : {}),
+    __animation: anim(o.anim || 'fadeIn', o.dur || 1.6) });
   const image = (y, src, w, h, o = {}) => add('image', y, w, h, { borderRadius: o.radius || '0px', objectFit: o.fit || 'contain', ...(o.rot ? { transform: `rotate(${o.rot}deg)` } : {}) },
     { src, isPhoto: !!o.photo, __animation: o.animObj || anim(o.anim || 'fadeIn', o.dur || 1.8) }, o.x);
   const shape = (y, w, h, style) => add('shape', y, w, h, style, { shapeType: 'rectangle' });
@@ -61,8 +62,9 @@ function buildSage(spec) {
   shape(520, 250, 250, { backgroundColor: P.band, borderRadius: '50%',
     boxShadow: `0 14px 34px rgba(60, 50, 30, .28), inset 0 0 0 7px ${P.band}, inset 0 0 0 8.5px rgba(255, 255, 255, .75)` });
   text(452, 'DATE', { size: 12, weight: 600, ls: '0.3em', color: W, h: 24, w: 200 });
-  // без масштабной анимации: уменьшение шрифта под рамку меряет строки без transform
-  text(512, 'ИМЯ', { font: SCRIPT, size: 54, color: W, h: 90, w: 214, lh: 1.1, fit: true, anim: 'fadeIn', dur: 1.8 });
+  // без масштабной анимации: уменьшение шрифта под рамку меряет строки без transform;
+  // рамка 468–556 впритык к дате и подписи круга, не заходя на них, — иначе несколько имён растянулись бы поверх подписи
+  text(512, 'ИМЯ', { font: SCRIPT, size: 54, color: W, h: 88, w: 214, lh: 1.1, fit: true, anim: 'fadeIn', dur: 1.8 });
   if (spec.circleLabel) text(568, spec.circleLabel, { size: 12, weight: 600, ls: '0.28em', upper: true, color: W, h: 24, w: 200 });
   text(712, 'TITLE', { font: SERIF, size: 28, weight: 500, h: 84, w: 330, fit: true, anim: 'slideInUp' });
 
@@ -81,7 +83,9 @@ function buildSage(spec) {
   // ---------- приветствие, текст, натюрморт ----------
   image(y + 50, divider, 240, 30);
   text(y + 112, spec.greeting || 'Құрметті ағайын-туыс,\nқұда-жекжат, дос-жаран!', { font: SERIF, size: 26, weight: 500, italic: true, h: 80, w: 330 });
-  text(y + 280, 'INVITE_TEXT', { size: 17, lh: 1.6, h: 230, w: 320, fit: true });
+  // текст клиента; пока поле пустое — готовый текст шаблона (spec.defaultText) с именем в ілік септік посередине
+  text(y + 280, 'INVITE_TEXT', { size: 17, lh: 1.6, h: 230, w: 320, fit: true, ...(spec.defaultText ? { needs: 'invite_text' } : {}) });
+  const textY = y;   // готовый текст добавляется в самом конце — см. ниже
   image(y + 540, M + 'stilllife.webp', 300, 300, { anim: 'zoomIn', dur: 1.8 });
   y += 710;
 
@@ -143,6 +147,18 @@ function buildSage(spec) {
 
   if (music) add('audio-fixed', 0, 200, 80, {}, { audio_url: music, button_text: 'Әуен қосу', button_color: P.button, text_color: P.buttonText, font_family: 'OwnMontserrat', font_size: 16, button_height: 52 });
   if (wishes) add('fixed-wishes', 0, 200, 80, {}, { button_text: 'ТІЛЕК ЖАЗУ', button_color: P.button, text_color: P.buttonText, font_family: 'OwnMontserrat', font_size: 16, button_height: 52, component_language: 'kz' });
+
+  // готовый текст (на месте INVITE_TEXT) — последними: номера остальных компонентов не сдвигаются,
+  // а от номера анкеты зависит form_id, под которым хранятся ответы гостей уже разосланных приглашений.
+  // Рамки трёх строк не перекрываются (238 | 239–305 | 306): иначе длинное имя растянулось бы поверх соседей
+  if (spec.defaultText) {
+    const [before, after] = spec.defaultText;
+    // без имени фраза «…аяулы қызымыз ___ қыз ұзату тойына…» ломается — тогда готового текста нет
+    const caps = { size: 14, weight: 500, ls: '0.08em', upper: true, lh: 1.7, w: 320, fit: true, without: 'invite_text', needs: 'name1' };
+    text(textY + 200, before, { ...caps, h: 76 });
+    text(textY + 272, 'ИМЯНЫҢ', { font: SCRIPT, size: 46, lh: 1.2, color: P.roseText, h: 66, w: 320, fit: true, without: 'invite_text', needs: 'name1', anim: 'fadeIn', dur: 1.8 });
+    text(textY + 350, after, { ...caps, h: 88 });
+  }
 
   for (const c of comps) c.position.y = +(c.position.y / height * 100).toFixed(4);
   return {

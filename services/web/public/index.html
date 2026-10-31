@@ -372,6 +372,8 @@ function showFields(info) {
   for (const box of form.querySelectorAll('[data-f]')) box.classList.toggle('hidden', !!info && !tokens.has(box.dataset.f) && !form[box.dataset.f].value);
   for (const f of ['title', 'name1', 'name2', 'age', 'city', 'address', 'hosts', 'invite_text'])
     form[f].placeholder = ex[f] ? 'напр.: ' + ex[f].replace(/\s+/g, ' ').slice(0, 80) : '';
+  // у шаблона есть свой текст на случай пустого поля — показываем, что будет (имя в нём — из примера)
+  if (info && info.default_text) form.invite_text.placeholder = 'Можно не заполнять — будет готовый текст шаблона с вашим именем, напр.: ' + info.default_text;
   const cat = info && info.category;
   $('#l_name1').textContent = cat === 'merey-sundet' ? 'Имя юбиляра (можно с возрастом: «Ерлан (50 жас)»)' : tokens.has('name2') ? 'Имя: жених' : cat === 'as_beru' ? 'Имя: марқұм (в память о ком ас)' : cat === 'svidanie' ? 'Имя: кого приглашаете' : 'Имя: виновник торжества';
   $('label[for=f_name2]').textContent = cat === 'merey-sundet' ? 'Имена мальчиков (сүндет той)' : 'Имя: невеста';

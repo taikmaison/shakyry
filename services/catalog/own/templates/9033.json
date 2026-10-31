@@ -144,7 +144,7 @@
      },
      "size": {
       "width": 214,
-      "height": 90
+      "height": 88
      },
      "style": {
       "fontSize": "54px",
@@ -376,6 +376,7 @@
       "content": "INVITE_TEXT",
       "tag": "p",
       "__fit": true,
+      "__needs": "invite_text",
       "__animation": {
        "type": "fadeIn",
        "duration": 1.6,
@@ -1146,6 +1147,112 @@
       "font_size": 16,
       "button_height": 52,
       "component_language": "kz"
+     }
+    },
+    {
+     "id": "own9033_37",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 26.0231,
+      "z": 137
+     },
+     "size": {
+      "width": 320,
+      "height": 76
+     },
+     "style": {
+      "fontSize": "14px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#4a3f36",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.7",
+      "letterSpacing": "0.08em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "Ақ босаға аттап, жаңа өмірге қадам басар аяулы қызымыз",
+      "tag": "p",
+      "__fit": true,
+      "__needs": "name1",
+      "__without": "invite_text",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9033_38",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 27.6246,
+      "z": 138
+     },
+     "size": {
+      "width": 320,
+      "height": 66
+     },
+     "style": {
+      "fontSize": "46px",
+      "fontFamily": "\"KZGoodVibes\", \"Great Vibes\", cursive",
+      "color": "#a85d5d",
+      "textAlign": "center",
+      "fontWeight": "400",
+      "lineHeight": "1.2"
+     },
+     "data": {
+      "content": "ИМЯНЫҢ",
+      "tag": "p",
+      "__fit": true,
+      "__needs": "name1",
+      "__without": "invite_text",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.8,
+       "isInfinite": false,
+       "motionPath": null
+      }
+     }
+    },
+    {
+     "id": "own9033_39",
+     "type": "text",
+     "position": {
+      "x": 50,
+      "y": 29.3594,
+      "z": 139
+     },
+     "size": {
+      "width": 320,
+      "height": 88
+     },
+     "style": {
+      "fontSize": "14px",
+      "fontFamily": "\"OwnMontserrat\", Arial, sans-serif",
+      "color": "#4a3f36",
+      "textAlign": "center",
+      "fontWeight": "500",
+      "lineHeight": "1.7",
+      "letterSpacing": "0.08em",
+      "textTransform": "uppercase"
+     },
+     "data": {
+      "content": "қыз ұзату тойына арналған ақ дастарханымыздың қадірлі қонағы болуға шақырамыз!",
+      "tag": "p",
+      "__fit": true,
+      "__needs": "name1",
+      "__without": "invite_text",
+      "__animation": {
+       "type": "fadeIn",
+       "duration": 1.6,
+       "isInfinite": false,
+       "motionPath": null
+      }
      }
     }
    ]

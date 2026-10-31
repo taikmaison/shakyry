@@ -39,7 +39,9 @@ const TITLE = { bachelorette: 'Қыз ұзату тойына шақыру', 'me
     const card = cards.find(t => String(t.id) === String(id));
     if (!card) { console.log(`#${id}: нет в каталоге (собран? каталог перечитан?)`); continue; }
     const fields = { template_id: id, date: '2027-06-12', time: '18:00', city: 'Алматы', address: '«Алтын Орда» мейрамханасы, Абай даңғылы 10',
-      title: TITLE[card.category] || 'Тойға шақыру', ...(SAMPLE[card.category] || SAMPLE.tusaukeser) };
+      title: TITLE[card.category] || 'Тойға шақыру', ...(SAMPLE[card.category] || SAMPLE.tusaukeser),
+      // NO_TEXT=1 — поле текста пустое (готовый текст шаблона), NAME1=… — своё имя (проверить длинное)
+      ...(process.env.NO_TEXT ? { invite_text: '' } : {}), ...(process.env.NAME1 ? { name1: process.env.NAME1 } : {}) };
     const p = await browser.newPage();
     await p.setViewport({ width: WIDTH, height: 844, deviceScaleFactor: 1, isMobile: true, hasTouch: true });
     const errors = []; p.on('pageerror', e => errors.push(e.message));

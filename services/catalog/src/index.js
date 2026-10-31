@@ -155,7 +155,7 @@ createService('catalog', [
 
   ['GET', '/api/templates/:id', (req, res, { params }) => {
     const tpl = need(params.id);
-    json(res, 200, { id: tpl.id, category: tpl.category, lang: tpl.lang, tokens: T.tokensOf(tpl), sample: T.sampleFields(tpl), music: T.templateMusic(tpl), preview: preview(tpl.id), price: price(tpl.id), currency: CURRENCY });
+    json(res, 200, { id: tpl.id, category: tpl.category, lang: tpl.lang, tokens: T.tokensOf(tpl), sample: T.sampleFields(tpl), default_text: T.defaultText(tpl), music: T.templateMusic(tpl), preview: preview(tpl.id), price: price(tpl.id), currency: CURRENCY });
   }],
 
   // собрать приглашение: { fields } → данные для страницы; { sample: true } — с примером; { raw: true } — как есть
