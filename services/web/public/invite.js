@@ -1314,13 +1314,57 @@
   const RAW = D.mode !== 'invite' && !D.title && !(D.names && D.names.length);
   const MARKED = (D.blocks || []).some(b => (b.components || []).some(c => c.data && c.data.__fit != null));
   const wantFit = c => MARKED ? !!(c.data && c.data.__fit) : !RAW;
+
+  // Рамка текста в шаблоне рассчитана на короткий образец, а выше и ниже неё часто пусто. Прежде чем уменьшать шрифт
+  // длинного текста (от 4 слов — имена так не растягиваем, чтобы слово не разорвалось на строки), растягиваем рамку
+  // по высоте в свободное место — до ближайших соседей сверху и снизу с зазором 8px. Соседи — блоки, которые по ширине
+  // заходят на текст; то, что уже лежит под исходной рамкой (фон, подложка, рисунок-рамка), не мешает.
+  // Блок стоит центром в (x%, y%) — его края считаем от offsetLeft/offsetTop (без transform).
+  const spanOf = b => ({ top: b.offsetTop - b.offsetHeight / 2, bottom: b.offsetTop + b.offsetHeight / 2, left: b.offsetLeft - b.offsetWidth / 2, right: b.offsetLeft + b.offsetWidth / 2 });
+  function grow(box, need) {
+    const canvas = box.parentElement, me = spanOf(box);
+    let above = 0, below = canvas.clientHeight;
+    for (const o of canvas.children) {
+      if (o === box || !o.classList.contains('c') || !o.offsetHeight) continue;
+      const r = spanOf(o);
+      if (r.right <= me.left || r.left >= me.right) continue;
+      if (r.bottom > me.top && r.top < me.bottom) continue;
+      if (r.bottom <= me.top) above = Math.max(above, r.bottom); else below = Math.min(below, r.top);
+    }
+    const up = Math.max(0, me.top - above - 8), down = Math.max(0, below - me.bottom - 8);
+    // поровну вверх и вниз, а если с одной стороны тесно — больше в другую
+    let a = Math.min(need / 2, up);
+    const b = Math.min(need - a, down);
+    a = Math.min(need - b, up);
+    if (a + b < 1) return;
+    const h = me.bottom - me.top + a + b;
+    box.style.height = h + 'px';
+    box.style.top = (me.top - a + h / 2) + 'px';
+  }
+
   function fitTexts() {
-    for (const n of document.querySelectorAll('.txt.fit')) {
+    const nodes = [...document.querySelectorAll('.txt.fit')];
+    // повторный вызов (загрузились шрифты): сначала все рамки — к размерам шаблона, многоточие снято
+    for (const n of nodes) {
+      const box = n.closest('.c');
+      if (!box) continue;
+      if (box._h0 == null) { box._h0 = box.style.height; box._top0 = box.style.top; }
+      box.style.height = box._h0; box.style.top = box._top0;
+      const sp = n.querySelector(':scope > .clampx');
+      if (sp) sp.style.webkitLineClamp = '';
+      n.classList.remove('clampx');
+    }
+    for (const n of nodes) {
       if (!n._base) n._base = parseFloat(getComputedStyle(n).fontSize) || 16;
       let size = n._base, guard = 0;
       n.style.fontSize = size + 'px';
       const min = Math.min(n._base, Math.max(11, n._base * 0.4));
-      n.classList.remove('clampx');
+      if (n.closest('.c') && overflows(n) && n.textContent.trim().split(/\s+/).length >= 4) {
+        const cs = getComputedStyle(n);
+        const lh = cs.lineHeight === 'normal' ? size * 1.2 : parseFloat(cs.lineHeight);
+        const pad = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
+        grow(n.closest('.c'), lineCount(n, lh) * lh + pad + 2 - n.clientHeight);
+      }
       while (overflows(n) && size > min && guard++ < 60) {
         size = Math.max(min, size - Math.max(0.5, size * 0.04));
         n.style.fontSize = size + 'px';
