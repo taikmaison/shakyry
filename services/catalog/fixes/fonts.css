@@ -12,3 +12,8 @@
 /* Семейства, которые шаблоны называют иначе, чем они объявлены в content/fonts.css (без этого — Arial):
    KZCarolina-Regular = KZ-Carolina (шаблоны 282, 287, 298, 331, 332, 333, 337, 351, 357, 368 …) */
 @font-face{font-family:"KZCarolina-Regular";src:url("/fonts/KZ-Carolina.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;}
+/* BickhamScriptPro3-Regular (шаблоны 176, 292, 328, 332–334, 336, 340, 358, 383, 384, 418, 429, 431, 434) — в архиве только
+   Bickham Script Pro без кириллицы: латиница и «&» — из него, кириллица и казахские буквы — из рукописного AsylbekM02Shelley
+   (без этого имена и заголовки шли Arial) */
+@font-face{font-family:"BickhamScriptPro3-Regular";src:url("/fonts/Bickham_Script_Pro_Regular.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;}
+@font-face{font-family:"BickhamScriptPro3-Regular";src:url("/fonts/_AsylbekM02Shelley.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;unicode-range:U+0400-04FF;}
