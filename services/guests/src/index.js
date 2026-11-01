@@ -101,8 +101,10 @@ async function asCaller(req, pathname) {
   if (!res.ok) throw new HttpError(res.status, (data && data.error) || 'Нет доступа');
   return data;
 }
-// ответы видит только владелец (или админ): права по cookie проверяет сервис приглашений
+// права по cookie проверяет сервис приглашений: удалять пожелания — владелец (или админ),
+// смотреть ответы — ещё и получатели ответов, которых добавил владелец
 const requireOwner = (req, id) => asCaller(req, `/api/invitations/${encodeURIComponent(id)}/owner`);
+const requireReader = (req, id) => asCaller(req, `/api/invitations/${encodeURIComponent(id)}/reader`);
 
 // адрес гостя: первый в x-forwarded-for (его ставит шлюз или Vercel), иначе — сокет
 const clientIp = req => (String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket.remoteAddress || '').slice(0, 64);
@@ -120,18 +122,19 @@ async function limit(req, kind, max) {
 
 const wishView = w => ({ id: w.id, name: w.name, message: w.message, created_at: w.created_at });
 const answerView = a => ({ id: a.id, form_id: a.form_id, status: a.status, action: a.action, action_text: a.action_text, fields: JSON.parse(a.fields), created_at: a.created_at });
-// уведомить хозяина о новом ответе или пожелании. Ждём до ответа гостю (не дольше 5 с на всё): на Vercel
-// работа после ответа может не завершиться. Ошибка уведомления ответ гостя не портит.
+// уведомить хозяина и получателей ответов о новом ответе или пожелании. Ждём до ответа гостю (не дольше 5 с на всё):
+// на Vercel работа после ответа может не завершиться. Ошибка уведомления ответ гостя не портит.
 const ICON = { yes: '✅', plus_one: '👫', no: '❌', unknown: '❔' };
 async function notifyOwner(invitationId, line) {
   if (!AUTH_API) return;
   const deadline = Date.now() + 5000, left = () => Math.max(1, deadline - Date.now());
   try {
     const x = await api(INVITATIONS_API, `/_internal/invitations/${encodeURIComponent(invitationId)}`, { timeout: left() });
-    if (!x.user_id) return;
+    const to = [...new Set([x.user_id, ...(x.viewer_ids || [])])].filter(Boolean);
     const text = `${line}
 ${x.title || 'Приглашение'}`;
-    await api(AUTH_API, '/_internal/notify', { method: 'POST', body: { user_id: x.user_id, text }, timeout: left() });
+    await Promise.all(to.map(id => api(AUTH_API, '/_internal/notify', { method: 'POST', body: { user_id: id, text }, timeout: left() })
+      .catch(e => console.warn(`[guests] уведомление пользователю ${id} не отправлено:`, e.message))));
   } catch (e) { console.warn('[guests] уведомление не отправлено:', e.message); }
 }
 
@@ -187,17 +190,17 @@ createService('guests', [
     json(res, 200, { ok: true, status });
   }],
 
-  // ответы гостей и сводка — только владельцу
+  // ответы гостей и сводка — владельцу и получателям ответов
   ['GET', '/api/i/:id/answers', async (req, res, { params }) => {
     await syncDeleted();
-    await requireOwner(req, params.id);
+    await requireReader(req, params.id);
     const answers = (await db.all('SELECT * FROM answers WHERE invitation_id = ? ORDER BY id DESC', params.id)).map(answerView);
     json(res, 200, { summary: summary(answers), answers });
   }],
 
   // то же для Excel: CSV в UTF-8 с BOM
   ['GET', '/api/i/:id/answers.csv', async (req, res, { params }) => {
-    await requireOwner(req, params.id);
+    await requireReader(req, params.id);
     const rows = (await db.all('SELECT * FROM answers WHERE invitation_id = ? ORDER BY id', params.id)).map(answerView);
     const lines = [['Когда', 'Ответ', 'Кнопка', 'Данные'].map(csvCell).join(';')];
     for (const a of rows) lines.push([new Date(a.created_at).toLocaleString('ru-RU', { timeZone: 'Asia/Almaty' }), STATUS_RU[a.status], a.action_text || a.action || '',
@@ -231,7 +234,7 @@ createService('guests', [
     json(res, 200, { ok: true });
   }],
 
-  // счётчики для «Моих приглашений»: ?ids=a,b,c — только по своим. Список своих берём у сервиса приглашений
+  // счётчики для «Моих приглашений»: ?ids=a,b,c — только по своим (и тем, где вы получатель ответов). Список берём у сервиса приглашений
   // с cookie вызывающего (без входа — 401), чужие и несуществующие id молча пропускаем.
   // Два запроса с GROUP BY за один заход в базу
   ['GET', '/api/guests/stats', async (req, res, { url }) => {

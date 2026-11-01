@@ -37,6 +37,7 @@ const db = openStore();
 
 // Telegram: long-polling (по умолчанию) или webhook — при TELEGRAM_WEBHOOK=1 и всегда на Vercel
 const TG_TOKEN = env('TELEGRAM_BOT_TOKEN', '');
+const SITE = env('PUBLIC_URL', '').replace(/\/+$/, '');   // адрес сайта в сообщениях бота
 const HOOK = TG_TOKEN && (flag('TELEGRAM_WEBHOOK') || process.env.VERCEL === '1') ? webhookConfig() : null;
 const bot = TG_TOKEN
   ? createBot({ token: TG_TOKEN, apiUrl: env('TELEGRAM_API_URL', 'https://api.telegram.org'), webhook: HOOK, onUpdate: handleUpdate })
@@ -88,6 +89,13 @@ const TEXT = {
     + 'Қонақтар тізімін сайттан да көре аласыз — ол үшін «Войти через Telegram» батырмасын басып кіріңіз.\n\n'
     + `Готово! Приглашение «${title}» теперь ваше: ответы и пожелания гостей будут приходить сюда. `
     + 'Список гостей есть и на сайте — войдите через «Войти через Telegram».',
+  viewerOk: title => `Дайын! Енді «${title}» шақыруына қонақтардың жауаптары мен тілектері сізге де осы чатқа келіп тұрады. `
+    + `Қонақтар тізімін сайттан да көре аласыз${SITE ? ' (' + SITE + ')' : ''} — «Войти через Telegram» арқылы кіріңіз.\n\n`
+    + `Готово! Теперь ответы и пожелания гостей на приглашение «${title}» будут приходить и вам — сюда. `
+    + `Список гостей есть и на сайте${SITE ? ' (' + SITE + ')' : ''} — войдите через «Войти через Telegram».`,
+  // код получателя уже сработал раньше (например, человека потом убрали из получателей) — нужен новый
+  viewerUsed: 'Бұл код бұрын пайдаланылған. Жауаптар келмесе, шақыру иесінен жаңа код сұраңыз.\n'
+    + 'Этот код уже использован. Если ответы не приходят, попросите у владельца приглашения новый код.',
   claimBad: 'Код табылмады немесе мерзімі өтіп кеткен — шақыруды жасаған адамнан жаңа код сұраңыз.\n'
     + 'Код не найден или устарел — попросите новый код у того, кто сделал приглашение.',
   claimUsed: 'Бұл кодты басқа адам пайдаланып қойған.\nЭтот код уже использовал другой человек.',
@@ -239,13 +247,25 @@ async function redeemClaim(m, code, reply) {
   const user = await telegramUser({ telegram_id: m.from.id, first_name: m.from.first_name, last_name: m.from.last_name, username: m.from.username });
   if (user.blocked) return reply(TEXT.tgBlocked);
   if (row.user_id && Number(row.user_id) !== Number(user.id)) return reply(TEXT.claimUsed);
+  // получатель уже добавлен по этому коду и, возможно, потом убран — повторно код не добавляет
+  if (row.kind === 'viewer' && row.applied_at) return reply(TEXT.viewerUsed);
   if (!row.user_id) {
-    await db.run('UPDATE invite_claims SET user_id = ?, redeemed_at = ? WHERE code_hash = ? AND user_id IS NULL', user.id, Date.now(), row.code_hash);
+    // кто первым записал себя в код, тот его и получил (два человека с одним кодом одновременно)
+    const won = (await db.run('UPDATE invite_claims SET user_id = ?, redeemed_at = ? WHERE code_hash = ? AND user_id IS NULL RETURNING code_hash',
+      user.id, Date.now(), row.code_hash)).rows.length;
+    if (!won) return reply(TEXT.claimUsed);
     const who = [user.name, user.telegram_username && '@' + user.telegram_username].filter(Boolean).join(' ');
-    for (const admin of await db.all("SELECT * FROM users WHERE role = 'admin'"))
-      await deliver(admin, `🔑 ${who || 'Клиент'} получил(а) приглашение «${row.title || row.invitation_id}» по коду — ответы гостей теперь приходят ему(ей).`, TEXT.notifySubject);
+    if (row.kind === 'viewer') {
+      // владельцу — кто добавился (сам владелец по своей ссылке — не сообщаем)
+      const owner = row.notify_user_id && Number(row.notify_user_id) !== Number(user.id) && await getUser(Number(row.notify_user_id));
+      if (owner) await deliver(owner, `👥 ${who || 'Ещё один человек'} теперь тоже получает ответы и пожелания гостей на «${row.title || row.invitation_id}». `
+        + `Убрать — на сайте: «Мои приглашения» → «Получатели ответов»${SITE ? ' — ' + SITE : ''}.`, TEXT.notifySubject);
+    } else {
+      for (const admin of await db.all("SELECT * FROM users WHERE role = 'admin'"))
+        await deliver(admin, `🔑 ${who || 'Клиент'} получил(а) приглашение «${row.title || row.invitation_id}» по коду — ответы гостей теперь приходят ему(ей).`, TEXT.notifySubject);
+    }
   }
-  return reply(TEXT.claimOk(row.title || 'Шақыру'));
+  return reply((row.kind === 'viewer' ? TEXT.viewerOk : TEXT.claimOk)(row.title || 'Шақыру'));
 }
 
 // ---------- Telegram: обработка сообщений боту (и из long-polling, и из webhook) ----------
@@ -495,16 +515,19 @@ const routes = [
   }],
 
   // код «приглашение — клиенту» (запрашивает сервис приглашений по кнопке админа); прежний неиспользованный код
-  // этого приглашения больше не действует
+  // этого приглашения больше не действует. kind: 'viewer' — код второго получателя ответов (по кнопке владельца
+  // или админа): такие коды друг друга не отменяют — можно разослать двоим сразу, лишних не добавит сервис приглашений
   ['POST', '/_internal/claims', async (req, res) => {
     const body = await readBody(req);
     const invitationId = String(body.invitation_id || '');
     if (!/^[a-z0-9]{4,16}$/.test(invitationId)) throw new HttpError(400, 'Укажите invitation_id');
     const title = String(body.title || '').replace(/\s+/g, ' ').trim().slice(0, 120) || null;
+    const kind = body.kind === 'viewer' ? 'viewer' : null;
+    const notifyId = kind && Number.isSafeInteger(Number(body.notify_user_id)) && Number(body.notify_user_id) > 0 ? Number(body.notify_user_id) : null;
     const code = newClaimCode(), expires = Date.now() + CLAIM_TTL;
     await db.batch([
-      ['DELETE FROM invite_claims WHERE invitation_id = ? AND user_id IS NULL', invitationId],
-      ['INSERT INTO invite_claims (code_hash, invitation_id, title, expires_at) VALUES (?, ?, ?, ?)', sha(code), invitationId, title, expires],
+      ...kind ? [] : [['DELETE FROM invite_claims WHERE invitation_id = ? AND user_id IS NULL AND kind IS NULL', invitationId]],
+      ['INSERT INTO invite_claims (code_hash, invitation_id, title, expires_at, kind, notify_user_id) VALUES (?, ?, ?, ?, ?, ?)', sha(code), invitationId, title, expires, kind, notifyId],
     ]);
     const name = bot && !bot.disabled ? await within(botName(), 3000).catch(() => null) : null;
     json(res, 200, { code: code.slice(0, 4) + '-' + code.slice(4), bot: name ? '@' + name : null,
@@ -512,8 +535,8 @@ const routes = [
   }],
   // коды, по которым клиент уже получил приглашение, а владелец ещё не сменён; затем — отметка «сменён»
   ['GET', '/_internal/claims/pending', async (req, res) => {
-    json(res, 200, { items: (await db.all('SELECT code_hash, invitation_id, user_id FROM invite_claims WHERE redeemed_at IS NOT NULL AND applied_at IS NULL LIMIT 100'))
-      .map(r => ({ key: r.code_hash, invitation_id: r.invitation_id, user_id: Number(r.user_id) })) });
+    json(res, 200, { items: (await db.all('SELECT code_hash, invitation_id, user_id, kind FROM invite_claims WHERE redeemed_at IS NOT NULL AND applied_at IS NULL ORDER BY redeemed_at LIMIT 100'))
+      .map(r => ({ key: r.code_hash, invitation_id: r.invitation_id, user_id: Number(r.user_id), kind: r.kind || 'owner' })) });
   }],
   ['POST', '/_internal/claims/applied', async (req, res) => {
     const keys = ((await readBody(req)).keys || []).filter(k => /^[0-9a-f]{64}$/.test(k)).slice(0, 100);

@@ -1,4 +1,4 @@
-// Проверка «кода для клиента» через бота с поддельным Telegram Bot API (без настоящего Telegram).
+// Проверка «кода для клиента» и получателей ответов через бота с поддельным Telegram Bot API (без настоящего Telegram).
 // 1) Поддельный Telegram — этот же скрипт (порт TG_PORT, по умолчанию 8399). 2) Тестовый сайт с ботом, смотрящим в него:
 //   AUTH__TELEGRAM_BOT_TOKEN=test AUTH__TELEGRAM_API_URL=http://127.0.0.1:8399 AUTH__DEV_LOGIN_CODES=1 AUTH__DB_FILE=<тест>/auth.db ... node run.js --offset=100
 //   BASE=http://127.0.0.1:8124 AUTH_DB=<тест>/auth.db node tests/telegram-claims.js
@@ -38,6 +38,17 @@ const waitSent = async (chat, re, ms = 8000) => {
   for (let t = 0; t < ms; t += 100) { const m = sent.find(s => s.chat === chat && re.test(s.text)); if (m) return m; await sleep(100); }
   return null;
 };
+// вход на сайт через Telegram: сайт выдаёт токен, «пользователь» отправляет боту /start <токен>, сайт выдаёт сессию
+async function tgLogin(c, tgId, name) {
+  const s = (await c.post('/api/auth/telegram/start')).body;
+  fromTg(tgId, '/start ' + s.token, { name });
+  for (let i = 0; i < 80; i++) {
+    const r = await c.req('/api/auth/telegram/check?token=' + s.token);
+    if (r.body && r.body.status === 'ok') return r.body.user;
+    await sleep(100);
+  }
+  return null;
+}
 
 function client() {
   let sid = '';
@@ -96,6 +107,76 @@ function client() {
   ok(!!await waitSent(777, /Гость А — Придёт/), 'ответ гостя пришёл клиенту');
   await guest.post(`/api/i/${inv.id}/wishes`, { name: 'Гость Б', message: 'Бақытты болыңдар!' });
   ok(!!await waitSent(777, /💌 Гость Б: Бақытты болыңдар!/), 'пожелание пришло клиенту');
+
+  // ---------- получатели ответов: клиент добавляет второго человека (супруга), админ — третьего ----------
+  const owner = client(), viewer = client();
+  ok(!!await tgLogin(owner, 777, 'Айнұр'), 'клиент вошёл на сайт через Telegram');
+  ok((await guest.post(`/api/invitations/${inv.id}/viewers/code`)).status === 401, 'код получателя — только после входа');
+  const vc = (await owner.post(`/api/invitations/${inv.id}/viewers/code`)).body;
+  const vc2 = (await admin.post(`/api/invitations/${inv.id}/viewers/code`)).body;
+  ok(/^[A-Z2-9]{4}-[A-Z2-9]{4}$/.test(vc.code) && /^[A-Z2-9]{4}-[A-Z2-9]{4}$/.test(vc2.code), `коды получателей ${vc.code} (клиент) и ${vc2.code} (админ)`);
+  fromTg(999, `/start c_${vc.code.replace('-', '')}`, { name: 'Ерлан', username: 'erlan_test' });
+  ok(!!await waitSent(999, /сізге де/), 'бот получателю: ответы будут приходить и вам');
+  fromTg(1001, vc2.code, { name: 'Гүлнәр' });
+  ok(!!await waitSent(1001, /сізге де/), 'второй код не отменён первым — третий человек тоже добавлен');
+  await sleep(5200);
+  const vl = (await owner.req(`/api/invitations/${inv.id}/viewers`)).body;
+  ok(vl.viewers.length === 2 && vl.viewers.some(v => /Ерлан @erlan_test/.test(v.name)), 'клиент видит двух получателей');
+  ok(!!await waitSent(777, /Ерлан @erlan_test теперь тоже получает/), 'клиенту пришло, кто добавился');
+  const adminSees = (await admin.req(`/api/admin/invitations?q=${inv.id}`)).body.invitations[0];
+  ok(adminSees.user_id === users[0].id, 'владелец не сменился');
+
+  // ответ гостя — владельцу и обоим получателям
+  await guest.post(`/api/i/${inv.id}/rsvp`, { form_id: 'f-1', guest_key: 'guest-dddddddd', action_text: 'Иә, келемін', fields: { name: 'Гость В' } });
+  ok(!!await waitSent(777, /Гость В — Придёт/) && !!await waitSent(999, /Гость В — Придёт/) && !!await waitSent(1001, /Гость В — Придёт/),
+    'ответ гостя пришёл владельцу и обоим получателям');
+
+  // получатель на сайте: видит приглашение и ответы, менять не может
+  const vu = await tgLogin(viewer, 999, 'Ерлан');
+  ok(!!vu, 'получатель вошёл через Telegram');
+  const vlist = (await viewer.req('/api/invitations')).body;
+  ok(vlist.length === 1 && vlist[0].id === inv.id && vlist[0].shared === true && !('moderation_note' in vlist[0]), 'получатель видит приглашение — только просмотр');
+  ok((await viewer.req(`/api/i/${inv.id}/answers`)).status === 200 && (await viewer.req(`/api/i/${inv.id}/answers.csv`)).status === 200, 'получатель видит ответы гостей и таблицу');
+  const st = (await viewer.req(`/api/guests/stats?ids=${inv.id}`)).body;
+  ok(st[inv.id] && st[inv.id].answers >= 2, 'счётчики ответов — и получателю');
+  ok((await viewer.req(`/api/invitations/${inv.id}/viewers`)).status === 403, 'список получателей — только владельцу');
+  ok((await viewer.post(`/api/invitations/${inv.id}/viewers/code`)).status === 403, 'новый код — только владельцу');
+  ok((await viewer.req(`/api/invitations/${inv.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ template_id: tid, title: 'Чужая правка', date: '2027-06-12' }) })).status === 403, 'менять приглашение получатель не может');
+  ok((await viewer.req(`/api/invitations/${inv.id}/draft`)).status === 403, 'черновик владельца получателю не виден');
+  // владелец правит опубликованное (новая версия ждёт модерации) — получатель видит то же, что гости, а не черновик
+  ok((await owner.req(`/api/invitations/${inv.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ template_id: tid, title: 'Жаңа атау', name1: 'Айбек', name2: 'Аружан', date: '2027-07-01' }) })).status === 200, 'клиент поправил приглашение');
+  const afterEdit = (await viewer.req('/api/invitations')).body[0];
+  ok(afterEdit.fields.title === 'Тест тойы' && afterEdit.fields.date === '2027-06-12' && !('status' in afterEdit), 'получателю — одобренная версия, не правка');
+  const wl = (await guest.req(`/api/i/${inv.id}/wishes`)).body;
+  ok((await viewer.req(`/api/i/${inv.id}/wishes/${wl[0].id}`, { method: 'DELETE' })).status === 403, 'удалять пожелания получатель не может');
+  const g1001 = vl.viewers.find(v => !/Ерлан/.test(v.name));
+  ok((await viewer.req(`/api/invitations/${inv.id}/viewers/${g1001.user_id}`, { method: 'DELETE' })).status === 403, 'убрать другого получателя не может');
+  ok((await viewer.req(`/api/invitations/${inv.id}`, { method: 'DELETE' })).status === 403, 'удалить приглашение не может');
+
+  // клиент убирает третьего, получатель отписывается сам — уведомления и доступ пропадают
+  ok((await owner.req(`/api/invitations/${inv.id}/viewers/${g1001.user_id}`, { method: 'DELETE' })).status === 200, 'клиент убрал получателя');
+  ok((await viewer.req(`/api/invitations/${inv.id}/viewers/${vu.id}`, { method: 'DELETE' })).status === 200, 'получатель отписался сам');
+  ok((await viewer.req(`/api/i/${inv.id}/answers`)).status === 403 && !(await viewer.req('/api/invitations')).body.length, 'после этого приглашение и ответы ему не видны');
+  const before = sent.length;
+  await guest.post(`/api/i/${inv.id}/rsvp`, { form_id: 'f-1', guest_key: 'guest-eeeeeeee', action_text: 'Келе алмаймын', fields: { name: 'Гость Г' } });
+  ok(!!await waitSent(777, /Гость Г/), 'ответ гостя — владельцу');
+  await sleep(500);
+  ok(!sent.slice(before).some(s => (s.chat === 999 || s.chat === 1001) && /Гость Г/.test(s.text)), 'убранным получателям больше не приходит');
+  // убранный открывает старую ссылку снова — код уже использован, обратно не добавляется
+  fromTg(1001, `/start c_${vc2.code.replace('-', '')}`, { name: 'Гүлнәр' });
+  ok(!!await waitSent(1001, /пайдаланылған/), 'старый код после удаления: «код уже использован»');
+  await sleep(5200);
+  ok(!(await owner.req(`/api/invitations/${inv.id}/viewers`)).body.viewers.length, 'и в получатели не вернулся');
+  // владелец по своей же ссылке — не становится «получателем», лишних сообщений нет
+  const own = (await owner.post(`/api/invitations/${inv.id}/viewers/code`)).body;
+  const sentBefore = sent.length;
+  fromTg(777, own.code);
+  ok(!!await waitSent(777, /сізге де/), 'владелец открыл свою ссылку — бот отвечает');
+  await sleep(5200);
+  ok(!(await owner.req(`/api/invitations/${inv.id}/viewers`)).body.viewers.length && !sent.slice(sentBefore).some(s => /теперь тоже получает/.test(s.text)),
+    'владелец не стал своим же получателем и не получил «кто добавился»');
 
   console.log(failed ? `\nОшибок: ${failed}` : '\nВсё работает.');
   process.exit(failed ? 1 : 0);

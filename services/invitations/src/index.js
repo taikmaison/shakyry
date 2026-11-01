@@ -14,6 +14,9 @@ const { cleanFields, FieldError } = require('./fields');
 const CATALOG_API = env('CATALOG_API');
 const AUTH_API = env('AUTH_API');
 const MAX_DRAFTS = Number(env('MAX_DRAFTS', 20));   // неопубликованных приглашений у одного автора
+const MAX_VIEWERS = Number(env('MAX_VIEWERS', 3));  // получателей ответов гостей кроме владельца (кнопка «код»)
+// при добавлении — с запасом: коды, выданные сразу двоим-троим, срабатывают все (бот уже ответил «Дайын!»)
+const VIEWERS_CAP = MAX_VIEWERS + 3;
 const PUBLIC_URL = env('PUBLIC_URL', '').replace(/\/+$/, '');   // для ссылок в уведомлениях
 // куда слать события: EVENT_SUBSCRIBERS (полные адреса через запятую), а если не задан —
 // <GUESTS_API>/events и <ALBUM_API>/events (на Vercel привязка сервиса даёт только базовый адрес)
@@ -44,6 +47,14 @@ const db = openDb({ name: 'invitations', file: env('DB_FILE', path.join(__dirnam
   // журнал удалений: guests и album забирают его сами — на Vercel обратные связи между сервисами запрещены
   `CREATE TABLE invitations_deleted (id TEXT NOT NULL, at TEXT NOT NULL);
    CREATE INDEX invitations_deleted_at ON invitations_deleted (at);`,
+  // ещё получатели ответов гостей (супруг, родители): уведомления и список гостей, менять приглашение не могут
+  `CREATE TABLE invitation_viewers (
+     invitation_id TEXT NOT NULL,
+     user_id INTEGER NOT NULL,
+     added_at TEXT NOT NULL,
+     PRIMARY KEY (invitation_id, user_id)
+   );
+   CREATE INDEX invitation_viewers_user ON invitation_viewers (user_id);`,
 ] });
 
 const get = id => db.get('SELECT * FROM invitations WHERE id = ?', id);
@@ -57,6 +68,12 @@ const ownerView = r => r && {
   id: r.id, url: `/i/${r.id}`, template_id: r.template_id, fields: JSON.parse(r.fields), status: r.status,
   moderation_note: r.moderation_note, live: !!r.live_fields, created_at: r.created_at, updated_at: r.updated_at,
   submitted_at: r.submitted_at, published_at: r.published_at, terms_accepted_at: r.terms_accepted_at,
+};
+// получателю ответов — то же, что видят гости (одобренная версия); черновик владельца — только название, имена и дата
+const sharedView = r => {
+  const live = !!r.live_fields, f = JSON.parse(live ? r.live_fields : r.fields);
+  return { id: r.id, url: `/i/${r.id}`, template_id: live ? r.live_template_id : r.template_id, live, published_at: r.published_at, shared: true,
+    fields: live ? f : { title: f.title, name1: f.name1, name2: f.name2, date: f.date, time: f.time } };
 };
 // для всех — только одобренная версия
 const publicView = r => r && r.live_fields && {
@@ -79,6 +96,18 @@ async function requireOwner(req, row) {
   if (user.role !== 'admin' && row.user_id !== user.id) throw new HttpError(403, 'Это не ваше приглашение');
   return user;
 }
+const isViewer = async (id, userId) => !!await db.get('SELECT 1 AS x FROM invitation_viewers WHERE invitation_id = ? AND user_id = ?', id, userId);
+// смотреть ответы гостей: владелец, администратор или получатель, добавленный по коду
+async function requireReader(req, row) {
+  if (!row) throw new HttpError(404, 'Приглашение не найдено');
+  const user = await requireUser(req);
+  if (user.role !== 'admin' && row.user_id !== user.id) {
+    await syncClaims();
+    if (!await isViewer(row.id, user.id)) throw new HttpError(403, 'Это не ваше приглашение');
+  }
+  return user;
+}
+const viewerIds = async id => (await db.all('SELECT user_id FROM invitation_viewers WHERE invitation_id = ? ORDER BY added_at', id)).map(r => Number(r.user_id));
 
 // события подписчикам: подписчик сам решает, что делать. Доставку ждём (до 5 с) до ответа —
 // на Vercel после ответа контейнер засыпает и неотправленное теряется. Ошибки — только в лог.
@@ -96,7 +125,8 @@ async function notify(pathname, body) {
 
 // коды «приглашение — клиенту»: клиент отправляет код боту (сервис входа), а владельца меняем здесь — сервис входа
 // к нам не обращается (на Vercel обратные связи запрещены), поэтому забираем такие записи сами: не чаще раза в 5 с,
-// перед ответами, где важен владелец (уведомления гостей, списки)
+// перед ответами, где важен владелец (уведомления гостей, списки). Код получателя ответов (kind: 'viewer') —
+// добавляем получателя; новый владелец, если был получателем, из получателей уходит
 let claimsAt = 0, claiming = null;
 function syncClaims() {
   if (claiming) return claiming;
@@ -105,11 +135,33 @@ function syncClaims() {
   claiming = (async () => {
     const { items } = await api(AUTH_API, '/_internal/claims/pending', { timeout: 4000 });
     if (!items.length) return;
-    for (const it of items) if (Number.isSafeInteger(it.user_id) && it.user_id > 0) await db.run('UPDATE invitations SET user_id = ? WHERE id = ?', it.user_id, it.invitation_id);
+    for (const it of items) {
+      if (!Number.isSafeInteger(it.user_id) || it.user_id <= 0) continue;
+      if (it.kind === 'viewer') await addViewer(it.invitation_id, it.user_id);
+      else await db.batch([['UPDATE invitations SET user_id = ? WHERE id = ?', it.user_id, it.invitation_id],
+        ['DELETE FROM invitation_viewers WHERE invitation_id = ? AND user_id = ?', it.invitation_id, it.user_id]]);
+    }
     await api(AUTH_API, '/_internal/claims/applied', { method: 'POST', body: { keys: items.map(it => it.key) }, timeout: 4000 });
   })().catch(e => console.warn(`[invitations] коды клиентов не забраны: ${e.message}`)).finally(() => { claiming = null; });
   return claiming;
 }
+// получатель по коду. Приглашение есть, он не его владелец, мест хватает — проверки в той же команде, что и запись
+// (владелец мог смениться параллельно). Владельцу о новом получателе сообщает бот, когда человек отправил код.
+// Не добавили, потому что мест нет (редко: много кодов выдано сразу) — сообщаем самому человеку
+async function addViewer(id, userId) {
+  const { rows } = await db.run(`INSERT INTO invitation_viewers (invitation_id, user_id, added_at)
+    SELECT ?, CAST(? AS INTEGER), ? WHERE EXISTS (SELECT 1 FROM invitations WHERE id = ? AND user_id <> ?)
+      AND (SELECT COUNT(*) FROM invitation_viewers WHERE invitation_id = ?) < ?
+    ON CONFLICT (invitation_id, user_id) DO NOTHING RETURNING user_id`, id, userId, now(), id, userId, id, VIEWERS_CAP);
+  if (rows.length || await isViewer(id, userId)) return;
+  const row = await get(id);
+  if (row && row.user_id !== userId)
+    await notify('/_internal/notify', { user_id: userId, text: `Болмады: «${title(row)}» шақыруының жауаптарын алатын адамдар саны толып қалды — шақыру иесінен біреуін алып тастап, жаңа код жіберуін сұраңыз.\n`
+      + `Не получилось: у приглашения «${title(row)}» уже максимум получателей ответов — попросите владельца убрать кого-нибудь и прислать новый код.` });
+}
+// имя для владельца: «Имя @ник»; не нашли — пусто
+const userName = id => AUTH_API ? api(AUTH_API, `/_internal/users/${id}`, { timeout: 4000 })
+  .then(({ user }) => [user.name, user.telegram_username && '@' + user.telegram_username].filter(Boolean).join(' '), () => '') : Promise.resolve('');
 
 async function validated(body) {
   let fields;
@@ -139,11 +191,16 @@ async function insertDraft(user, fields, text, force) {
 }
 
 createService('invitations', [
-  // мои приглашения
+  // мои приглашения и те, где я получатель ответов (shared: true — только просмотр)
   ['GET', '/api/invitations', async (req, res) => {
     const user = await requireUser(req);
     await syncClaims();
-    json(res, 200, (await db.all('SELECT * FROM invitations WHERE user_id = ? ORDER BY created_at DESC', user.id)).map(ownerView));
+    const [own, shared] = await Promise.all([
+      db.all('SELECT * FROM invitations WHERE user_id = ? ORDER BY created_at DESC', user.id),
+      db.all(`SELECT i.* FROM invitations i JOIN invitation_viewers v ON v.invitation_id = i.id
+        WHERE v.user_id = ? AND i.user_id <> ? ORDER BY i.created_at DESC`, user.id, user.id),
+    ]);
+    json(res, 200, [...own.map(ownerView), ...shared.map(sharedView)]);
   }],
 
   // сохранить черновик — только после входа
@@ -210,16 +267,53 @@ createService('invitations', [
     json(res, 200, ownerView(row));
   }],
 
-  // проверка прав — для других сервисов (ответы гостей, удаление фото): пересылают Cookie
+  // проверка прав — для других сервисов (удаление фото и пожеланий): пересылают Cookie
   ['GET', '/api/invitations/:id/owner', async (req, res, { params }) => {
     await requireOwner(req, await get(params.id));
+    json(res, 200, { ok: true });
+  }],
+  // то же для просмотра ответов гостей: владелец, администратор или получатель
+  ['GET', '/api/invitations/:id/reader', async (req, res, { params }) => {
+    await requireReader(req, await get(params.id));
+    json(res, 200, { ok: true });
+  }],
+
+  // ---------- получатели ответов (кроме владельца) ----------
+  // кто они — владельцу и администратору
+  ['GET', '/api/invitations/:id/viewers', async (req, res, { params }) => {
+    await requireOwner(req, await get(params.id));
+    await syncClaims();
+    const rows = await db.all('SELECT user_id, added_at FROM invitation_viewers WHERE invitation_id = ? ORDER BY added_at', params.id);
+    const names = await Promise.all(rows.map(r => userName(r.user_id)));
+    json(res, 200, { max: MAX_VIEWERS, viewers: rows.map((r, i) => ({ user_id: Number(r.user_id), name: names[i] || null, added_at: r.added_at })) });
+  }],
+  // код для нового получателя: он отправляет его Telegram-боту (или открывает ссылку) — и ответы гостей приходят и ему
+  ['POST', '/api/invitations/:id/viewers/code', async (req, res, { params }) => {
+    const row = await get(params.id);
+    await requireOwner(req, row);
+    if (!AUTH_API) throw new HttpError(503, 'Сервис входа недоступен');
+    const { n } = await db.get('SELECT COUNT(*) AS n FROM invitation_viewers WHERE invitation_id = ?', row.id);
+    if (Number(n) >= MAX_VIEWERS) throw new HttpError(409, `Получателей уже ${MAX_VIEWERS} — уберите кого-нибудь, чтобы добавить нового`);
+    json(res, 200, await api(AUTH_API, '/_internal/claims', { method: 'POST',
+      body: { invitation_id: row.id, title: title(row), kind: 'viewer', notify_user_id: row.user_id }, timeout: 5000 }));
+  }],
+  // убрать получателя — владелец, администратор или сам получатель (больше не хочет получать ответы)
+  ['DELETE', '/api/invitations/:id/viewers/:uid', async (req, res, { params }) => {
+    const row = await get(params.id);
+    if (!row) throw new HttpError(404, 'Приглашение не найдено');
+    const user = await requireUser(req);
+    const uid = /^\d{1,15}$/.test(params.uid) ? Number(params.uid) : 0;
+    if (user.role !== 'admin' && row.user_id !== user.id && uid !== user.id) throw new HttpError(403, 'Это не ваше приглашение');
+    const r = uid ? await db.run('DELETE FROM invitation_viewers WHERE invitation_id = ? AND user_id = ?', row.id, uid) : { changes: 0 };
+    if (!r.changes) throw new HttpError(404, 'Получатель не найден');
     json(res, 200, { ok: true });
   }],
 
   ['DELETE', '/api/invitations/:id', async (req, res, { params }) => {
     await requireOwner(req, await get(params.id));
     const at = now();
-    await db.batch([['DELETE FROM invitations WHERE id = ?', params.id], ['INSERT INTO invitations_deleted (id, at) VALUES (?, ?)', params.id, at]]);
+    await db.batch([['DELETE FROM invitations WHERE id = ?', params.id], ['DELETE FROM invitation_viewers WHERE invitation_id = ?', params.id],
+      ['INSERT INTO invitations_deleted (id, at) VALUES (?, ?)', params.id, at]]);
     await publish({ type: 'invitation.deleted', id: params.id, at });   // VPS: событие сразу; Vercel: guests/album прочитают журнал
     json(res, 200, { ok: true });
   }],
@@ -230,12 +324,12 @@ createService('invitations', [
     json(res, 200, { items: await db.all('SELECT id, at FROM invitations_deleted WHERE at >= ? ORDER BY at LIMIT 500', since) });
   }],
 
-  // для сервисов (шлюз снаружи закрывает /_internal): кому слать уведомления об ответах гостей
+  // для сервисов (шлюз снаружи закрывает /_internal): кому слать уведомления об ответах гостей — владельцу и получателям
   ['GET', '/_internal/invitations/:id', async (req, res, { params }) => {
     await syncClaims();
     const row = await get(params.id);
     if (!row) throw new HttpError(404, 'Приглашение не найдено');
-    json(res, 200, { id: row.id, user_id: row.user_id, live: !!row.live_fields, title: title(row) });
+    json(res, 200, { id: row.id, user_id: row.user_id, viewer_ids: await viewerIds(row.id), live: !!row.live_fields, title: title(row) });
   }],
 
   // ---------- администратор ----------
@@ -311,7 +405,10 @@ createService('invitations', [
     if (!Number.isSafeInteger(userId) || userId <= 0) throw new HttpError(400, 'Укажите user_id');
     const { user } = await api(AUTH_API, `/_internal/users/${userId}`, { timeout: 5000 });
     if (user.blocked) throw new HttpError(400, 'Пользователь заблокирован');
-    const row = await update('UPDATE invitations SET user_id = ? WHERE id = ?', user.id, params.id);
+    // новый владелец — уже не «ещё один получатель»: смена и удаление из получателей — одной транзакцией
+    const [moved] = await db.batch([['UPDATE invitations SET user_id = ? WHERE id = ? RETURNING *', user.id, params.id],
+      ['DELETE FROM invitation_viewers WHERE invitation_id = ? AND user_id = ?', params.id, user.id]]);
+    const row = moved.rows[0];
     if (!row) throw new HttpError(404, 'Приглашение не найдено');
     const text = `📨 Вам передано приглашение «${title(row)}».
 Сюда будут приходить ответы гостей и их пожелания. Список гостей — на сайте в «Мои приглашения»: ${PUBLIC_URL}/`

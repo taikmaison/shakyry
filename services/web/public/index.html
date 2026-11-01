@@ -67,7 +67,10 @@
   .inv:first-of-type { border-top: 0; }
   .inv .t { font-weight: 600; overflow-wrap: anywhere; }
   .inv .acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-  .inv .pay, .inv .confirm { margin-top: 8px; padding: 10px 12px; border-radius: 10px; background: var(--accent-soft); font-size: 14px; }
+  .inv .pay, .inv .confirm, .inv .viewers { margin-top: 8px; padding: 10px 12px; border-radius: 10px; background: var(--accent-soft); font-size: 14px; }
+  .viewers .vrow { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px; padding: 6px 0; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
+  .viewers .code { font: 600 20px/1.2 ui-monospace, monospace; letter-spacing: .08em; margin-top: 8px; }
+  .viewers textarea { width: 100%; min-height: 130px; margin-top: 8px; font: inherit; font-size: 13px; }
   .agree { display: flex; gap: 8px; align-items: flex-start; margin-top: 10px; font-weight: 500; cursor: pointer; }
   .agree input { width: 18px; height: 18px; margin: 1px 0 0; flex: none; accent-color: var(--accent); }
   .agree a { color: var(--accent); }
@@ -406,6 +409,7 @@ async function loadList() {
   box.replaceChildren(...items.map(x => {
     const f = x.fields, names = [f.name1, f.name2].filter(Boolean).join(' & ');
     const g = guests[x.id] || {}, p = photos[x.id] || {};
+    if (x.shared) return sharedItem(x, g, p);
     const canSubmit = x.status === 'draft' || x.status === 'rejected';
     const el = document.createElement('div');
     el.className = 'inv';
@@ -416,6 +420,7 @@ async function loadList() {
       ${canSubmit ? '<button class="btn ghost" type="button" data-a="submit">Отправить на публикацию</button>' : ''}
       ${x.live ? `<button class="btn ghost" type="button" data-a="ans">Придут ${(g.yes || 0) + (g.plus_one || 0)} · нет ${g.no || 0}</button>
       <a class="btn ghost" data-a="album" target="_blank">Фото ${p.photos || 0}</a>` : ''}
+      <button class="btn ghost" type="button" data-a="viewers">Получатели ответов</button>
       <button class="btn ghost danger" type="button" data-a="del">Удалить</button></div>`;
     el.querySelector('.t').innerHTML = `<span class="badge ${x.status}">${STATUS[x.status]}</span> `;
     el.querySelector('.t').append((f.title || 'Приглашение') + (names ? ' — ' + names : ''));
@@ -423,9 +428,10 @@ async function loadList() {
     if (x.status === 'rejected' && x.moderation_note) { const n = el.querySelector('.note'); n.textContent = 'Причина: ' + x.moderation_note; n.classList.remove('hidden'); }
     el.querySelector('[data-a=view]').href = x.live && x.status === 'published' ? x.url : x.url + '?draft';
     const q = s => el.querySelector(`[data-a=${s}]`);
-    if (q('copy')) q('copy').onclick = e => navigator.clipboard.writeText(location.origin + x.url).then(() => { e.target.textContent = 'Скопировано'; }, () => prompt('Скопируйте:', location.origin + x.url));
+    if (q('copy')) q('copy').onclick = e => copyText(e.target, location.origin + x.url);
     if (q('album')) q('album').href = x.url + '/album';
     q('edit').onclick = () => startEdit(x);
+    q('viewers').onclick = () => toggleViewers(x, el);
     const price = priceOf(x.template_id), title = (f.title || 'Приглашение') + (names ? ' — ' + names : '');
     // отправка на публикацию — сначала напоминаем, что это платно
     if (q('submit')) q('submit').onclick = () => {
@@ -465,6 +471,106 @@ async function loadList() {
     return el;
   }));
 }
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => { btn.textContent = 'Скопировано'; }, () => prompt('Скопируйте:', text));
+}
+
+// приглашение, где вы получатель ответов (вас добавил владелец): ответы гостей и фото — смотреть, менять нельзя
+function sharedItem(x, g, p) {
+  const f = x.fields, names = [f.name1, f.name2].filter(Boolean).join(' & ');
+  const el = document.createElement('div');
+  el.className = 'inv';
+  el.innerHTML = `<div class="t"><span class="badge">Вы получаете ответы</span> </div><div class="muted"></div><div class="acts">
+    ${x.live ? `<a class="btn ghost" data-a="view" target="_blank">Открыть ↗</a>
+    <button class="btn ghost" type="button" data-a="copy">Ссылка для гостей</button>
+    <button class="btn ghost" type="button" data-a="ans">Придут ${(g.yes || 0) + (g.plus_one || 0)} · нет ${g.no || 0}</button>
+    <a class="btn ghost" data-a="album" target="_blank">Фото ${p.photos || 0}</a>` : ''}
+    <button class="btn ghost" type="button" data-a="leave">Не получать ответы</button></div>`;
+  el.querySelector('.t').append((f.title || 'Приглашение') + (names ? ' — ' + names : ''));
+  el.querySelector('.muted').textContent = `${[f.date, f.time].filter(Boolean).join(' ')} · ${x.live ? 'менять приглашение может только владелец' : 'ещё не опубликовано — ответы гостей появятся после публикации'}`;
+  const q = s => el.querySelector(`[data-a=${s}]`);
+  if (x.live) {
+    q('view').href = x.url;
+    q('copy').onclick = e => copyText(e.target, location.origin + x.url);
+    q('ans').onclick = () => showAnswers(x.id, { readOnly: true });
+    q('album').href = x.url + '/album';
+  }
+  q('leave').onclick = async () => {
+    if (!confirm('Больше не получать ответы гостей на это приглашение?')) return;
+    try { await api(`/api/invitations/${encodeURIComponent(x.id)}/viewers/${me.id}`, { method: 'DELETE' }); loadList(); } catch (err) { alert(err.message); }
+  };
+  return el;
+}
+
+// получатели ответов: кроме владельца ответы и пожелания гостей в Telegram получают люди, которых он добавил
+// (супруг, родители). Добавить — код или ссылка на бота: человек открывает её и нажимает «Start»
+function toggleViewers(x, item) {
+  const old = item.querySelector('.viewers');
+  if (old) return old.remove();
+  const box = document.createElement('div');
+  box.className = 'viewers';
+  item.querySelector('.acts').after(box);
+  const f = x.fields, title = f.title || [f.name1, f.name2].filter(Boolean).join(' & ') || 'Шақыру';
+  const render = async () => {
+    let data;
+    try { data = await api(`/api/invitations/${encodeURIComponent(x.id)}/viewers`); } catch (e) { box.textContent = e.message; return; }
+    box.innerHTML = `<b>Кто ещё получает ответы гостей</b>
+      <div class="muted">Например, супруг или родители: им в Telegram приходят ответы и пожелания гостей, на сайте виден список гостей. Менять приглашение они не могут.</div>
+      <div class="vlist"></div><div class="acts"></div><div class="vcode"></div>`;
+    const list = box.querySelector('.vlist'), acts = box.querySelector('.acts');
+    for (const v of data.viewers) {
+      const row = document.createElement('div');
+      row.className = 'vrow';
+      const who = document.createElement('span');
+      who.textContent = v.name || 'Пользователь #' + v.user_id;
+      const del = Object.assign(document.createElement('button'), { type: 'button', className: 'btn ghost danger', textContent: 'Убрать' });
+      del.onclick = async () => {
+        if (!confirm(`Убрать «${who.textContent}»? Ответы гостей ему больше не будут приходить.`)) return;
+        del.disabled = true;
+        try { await api(`/api/invitations/${encodeURIComponent(x.id)}/viewers/${v.user_id}`, { method: 'DELETE' }); render(); } catch (e) { alert(e.message); del.disabled = false; }
+      };
+      row.append(who, del);
+      list.append(row);
+    }
+    if (!data.viewers.length) list.innerHTML = '<div class="muted">Пока только вы.</div>';
+    const refresh = Object.assign(document.createElement('button'), { type: 'button', className: 'btn ghost', textContent: 'Обновить' });
+    refresh.onclick = render;
+    if (data.viewers.length < data.max) {
+      const add = Object.assign(document.createElement('button'), { type: 'button', className: 'btn primary', textContent: 'Добавить получателя' });
+      add.onclick = () => newCode(add);
+      acts.append(add);
+    } else {
+      const full = document.createElement('div');
+      full.className = 'muted';
+      full.textContent = `Уже ${data.max} — уберите кого-нибудь, чтобы добавить нового.`;
+      acts.append(full);
+    }
+    acts.append(refresh);
+  };
+  // код: отправьте его человеку (например, в WhatsApp) — он откроет ссылку на бота, и ответы начнут приходить и ему
+  const newCode = async btn => {
+    btn.disabled = true;
+    let r;
+    try { r = await post(`/api/invitations/${encodeURIComponent(x.id)}/viewers/code`); } catch (e) { alert(e.message); btn.disabled = false; return; }
+    btn.disabled = false;
+    // без ссылки на бота человек не поймёт, куда отправлять код
+    if (!r.link) return alert('Не удалось получить ссылку на Telegram-бота — попробуйте ещё раз через минуту.');
+    const msg = [
+      `Сәлеметсіз бе! «${title}» шақыруына қонақтардың жауаптары сізге де Telegram-ға келіп тұруы үшін мына сілтемені ашып, «Start» батырмасын басыңыз: ${r.link}\nНемесе ${r.bot} ботына мына кодты жіберіңіз: ${r.code}\nҚонақтар тізімі сайтта да бар: ${location.origin}`,
+      '',
+      `Здравствуйте! Чтобы ответы гостей на приглашение «${title}» приходили и вам в Telegram, откройте ссылку и нажмите «Start»: ${r.link}\nИли отправьте боту ${r.bot} код: ${r.code}\nСписок гостей есть и на сайте: ${location.origin}`,
+    ].join('\n');
+    const out = box.querySelector('.vcode');
+    out.innerHTML = `<div class="code"></div><div class="muted"></div><textarea readonly></textarea><div class="acts">
+      <button class="btn primary" type="button">Скопировать сообщение</button><a class="btn ghost" target="_blank" rel="noopener">Отправить в WhatsApp</a></div>`;
+    out.querySelector('.code').textContent = r.code;
+    out.querySelector('.muted').textContent = `Код для одного человека, действует до ${new Date(r.expires_at).toLocaleDateString()}. Когда он откроет ссылку, нажмите «Обновить» — он появится в списке.`;
+    out.querySelector('textarea').value = msg;
+    out.querySelector('button').onclick = e => copyText(e.target, msg);
+    out.querySelector('a').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+  };
+  render();
+}
 
 function editing(id, cancelText = 'Отменить редактирование') {
   form.id.value = id;
@@ -493,7 +599,8 @@ function stopEdit() {
 }
 $('#cancelEdit').onclick = () => { stopEdit(); setMsg($('#msg')); };
 
-async function showAnswers(id) {
+// readOnly — получатель ответов: пожелания удалять не может (это решает владелец)
+async function showAnswers(id, { readOnly = false } = {}) {
   let data;
   try { data = await api(`/api/i/${id}/answers`); } catch (e) { return alert(e.message); }
   const wishes = await api(`/api/i/${id}/wishes`).catch(() => []);
@@ -501,7 +608,7 @@ async function showAnswers(id) {
   const fields = a => Object.entries(a.fields || {}).map(([k, v]) => `${esc(k.replace(/:$/, ''))}: ${esc(v)}`).join('<br>');
   const s = data.summary;
   const ans = data.answers.map(a => `<div><b>${esc(STATUS_RSVP[a.status])}</b>${a.action_text ? ' · ' + esc(a.action_text) : ''}<br>${fields(a)}<small>${when(a.created_at)}</small></div>`);
-  const ws = wishes.map(w => `<div><button class="btn ghost danger del" type="button" data-wish="${w.id}">Удалить</button><b>${esc(w.name)}</b><br>${esc(w.message)}<small>${when(w.created_at)}</small></div>`);
+  const ws = wishes.map(w => `<div>${readOnly ? '' : `<button class="btn ghost danger del" type="button" data-wish="${w.id}">Удалить</button>`}<b>${esc(w.name)}</b><br>${esc(w.message)}<small>${when(w.created_at)}</small></div>`);
   $('#ansBody').innerHTML = `<h3>Кто придёт</h3>
     <div class="sum"><div><b>${s.yes}</b>придут</div><div><b>${s.plus_one}</b>с парой</div><div><b>${s.people}</b>человек</div><div><b>${s.no}</b>не придут</div></div>
     <p><a class="btn ghost" href="/api/i/${encodeURIComponent(id)}/answers.csv">Скачать для Excel</a></p>

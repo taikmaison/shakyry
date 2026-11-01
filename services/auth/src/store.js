@@ -130,7 +130,11 @@ const MIGRATIONS = [{ pg: PG_SCHEMA, sqlite:
      redeemed_at INTEGER,
      applied_at INTEGER
    );
-   CREATE INDEX invite_claims_invitation ON invite_claims (invitation_id);` }];
+   CREATE INDEX invite_claims_invitation ON invite_claims (invitation_id);` },
+// вид кода: NULL — приглашение переходит клиенту; 'viewer' — ещё один получатель ответов гостей (только просмотр).
+// notify_user_id — владелец, которому бот сообщит, кто добавился по коду получателя
+{ pg: 'ALTER TABLE invite_claims ADD COLUMN kind TEXT; ALTER TABLE invite_claims ADD COLUMN notify_user_id BIGINT',
+  sqlite: 'ALTER TABLE invite_claims ADD COLUMN kind TEXT; ALTER TABLE invite_claims ADD COLUMN notify_user_id INTEGER;' }];
 
 const dbFile = () => env('DB_FILE', path.join(__dirname, '..', 'data', 'auth.db'));
 // DATABASE_URL задан — Postgres (Neon), иначе файл SQLite
