@@ -12,12 +12,15 @@ say() { printf '\n\033[1m== %s\033[0m\n' "$*"; }
 
 if ! command -v git >/dev/null || ! command -v curl >/dev/null; then
   say "Ставлю git и curl"
-  apt-get update -qq && apt-get install -y -qq git curl ca-certificates
+  if command -v apt-get >/dev/null; then apt-get update -qq && apt-get install -y -qq git curl ca-certificates
+  elif command -v dnf >/dev/null; then dnf install -y -q git curl
+  else yum install -y -q git curl; fi
 fi
 if ! command -v docker >/dev/null; then
   say "Ставлю Docker"
   curl -fsSL https://get.docker.com | sh
 fi
+systemctl enable --now docker >/dev/null 2>&1 || true
 
 # мало памяти — файл подкачки на 2 ГБ, чтобы сборка и сервисы не упирались в лимит
 if [ "$(awk '/MemTotal/{print int($2/1024)}' /proc/meminfo)" -lt 3000 ] && [ -z "$(swapon --show)" ]; then
@@ -47,6 +50,9 @@ done
 
 # если включён ufw — открыть веб-порты (SSH не трогаем)
 if command -v ufw >/dev/null && ufw status 2>/dev/null | grep -q 'Status: active'; then ufw allow 80/tcp >/dev/null; ufw allow 443/tcp >/dev/null; fi
+if command -v firewall-cmd >/dev/null && firewall-cmd --state >/dev/null 2>&1; then
+  firewall-cmd -q --permanent --add-service=http --add-service=https && firewall-cmd -q --reload
+fi
 
 say "Сборка и запуск (первый раз — несколько минут: скачиваются шаблоны и музыка)"
 DC="docker compose -f docker-compose.yml -f docker-compose.prod.yml"
