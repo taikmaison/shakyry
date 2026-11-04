@@ -19,7 +19,7 @@
   header { padding: 18px 24px 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
   header h1 { margin: 0; font-size: 22px; }
   header .top-acts { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  header .who { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  header .who { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-height: 34px; }   /* место под кнопку входа до ответа сервера */
   main { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 20px; padding: 12px 24px 40px; align-items: start; }
   @media (max-width: 960px) { main { grid-template-columns: 1fr; padding: 12px 16px 40px; } header { padding: 16px 16px 4px; } }
   section { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; min-width: 0; }
@@ -98,17 +98,31 @@
   .sum div { background: var(--accent-soft); border-radius: 10px; padding: 8px; text-align: center; }
   .sum b { display: block; font-size: 20px; font-variant-numeric: tabular-nums; }
   @media (max-width: 480px) { .sum { grid-template-columns: repeat(2, 1fr); } }
+  /* ссылки на посадочные страницы: строка под шапкой и низ страницы (для посетителей из поиска и поисковиков) */
+  .occ { margin: 0 24px 6px; }
+  .occ a { color: var(--accent); }
+  @media (max-width: 960px) { .occ { margin: 0 16px 6px; } }
+  .sitefoot { margin: 8px 24px 0; padding: 18px 0 32px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  @media (max-width: 960px) { .sitefoot { margin: 8px 16px 0; } }
+  .sitefoot nav + nav { margin-top: 12px; }
+  .sitefoot b a { color: var(--ink); }
+  .sitefoot .cats { list-style: none; padding: 0; margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .sitefoot .cats a { display: inline-block; padding: 5px 10px; border-radius: 99px; background: var(--card); border: 1px solid var(--line); color: var(--ink); text-decoration: none; font-size: 13px; }
+  .sitefoot .cats a span { color: var(--muted); margin-left: 2px; }
+  .sitefoot p { margin: 16px 0 0; }
+  .sitefoot p a { color: var(--muted); }
 </style>
 </head>
 <body>
 <header>
-  <h1>Шақыру генераторы</h1>
-  <span class="muted">Выберите шаблон, заполните поля — получите готовое приглашение</span>
+  <h1><span lang="kk">Шақыру</span> — онлайн-приглашения на той</h1>
+  <span class="muted">Выберите шаблон, заполните поля — получите ссылку-приглашение для WhatsApp и Telegram</span>
   <div class="top-acts">
     <button class="btn ghost" type="button" id="rulesBtn">Как опубликовать</button>
     <div class="who" id="who"></div>
   </div>
 </header>
+<p class="muted occ">Поводы: <a href="/ru/wedding/">свадьба</a>, <a href="/ru/bachelorette/">кыз узату</a>, <a href="/ru/merey/">юбилей</a>, <a href="/ru/sundet/">сундет той</a>, <a href="/ru/birthday/">день рождения</a> · <a href="/ru/">все поводы</a> · <a href="/kz/" lang="kk" hreflang="kk">Қазақша</a></p>
 <main>
   <section>
     <h2>1. Шаблон</h2>
@@ -172,6 +186,7 @@
     </section>
   </div>
 </main>
+<!--FOOTER-->
 
 <dialog id="login" aria-labelledby="loginTitle">
   <div class="stack">
@@ -210,10 +225,10 @@
 <dialog id="answers"><div id="ansBody"></div><p><button class="btn ghost" type="button" onclick="this.closest('dialog').close()">Закрыть</button></p></dialog>
 
 <script>
-const CAT = { wedding: 'Үйлену той / Свадьба', bachelorette: 'Қыз ұзату', merey: 'Мерей той / Юбилей', birthday: 'Туған күн / День рождения',
-  reception: 'Той / Приём', sundet: 'Сүндет той', 'nişan': 'Нишан / Помолвка', nikah: 'Неке қию / Никах', syrga_salu: 'Сырға салу',
-  tilashar: 'Тілашар', ramadan: 'Ораза / Рамадан', besik: 'Бесік той', kudalyk: 'Құдалық', kyryk: 'Қырқынан шығару',
-  shildekhana: 'Шілдехана', konys: 'Қоныс той', betashar: 'Беташар', 'merey-sundet': 'Мерей + сүндет', baptism: 'Крещение',
+const CAT = { wedding: 'Үйлену той / Свадьба', bachelorette: 'Қыз ұзату', merey: 'Мерейтой / Юбилей', birthday: 'Туған күн / День рождения',
+  reception: 'Салтанатты кеш, той / Торжество', sundet: 'Сүндет той', 'nişan': 'Құда түсу (нишан) / Помолвка', nikah: 'Неке қию / Никах', syrga_salu: 'Сырға салу',
+  tilashar: 'Тілашар', ramadan: 'Ауызашар / Ифтар (Рамадан)', besik: 'Бесік той', kudalyk: 'Құдалық', kyryk: 'Қырқынан шығару',
+  shildekhana: 'Шілдехана', konys: 'Қоныс той', betashar: 'Беташар', 'merey-sundet': 'Мерейтой мен сүндет той / Юбилей и сундет той', baptism: 'Крещение',
   tusaukeser: 'Тұсаукесер', as_beru: 'Ас беру', svidanie: 'Свидание / Кездесу' };
 const STATUS = { draft: 'Черновик', pending: 'Ждёт оплаты и проверки', published: 'Опубликовано', rejected: 'Отклонено' };
 const $ = s => document.querySelector(s);
@@ -253,8 +268,13 @@ function rulesPrice() {
   $('#rPrice').textContent = (ps.every(p => p === min) ? '' : 'от ') + money({ price: min, currency: templates[0].currency });
 }
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-function pic(t, cls = 'pic') {
-  if (t && t.preview) { const i = document.createElement('img'); i.className = cls; i.src = t.preview; i.loading = 'lazy'; i.alt = ''; return i; }
+// n — номер карточки в сетке: первые восемь грузятся сразу (первый экран), остальные лениво
+function pic(t, cls = 'pic', n = 99) {
+  if (t && t.preview) {
+    const i = document.createElement('img'); i.className = cls; i.src = t.preview; i.loading = n < 8 ? 'eager' : 'lazy'; i.alt = '';
+    if (n === 0) i.fetchPriority = 'high';
+    return i;
+  }
   const d = document.createElement('div'); d.className = cls; d.textContent = t ? '#' + t.id : ''; return d;
 }
 function setMsg(el, kind, html) { el.className = kind ? 'msg ' + kind : 'msg'; el.innerHTML = html || ''; }
@@ -335,7 +355,7 @@ function renderGrid() {
     } else if (special[q]) list = [special[q]];
   }
   $('#count').textContent = `Шаблонов: ${list.length}`;
-  $('#grid').replaceChildren(...list.map(t => {
+  $('#grid').replaceChildren(...list.map((t, n) => {
     const el = document.createElement('div');
     el.className = 'tpl' + (String(t.id) === form.template_id.value ? ' sel' : '');
     el.title = (t.special ? 'Шаблон по заказу · ' : '') + (CAT[t.category] || t.category);
@@ -344,7 +364,7 @@ function renderGrid() {
     meta.className = 'meta';
     meta.innerHTML = `<span><b>#${t.id}</b> <span class="muted">${t.lang}</span></span><a target="_blank">пример ↗</a>`;
     const a = meta.querySelector('a'); a.href = '/t/' + t.id; a.onclick = e => e.stopPropagation();
-    el.append(pic(t), meta);
+    el.append(pic(t, 'pic', n), meta);
     if (t.price != null) { const pr = document.createElement('span'); pr.className = 'price'; pr.textContent = money(t); el.append(pr); }
     const choose = () => {
       form.template_id.value = t.id; chooseTemplate(t.id); renderGrid();
@@ -673,15 +693,18 @@ $('#fId').oninput = renderGrid;
 
 (async () => {
   const q = new URLSearchParams(location.search);
-  [me, providers] = await Promise.all([api('/api/auth/me').then(r => r.user).catch(() => null), api('/api/auth/providers').catch(() => providers)]);
-  renderWho();
-  templates = await api('/api/templates');
+  // каталог вложен сервером в страницу — сетка рисуется сразу, не дожидаясь входа и музыки
+  const authP = Promise.all([api('/api/auth/me').then(r => r.user).catch(() => null), api('/api/auth/providers').catch(() => providers)]);
+  const musicP = api('/api/music').catch(() => []);
+  templates = Array.isArray(SITE.templates) && SITE.templates.length ? SITE.templates : await api('/api/templates');
   rulesPrice();
   for (const c of [...new Set(templates.map(t => t.category))]) { const o = document.createElement('option'); o.value = c; o.textContent = CAT[c] || c; $('#fCat').append(o); }
-  const music = await api('/api/music').catch(() => []);
-  for (const mu of music) { const o = document.createElement('option'); o.value = mu.url; o.textContent = mu.title; $('#music').append(o); }
   if (q.get('template')) { form.template_id.value = q.get('template'); chooseTemplate(q.get('template')); }
   renderGrid();
+  [me, providers] = await authP;
+  renderWho();
+  const music = await musicP;
+  for (const mu of music) { const o = document.createElement('option'); o.value = mu.url; o.textContent = mu.title; $('#music').append(o); }
   await loadList();
   // /?edit=<id> — из плашки черновика
   if (q.get('edit') && me) { const x = await api(`/api/invitations/${encodeURIComponent(q.get('edit'))}/draft`).catch(() => null); if (x) startEdit(x); }

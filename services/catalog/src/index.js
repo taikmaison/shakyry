@@ -146,24 +146,20 @@ function musicLibrary() {
 }
 
 load();
-// Vercel-CDN-Cache-Control понимает только CDN Vercel (его кеш сбрасывается при деплое, content/ внутри образа);
-// на VPS заголовок ни на что не влияет, браузеру — Cache-Control из sendFile
-const file = (req, res, f, cache) => {
-  if (!f) return notFound(res);
-  if (fs.statSync(f, { throwIfNoEntry: false })?.isFile()) res.setHeader('Vercel-CDN-Cache-Control', 'public, max-age=31536000, immutable');
-  return sendFile(req, res, f, { cache });
-};
+// кеш в браузере — Cache-Control из sendFile (lib/http.js): 'long' — медиа и шрифты (30 дней: адреса с хешем
+// содержимого, меняются только с новым архивом), 'day' — превью (сутки: перерисовываются при исправлении шаблона)
+const file = (req, res, f, cache) => f ? sendFile(req, res, f, { cache }) : notFound(res);
 const files = (dir, cache) => (req, res, { params }) => file(req, res, inside(path.join(CONTENT, dir), params.rest), cache);
 // /media/own/… — из own/media; /previews/… — из content, иначе из own/previews
 const media = (req, res, { params }) => params.rest.startsWith('own/')
-  ? file(req, res, inside(path.join(OWN, 'media'), params.rest.slice(4)), true)
-  : files('media', true)(req, res, { params });
+  ? file(req, res, inside(path.join(OWN, 'media'), params.rest.slice(4)), 'long')
+  : files('media', 'long')(req, res, { params });
 // заказная копия (fixes/custom.json) своего превью не имеет — отдаём превью исходного шаблона (картинка ссылки в WhatsApp)
 const previews = (req, res, { params }) => {
   const find = name => [CONTENT, OWN].map(d => inside(path.join(d, 'previews'), name)).find(f => f && fs.existsSync(f));
   const m = params.rest.match(/^(\d+)(\.[a-z]+)$/);
   const base = m && custom[m[1]] && custom[m[1]].base;
-  return file(req, res, find(params.rest) || (base && find(base + m[2])) || inside(path.join(OWN, 'previews'), params.rest), false);
+  return file(req, res, find(params.rest) || (base && find(base + m[2])) || inside(path.join(OWN, 'previews'), params.rest), 'day');
 };
 
 createService('catalog', [
@@ -187,16 +183,16 @@ createService('catalog', [
     if (!fs.existsSync(f)) return notFound(res);
     // шрифты архива + исправления (fixes/) + шрифты своих шаблонов (own/)
     const body = [f, path.join(FIXES, 'fonts.css'), path.join(OWN, 'fonts.css')].filter(x => fs.existsSync(x)).map(x => fs.readFileSync(x, 'utf8')).join('\n');
-    // браузер каждый раз сверяется (не изменился — короткий ответ 304): исправления шрифтов видны сразу,
-    // а не через неделю кэша; CDN Vercel хранит файл до следующего деплоя
+    // сутки в кэше, затем браузер сверяется по ETag (не изменился — короткий ответ 304): исправления шрифтов
+    // видны не позже чем через день; страницы подключают /fonts.css?v=N — новый номер обновляет сразу
     const etag = '"' + require('crypto').createHash('sha1').update(body).digest('hex').slice(0, 16) + '"';
-    const headers = { 'Cache-Control': 'no-cache', ETag: etag, 'Vercel-CDN-Cache-Control': 'public, max-age=31536000, immutable' };
+    const headers = { 'Cache-Control': 'public, max-age=86400', ETag: etag };
     if (req.headers['if-none-match'] === etag) { res.writeHead(304, headers); return res.end(); }
     send(res, 200, TYPES['.css'], body, headers);
   }],
   ['GET', '/media/*', media],
   ['GET', '/fonts/*', (req, res, { params }) => params.rest.startsWith('own/')
-    ? file(req, res, inside(path.join(OWN, 'fonts'), params.rest.slice(4)), true) : files('fonts', true)(req, res, { params })],
+    ? file(req, res, inside(path.join(OWN, 'fonts'), params.rest.slice(4)), 'long') : files('fonts', 'long')(req, res, { params })],
   ['GET', '/previews/*', previews],
   // перечитать content/ после обновления шаблонов (шлюз /_internal наружу не пускает)
   ['POST', '/_internal/reload', (req, res) => { load(); json(res, 200, { templates: catalog.length }); }],

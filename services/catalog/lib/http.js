@@ -26,19 +26,41 @@ const json = (res, status, obj) => send(res, status, TYPES['.json'], JSON.string
 const html = (res, body, status = 200) => send(res, status, TYPES['.html'], body);
 const notFound = res => json(res, 404, { error: 'Не найдено' });
 
-// файл с поддержкой перемотки аудио/видео
+// политика кеша статики (Cache-Control): true — неделя; 'immutable' — год без перепроверки (версия в адресе: ?v=…);
+// 'long' — 30 дней (медиа и шрифты: адрес с хешем содержимого); 'day' — сутки, ещё неделю можно показать старое,
+// обновляя в фоне; false — хранить, но перед показом сверяться с сервером (не изменился — короткий 304 без тела);
+// строка «public, …» / «no-…» — как есть
+function cacheControl(cache) {
+  if (cache === 'immutable') return 'public, max-age=31536000, immutable';
+  if (cache === 'long') return 'public, max-age=2592000';
+  if (cache === 'day') return 'public, max-age=86400, stale-while-revalidate=604800';
+  if (typeof cache === 'string' && /^(public,|no-)/.test(cache)) return cache;
+  return cache ? 'public, max-age=604800' : 'public, max-age=0, must-revalidate';
+}
+// слабый ETag из размера и времени файла (слабые Caddy при сжатии не переписывает);
+// If-None-Match — список через запятую или «*», префикс W/ при сравнении не учитываем
+const etagOf = st => `W/"${st.size.toString(16)}-${Math.floor(st.mtimeMs).toString(16)}"`;
+const etagMatch = (header, etag) => header.split(',').map(t => t.trim()).some(t => t === '*' || t.replace(/^W\//, '') === etag.replace(/^W\//, ''));
+
+// файл с поддержкой перемотки аудио/видео; не изменился с прошлого раза (If-None-Match / If-Modified-Since) — 304 без тела
 function sendFile(req, res, file, { cache = false } = {}) {
   let st;
   try { st = fs.statSync(file); } catch { return notFound(res); }
   if (!st.isFile()) return notFound(res);
+  const etag = etagOf(st);
   const headers = {
     'Content-Type': TYPES[path.extname(file).toLowerCase()] || 'application/octet-stream', 'Accept-Ranges': 'bytes',
-    'Cache-Control': cache ? 'public, max-age=604800' : 'no-cache', 'Last-Modified': st.mtime.toUTCString(), 'X-Content-Type-Options': 'nosniff',
+    'Cache-Control': cacheControl(cache), ETag: etag, 'Last-Modified': st.mtime.toUTCString(), 'X-Content-Type-Options': 'nosniff',
   };
+  const inm = req.headers['if-none-match'], ims = req.headers['if-modified-since'];
+  const same = inm ? etagMatch(inm, etag) : !!ims && Math.floor(st.mtimeMs / 1000) <= Math.floor(Date.parse(ims) / 1000);
+  if (same) { res.writeHead(304, { 'Cache-Control': headers['Cache-Control'], ETag: etag, 'Last-Modified': headers['Last-Modified'] }); return res.end(); }
   const m = req.headers.range && req.headers.range.match(/bytes=(\d*)-(\d*)/);
   if (m && (m[1] || m[2])) {
     const start = m[1] ? Number(m[1]) : Math.max(0, st.size - Number(m[2]));
     const end = m[1] && m[2] ? Math.min(Number(m[2]), st.size - 1) : st.size - 1;
+    // диапазон вне файла или конец раньше начала — 416 (иначе ушёл бы 206 с отрицательной длиной, а поток упал бы)
+    if (start >= st.size || end < start) { res.writeHead(416, { 'Content-Range': `bytes */${st.size}`, 'Content-Length': 0, 'Cache-Control': headers['Cache-Control'], ETag: etag }); return res.end(); }
     res.writeHead(206, { ...headers, 'Content-Range': `bytes ${start}-${end}/${st.size}`, 'Content-Length': end - start + 1 });
     return req.method === 'HEAD' ? res.end() : fs.createReadStream(file, { start, end }).pipe(res);
   }

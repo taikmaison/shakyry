@@ -293,11 +293,14 @@
   // Фон и рамку из style оригинал у картинок не рисует.
   const IMG_BOX_KEYS = new Set(['borderRadius', 'maskImage', 'WebkitMaskImage', 'maskSize', 'WebkitMaskSize', 'maskRepeat', 'WebkitMaskRepeat', 'maskPosition', 'WebkitMaskPosition']);
   const IMG_KEYS = new Set(['opacity', 'filter', 'boxShadow', 'mixBlendMode']);
+  // первые две картинки страницы — сразу и с приоритетом (первый экран, LCP), остальные — лениво
+  let eagerLeft = 2;
   R.image = (c) => {
     const d = c.data || {}, st = c.style || {};
     const box = el('div', { class: 'img' });
     applyStyle(box, st, k => IMG_BOX_KEYS.has(k));
-    const img = el('img', { src: d.src || '', alt: '', loading: 'lazy', decoding: 'async', draggable: 'false' });
+    const eager = eagerLeft > 0 && (eagerLeft--, true);
+    const img = el('img', { src: d.src || '', alt: '', loading: eager ? 'eager' : 'lazy', decoding: 'async', draggable: 'false', ...(eager ? { fetchpriority: 'high' } : {}) });
     applyStyle(img, st, k => IMG_KEYS.has(k));
     img.style.objectFit = st.objectFit || 'cover';
     img.onerror = () => { img.style.visibility = 'hidden'; };
@@ -1167,7 +1170,9 @@
   const reduceMotion = () => !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
   function autoScroll() {
     const se = () => document.scrollingElement || document.documentElement;
-    const maxY = () => se().scrollHeight - innerHeight;
+    // на странице примера /t/ под приглашением стоит текстовый блок (.tfoot) — автопрокрутка доходит только до него
+    const foot = document.querySelector('.tfoot');
+    const maxY = () => (foot ? foot.offsetTop : se().scrollHeight) - innerHeight;
     let on = false, raf = 0, last = 0, y = 0, setY = -1;
     const btn = el('button', { class: 'autoscroll', type: 'button' });
     const show = () => {
@@ -1385,7 +1390,9 @@
   if (SHOT) document.documentElement.classList.add('shot');
   const page = el('main');
   for (const b of D.blocks || []) page.append(renderBlock(b));
-  document.body.append(page);
+  // на странице примера /t/ под приглашением стоит текстовый блок (.tfoot) — приглашение вставляется перед ним
+  const foot = document.querySelector('.tfoot');
+  if (foot) foot.before(page); else document.body.append(page);
   fitTexts();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitTexts);
   setTimeout(fitTexts, 1500);

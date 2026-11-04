@@ -57,6 +57,12 @@ services:
       CONTACT_WHATSAPP: ${CONTACT_WHATSAPP:-77780122500}
       PAYMENT_DETAILS: ${PAYMENT_DETAILS:-Kaspi Gold +7 771 465 11 26}
       SHOTS_API: http://shots:3000
+      # SEO (необязательно): коды подтверждения прав, счётчик Метрики, ключ IndexNow — см. .env.example
+      SEO_VERIFY_GOOGLE: ${SEO_VERIFY_GOOGLE:-}
+      SEO_VERIFY_YANDEX: ${SEO_VERIFY_YANDEX:-}
+      SEO_VERIFY_BING: ${SEO_VERIFY_BING:-}
+      YANDEX_METRIKA_ID: ${YANDEX_METRIKA_ID:-}
+      INDEXNOW_KEY: ${INDEXNOW_KEY:-}
     restart: unless-stopped
 
   # картинка для превью ссылки на приглашение (WhatsApp, Telegram): снимок самого приглашения своим Chromium

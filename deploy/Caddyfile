@@ -2,13 +2,24 @@
 # Домен — переменная DOMAIN в .env; его A-запись должна указывать на IP сервера.
 {$DOMAIN} {
 	encode zstd gzip
+	# заголовки безопасности — сервисы их не ставят; -Server убирает «Server: Caddy»
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		X-Content-Type-Options "nosniff"
+		-Server
+	}
+	# во фрейм на чужом сайте можно встраивать только приглашения /i/*
+	@notinvite not path /i/*
+	header @notinvite X-Frame-Options "SAMEORIGIN"
 	reverse_proxy gateway:3000 {
 		# настоящий IP посетителя — для лимитов (у шлюза включён TRUST_PROXY)
 		header_up X-Real-IP {remote_host}
 	}
 }
 
-# www → без www
-www.{$DOMAIN} {
+# www → без www одним переходом и с http://, и с https://: явный адрес http://www отключает
+# автоматический редирект на https://www (иначе http://www → https://www → без www, два перехода)
+www.{$DOMAIN}, http://www.{$DOMAIN} {
 	redir https://{$DOMAIN}{uri} permanent
 }

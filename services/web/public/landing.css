@@ -79,7 +79,23 @@ section { margin: 36px 0; }
 .faq summary { cursor: pointer; font-weight: 600; }
 .faq details p { margin: 10px 0 2px; color: var(--muted); }
 
+/* блоки «по поводам» на обзоре: заголовок-ссылка, три карточки, «все шаблоны» */
+.occ { margin: 20px 0; }
+.occ h3 { margin: 0 0 10px; }
+.occ h3 a { color: var(--ink); text-decoration: none; }
+.occ .grid { grid-template-columns: repeat(3, 1fr); }
+@media (min-width: 720px) { .occ .grid { grid-template-columns: repeat(6, 1fr); } }
+.occ .more { margin-top: 8px; font-size: 14px; }
+.card .num { text-decoration: none; color: var(--ink); }
+.price p { max-width: 720px; }
+
+/* общий низ всех страниц: ссылки на поводы на каждом языке */
 footer { border-top: 1px solid var(--line); margin-top: 48px; padding-top: 18px; padding-bottom: 32px; color: var(--muted); font-size: 14px; }
 footer a { color: var(--muted); }
+.sitefoot nav + nav { margin-top: 12px; }
+.sitefoot nav b a { color: var(--ink); }
+.sitefoot .cats { margin-top: 6px; }
+.sitefoot .cats a { padding: 5px 10px; font-size: 13px; }
+.sitefoot p { margin: 16px 0 0; }
 
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
