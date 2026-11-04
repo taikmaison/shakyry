@@ -158,9 +158,12 @@ const files = (dir, cache) => (req, res, { params }) => file(req, res, inside(pa
 const media = (req, res, { params }) => params.rest.startsWith('own/')
   ? file(req, res, inside(path.join(OWN, 'media'), params.rest.slice(4)), true)
   : files('media', true)(req, res, { params });
+// заказная копия (fixes/custom.json) своего превью не имеет — отдаём превью исходного шаблона (картинка ссылки в WhatsApp)
 const previews = (req, res, { params }) => {
-  const f = inside(path.join(CONTENT, 'previews'), params.rest);
-  return file(req, res, f && fs.existsSync(f) ? f : inside(path.join(OWN, 'previews'), params.rest), false);
+  const find = name => [CONTENT, OWN].map(d => inside(path.join(d, 'previews'), name)).find(f => f && fs.existsSync(f));
+  const m = params.rest.match(/^(\d+)(\.[a-z]+)$/);
+  const base = m && custom[m[1]] && custom[m[1]].base;
+  return file(req, res, find(params.rest) || (base && find(base + m[2])) || inside(path.join(OWN, 'previews'), params.rest), false);
 };
 
 createService('catalog', [

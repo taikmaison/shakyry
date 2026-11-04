@@ -1,15 +1,18 @@
-# Образ для Vercel: шаблоны и медиа скачиваются при сборке (на VPS content/ — том, см. Dockerfile).
+# Образ со скачанными при сборке шаблонами и медиа: Vercel и сервер (docker-compose.prod.yml).
 # CONTENT_URL — переменная проекта Vercel, приходит как --build-arg.
+# Сначала скачиваются шаблоны, потом копируется код: правка кода не перекачивает ~400 МБ (слой с content/ берётся из кэша).
 FROM node:24-alpine
 WORKDIR /app
-COPY . .
+RUN apk add --no-cache unzip
+COPY tools/fetch-content.js tools/fetch-content.js
 ARG CONTENT_URL=https://drive.google.com/file/d/1Js2Zs2Ze5pIz0umZ_Pe8AoLPBJ3Cnq9A/view?usp=sharing
 # CONTENT_EXTRA_URL — архивы своей музыки через пробел: 1-й — content/music.json + content/media/…, 2-й — content/music-2.json + …
 # (каждый следующий архив добавляет свой music-N.json и свои mp3; пусто — без своей музыки)
 ARG CONTENT_EXTRA_URL="https://drive.google.com/file/d/1MaXUnifPZg8tD77bS4uc3BVbsW4vwkpD/view?usp=sharing https://drive.google.com/file/d/1ntlEUNuHK9c6ASnoms-iUQLG8UkFX9_0/view"
 # версия архива музыки: менять после загрузки новой версии в Drive (ссылка та же) — иначе сборка может взять старый слой из кэша
 ARG CONTENT_EXTRA_REV=2026-11-01-kieli-mahabbat
-RUN echo "музыка: $CONTENT_EXTRA_REV" && apk add --no-cache unzip && node tools/fetch-content.js && node tools/fetch-content.js --extra && rm -rf tools
+RUN echo "музыка: $CONTENT_EXTRA_REV" && node tools/fetch-content.js && node tools/fetch-content.js --extra
+COPY . .
 ENV HOST=0.0.0.0 PORT=3000
 EXPOSE 3000
 CMD ["node", "--disable-warning=ExperimentalWarning", "src/index.js"]
