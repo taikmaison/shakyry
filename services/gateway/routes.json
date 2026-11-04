@@ -8,6 +8,7 @@
     { "match": "^/api/invitations(/|$)", "target": "INVITATIONS_URL" },
     { "match": "^/api/i/[^/]+/(rsvp|wishes|wishes/[0-9]+|answers|answers\\.csv)$|^/api/guests/", "target": "GUESTS_URL" },
     { "match": "^/api/i/[^/]+/album(/[0-9]+)?$|^/api/album/|^/files/albums/", "target": "ALBUM_URL" },
+    { "match": "^/og/", "target": "SHOTS_URL" },
     { "match": ".*", "target": "WEB_URL" }
   ]
 }

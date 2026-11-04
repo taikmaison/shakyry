@@ -807,7 +807,8 @@ function inviteHead({ config, data, url, image } = {}) {
 
   const tid = Number(data.template_id);
   const img = image ? abs(config, image) : Number.isSafeInteger(tid) && tid > 0 ? abs(config, ogJpg(tid)) : null;
-  const imageSize = img && /\/previews\/\d+\.jpe?g$/i.test(img) ? [OG_W, OG_H] : null;
+  // снимок приглашения (сервис shots) того же размера, что примеры шаблонов
+  const imageSize = img && /\/(previews\/\d+|og\/i\/[a-z0-9]+)\.jpe?g(\?|$)/i.test(img) ? [OG_W, OG_H] : null;
 
   return headTags({
     title, description, robots: NOINDEX, siteName: name, ogUrl: url ? abs(config, url) : '',

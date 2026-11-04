@@ -361,6 +361,7 @@ createService('invitations', [
     const row = await update('UPDATE invitations SET status = ?, moderation_note = NULL, live_template_id = template_id, live_fields = fields, published_at = ? WHERE id = ?',
       'published', now(), params.id);
     if (!row) throw new HttpError(404, 'Приглашение не найдено');
+    await publish({ type: 'invitation.published', id: row.id, at: row.published_at });   // shots: снимок для превью ссылки
     await notify('/_internal/notify', { user_id: row.user_id, text: `✅ Приглашение «${title(row)}» одобрено и опубликовано. Ссылка для гостей: ${PUBLIC_URL}/i/${row.id}` });
     json(res, 200, ownerView(row));
   }],
@@ -383,6 +384,7 @@ createService('invitations', [
     const reason = String((await readJson(req)).reason || '').trim().slice(0, 500) || null;
     const row = await update('UPDATE invitations SET live_fields = NULL, live_template_id = NULL, status = ?, moderation_note = ? WHERE id = ?', 'rejected', reason, params.id);
     if (!row) throw new HttpError(404, 'Приглашение не найдено');
+    await publish({ type: 'invitation.unpublished', id: row.id, at: now() });
     await notify('/_internal/notify', { user_id: row.user_id, text: `⛔ Приглашение «${title(row)}» снято с публикации${reason ? ': ' + reason : ''}` });
     json(res, 200, ownerView(row));
   }],

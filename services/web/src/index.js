@@ -2,6 +2,7 @@
 // Данные берёт только через API каталога и приглашений (адреса — из окружения).
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { env, html, send, sendFile, inside, readRaw, api, tryApi, HttpError, createService } = require('../lib/http');
 const seo = require('./seo');
 
@@ -19,6 +20,20 @@ const read = f => fs.readFileSync(path.join(PUBLIC, f), 'utf8');
 const abs = p => config.siteUrl + p;
 const jsonScript = (name, data) => `<script>window.${name}=${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`;
 const ogImage = id => abs(`/previews/${id}.jpg`);
+// картинка ссылки на приглашение: снимок самого приглашения с настоящими именами (сервис shots),
+// без сервиса — пример шаблона. v меняется с опубликованной версией — мессенджер не покажет старую картинку
+const SHOTS_API = env('SHOTS_API', '').replace(/\/+$/, '');
+const warmed = new Map();
+function inviteImage(x) {
+  if (!SHOTS_API) return ogImage(x.template_id);
+  const v = crypto.createHash('sha1').update(JSON.stringify([x.template_id, x.fields, x.published_at || ''])).digest('hex').slice(0, 10);
+  if (warmed.get(x.id) !== v) {   // снять заранее, пока мессенджер читает страницу
+    if (warmed.size > 5000) warmed.clear();
+    warmed.set(x.id, v);
+    fetch(`${SHOTS_API}/_internal/warm/${encodeURIComponent(x.id)}`, { method: 'POST', signal: AbortSignal.timeout(3000) }).catch(() => warmed.delete(x.id));
+  }
+  return abs(`/og/i/${x.id}.jpg?v=${v}`);
+}
 const htmlLang = l => (l === 'ru' ? 'ru' : 'kk');
 
 // каталог нужен для главной, sitemap и посадочных — держим копию минуту
@@ -85,8 +100,10 @@ createService('web', [
     if (live) {
       const page = await renderTemplate(live.template_id, { fields: live.fields });
       if (!page) return send(res, 410, 'text/plain; charset=utf-8', 'Шаблон этого приглашения больше недоступен');
-      const data = { mode: 'invite', id: live.id, ...page, api: { rsvp: `/api/i/${live.id}/rsvp`, wishes: `/api/i/${live.id}/wishes`, album: `/i/${live.id}/album` } };
-      return invitePage(res, data, seo.inviteHead({ config, data, url: abs(`/i/${live.id}`), image: ogImage(live.template_id) }));
+      // ?shot — снимок для превью ссылки (сервис shots): без конверта и анимаций
+      const shot = url.searchParams.has('shot');
+      const data = { mode: shot ? 'shot' : 'invite', id: live.id, ...page, api: { rsvp: `/api/i/${live.id}/rsvp`, wishes: `/api/i/${live.id}/wishes`, album: `/i/${live.id}/album` } };
+      return invitePage(res, data, seo.inviteHead({ config, data, url: abs(`/i/${live.id}`), image: shot ? ogImage(live.template_id) : inviteImage(live) }));
     }
     const draft = await draftFor(req, params.id);
     if (!draft) return html(res, notPublishedPage(), 404);

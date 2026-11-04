@@ -27,7 +27,7 @@ services:
       CATALOG_API: http://catalog:3000
       AUTH_API: http://auth:3000
       PUBLIC_URL: ${PUBLIC_URL:-http://localhost:8024}
-      EVENT_SUBSCRIBERS: http://guests:3000/events,http://album:3000/events
+      EVENT_SUBSCRIBERS: http://guests:3000/events,http://album:3000/events,http://shots:3000/events
     volumes: ["invitations-data:/app/data"]
     restart: unless-stopped
 
@@ -56,6 +56,16 @@ services:
       DEFAULT_LANG: kz
       CONTACT_WHATSAPP: ${CONTACT_WHATSAPP:-77780122500}
       PAYMENT_DETAILS: ${PAYMENT_DETAILS:-Kaspi Gold +7 771 465 11 26}
+      SHOTS_API: http://shots:3000
+    restart: unless-stopped
+
+  # картинка для превью ссылки на приглашение (WhatsApp, Telegram): снимок самого приглашения своим Chromium
+  shots:
+    build: ./services/shots
+    environment:
+      INVITATIONS_API: http://invitations:3000
+      SITE_INTERNAL_URL: http://gateway:3000
+    volumes: ["shots-data:/app/data"]
     restart: unless-stopped
 
   gateway:
@@ -67,8 +77,9 @@ services:
       GUESTS_URL: http://guests:3000
       ALBUM_URL: http://album:3000
       WEB_URL: http://web:3000
+      SHOTS_URL: http://shots:3000
     ports: ["8024:3000"]
-    depends_on: [auth, catalog, invitations, guests, album, web]
+    depends_on: [auth, catalog, invitations, guests, album, web, shots]
     restart: unless-stopped
 
 volumes:
@@ -76,3 +87,4 @@ volumes:
   invitations-data:
   guests-data:
   album-data:
+  shots-data:

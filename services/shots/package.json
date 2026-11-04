@@ -1,0 +1,16 @@
+{
+  "name": "toi-shots",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Снимки приглашений для превью ссылок в мессенджерах",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "puppeteer-core": "25.4.0"
+  },
+  "engines": {
+    "node": ">=22.13"
+  }
+}
