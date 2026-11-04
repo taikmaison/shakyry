@@ -69,6 +69,7 @@ function sampleFields(tpl) {
     ...(defaultTextParts(tpl).length ? { invite_text: '' } : {}),
     title: (TITLES[lang] && TITLES[lang][tpl.category]) || TITLES[lang].wedding,
     date: d.toISOString().slice(0, 10), time: tpl.category === 'as_beru' ? '13:00' : tpl.category === 'svidanie' ? '20:00' : tpl.category === 'merey-sundet' ? '19:00' : '18:00', map_link: 'https://2gis.kz',
+    ...(tpl.sample || {}),   // шаблон по заказу со своим примером (fixes/custom.json → sample)
   };
 }
 

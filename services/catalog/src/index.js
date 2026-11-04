@@ -57,7 +57,8 @@ function template(id) {
     if (own) {
       const base = own.base !== id && template(own.base);
       if (!base) return null;
-      cache.set(id, patch({ ...structuredClone(base), id }, own.set || []));
+      // sample — свой пример для демо (имя, текст), если общий для вида праздника не подходит
+      cache.set(id, patch({ ...structuredClone(base), id, ...(own.sample ? { sample: own.sample } : {}) }, own.set || []));
     } else {
       const f = [path.join(OWN, 'templates', `${id}.json`), path.join(CONTENT, 'templates', `${id}.json`)].find(x => fs.existsSync(x));
       if (!f) return null;
@@ -66,24 +67,36 @@ function template(id) {
   }
   return cache.get(id);
 }
-// компонент выбирается по id или по типу (+ точному тексту); set — значения по путям «data.x», «position.y»…
+// компонент выбирается по id или по типу (+ точному тексту); set — значения по путям «data.x», «position.y»…;
+// remove: true — убрать компонент. { block: N, height: px } — новая высота блока N: позиции (в % высоты блока)
+// пересчитываются, всё остаётся на своих местах — так обрезают пустой низ после убранного
 function patch(tpl, list = fixes[tpl.id] || []) {
   for (const f of list) {
+    if (f.block != null) { resizeBlock(tpl, f); continue; }
     let hit = 0;
-    for (const b of tpl.blocks || []) for (const c of b.components || []) {
-      if (f.id ? c.id !== f.id : c.type !== f.type) continue;
-      if (f.text != null && String((c.data && (c.data.text ?? c.data.content)) || '').trim() !== f.text) continue;
+    for (const b of tpl.blocks || []) b.components = (b.components || []).filter(c => {
+      if (f.id ? c.id !== f.id : c.type !== f.type) return true;
+      if (f.text != null && String((c.data && (c.data.text ?? c.data.content)) || '').trim() !== f.text) return true;
+      hit++;
+      if (f.remove) return false;
       for (const [k, v] of Object.entries(f.set || {})) {
         const keys = k.split('.');
         let o = c;
         for (const key of keys.slice(0, -1)) o = o[key] ??= {};
         o[keys.at(-1)] = v;
       }
-      hit++;
-    }
+      return true;
+    });
     if (!hit) console.warn(`[catalog] исправление шаблона #${tpl.id} ни к чему не подошло: ${JSON.stringify(f)}`);
   }
   return tpl;
+}
+function resizeBlock(tpl, f) {
+  const b = (tpl.blocks || [])[f.block], h = Number(f.height);
+  const old = b && parseFloat((b.style || {}).height);
+  if (!old || !(h > 0)) return console.warn(`[catalog] высота блока шаблона #${tpl.id} не изменена: ${JSON.stringify(f)}`);
+  for (const c of b.components || []) c.position.y = +(c.position.y * old / h).toFixed(4);
+  b.style.height = h + 'px';
 }
 const need = id => { const t = template(id); if (!t) throw new HttpError(404, 'Шаблон не найден'); return t; };
 const preview = id => [CONTENT, OWN].some(d => fs.existsSync(path.join(d, 'previews', `${id}.webp`))) ? `/previews/${id}.webp` : null;
