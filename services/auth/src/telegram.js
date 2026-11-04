@@ -9,7 +9,7 @@
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const ALLOWED = ['message'];
 
-function createBot({ token, apiUrl = 'https://api.telegram.org', webhook = null, onUpdate, log = console }) {
+function createBot({ token, apiUrl = 'https://api.telegram.org', webhook = null, takeover = false, onUpdate, log = console }) {
   const base = `${apiUrl.replace(/\/+$/, '')}/bot${token}/`;
   let username = null;   // имя бота без @ (после успешного getMe)
   let disabled = false;  // токен не принят Telegram — дальше не пытаемся
@@ -105,7 +105,16 @@ function createBot({ token, apiUrl = 'https://api.telegram.org', webhook = null,
           log.error(`[auth] Telegram: ${e.message} — опрос остановлен`);
           return;
         }
-        // 409 — у бота включён webhook или его опрашивает другой процесс
+        // 409 — у бота включён webhook или его опрашивает другой процесс.
+        // takeover (TELEGRAM_TAKEOVER=1, сервер): чужой webhook (например, оставшийся от Vercel) снимаем и забираем бота себе
+        if (takeover && e.status === 409 && /webhook/i.test(e.message)) {
+          try {
+            await call('deleteWebhook', { drop_pending_updates: false });
+            log.warn('[auth] Telegram: webhook снят (TELEGRAM_TAKEOVER=1) — бот теперь принимает сообщения здесь');
+            await sleep(1000);
+            continue;
+          } catch (e2) { log.warn(`[auth] Telegram ${e2.message}`); }
+        }
         const wait = e.retryAfter ? e.retryAfter * 1000 : pause;
         log.warn(`[auth] Telegram ${e.message}; повтор через ${Math.round(wait / 1000)} с`
           + (/webhook/i.test(e.message) ? ' (у бота включён webhook: снимите его deleteWebhook или включите TELEGRAM_WEBHOOK=1)' : ''));

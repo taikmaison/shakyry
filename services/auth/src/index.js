@@ -35,12 +35,13 @@ const SMTP_ON = !!(SMTP.host && SMTP.from);
 
 const db = openStore();
 
-// Telegram: long-polling (по умолчанию) или webhook — при TELEGRAM_WEBHOOK=1 и всегда на Vercel
+// Telegram: long-polling (по умолчанию) или webhook — при TELEGRAM_WEBHOOK=1 и всегда на Vercel.
+// TELEGRAM_TAKEOVER=1 (long-polling на сервере): webhook, оставшийся у бота от прежнего хостинга, снимается сам
 const TG_TOKEN = env('TELEGRAM_BOT_TOKEN', '');
 const SITE = env('PUBLIC_URL', '').replace(/\/+$/, '');   // адрес сайта в сообщениях бота
 const HOOK = TG_TOKEN && (flag('TELEGRAM_WEBHOOK') || process.env.VERCEL === '1') ? webhookConfig() : null;
 const bot = TG_TOKEN
-  ? createBot({ token: TG_TOKEN, apiUrl: env('TELEGRAM_API_URL', 'https://api.telegram.org'), webhook: HOOK, onUpdate: handleUpdate })
+  ? createBot({ token: TG_TOKEN, apiUrl: env('TELEGRAM_API_URL', 'https://api.telegram.org'), webhook: HOOK, takeover: flag('TELEGRAM_TAKEOVER'), onUpdate: handleUpdate })
   : null;
 
 // адрес: TELEGRAM_WEBHOOK_URL или PUBLIC_URL + путь маршрута; секрет: TELEGRAM_WEBHOOK_SECRET или выводится из токена

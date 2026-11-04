@@ -1,6 +1,9 @@
 # Запуск на сервере с доменом и HTTPS (поверх docker-compose.yml):
 #   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+# или одной командой с установкой Docker: bash deploy/install.sh (см. README, «Публикация в интернете»).
 # В .env на сервере: DOMAIN=ваш-домен.kz, PUBLIC_URL=https://ваш-домен.kz, AUTH__TELEGRAM_BOT_TOKEN=...
+# DATABASE_URL (необязательно) — Postgres (Neon), который был у сайта на Vercel: тогда все пользователи, приглашения
+# и ответы гостей сразу на месте. Пусто — каждый сервис хранит данные в своём SQLite на диске сервера.
 # Снаружи открыты только 80 и 443 (Caddy); шлюз доступен лишь внутри сети Docker.
 services:
   gateway:
@@ -11,6 +14,31 @@ services:
   auth:
     environment:
       COOKIE_SECURE: "1"
+      PUBLIC_URL: ${PUBLIC_URL:?укажите PUBLIC_URL в .env}
+      DATABASE_URL: ${DATABASE_URL:-}
+      # бот работает через long-polling; webhook, оставшийся от Vercel, снимается сам
+      TELEGRAM_TAKEOVER: "1"
+
+  # шаблоны и музыка скачиваются из Google Drive при сборке образа (как на Vercel) — папку content заполнять не нужно
+  catalog:
+    build:
+      context: ./services/catalog
+      dockerfile: Dockerfile.vercel
+    volumes: !reset []
+
+  invitations:
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-}
+
+  guests:
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-}
+
+  # фото альбомов: новые — на диск сервера (том album-data); старые, загруженные на Vercel, остаются по своим адресам Blob
+  album:
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-}
+      BLOB_READ_WRITE_TOKEN: ${BLOB_READ_WRITE_TOKEN:-}
 
   caddy:
     image: caddy:2-alpine

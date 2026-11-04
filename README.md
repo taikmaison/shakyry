@@ -125,13 +125,19 @@ Netlify и статический хостинг Render не подходят: �
 стоять в Казахстане; там же по закону РК должны храниться персональные данные пользователей.
 
 1. A-запись домена (и `www`) → IP сервера.
-2. `git clone` проекта на сервер, затем шаблоны и медиа: `CONTENT_URL=<ссылка на архив в Google Drive>` в `.env` и
-   `docker run --rm -v "$PWD/services/catalog:/c" -w /c --env-file .env node:24-alpine node tools/fetch-content.js`
-   (подробнее — `services/catalog/content/README.md`).
-3. В `.env` на сервере: `DOMAIN=ваш-домен.kz`, `PUBLIC_URL=https://ваш-домен.kz`, `AUTH__TELEGRAM_BOT_TOKEN=...`.
-4. Запуск: `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build`.
-   Caddy сам получит HTTPS-сертификат; шлюз наружу не открыт.
-5. Войти через Telegram и назначить админа: `docker compose exec auth node tools/make-admin.js @ваш_ник`.
+2. На сервере (root): `mkdir -p /opt/shakyry && nano /opt/shakyry/.env` — вставить настройки:
+   `DOMAIN=ваш-домен.kz`, `PUBLIC_URL=https://ваш-домен.kz`, `AUTH__TELEGRAM_BOT_TOKEN=...`, по желанию `CONTACT_WHATSAPP`,
+   `PAYMENT_DETAILS`, `SITE_NAME` и `DATABASE_URL` (см. ниже).
+3. Установка одной командой (ставит Docker, берёт код из GitHub, собирает и запускает; повтор — обновление):
+   `curl -fsSL https://raw.githubusercontent.com/taikmaison/shakyry/main/deploy/install.sh | bash`.
+   Шаблоны и музыка скачиваются из Google Drive при сборке образа catalog (ссылки — в `services/catalog/Dockerfile.vercel`).
+   Caddy сам получит HTTPS-сертификат, как только домен укажет на сервер; шлюз наружу не открыт.
+4. Админ: `cd /opt/shakyry && docker compose exec auth node tools/make-admin.js @ваш_ник` (при `DATABASE_URL` от Vercel не нужно — админ уже в базе).
+
+Переезд с Vercel без переноса данных: `DATABASE_URL` в `.env` — адрес той же базы Neon (Vercel → Storage → база → `.env.local`),
+тогда пользователи, приглашения и ответы гостей сразу на месте. Бот работает через long-polling (`TELEGRAM_TAKEOVER=1`
+в `docker-compose.prod.yml`): webhook, оставшийся от Vercel, снимается сам. Фото альбомов: старые остаются по адресам
+Vercel Blob, новые сохраняются на диск сервера. Без `DATABASE_URL` каждый сервис хранит данные в своём SQLite.
 
 Резервная копия — тома `auth-data`, `invitations-data`, `guests-data`, `album-data`.
 
