@@ -61,8 +61,10 @@ docker image prune -f >/dev/null || true
 
 say "Проверка"
 ok=""
+# </dev/null обязателен: скрипт запускают как «curl … | bash», и без него docker compose exec читает stdin —
+# то есть остаток этого скрипта: дальше ничего не выполнялось, и неудачный запуск выглядел как успешный
 for i in $(seq 1 30); do
-  if $DC exec -T gateway wget -qO- http://127.0.0.1:3000/api/templates >/dev/null 2>&1; then ok=1; break; fi
+  if $DC exec -T gateway wget -qO- http://127.0.0.1:3000/api/templates >/dev/null 2>&1 </dev/null; then ok=1; break; fi
   sleep 2
 done
 $DC ps --format 'table {{.Service}}\t{{.Status}}'
