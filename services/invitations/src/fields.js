@@ -1,8 +1,8 @@
 // Поля приглашения: что принимаем от пользователя и как проверяем
-const FIELDS = ['template_id', 'title', 'name1', 'name2', 'age', 'date', 'time', 'city', 'address',
+const FIELDS = ['template_id', 'title', 'name1', 'name2', 'age', 'date', 'time', 'time_label', 'time2', 'time2_label', 'city', 'address',
   'map_link', 'hosts', 'invite_text', 'music'];
 // длина подобрана под рамки шаблонов: длиннее текст в рамку уже не помещается
-const LIMITS = { title: 80, name1: 40, name2: 40, age: 3, city: 60, address: 200, map_link: 500, hosts: 120, invite_text: 600, music: 200 };
+const LIMITS = { title: 80, name1: 40, name2: 40, age: 3, time_label: 40, time2_label: 40, city: 60, address: 200, map_link: 500, hosts: 120, invite_text: 600, music: 200 };
 
 class FieldError extends Error {}
 
@@ -29,7 +29,8 @@ function cleanFields(input) {
     if (!Number.isInteger(f.template_id) || f.template_id <= 0) throw new FieldError('Неверный ID шаблона');
   }
   if (f.date && !validDate(f.date)) throw new FieldError('Неверная дата: нужен формат ГГГГ-ММ-ДД');
-  if (f.time && !/^([01]\d|2[0-3]):[0-5]\d$/.test(f.time)) throw new FieldError('Неверное время: нужен формат ЧЧ:ММ');
+  for (const k of ['time', 'time2'])
+    if (f[k] && !/^([01]\d|2[0-3]):[0-5]\d$/.test(f[k])) throw new FieldError('Неверное время: нужен формат ЧЧ:ММ');
   if (f.age && !/^\d{1,3}$/.test(f.age)) throw new FieldError('Возраст — число');
   if (f.map_link && !/^https?:\/\//i.test(f.map_link)) f.map_link = 'https://' + f.map_link;
   if (f.map_link) {

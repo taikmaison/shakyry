@@ -20,7 +20,7 @@
 | Метод | Путь | Кто | Что делает |
 |---|---|---|---|
 | GET | `/api/invitations` | вошедший | мои приглашения и те, где я получатель ответов (`shared: true`) |
-| POST | `/api/invitations` | вошедший | сохранить черновик `{template_id, title, name1, name2, age, date, time, city, address, map_link, hosts, invite_text, music}` |
+| POST | `/api/invitations` | вошедший | сохранить черновик `{template_id, title, name1, name2, age, date, time, time_label, time2, time2_label, city, address, map_link, hosts, invite_text, music}` |
 | PUT | `/api/invitations/:id` | владелец | изменить (статус снова `draft`) |
 | POST | `/api/invitations/:id/submit` | владелец | на публикацию `{agree: true}` — согласие с правилами (публикация платная) обязательно, время хранится в `terms_accepted_at`; админу уходит уведомление |
 | GET | `/api/invitations/:id` | все | только одобренная версия, иначе 404 |

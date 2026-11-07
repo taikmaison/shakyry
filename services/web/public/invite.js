@@ -435,7 +435,10 @@
       el('div', { class: 'wd', text: t('wdFull', lang)[weekday(p.y, p.m, p.d)] }),
       el('div', { class: 'row' }, el('div', { class: 'side', text: t('months', lang)[p.m - 1] }), el('div', { class: 'day', text: String(p.d) }), el('div', { class: 'side', text: String(p.y) })),
     );
-    if (time) node.append(el('div', { class: 'tm', text: `${t('at', lang)} ${time}` }));
+    // расписание (собрано каталогом): «18:00 Беташар той», «20:00 Үйлену той» — вместо одной строки со временем
+    if (Array.isArray(d.schedule)) {
+      if (d.schedule.length) node.append(el('div', { class: 'slots' }, d.schedule.flatMap(s => [el('div', { class: 'tm', text: s.time }), el('div', { class: 'lb', text: s.label })])));
+    } else if (time) node.append(el('div', { class: 'tm', text: `${t('at', lang)} ${time}` }));
     return node;
   };
 

@@ -7,6 +7,8 @@
 //            (готовый текст шаблона вместо незаполненного INVITE_TEXT)
 //   кнопка карты: https://example.com или ссылка на 2GIS / Google Maps
 //   дата: timer.event_date, calendar-pro.event_date/event_time, calendar.event_dates[0], scroll-timeline
+//   два времени: calendar-pro с data.schedule: true — строки «18:00 Беташар той», «20:00 Үйлену той»
+//            (поля time + time_label, time2 + time2_label; пустая подпись — из примера шаблона, без времени строки нет)
 //   музыка: audio-fixed.audio_url, audio.audio_url
 
 const TEXT_TOKENS = {
@@ -23,7 +25,7 @@ const LONE_DATE = /^\d{1,2}[.\/]\d{1,2}[.\/]\d{4}$/;   // «22.12.2026» — ч�
 // «жених & невеста» встречается и внутри строки
 const INLINE = /(^|[^\p{L}])(жених|невеста|Жених|Невеста)(?=$|[^\p{L}])/gu;
 const MAP_URL = /example\.com|2gis\.|google\.[a-z.]+\/(maps|\?q=)|maps\.google|maps\.app\.goo\.gl|goo\.gl\/maps|yandex\.[a-z]+\/maps/i;
-const FIELDS = ['title', 'name1', 'name2', 'age', 'date', 'time', 'city', 'address', 'map_link', 'hosts', 'invite_text', 'music'];
+const FIELDS = ['title', 'name1', 'name2', 'age', 'date', 'time', 'time_label', 'time2', 'time2_label', 'city', 'address', 'map_link', 'hosts', 'invite_text', 'music'];
 const FIELD_OF = { _name1_gen: 'name1' };   // производная метка → поле формы
 
 // Примеры для превью и подсказок в форме — свои, нейтральные
@@ -133,6 +135,7 @@ function tokensOf(tpl) {
     }
     if (c.type === 'button' && (!d.url || MAP_URL.test(d.url))) { found.add('map_link'); found.add('city'); found.add('address'); }
     if (c.type === 'audio' || c.type === 'audio-fixed') found.add('music');
+    if (c.type === 'calendar-pro' && d.schedule) { found.add('time_label'); found.add('time2'); }
   }
   found.delete('_date'); found.delete('_time');
   // дату выбирает сам гость (приглашение на свидание) — в форме её нет
@@ -152,6 +155,7 @@ function sanitize(input = {}) {
   }
   if (f.date && !/^\d{4}-\d{2}-\d{2}$/.test(f.date)) delete f.date;
   if (f.time && !/^\d{2}:\d{2}$/.test(f.time)) delete f.time;
+  if (f.time2 && !/^\d{2}:\d{2}$/.test(f.time2)) delete f.time2;
   if (f.map_link && !/^https?:\/\//i.test(f.map_link)) delete f.map_link;
   if (f.music && !/^\/media\/[0-9a-f]{2}\/[0-9a-f]+\.(mp3|m4a|ogg|wav)$/i.test(f.music)) delete f.music;
   return f;
@@ -198,6 +202,11 @@ function fill(tpl, f) {
           break;
         case 'calendar-pro':
           if (iso) { data.event_date = iso; data.event_time = time; }
+          if (data.schedule) {
+            const ex = tpl.sample || {};
+            data.schedule = [[time, f.time_label || ex.time_label], [f.time2, f.time2_label || ex.time2_label]]
+              .filter(([at]) => at).map(([at, label]) => ({ time: at, label: label || '' }));
+          }
           break;
         case 'calendar':
           if (iso) {

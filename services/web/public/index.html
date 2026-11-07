@@ -161,6 +161,11 @@
           <div data-f="date"><label for="f_date">Дата</label><input id="f_date" name="date" type="date" min="2000-01-01" max="2100-12-31"></div>
           <div><label for="f_time">Время</label><input id="f_time" name="time" type="time" value="18:00"></div>
         </div>
+        <div data-f="time_label" data-rare class="hidden"><label for="f_time_label">Что начинается в первое время</label><input id="f_time_label" name="time_label" maxlength="40"></div>
+        <div data-f="time2" data-rare class="row hidden">
+          <div><label for="f_time2">Второе время</label><input id="f_time2" name="time2" type="time"></div>
+          <div><label for="f_time2_label">Что начинается</label><input id="f_time2_label" name="time2_label" maxlength="40"></div>
+        </div>
         <div data-f="city"><label for="f_city">Город</label><input id="f_city" name="city" maxlength="60"></div>
         <div data-f="address"><label for="f_address">Адрес / место</label><textarea id="f_address" name="address" maxlength="200" style="min-height:64px"></textarea></div>
         <div data-f="map_link"><label for="f_map">Ссылка на карту (2GIS, Google Maps…) — если не указать, будет поиск адреса в 2GIS</label><input id="f_map" name="map_link" inputmode="url" maxlength="500" placeholder="go.2gis.com/…"></div>
@@ -392,12 +397,14 @@ async function chooseTemplate(id) {
 function showFields(info) {
   const tokens = new Set(info ? info.tokens : []);
   const ex = (info && info.sample) || {};
-  for (const box of form.querySelectorAll('[data-f]')) box.classList.toggle('hidden', !!info && !tokens.has(box.dataset.f) && !form[box.dataset.f].value);
-  for (const f of ['title', 'name1', 'name2', 'age', 'city', 'address', 'hosts', 'invite_text'])
+  // data-rare — поля редких шаблонов (второе время): пока шаблон не выбран, не показываем
+  for (const box of form.querySelectorAll('[data-f]')) box.classList.toggle('hidden', (info ? !tokens.has(box.dataset.f) : box.dataset.rare != null) && !form[box.dataset.f].value);
+  for (const f of ['title', 'name1', 'name2', 'age', 'time_label', 'time2_label', 'city', 'address', 'hosts', 'invite_text'])
     form[f].placeholder = ex[f] ? 'напр.: ' + ex[f].replace(/\s+/g, ' ').slice(0, 80) : '';
   // у шаблона есть свой текст на случай пустого поля — показываем, что будет (имя в нём — из примера)
   if (info && info.default_text) form.invite_text.placeholder = 'Можно не заполнять — будет готовый текст шаблона с вашим именем, напр.: ' + info.default_text;
   const cat = info && info.category;
+  $('label[for=f_time]').textContent = tokens.has('time2') ? 'Первое время' : 'Время';
   $('#l_name1').textContent = cat === 'merey-sundet' ? 'Имя юбиляра (можно с возрастом: «Ерлан (50 жас)»)' : tokens.has('name2') ? 'Имя: жених' : cat === 'as_beru' ? 'Имя: марқұм (в память о ком ас)' : cat === 'svidanie' ? 'Имя: кого приглашаете' : 'Имя: виновник торжества';
   $('label[for=f_name2]').textContent = cat === 'merey-sundet' ? 'Имена мальчиков (сүндет той)' : 'Имя: невеста';
   $('label[for=f_hosts]').textContent = cat === 'as_beru' ? 'Ас иелері / организаторы' : cat === 'svidanie' ? 'Ваше имя (подпись в конце)' : 'Той иелері / организаторы';
