@@ -1314,6 +1314,17 @@
     const fit = Math.max(1, Math.floor(room / lh + 0.2));
     return lineCount(n, lh) > fit || n.scrollWidth > n.clientWidth + 2;
   }
+  // Слово шире рамки: в высокой рамке строк хватает, но word-break разрывает слово посреди («Muhammedkhal», ниже «i»).
+  // Число строк при этом может не меняться («Приглашени», ниже «е на свадьбу»), поэтому переполнение его не замечает.
+  // Ширину самого длинного слова даёт min-content при обычном переносе; меряем дробно: слово ровно по рамке не рвётся,
+  // а анимация с масштабом меняет обе ширины одинаково
+  function wordTooWide(n) {
+    const full = n.getBoundingClientRect().width, { width, wordBreak } = n.style;
+    n.style.width = 'min-content'; n.style.wordBreak = 'normal';
+    const word = n.getBoundingClientRect().width;
+    n.style.width = width; n.style.wordBreak = wordBreak;
+    return word > full + 0.05;
+  }
   // Какие тексты подгонять. Оригинал не уменьшает тексты никогда (лишнее просто обрезается рамкой),
   // поэтому подгоняем только подставленные данные пользователя:
   //  — если генератор пометил такие тексты (data.__fit), то только их;
@@ -1373,7 +1384,7 @@
         const pad = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
         grow(n.closest('.c'), lineCount(n, lh) * lh + pad + 2 - n.clientHeight);
       }
-      while (overflows(n) && size > min && guard++ < 60) {
+      while ((overflows(n) || wordTooWide(n)) && size > min && guard++ < 60) {
         size = Math.max(min, size - Math.max(0.5, size * 0.04));
         n.style.fontSize = size + 'px';
       }
