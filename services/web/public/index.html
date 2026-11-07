@@ -90,6 +90,7 @@
   dialog h3:first-child { margin-top: 0; }
   dialog .stack { display: flex; flex-direction: column; gap: 10px; }
   dialog .or { text-align: center; color: var(--muted); font-size: 13px; }
+  dialog .tgcmd { padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; font: 13px/1.35 ui-monospace, monospace; overflow-wrap: anywhere; user-select: all; }
   .ans { display: flex; flex-direction: column; gap: 8px; }
   .ans div { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; overflow-wrap: anywhere; }
   .ans small { display: block; color: var(--muted); }
@@ -198,7 +199,14 @@
     <h3 id="loginTitle">Вход</h3>
     <p class="muted" id="loginWhy">Войдите, чтобы сохранять приглашения и видеть ответы гостей. Регистрация происходит при первом входе.</p>
     <button class="btn primary" id="tgBtn" type="button">Войти через Telegram</button>
-    <p class="muted hidden" id="tgWait">Откройте бота в Telegram и нажмите «Start» — эта страница сама продолжит вход.</p>
+    <div class="stack hidden" id="tgWait">
+      <p class="muted">Откройте бота и нажмите «Start» — эта страница сама продолжит вход.</p>
+      <a class="btn primary" id="tgOpen" target="_blank" rel="noopener">Открыть Telegram</a>
+      <a class="btn ghost" id="tgWeb" target="_blank" rel="noopener">Открыть Telegram Web (в браузере)</a>
+      <p class="muted">Не открывается? Найдите в Telegram бота <b id="tgBot"></b> и отправьте ему это сообщение:</p>
+      <div class="tgcmd" id="tgCmd"></div>
+      <button class="btn ghost" id="tgCopy" type="button">Скопировать сообщение</button>
+    </div>
     <div class="or" id="orLine">или по почте</div>
     <div id="mailStep1" class="stack">
       <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" aria-label="Почта">
@@ -313,19 +321,37 @@ async function loggedIn(user) {
   if (next) next();
 }
 let tgTimer = null;
+function tgExpired() {
+  clearInterval(tgTimer);
+  $('#tgWait').classList.add('hidden');
+  $('#tgBtn').classList.remove('hidden');
+  setMsg($('#loginMsg'), 'err', 'Время входа истекло, попробуйте ещё раз');
+}
 $('#tgBtn').onclick = async () => {
   try {
     const r = await post('/api/auth/telegram/start');
-    window.open(r.url, '_blank');
+    // Сам браузер Telegram может не открыть: телефоны блокируют открытие после ответа сервера, а страница t.me
+    // ведёт только в установленное приложение. Поэтому в окне всегда есть настоящие ссылки и команда для бота:
+    // её можно отправить из любого Telegram, бот получает то же, что и при переходе по ссылке.
+    const name = new URL(r.url).pathname.slice(1), command = '/start ' + r.token;
+    $('#tgOpen').href = r.url;
+    $('#tgWeb').href = 'https://web.telegram.org/k/#?tgaddr=' + encodeURIComponent(`tg://resolve?domain=${name}&start=${r.token}`);
+    $('#tgBot').textContent = '@' + name;
+    $('#tgCmd').textContent = command;
+    $('#tgCopy').textContent = 'Скопировать сообщение';
+    $('#tgCopy').onclick = e => copyText(e.target, command);
+    $('#tgBtn').classList.add('hidden');
     $('#tgWait').classList.remove('hidden');
+    window.open(r.url, '_blank');
     clearInterval(tgTimer);
     const until = Date.now() + (r.expires_in || 600) * 1000;
     tgTimer = setInterval(async () => {
-      if (Date.now() > until || !$('#login').open) return clearInterval(tgTimer);
+      if (!$('#login').open) return clearInterval(tgTimer);
+      if (Date.now() > until) return tgExpired();
       try {
         const c = await api('/api/auth/telegram/check?token=' + encodeURIComponent(r.token));
         if (c.status === 'ok') { clearInterval(tgTimer); loggedIn(c.user); }
-      } catch (e) { if (e.status === 410) { clearInterval(tgTimer); setMsg($('#loginMsg'), 'err', 'Время входа истекло, попробуйте ещё раз'); } }
+      } catch (e) { if (e.status === 410) tgExpired(); }
     }, 2000);
   } catch (e) { setMsg($('#loginMsg'), 'err', esc(e.message)); }
 };
