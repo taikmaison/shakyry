@@ -205,11 +205,12 @@ createService('web', [
       .replace('<!--DATA-->', jsonScript('__ALBUM__', { lang, api: `/api/i/${x.id}/album`, invite: `/i/${x.id}` })));
   }],
 
-  // пример шаблона: ?shot — снимок для каталога, ?raw — шаблон как есть, с метками.
+  // пример шаблона: ?shot — снимок для каталога, ?raw — шаблон как есть, с метками,
+  // ?embed — для «телефона» предпросмотра в генераторе: с анимацией, но без полосы и текста под приглашением.
   // Индексируется только чистый адрес /t/<id>: ?raw и ?shot — noindex без canonical (и закрыты в robots.txt),
   // прочие параметры (utm, fbclid, igsh…) склеивает canonical; с лишним слешем или нулями — 301.
   ['GET', '/t/:id', async (req, res, { params, url }) => {
-    const raw = url.searchParams.has('raw'), shot = url.searchParams.has('shot');
+    const raw = url.searchParams.has('raw'), shot = url.searchParams.has('shot'), embed = url.searchParams.has('embed');
     const [info, page] = await Promise.all([
       lookup(CATALOG_API, `/api/templates/${encodeURIComponent(params.id)}`),
       renderTemplate(encodeURIComponent(params.id), raw ? { raw: true } : { sample: true }),
@@ -218,10 +219,10 @@ createService('web', [
     if (params.id !== String(info.id) || url.pathname.endsWith('/')) return send(res, 301, 'text/plain; charset=utf-8', '', { Location: `/t/${info.id}${url.search}` });
     const data = { mode: shot ? 'shot' : 'preview', ...page };
     const tpl = { id: info.id, category: info.category, lang: info.lang, price: info.price, currency: info.currency, features: featuresOf(page) };
-    let head = seo.templateHead({ config, tpl, fields: info.sample, url: abs(`/t/${info.id}`), image: ogImage(info.id), analytics: !(raw || shot) });
-    if (raw || shot) head = head.replace(/<meta name="robots"[^>]*>/g, '').replace(/<link rel="canonical"[^>]*>/, '') + '<meta name="robots" content="noindex">';
+    let head = seo.templateHead({ config, tpl, fields: info.sample, url: abs(`/t/${info.id}`), image: ogImage(info.id), analytics: !(raw || shot || embed) });
+    if (raw || shot || embed) head = head.replace(/<meta name="robots"[^>]*>/g, '').replace(/<link rel="canonical"[^>]*>/, '') + '<meta name="robots" content="noindex">';
     // видимый текст страницы: полоса с кнопкой и блок под приглашением (не для снимков и не для ?raw)
-    const extras = raw || shot ? null : seo.templateExtras({ config, tpl, fields: info.sample, catalog: await catalog() });
+    const extras = raw || shot || embed ? null : seo.templateExtras({ config, tpl, fields: info.sample, catalog: await catalog() });
     invitePage(res, data, head + (extras ? '<link rel="stylesheet" href="/tbar.css">' : ''), extras ? extras.top : '', extras ? extras.bottom : '');
   }],
 

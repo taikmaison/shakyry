@@ -17,3 +17,23 @@
    (без этого имена и заголовки шли Arial) */
 @font-face{font-family:"BickhamScriptPro3-Regular";src:url("/fonts/Bickham_Script_Pro_Regular.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;}
 @font-face{font-family:"BickhamScriptPro3-Regular";src:url("/fonts/_AsylbekM02Shelley.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;unicode-range:U+0400-04FF;}
+/* Шрифты, файлов которых нет нигде: у shaqyru24 их адреса с пробелом (« Corvetta.ttf») отдают 404, и надписи шли Arial
+   («Wedding day» на превью). Подставлены свои шрифты того же характера, все с казахскими буквами:
+   KZ Boyarsky (70, 81, 110, 111, 147, 375, 376) и KZKonungDan-Regular (281) — тот же vFKBoyarsky */
+@font-face{font-family:"KZ Boyarsky";src:url("/fonts/vFKBoyarsky.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;}
+@font-face{font-family:"KZKonungDan-Regular";src:url("/fonts/vFKBoyarsky.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;}
+/* KZKlementina (424) = KZKlementina-Regular */
+@font-face{font-family:"KZKlementina";src:url("/fonts/KZKlementina-Regular.otf") format("opentype");font-style:normal;font-weight:normal;font-display:swap;}
+/* KZ_Sign_Painter_kz — кистевой рукописный (57, 58, 71, 72, 82–85, 90, 94, 96, 97, 174, 175, 277) → Kz_DessertScript_kz */
+@font-face{font-family:"KZ_Sign_Painter_kz";src:url("/fonts/Kz_DessertScript_kz.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;}
+/* Miama-Nueva, MiamaNuevaKZ — тонкая каллиграфия (307, 322, 361–363, 374, 408) → KZGoodVibes */
+@font-face{font-family:"Miama-Nueva";src:url("/fonts/KZGoodVibes.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;}
+@font-face{font-family:"MiamaNuevaKZ";src:url("/fonts/KZGoodVibes.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;}
+/* Corvetta — каллиграфический (357, 359) → KZ-Ceremonious-One */
+@font-face{font-family:"Corvetta";src:url("/fonts/KZ-Ceremonious-One.ttf") format("truetype");font-style:normal;font-weight:normal;font-display:swap;}
+/* Kz-Ametist — декоративный (412, 416, 419) → KZ-Decor */
+@font-face{font-family:"Kz-Ametist";src:url("/fonts/KZ-Decor.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;}
+/* Fk Arabik.kz — «восточный» (248, 326) → KZ_Tangak */
+@font-face{font-family:"Fk Arabik.kz";src:url("/fonts/KZ_Tangak.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;}
+/* AliceRegular — с засечками (431, 439) → Marcellus */
+@font-face{font-family:"AliceRegular";src:url("/fonts/Marcellus-Regular.woff2") format("woff2");font-style:normal;font-weight:normal;font-display:swap;}

@@ -17,29 +17,31 @@
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
   header { padding: 18px 24px 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
-  header h1 { margin: 0; font-size: 22px; }
+  header h1 { margin: 0; font-size: 19px; white-space: nowrap; }
+  header h1 span { font-weight: 500; color: var(--muted); }
+  @media (max-width: 1240px) { header h1 span { display: none; } }
+  header .steps { display: flex; align-items: center; gap: 10px; margin-left: 12px; }
   header .top-acts { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   header .who { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-height: 34px; }   /* место под кнопку входа до ответа сервера */
-  main { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 20px; padding: 12px 24px 40px; align-items: start; }
+  main { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 20px; padding: 12px 24px 40px; align-items: start; }
   @media (max-width: 960px) { main { grid-template-columns: 1fr; padding: 12px 16px 40px; } header { padding: 16px 16px 4px; } }
   section { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; min-width: 0; }
   h2 { margin: 0 0 12px; font-size: 17px; }
-  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-  .filters select, .filters input { flex: 1 1 140px; }
+  .filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-bottom: 12px; }
+  .filters select, .filters input { flex: 0 1 170px; padding: 7px 10px; }
   input, select, textarea { width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font: inherit; }
   textarea { min-height: 96px; resize: vertical; }
   input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, a:focus-visible, .tpl:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; max-height: 78vh; overflow: auto; padding: 2px; }
-  @media (max-width: 960px) { .grid { max-height: none; overflow: visible; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); } }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; max-height: calc(100vh - 175px); min-height: 420px; overflow: auto; padding: 2px; }
+  @media (max-width: 960px) { .grid { max-height: none; min-height: 0; overflow: visible; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } }
   .tpl { border: 2px solid transparent; border-radius: 12px; background: var(--bg); cursor: pointer; overflow: hidden; display: flex; flex-direction: column; }
   .tpl.sel { border-color: var(--accent); }
   .tpl .pic { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; object-position: top; display: grid; place-items: center; background: var(--line); color: var(--muted); font-size: 13px; }
   .tpl { position: relative; }
   .tpl .price { position: absolute; top: 8px; right: 8px; padding: 3px 9px; border-radius: 999px; background: var(--card); color: var(--ink); font-weight: 700; font-size: 13px; font-variant-numeric: tabular-nums; box-shadow: 0 1px 4px rgba(0,0,0,.18); }
-  .custom { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; padding: 12px 14px; margin-bottom: 14px; border-radius: 12px; background: var(--accent-soft); }
-  .custom div { min-width: 0; flex: 1 1 240px; }
-  .custom b { display: block; }
-  #waNum { white-space: nowrap; font-weight: 600; }
+  .custom { margin: 0 0 0 auto; font-size: 14px; color: var(--muted); }
+  .custom a { color: #1f8f4e; font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .custom a:hover { text-decoration: underline; }
   .btn.wa { background: #1f8f4e; border-color: #1f8f4e; color: #fff; text-decoration: none; white-space: nowrap; }
   .tpl .meta { padding: 7px 9px 9px; font-size: 13px; display: flex; justify-content: space-between; gap: 6px; align-items: center; }
   .tpl .meta b { font-size: 14px; }
@@ -61,8 +63,49 @@
   .msg.err { display: block; background: color-mix(in srgb, var(--danger) 14%, transparent); color: var(--danger); }
   .msg.ok { display: block; background: color-mix(in srgb, var(--ok) 14%, transparent); }
   .msg a { color: var(--accent); font-weight: 600; word-break: break-all; }
-  .side { position: sticky; top: 12px; display: flex; flex-direction: column; gap: 20px; }
-  @media (max-width: 960px) { .side { position: static; } }
+  /* два шага: 1 — выбор шаблона, 2 — данные; справа «телефон» с предпросмотром */
+  .stepbar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 10px; padding: 10px 24px; background: var(--bg); border-bottom: 1px solid var(--line); }
+  .stepbar .st { display: inline-flex; align-items: center; gap: 8px; padding: 4px 2px; border: 0; background: none; color: var(--muted); font: inherit; font-weight: 600; cursor: pointer; }
+  .stepbar .st i { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--line); font-style: normal; font-size: 13px; }
+  .stepbar .st.on { color: var(--ink); }
+  .stepbar .st.on i { background: var(--ink); color: var(--bg); }
+  .stepbar .st:disabled { cursor: default; opacity: .6; }
+  .stepbar .st-line { width: 32px; height: 1px; background: var(--line); }
+  .stepbar .next { border-radius: 999px; padding: 9px 20px; }
+  body.step2 .stepbar .next, body:not(.step2) #formBox, body.step2 #catBox { display: none; }
+  .back { margin-bottom: 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .chips button { padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--ink); font: inherit; font-size: 14px; cursor: pointer; }
+  .chips button span { margin-left: 4px; color: var(--muted); font-size: 12px; }
+  .chips button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); font-weight: 600; }
+  .pv { position: sticky; top: 72px; display: flex; flex-direction: column; gap: 10px; }
+  .pv-k { margin-top: 4px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .pv h2 { margin: 0; }
+  .phone { position: relative; align-self: center; width: 300px; height: 620px; border: 10px solid #141210; border-radius: 40px; overflow: hidden; background: var(--bg); box-shadow: 0 12px 30px rgba(0, 0, 0, .18); }
+  /* приглашение свёрстано под ширину телефона 390px — уменьшаем целиком, а не сжимаем */
+  .phone iframe { position: absolute; top: 0; left: 0; width: 390px; height: 836px; border: 0; transform: scale(.718); transform-origin: 0 0; background: var(--bg); }
+  .pv-empty { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: var(--muted); font-size: 14px; }
+  .pv-empty[hidden] { display: none; }
+  .pv-open { width: 100%; border-radius: 999px; }
+  .chips .more { border-style: dashed; color: var(--accent); }
+  .mybox { margin: 0 24px 20px; }
+  @media (max-height: 760px) { .phone { width: 260px; height: 540px; } .phone iframe { transform: scale(.615); height: 846px; } }
+  @media (max-width: 960px) {
+    .pv { display: none; }
+    .stepbar { padding: 8px 16px; }
+    header .steps { order: 3; flex-basis: 100%; margin-left: 0; }
+    .filters select, .filters input { flex: 1 1 120px; }
+    .custom { flex-basis: 100%; margin: 0; }
+    .mybox { margin: 0 16px 20px; }
+    /* на телефоне кнопка «Выбрать» — внизу экрана, когда шаблон отмечен */
+    .stepbar .next { position: fixed; left: 16px; right: 16px; bottom: 14px; z-index: 20; margin: 0; padding: 14px; box-shadow: 0 6px 20px rgba(0, 0, 0, .25); }
+    body:not(.picked) .stepbar .next { display: none; }
+    body.picked:not(.step2) main { padding-bottom: 84px; }
+    /* поводы — одной строкой с прокруткой вбок */
+    .chips { flex-wrap: nowrap; overflow-x: auto; margin: 0 -18px 12px; padding: 0 18px 2px; scrollbar-width: none; }
+    .chips::-webkit-scrollbar { display: none; }
+    .chips button { flex: none; }
+  }
   .inv { padding: 12px 0; border-top: 1px solid var(--line); }
   .inv:first-of-type { border-top: 0; }
   .inv .t { font-weight: 600; overflow-wrap: anywhere; }
@@ -100,9 +143,6 @@
   .sum b { display: block; font-size: 20px; font-variant-numeric: tabular-nums; }
   @media (max-width: 480px) { .sum { grid-template-columns: repeat(2, 1fr); } }
   /* ссылки на посадочные страницы: строка под шапкой и низ страницы (для посетителей из поиска и поисковиков) */
-  .occ { margin: 0 24px 6px; }
-  .occ a { color: var(--accent); }
-  @media (max-width: 960px) { .occ { margin: 0 16px 6px; } }
   .sitefoot { margin: 8px 24px 0; padding: 18px 0 32px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
   @media (max-width: 960px) { .sitefoot { margin: 8px 16px 0; } }
   .sitefoot nav + nav { margin-top: 12px; }
@@ -116,34 +156,34 @@
 </style>
 </head>
 <body>
-<header>
-  <h1>Shakyry.kz — онлайн-приглашения на той</h1>
-  <span class="muted">Выберите шаблон, заполните поля — получите ссылку-приглашение для WhatsApp и Telegram</span>
+<header class="stepbar">
+  <h1>Shakyry.kz<span> — онлайн-приглашения на той</span></h1>
+  <nav class="steps" aria-label="Шаги">
+    <button type="button" class="st on" data-step="1"><i>1</i>Шаблоны</button>
+    <span class="st-line" aria-hidden="true"></span>
+    <button type="button" class="st" data-step="2" disabled><i>2</i>Настройка</button>
+  </nav>
   <div class="top-acts">
     <button class="btn ghost" type="button" id="rulesBtn">Как опубликовать</button>
     <div class="who" id="who"></div>
+    <button type="button" class="btn primary next" id="nextBtn" disabled>Выбрать →</button>
   </div>
 </header>
-<p class="muted occ">Поводы: <a href="/ru/wedding/">свадьба</a>, <a href="/ru/bachelorette/">кыз узату</a>, <a href="/ru/merey/">юбилей</a>, <a href="/ru/sundet/">сундет той</a>, <a href="/ru/birthday/">день рождения</a> · <a href="/ru/">все поводы</a> · <a href="/kz/" lang="kk" hreflang="kk">Қазақша</a></p>
 <main>
-  <section>
-    <h2>1. Шаблон</h2>
-    <div class="custom hidden" id="custom">
-      <div><b>Нужен индивидуальный дизайн?</b><span class="muted">Сделаем приглашение по вашей идее — напишите в WhatsApp: <span id="waNum"></span></span></div>
-      <a class="btn wa" id="waLink" target="_blank" rel="noopener">Написать в WhatsApp</a>
-    </div>
+  <section id="catBox">
+    <div class="chips" id="fCat" role="group" aria-label="Повод"></div>
     <div class="filters">
-      <select id="fCat" aria-label="Повод"><option value="">Все поводы</option></select>
       <select id="fLang" aria-label="Язык"><option value="">Все языки</option><option value="kz">Қазақша</option><option value="ru">Русский</option></select>
       <input id="fId" type="search" inputmode="numeric" placeholder="ID шаблона" aria-label="ID шаблона">
+      <p class="custom hidden" id="custom">Свой дизайн? <a id="waLink" target="_blank" rel="noopener">WhatsApp <span id="waNum"></span></a></p>
     </div>
     <div id="grid" class="grid"></div>
     <p id="count" class="muted"></p>
   </section>
 
-  <div class="side">
     <section id="formBox">
-      <h2 id="formTitle">2. Данные приглашения</h2>
+      <button class="btn ghost back" type="button" id="backBtn">← Другой шаблон</button>
+      <h2 id="formTitle">Данные приглашения</h2>
       <form id="form" autocomplete="off" novalidate>
         <input type="hidden" name="id">
         <div class="chosen">
@@ -187,12 +227,17 @@
       </form>
     </section>
 
-    <section>
-      <h2>Мои приглашения</h2>
-      <div id="list" class="muted"></div>
-    </section>
-  </div>
+  <aside class="pv" id="pv" aria-label="Предпросмотр">
+    <div class="pv-k">Предпросмотр</div>
+    <h2 id="pvTitle">Шаблон не выбран</h2>
+    <div class="phone"><iframe id="pvFrame" name="pvFrame" title="Предпросмотр приглашения" hidden></iframe><div class="pv-empty" id="pvEmpty">Нажмите на шаблон слева — он появится здесь</div></div>
+    <a class="btn primary pv-open hidden" id="pvOpen" target="_blank" rel="noopener">Открыть полностью</a>
+  </aside>
 </main>
+<section class="mybox">
+  <h2>Мои приглашения</h2>
+  <div id="list" class="muted"></div>
+</section>
 <!--FOOTER-->
 
 <dialog id="login" aria-labelledby="loginTitle">
@@ -376,8 +421,29 @@ $('#mailVerify').onclick = async () => {
 
 // ---------- шаблоны ----------
 const special = {};   // шаблоны по заказу, найденные по номеру (в каталоге их нет)
+let catVal = '', catsOpen = false;
+const CHIPS_TOP = 8;   // сколько поводов видно сразу, остальные — под «Ещё»
+// поводы кнопками: «Все» и поводы по числу шаблонов
+function renderChips() {
+  const n = {};
+  for (const t of templates) n[t.category] = (n[t.category] || 0) + 1;
+  const all = Object.keys(n).sort((a, b) => n[b] - n[a]);
+  let cats = catsOpen ? all : all.slice(0, CHIPS_TOP);
+  if (catVal && !cats.includes(catVal)) cats = [...cats, catVal];
+  const more = document.createElement('button');
+  more.type = 'button'; more.className = 'more';
+  more.textContent = catsOpen ? 'Свернуть' : `Ещё ${all.length - cats.length} ▾`;
+  more.onclick = () => { catsOpen = !catsOpen; renderChips(); };
+  $('#fCat').replaceChildren(...[['', 'Все', templates.length], ...cats.map(c => [c, CAT[c] || c, n[c]])].map(([v, name, k]) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.setAttribute('aria-pressed', String(v === catVal));
+    b.title = name; b.append(name.split(' / ').pop()); const s = document.createElement('span'); s.textContent = k; b.append(s);
+    b.onclick = () => { catVal = v; renderChips(); renderGrid(); $('#grid').scrollTop = 0; };
+    return b;
+  }), ...(all.length > CHIPS_TOP ? [more] : []));
+}
 function renderGrid() {
-  const cat = $('#fCat').value, lang = $('#fLang').value, q = $('#fId').value.trim();
+  const cat = catVal, lang = $('#fLang').value, q = $('#fId').value.trim();
   let list = templates.filter(t => (!cat || t.category === cat) && (!lang || t.lang === lang) && (!q || String(t.id).includes(q)));
   // шаблон по заказу находится по точному номеру
   if (/^\d{4,}$/.test(q) && !templates.some(t => String(t.id) === q)) {
@@ -398,11 +464,9 @@ function renderGrid() {
     const a = meta.querySelector('a'); a.href = '/t/' + t.id; a.onclick = e => e.stopPropagation();
     el.append(pic(t, 'pic', n), meta);
     if (t.price != null) { const pr = document.createElement('span'); pr.className = 'price'; pr.textContent = money(t); el.append(pr); }
-    const choose = () => {
-      form.template_id.value = t.id; chooseTemplate(t.id); renderGrid();
-      if (matchMedia('(max-width: 960px)').matches) $('#formBox').scrollIntoView({ behavior: 'smooth' });
-    };
+    const choose = () => { form.template_id.value = t.id; chooseTemplate(t.id); renderGrid(); };
     el.onclick = choose;
+    el.ondblclick = () => setStep(2);
     el.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choose(); } };
     return el;
   }));
@@ -415,6 +479,7 @@ async function chooseTemplate(id) {
     try { info = await api('/api/templates/' + id); t = { id: info.id, category: info.category, lang: info.lang, price: info.price, currency: info.currency, preview: info.preview, special: true }; } catch { info = null; }
   }
   $('#chPic').replaceWith(Object.assign(pic(t), { id: 'chPic' }));
+  picked(t);
   if (!t) { $('#chInfo').textContent = id ? 'Нет такого шаблона' : 'Выберите шаблон слева или введите ID'; current = null; return showFields(null); }
   $('#chInfo').textContent = (t.special ? 'Шаблон по заказу · ' : '') + (CAT[t.category] || t.category) + ' · ' + (t.lang === 'ru' ? 'русский' : 'қазақша') + (t.price != null ? ' · ' + money(t) : '');
   if (!info) { try { info = await api('/api/templates/' + id); } catch { info = null; } }
@@ -443,14 +508,53 @@ function counter() {
   $('#cnt').title = n > 450 ? 'Длинный текст будет мельче — рамка шаблона ограничена' : '';
 }
 
-// ---------- предпросмотр без сохранения ----------
-$('#previewBtn').onclick = () => {
+// ---------- шаги и «телефон» предпросмотра ----------
+// шаг 1 — пример шаблона (/t/<id>?embed), шаг 2 — приглашение с данными формы (POST /preview в тот же iframe)
+const wide = () => !matchMedia('(max-width: 960px)').matches;
+function picked(t) {
+  const id = t ? t.id : null;
+  document.body.classList.toggle('picked', !!id);
+  $('#nextBtn').disabled = !id;
+  $('#nextBtn').textContent = id ? `Выбрать №${id} →` : 'Выбрать →';
+  $('.st[data-step="2"]').disabled = !id;
+  showPreview();
+}
+function setStep(n) {
+  if (n === 2 && !document.body.classList.contains('picked')) return;
+  document.body.classList.toggle('step2', n === 2);
+  for (const b of document.querySelectorAll('.st')) b.classList.toggle('on', Number(b.dataset.step) === n);
+  window.scrollTo({ top: 0 });
+  showPreview();
+}
+let pvShown = '';
+function showPreview() {
+  const id = document.body.classList.contains('picked') ? form.template_id.value : '', step2 = document.body.classList.contains('step2');
+  $('#pvTitle').textContent = !id ? 'Шаблон не выбран' : step2 ? 'Ваше приглашение' : `Шаблон №${id}`;
+  $('#pvEmpty').hidden = !!id; $('#pvFrame').hidden = !id; $('#pvOpen').classList.toggle('hidden', !id);
+  if (!id || !wide()) return;
+  $('#pvOpen').href = '/t/' + id;
+  if (step2) return postPreview('pvFrame');
+  if (pvShown !== 't' + id) { pvShown = 't' + id; $('#pvFrame').src = `/t/${id}?embed`; }
+}
+function postPreview(target) {
   if (!form.template_id.value) return setMsg($('#msg'), 'err', 'Выберите шаблон');
+  if (target === 'pvFrame') pvShown = 'form';
   const f = document.createElement('form');
-  f.method = 'POST'; f.action = '/preview'; f.target = '_blank'; f.hidden = true;
+  f.method = 'POST'; f.action = '/preview'; f.target = target; f.hidden = true;
   for (const [k, v] of new FormData(form)) { if (k === 'id') continue; const i = document.createElement('input'); i.name = k; i.value = v; f.append(i); }
   document.body.append(f); f.submit(); f.remove();
-};
+}
+$('#previewBtn').onclick = () => postPreview('_blank');
+$('#pvOpen').onclick = e => { if (document.body.classList.contains('step2')) { e.preventDefault(); postPreview('_blank'); } };
+$('#nextBtn').onclick = () => setStep(2);
+$('#backBtn').onclick = () => setStep(1);
+for (const b of document.querySelectorAll('.st')) b.onclick = () => setStep(Number(b.dataset.step));
+// данные меняются — телефон обновляется (после паузы, чтобы не перезагружать на каждую букву)
+let pvTimer = null;
+form.addEventListener('input', () => {
+  if (!document.body.classList.contains('step2') || !wide()) return;
+  clearTimeout(pvTimer); pvTimer = setTimeout(() => postPreview('pvFrame'), 900);
+});
 
 // ---------- мои приглашения ----------
 async function loadList() {
@@ -628,7 +732,7 @@ function toggleViewers(x, item) {
 
 function editing(id, cancelText = 'Отменить редактирование') {
   form.id.value = id;
-  $('#formTitle').textContent = '2. Редактирование';
+  $('#formTitle').textContent = 'Редактирование';
   $('#submit').textContent = 'Сохранить изменения';
   $('#cancelEdit').textContent = cancelText;
   $('#cancelEdit').classList.remove('hidden');
@@ -639,13 +743,12 @@ function startEdit(x) {
   editing(x.id);
   setMsg($('#msg'));
   counter();
-  chooseTemplate(x.template_id).then(renderGrid);
-  $('#formBox').scrollIntoView({ behavior: 'smooth' });
+  chooseTemplate(x.template_id).then(() => { renderGrid(); setStep(2); });
 }
 function stopEdit() {
   const tid = form.template_id.value;
   form.reset(); form.id.value = ''; form.template_id.value = tid;
-  $('#formTitle').textContent = '2. Данные приглашения';
+  $('#formTitle').textContent = 'Данные приглашения';
   $('#submit').textContent = 'Сохранить черновик';
   $('#cancelEdit').classList.add('hidden');
   counter();
@@ -722,7 +825,7 @@ form.template_id.addEventListener('change', () => { chooseTemplate(form.template
 form.invite_text.addEventListener('input', counter);
 form.addEventListener('input', () => { if ($('#msg').classList.contains('err')) setMsg($('#msg')); });
 $('#music').onchange = () => { const p = $('#player'); p.src = $('#music').value || ''; if (p.src) p.play().catch(() => {}); };
-for (const id of ['#fCat', '#fLang']) $(id).onchange = renderGrid;
+$('#fLang').onchange = renderGrid;
 $('#fId').oninput = renderGrid;
 
 (async () => {
@@ -732,8 +835,9 @@ $('#fId').oninput = renderGrid;
   const musicP = api('/api/music').catch(() => []);
   templates = Array.isArray(SITE.templates) && SITE.templates.length ? SITE.templates : await api('/api/templates');
   rulesPrice();
-  for (const c of [...new Set(templates.map(t => t.category))]) { const o = document.createElement('option'); o.value = c; o.textContent = CAT[c] || c; $('#fCat').append(o); }
-  if (q.get('template')) { form.template_id.value = q.get('template'); chooseTemplate(q.get('template')); }
+  renderChips();
+  // /?template=<id> — со страницы шаблона «Сделать по шаблону»: сразу второй шаг
+  if (q.get('template')) { form.template_id.value = q.get('template'); chooseTemplate(q.get('template')).then(() => { if (form.template_id.value) setStep(2); }); }
   renderGrid();
   [me, providers] = await authP;
   renderWho();
