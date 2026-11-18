@@ -18,6 +18,7 @@ for (const f of ['/invite.js', '/invite.css', '/landing.css', '/tbar.css']) {
 const versioned = page => page.replace(/(href|src)="(\/[\w.-]+\.(?:css|js))"/g, (m, a, f) => (ASSETS[f] ? `${a}="${f}?v=${ASSETS[f]}"` : m));
 const config = {
   siteName: env('SITE_NAME', 'Шақыру'),
+  brand: env('SITE_BRAND', '').trim(),   // имя латиницей, напр. Shakyry.kz; пусто — по домену из PUBLIC_URL
   siteUrl: env('PUBLIC_URL', 'http://127.0.0.1:8024').replace(/\/+$/, ''),
   defaultLang: env('DEFAULT_LANG', 'kz'),
   whatsapp: env('CONTACT_WHATSAPP', '').replace(/\D/g, ''),   // для заказа индивидуального дизайна, напр. 77780122500
@@ -240,7 +241,7 @@ createService('web', [
     }
     // посадочные: один канонический адрес — строчные буквы и завершающий слеш, остальное 301;
     // всё, что не похоже на посадочную, — 404 сразу (без обращения к каталогу)
-    const m = /^\/(kz|ru)(?:\/([a-z0-9-]+))?\/?$/i.exec(p);
+    const m = /^\/(kz|ru)(?:\/([a-z0-9-]+))?(?:\/([a-z0-9-]+))?\/?$/i.exec(p);
     if (!m) return html(res, notFoundPage(), 404);
     const canon = p.toLowerCase().replace(/\/?$/, '/');
     if (canon !== p) return send(res, 301, 'text/plain; charset=utf-8', '', { Location: canon + url.search });

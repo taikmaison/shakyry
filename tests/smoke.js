@@ -57,6 +57,7 @@ async function login(c, email) {
   ok(ownImg && (await guest.req(ownImg)).status === 200 && /OwnCormorant/.test((await guest.req('/fonts.css')).body) && (await guest.req('/fonts/own/OwnCormorant.woff')).status === 200, 'орнаменты и шрифты своих шаблонов');
   ok((await guest.req('/')).status === 200 && (await guest.req(`/t/${tid}`)).status === 200, 'главная и пример шаблона');
   ok((await guest.req('/kz/')).status === 200 && (await guest.req('/ru/wedding/')).status === 200, 'посадочные страницы');
+  ok((await guest.req('/kz/guide/shakyru-sajtyn-zhasau/')).status === 200 && (await guest.req('/ru/guide/kak-sdelat-sajt-priglashenie/')).status === 200, 'статьи-гайды');
   ok((await guest.req('/robots.txt')).status === 200 && (await guest.req('/sitemap.xml')).status === 200, 'robots.txt и sitemap.xml');
   const prev = await guest.req('/preview', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ template_id: tid, name1: 'Айдос', date: '2027-06-12' }) });
   ok(prev.status === 200 && prev.body.includes('Айдос'), 'предпросмотр без входа');

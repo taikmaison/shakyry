@@ -59,6 +59,17 @@ function abs(config, p) {
   return base(config) + (s.startsWith('/') ? s : '/' + s);
 }
 const siteName = config => String((config && config.siteName) || 'Шақыру');
+// Имя сервиса латиницей по домену («Shakyry.kz»): «Шақыру» — просто слово «приглашение», поисковики и ИИ-обзоры
+// называют сервисы по домену. config.brand (SITE_BRAND) главнее; для localhost/IP — siteName.
+function brand(config) {
+  const own = String((config && config.brand) || '').trim();
+  if (own) return own;
+  const h = (/^https?:\/\/(?:www\.)?([^/:]+)/i.exec(base(config)) || [])[1] || '';
+  return h && /[a-z]\.[a-z]{2,}$/i.test(h) && !/localhost$/i.test(h) ? h[0].toUpperCase() + h.slice(1).toLowerCase() : siteName(config);
+}
+// «Shakyry.kz (Шақыру)» — в первом упоминании, чтобы связать оба названия
+const brandFull = config => (brand(config) === siteName(config) ? brand(config) : `${brand(config)} (${siteName(config)})`);
+const altNames = config => [...new Set([siteName(config), brand(config).replace(/\.[a-z]+$/i, '')])].filter(n => n !== brand(config));
 // обрезка по границе слова: «…ссылка для гостей в…», а не «…в WhatsA…»
 const oneLine = (s, max = 200) => {
   const t = String(s ?? '').replace(/\s+/g, ' ').trim();
@@ -589,6 +600,8 @@ const UI = {
       'Онлайн шақыру (электрондық шақыру билеті, шақыру қағазы, шақырту) — телефонда ашылатын жеке бет. Онда тойдың күні мен уақыты, мекенжайы мен картаға сілтеме, той иелерінің есімі жазылады, ал көптеген үлгілерде әуен мен тойға дейінгі уақытты санайтын таймер де бар. Қағаз шақыру билетін басып шығарып, үйме-үй таратудың қажеті жоқ: бір сілтемені барлық қонаққа бірден жібересіз.',
       'Қонақтар шақыруды ашып, тойға келетінін не келмейтінін белгілей алады, тілек жазып қалдырады, ал той өткен соң түсірген суреттерін ортақ альбомға жүктейді. Барлық жауап сіздің шақыруларыңыздың тізімінде жиналады. Сайт Қазақстанның кез келген қаласында жұмыс істейді — Алматы, Астана, Шымкент және басқа да қалалар; төлем — теңгемен.',
     ],
+    // одна фраза «что это, для чего, сколько стоит» — её удобно цитировать поисковику и ИИ-обзору
+    pitch: (b, n, price) => `${b} — Қазақстандағы тойларға арналған шақыру сайтын (онлайн шақыру билетін) өзіңіз құрастыратын платформа: үйлену той, қыз ұзату, мерейтой, тұсаукесер, бесік той, сүндет той, туған күн және басқа да тойлар. Каталогта ${n} үлгі бар, қазақша және орысша.${price ? ` Бір шақыруды жариялау — ${price}, үлгіні таңдау мен толтыру тегін.` : ' Үлгіні таңдау мен толтыру тегін.'} Үлгілерде картаға сілтеме, тойға дейінгі кері санақ, әуен, қонақтардың жауабы (келемін / келмеймін) және ортақ фотоальбом бар.`,
     catTitle: (c, n) => `${c.h1} — ${n} үлгі`,
     occasions: 'Тойдың түрлері', otherOccasions: 'Басқа тойларға шақыру', popular: 'Үлгілер — тойдың түрі бойынша',
     templates: 'Шақыру билеті үлгілері', tplIn: { kz: 'Қазақша үлгілер', ru: 'Орысша үлгілер' },
@@ -656,6 +669,7 @@ const UI = {
       'Онлайн-приглашение — его ещё называют электронным пригласительным, сайтом-приглашением или просто шакыру — это отдельная страница, которая открывается на телефоне. На ней указаны дата и время, адрес со ссылкой на карту, имена хозяев праздника, а во многих шаблонах есть музыка и таймер обратного отсчёта до тоя. Не нужно печатать пригласительные и развозить их по домам: одну ссылку получают сразу все гости.',
       'Гости открывают приглашение, отмечают, придут ли они, оставляют пожелания, а после праздника загружают свои фотографии в общий альбом. Все ответы собираются в списке ваших приглашений. Сервис работает по всему Казахстану — Алматы, Астана, Шымкент и любой другой город; оплата в тенге.',
     ],
+    pitch: (b, n, price) => `${b} — казахстанская платформа, где вы сами собираете сайт-приглашение (онлайн-пригласительный) на той: свадьба, кыз узату, юбилей, тусаукесер, бесик той, сундет той, день рождения и другие поводы. В каталоге ${n} ${plural(n, 'шаблон', 'шаблона', 'шаблонов')} на казахском и русском языках.${price ? ` Публикация одного приглашения — ${price}, выбрать и заполнить шаблон можно бесплатно.` : ' Выбрать и заполнить шаблон можно бесплатно.'} В шаблонах есть карта, таймер обратного отсчёта, музыка, ответы гостей (приду / не приду) и общий фотоальбом.`,
     catTitle: (c, n) => `${c.h1} — ${n} ${plural(n, 'шаблон', 'шаблона', 'шаблонов')}`,
     occasions: 'Поводы', otherOccasions: 'Приглашения на другие поводы', popular: 'Шаблоны по поводам',
     templates: 'Шаблоны пригласительных', tplIn: { kz: 'Шаблоны на казахском языке', ru: 'Шаблоны на русском языке' },
@@ -729,6 +743,115 @@ const SOBER_SKIP = { ru: /видео|За сколько времени|фото
 // «Үйлену тойға шақыру билеті» / «Приглашение на свадьбу»; для аса — без «билеті»
 const inviteWord = (cat, lang) => (lang === 'kz' && !cat.sober ? `${cat.kz.invite} билеті` : cat[lang].invite);
 
+// ---------------------------------------------------------------- статьи-гайды /kz/guide/<slug>/, /ru/guide/<slug>/
+
+// Отвечают на вопросы «как сделать шақыру сайт», «текст приглашения» — такие страницы поисковики и ИИ-обзоры
+// берут в источники. Секция: { h, p: [...] } | { h, ol: [...] } | { h, ul: [...] } | { h, samples: [[подпись, текст], ...] }.
+// В текстах: {brand} — «Shakyry.kz (Шақыру)», {n} — число шаблонов, {price} — цена публикации.
+const GUIDE_DATE = '2026-11-18';
+const GUIDES = [
+  {
+    key: 'howto',
+    kz: {
+      slug: 'shakyru-sajtyn-zhasau',
+      name: 'Тойға шақыру сайтын қалай жасауға болады',
+      h1: 'Тойға шақыру сайтын қалай жасауға болады: 5 қадам және мәтін үлгілері',
+      desc: 'Тойға онлайн шақыру сайтын 10 минутта жасау: үлгі таңдау, мәтін жазу, WhatsApp арқылы жіберу, қонақтардың жауабын жинау. Мәтін үлгілері мен бағасы.',
+      lead: 'Шақыру сайты (онлайн шақыру, электрондық шақыру билеті) — қонақтарға бір сілтемемен жіберілетін жеке бет. Төменде оны {brand} арқылы қалай жасауға болатынын қадам бойынша түсіндіреміз және шақыру мәтінінің дайын үлгілерін береміз.',
+      sections: [
+        { h: 'Шақыру сайты деген не', p: [
+          'Бұл — телефонда ашылатын шағын сайт. Онда тойдың күні мен уақыты, мейрамхананың мекенжайы мен картаға сілтеме, той иелерінің есімдері жазылады, ал көптеген үлгілерде әуен мен тойға дейінгі кері санақ таймері бар. Қағаз шақыру билетін басып шығарып, үйме-үй таратудың қажеті жоқ: сілтемені WhatsApp не Telegram арқылы барлық қонаққа бірден жібересіз.',
+          'Қағаз билеттен айырмашылығы — қонақ келетінін не келмейтінін сайттың өзінде белгілейді, ал сіз кімнің келетінін бір тізімнен көресіз. Уақыт не мекенжай өзгерсе, шақыруды түзетесіз, сілтеме сол күйі қалады.',
+        ] },
+        { h: 'Шақыру сайтын жасау: 5 қадам', ol: [
+          'Тойдың түрін таңдаңыз. Каталогта үйлену той, қыз ұзату, мерейтой, тұсаукесер, бесік той, сүндет той, туған күн және басқа да тойларға арналған {n} үлгі бар.',
+          'Дизайнды таңдаңыз. Үлгінің тілін (қазақша не орысша) және ішіндегісін қараңыз: әуен, таймер, жауап беру формасы, фотогалерея.',
+          'Мәліметті толтырыңыз: той иелерінің есімдері, күні мен уақыты, мейрамхананың атауы мен мекенжайы, 2ГИС не Google Maps сілтемесі, шақыру мәтіні. Өзгерістер алдын ала қарауда бірден көрінеді.',
+          'Жариялаңыз. Алдын ала қарау мен қаралама сақтау тегін; қонақтарға жіберетін сілтемені алу үшін шақыруды тексеруге жібересіз (бағасы — {price}).',
+          'Сілтемені WhatsApp, Telegram, Instagram не SMS арқылы жіберіңіз. Қонақтардың жауаптары мен тілектері шақырулар тізімінде жиналады.',
+        ] },
+        { h: 'Шақыру мәтінінің үлгілері', samples: [
+          ['Үйлену той', 'Құрметті ағайын-туыс, құда-жекжат, дос-жарандар! Сіздерді ұлымыз Нұрсұлтан мен келініміз Аружанның шаңырақ көтеру тойына арналған салтанатты ақ дастарқанымыздың қадірлі қонағы болуға шақырамыз. Той иелері: Серік — Гүлнар.'],
+          ['Қыз ұзату', 'Құрметті қонақтар! Сіздерді аяулы қызымыз Аружанның ұзату тойына арналған ақ дастарқанымыздың қадірлі қонағы болуға шақырамыз. Той иелері: Ерлан — Сәуле.'],
+          ['Мерейтой', 'Құрметті ағайын-туыс, дос-жарандар! Сіздерді әкеміз Бекболаттың 60 жасқа толу мерейтойына арналған салтанатты ақ дастарқанымыздың қадірлі қонағы болуға шақырамыз.'],
+          ['Тұсаукесер', 'Қымбатты қонақтар! Ұлымыз Алихан алғашқы қадамын басып жатыр. Сіздерді тұсаукесер тойымызға шақырамыз — ақ жолына бірге ақ тілек айтайық!'],
+        ] },
+        { h: 'Шақыруда не болуы керек', ul: [
+          'Той иелерінің есімдері және тойдың себебі.',
+          'Күні, апта күні және басталу уақыты.',
+          'Мейрамхананың атауы, толық мекенжайы және картаға сілтеме.',
+          'Жауап беру мерзімі — қонақ санын мейрамханаға уақытында айту үшін.',
+          'Сұрағы бар қонақтарға арналған байланыс телефоны.',
+        ] },
+        { h: 'Шақыруды қашан жіберген дұрыс', p: [
+          'Үлкен тойларға — үйлену той, қыз ұзату, мерейтой — 3–4 апта бұрын, шағын кештерге 1–2 апта бұрын жіберген ыңғайлы. Тойға 2–3 күн қалғанда сол сілтемені еске салу ретінде қайта жіберіңіз.',
+        ] },
+        { h: 'Бағасы', p: [
+          'Үлгіні таңдау, толтыру және алдын ала қарау — тегін. Бір шақыруды жариялау — {price}; жарияланған соң түзету тегін, сілтеме мерзімсіз жұмыс істейді.',
+        ] },
+      ],
+      faq: [
+        ['Шақыру сайтын өзім жасай аламын ба?', 'Иә, бағдарламалау не дизайн білудің қажеті жоқ: дайын үлгіні таңдап, бос жолдарды толтырасыз. Әдетте 10–15 минут кетеді.'],
+        ['Қонақтарға қосымша орнату керек пе?', 'Жоқ, шақыру кез келген телефонның браузерінде ашылады.'],
+        ['Шақыру сайты мен видео шақырудың айырмашылығы қандай?', 'Видео — дайын файл: бір нәрсені өзгерту үшін оны қайта жасап, қайта жіберу керек. Шақыру сайтында карта ашылады, қонақ жауап береді, ал түзетулер сол сілтемеде бірден көрінеді.'],
+      ],
+    },
+    ru: {
+      slug: 'kak-sdelat-sajt-priglashenie',
+      name: 'Как сделать сайт-приглашение на той',
+      h1: 'Как сделать сайт-приглашение на той: 5 шагов и примеры текста',
+      desc: 'Как сделать онлайн-приглашение на той за 10 минут: выбрать шаблон, написать текст, отправить в WhatsApp и собрать ответы гостей. Примеры текста и цена.',
+      lead: 'Сайт-приглашение (онлайн-приглашение, электронный пригласительный) — отдельная страница, которую гости получают одной ссылкой. Ниже — пошагово, как сделать его на {brand}, и готовые примеры текста приглашения.',
+      sections: [
+        { h: 'Что такое сайт-приглашение', p: [
+          'Это небольшой сайт, который открывается на телефоне. На нём дата и время тоя, адрес ресторана со ссылкой на карту, имена хозяев праздника, а во многих шаблонах — музыка и таймер обратного отсчёта. Не нужно печатать пригласительные и развозить их по домам: ссылка сразу уходит всем гостям в WhatsApp или Telegram.',
+          'В отличие от бумажного пригласительного, гость прямо на странице отмечает, придёт ли он, а вы видите все ответы в одном списке. Если изменилось время или адрес, вы правите приглашение — ссылка остаётся прежней.',
+        ] },
+        { h: 'Как сделать сайт-приглашение: 5 шагов', ol: [
+          'Выберите повод. В каталоге {n} шаблонов: свадьба, кыз узату, юбилей, тусаукесер, бесик той, сундет той, день рождения и другие тои.',
+          'Выберите дизайн. Посмотрите язык шаблона (казахский или русский) и что в нём есть: музыка, таймер, форма ответа, фотогалерея.',
+          'Заполните данные: имена хозяев тоя, дату и время, название и адрес ресторана, ссылку на 2ГИС или Google Maps, текст приглашения. Изменения сразу видны в предпросмотре.',
+          'Опубликуйте. Предпросмотр и черновики бесплатны; чтобы получить ссылку для гостей, отправьте приглашение на проверку (стоимость — {price}).',
+          'Разошлите ссылку в WhatsApp, Telegram, Instagram или по SMS. Ответы и пожелания гостей собираются в списке ваших приглашений.',
+        ] },
+        { h: 'Примеры текста приглашения', samples: [
+          ['Свадьба', 'Дорогие родные, близкие и друзья! Приглашаем вас стать почётными гостями торжественного дастархана в честь свадьбы нашего сына Нурсултана и невестки Аружан. Хозяева тоя: Серик и Гульнар.'],
+          ['Кыз узату', 'Дорогие гости! Приглашаем вас на кыз узату нашей любимой дочери Аружан — проводим её в новую семью с добрыми пожеланиями. Хозяева тоя: Ерлан и Сауле.'],
+          ['Юбилей', 'Дорогие родные и друзья! Приглашаем вас на торжественный дастархан в честь 60-летия нашего отца Бекболата.'],
+          ['Тусаукесер', 'Дорогие гости! Наш сын Алихан делает первые шаги. Приглашаем вас на тусаукесер — пожелаем ему вместе светлого пути!'],
+        ] },
+        { h: 'Что обязательно указать в приглашении', ul: [
+          'Имена хозяев тоя и повод.',
+          'Дату, день недели и время начала.',
+          'Название ресторана, полный адрес и ссылку на карту.',
+          'Срок ответа — чтобы вовремя сообщить ресторану число гостей.',
+          'Телефон для связи, если у гостей появятся вопросы.',
+        ] },
+        { h: 'Когда отправлять приглашение', p: [
+          'На большие тои — свадьбу, кыз узату, юбилей — за 3–4 недели, на небольшие праздники — за 1–2 недели. За 2–3 дня до тоя отправьте ту же ссылку ещё раз как напоминание.',
+        ] },
+        { h: 'Сколько стоит', p: [
+          'Выбрать шаблон, заполнить его и посмотреть предпросмотр — бесплатно. Публикация одного приглашения — {price}; правки после публикации бесплатны, ссылка работает без ограничения срока.',
+        ] },
+      ],
+      faq: [
+        ['Можно ли сделать сайт-приглашение самому?', 'Да, программировать и уметь дизайнить не нужно: вы выбираете готовый шаблон и заполняете поля. Обычно на это уходит 10–15 минут.'],
+        ['Нужно ли гостям что-то устанавливать?', 'Нет, приглашение открывается в браузере любого телефона.'],
+        ['Чем сайт-приглашение лучше видеоприглашения?', 'Видео — готовый файл: чтобы что-то поменять, его нужно переделать и разослать заново. На сайте-приглашении открывается карта, гость отвечает, придёт ли он, а правки сразу видны по той же ссылке.'],
+      ],
+    },
+  },
+];
+const guidePath = (lang, g) => `${LANG[lang].path}guide/${g[lang].slug}/`;
+const guideAlternates = (config, g) => [
+  { lang: LANG.kz.code, href: abs(config, guidePath('kz', g)) },
+  { lang: LANG.ru.code, href: abs(config, guidePath('ru', g)) },
+  { lang: 'x-default', href: abs(config, guidePath(defLang(config), g)) },
+];
+// ссылки на гайды для футера: lang=null (главная) — на обоих языках
+const guideLinks = lang => GUIDES.flatMap(g => (lang ? [lang] : ['kz', 'ru'])
+  .map(l => `<a href="${guidePath(l, g)}"${lang ? '' : ` hreflang="${LANG[l].code}" lang="${LANG[l].code}"`}>${esc(g[l].name)}</a>`));
+
 // ---------------------------------------------------------------- каталог
 
 // только корректные записи: целый id, известный язык
@@ -769,6 +892,7 @@ function landingPaths(list) {
   for (const lang of ['kz', 'ru']) out.push(hubPath(lang));
   for (const { cat } of landingCats(list)) for (const lang of ['kz', 'ru']) out.push(catPath(lang, cat));
   for (const lang of ['kz', 'ru']) out.push(aboutPath(lang));
+  for (const g of GUIDES) for (const lang of ['kz', 'ru']) out.push(guidePath(lang, g));
   return out;
 }
 const aboutPath = lang => `${LANG[lang].path}about/`;
@@ -864,13 +988,13 @@ const catAlternates = (config, cat) => [
 // Organization и WebSite — одни и те же узлы (@id) на всех индексируемых страницах
 const ORG_ID = config => abs(config, '/#organization');
 const orgNode = config => ({
-  '@type': 'Organization', '@id': ORG_ID(config), name: siteName(config), url: abs(config, '/'),
+  '@type': 'Organization', '@id': ORG_ID(config), name: brand(config), alternateName: altNames(config), url: abs(config, '/'),
   logo: { '@type': 'ImageObject', url: abs(config, '/logo.png'), width: 512, height: 512 },
   areaServed: { '@type': 'Country', name: 'Kazakhstan' }, knowsLanguage: ['kk', 'ru'],
   ...(config && config.whatsapp ? { contactPoint: [{ '@type': 'ContactPoint', contactType: 'customer service', telephone: '+' + config.whatsapp, url: 'https://wa.me/' + config.whatsapp, availableLanguage: ['kk', 'ru'] }] } : {}),
 });
 const websiteNode = config => ({
-  '@type': 'WebSite', '@id': abs(config, '/#website'), name: siteName(config), url: abs(config, '/'),
+  '@type': 'WebSite', '@id': abs(config, '/#website'), name: brand(config), alternateName: altNames(config), url: abs(config, '/'),
   inLanguage: [LANG.ru.code, LANG.kz.code], publisher: { '@id': ORG_ID(config) },
 });
 // предложение для WebApplication/Product: цена публикации одного приглашения
@@ -887,7 +1011,7 @@ const offerNode = (config, list, url) => {
 function homeHead({ config, catalog, preloadFirst } = {}) {
   const list = cleanCatalog(catalog);
   const n = list.length, name = siteName(config);
-  const title = n ? `Онлайн-приглашения на свадьбу и той — ${n} ${plural(n, 'шаблон', 'шаблона', 'шаблонов')} | ${name}` : `Онлайн-приглашения на свадьбу и той | ${name}`;
+  const title = n ? `Онлайн-приглашения на свадьбу и той — ${n} ${plural(n, 'шаблон', 'шаблона', 'шаблонов')} | ${brand(config)}` : `Онлайн-приглашения на свадьбу и той | ${brand(config)}`;
   const description = oneLine(n
     ? `Электронные пригласительные (шакыру) на свадьбу, кыз узату, юбилей, сундет той и день рождения: ${n} ${plural(n, 'шаблон', 'шаблона', 'шаблонов')} на русском и казахском. Ссылка гостям в WhatsApp.`
     : 'Электронные пригласительные (шакыру) на свадьбу, кыз узату, юбилей, сундет той и день рождения на русском и казахском: ссылка для гостей в WhatsApp. Казахстан.', 160);
@@ -921,7 +1045,7 @@ function homeHead({ config, catalog, preloadFirst } = {}) {
   return [
     headTags({
       title, description, robots: INDEX, canonical: url, alternates: hubAlternates(config), theme: true,
-      siteName: name, ogUrl: url, locale: LANG.ru.locale, localeAlt: [LANG.kz.locale],
+      siteName: brand(config), ogUrl: url, locale: LANG.ru.locale, localeAlt: [LANG.kz.locale],
       ...og, imageAlt: og.image ? 'Пример онлайн-приглашения' : '', ld: [ld],
       verify: verifyTags(config), extra, analytics: analyticsTags(config),
     }),
@@ -944,7 +1068,7 @@ function templateHead({ config, tpl, fields, url, image, analytics = true } = {}
   const inv = inviteWord(cat, lang);
 
   // заголовок без языка (он в description и og:locale) — влезает в 60 знаков
-  const title = fitTitle(lang === 'ru' ? `${inv} — шаблон ${num}` : `${inv} — ${num} үлгі`, name);
+  const title = fitTitle(lang === 'ru' ? `${inv} — шаблон ${num}` : `${inv} — ${num} үлгі`, brand(config));
   // описание — уникальное: что есть в шаблоне, цена, пример текста приглашения (кроме поминального аса);
   // части добавляются, пока помещаются в 158 знаков сниппета — ничего не обрезается на полуслове
   const feats = featureList(tpl, lang).slice(0, 3).join(', ');
@@ -980,7 +1104,7 @@ function templateHead({ config, tpl, fields, url, image, analytics = true } = {}
     {
       '@type': ['Product', 'CreativeWork'], '@id': canonical + '#template', name: title.replace(/ \| .*$/, ''), description, url: canonical,
       sku: safeId ? String(safeId) : undefined, inLanguage: LANG[lang].code, genre: L.name, category: L.name,
-      brand: { '@type': 'Brand', name },
+      brand: { '@type': 'Brand', name: brand(config) },
       ...(img ? { image: [img], thumbnailUrl: img } : {}),
       ...(sampleTxt ? { text: sampleTxt } : {}),
       isPartOf: { '@id': abs(config, '/#website') },
@@ -992,7 +1116,7 @@ function templateHead({ config, tpl, fields, url, image, analytics = true } = {}
   graph.push(breadcrumbLd(templateCrumbs(config, tpl, lang).map(([n, h]) => [n, abs(config, h)])));
 
   return headTags({
-    title, description, robots: INDEX, canonical, siteName: name, ogUrl: canonical,
+    title, description, robots: INDEX, canonical, siteName: brand(config), ogUrl: canonical,
     locale: LANG[lang].locale, image: img, imageSize, imageAlt,
     ld: [{ '@context': 'https://schema.org', '@graph': graph }], analytics: analytics ? analyticsTags(config) : '',
   });
@@ -1158,6 +1282,11 @@ function sitemap({ config, catalog } = {}) {
   // о сервисе
   const aboutAlt = alt(aboutAlternates(config));
   for (const lang of ['kz', 'ru']) add(abs(config, aboutPath(lang)), aboutAlt);
+  // статьи-гайды
+  for (const g of GUIDES) {
+    const a = alt(guideAlternates(config, g));
+    for (const lang of ['kz', 'ru']) add(abs(config, guidePath(lang, g)), `<lastmod>${GUIDE_DATE}</lastmod>${a}`);
+  }
   // примеры шаблонов с картинкой
   for (const t of list.slice().sort((a, b) => a.id - b.id))
     add(abs(config, `/t/${t.id}`), `<image:image><image:loc>${xmlEsc(abs(config, ogJpg(t.id)))}</image:loc></image:image>`);
@@ -1252,15 +1381,18 @@ function siteFooter({ config, catalog, lang, compact } = {}) {
   }).join('\n');
   const U = UI[lang || defLang(config)];
   const other = lang ? (lang === 'kz' ? 'ru' : 'kz') : null;
+  // на главной (lang=null) — фраза-описание сервиса на обоих языках: у генератора своего текста почти нет
+  const pitch = lang ? '' : ['kz', 'ru'].map(l => `<p class="pitch" lang="${LANG[l].code}">${esc(UI[l].pitch(brandFull(config), list.length, priceFrom(list, l)))}</p>`).join('\n') + '\n';
   const links = [
-    `<a href="/">${esc(name)}</a>`,
+    `<a href="/">${esc(brand(config))}</a>`,
+    ...guideLinks(lang),
     ...(other ? [`<a href="${hubPath(other)}" lang="${LANG[other].code}" hreflang="${LANG[other].code}">${esc(LANG[other].name)}</a>`] : []),
     ...(lang ? [`<a href="${aboutPath(lang)}">${esc(U.aboutLink)}</a>`]
       : ['kz', 'ru'].map(l => `<a href="${aboutPath(l)}" hreflang="${LANG[l].code}" lang="${LANG[l].code}">${esc(UI[l].aboutLink)}</a>`)),
     ...(config && config.whatsapp ? [`<a href="https://wa.me/${esc(config.whatsapp)}" rel="nofollow noopener" target="_blank">WhatsApp ${esc(waPretty(config.whatsapp))}</a>`] : []),
   ];
   return `<footer class="sitefoot wrap"${lang ? ` lang="${LANG[lang].code}"` : ''}>
-${navs}
+${pitch}${navs}
 <p>${esc(U.footer)} · ${esc(U.region)}. ${links.join(' · ')}</p>
 </footer>`;
 }
@@ -1268,7 +1400,7 @@ ${navs}
 function layout({ config, catalog, lang, title, description, canonical, alternates, altHref, og, ld, crumbs, body }) {
   const U = UI[lang], other = lang === 'kz' ? 'ru' : 'kz', name = siteName(config);
   const head = headTags({
-    title, description, robots: INDEX, canonical, alternates, theme: true, siteName: name, ogUrl: canonical,
+    title, description, robots: INDEX, canonical, alternates, theme: true, siteName: brand(config), ogUrl: canonical,
     locale: LANG[lang].locale, localeAlt: [LANG[other].locale], ...og, ld: [ld], analytics: analyticsTags(config),
   });
   // стили — в самой странице (один запрос меньше); если файла нет — ссылка
@@ -1334,14 +1466,15 @@ function hubPage(config, lang, list) {
   const body = `<h1>${esc(U.hubH1)}</h1>
 <p class="lead">${esc(U.hubLead)}</p>
 <p class="cta"><a class="btn btn-main" href="#templates">${esc(U.ctaMain)}</a><a class="btn btn-alt" href="/">${esc(U.ctaGen)}</a></p>
-<section class="text">${paras(U.hubIntro)}</section>
+<section class="text"><p>${esc(U.pitch(brandFull(config), list.length, price))}</p>
+${paras(U.hubIntro)}</section>
 <section><h2>${esc(U.occasions)}</h2>${catNav(lang, cats, null)}</section>
 <section id="templates"><h2>${esc(U.popular)}</h2>${blocks.join('\n')}<p class="more"><a href="/">${esc(U.allTpl)}</a></p></section>
 ${priceSection(U, price)}
 ${howSection(U)}
 ${faqSection(U, faq)}`;
   return layout({
-    config, catalog: list, lang, title: fitTitle(U.hubTitle(list.length), siteName(config)), description: U.hubDesc, canonical,
+    config, catalog: list, lang, title: fitTitle(U.hubTitle(list.length), brand(config)), description: U.hubDesc, canonical,
     alternates: hubAlternates(config), altHref: hubPath(other), og: ogFromList(config, shown, lang), ld, crumbs, body,
   });
 }
@@ -1387,7 +1520,7 @@ ${howSection(U)}
 ${faqSection(U, faq)}
 <section><h2>${esc(U.otherOccasions)}</h2>${catNav(lang, cats, cat)}</section>`;
   return layout({
-    config, catalog: list, lang, title: fitTitle(U.catTitle(L, items.length), siteName(config)), description, canonical,
+    config, catalog: list, lang, title: fitTitle(U.catTitle(L, items.length), brand(config)), description, canonical,
     alternates: catAlternates(config, cat), altHref: catPath(other, cat), og: ogFromList(config, ordered, lang), ld, crumbs, body,
   });
 }
@@ -1406,13 +1539,57 @@ function aboutPage(config, lang, list) {
   const crumbs = [[U.home, '/'], [U.hub, hubPath(lang)], [A.title, aboutPath(lang)]];
   const ld = { '@context': 'https://schema.org', '@graph': [orgNode(config), websiteNode(config), breadcrumbLd(crumbs.map(([n, h]) => [n, abs(config, h)]))] };
   const body = `<h1>${esc(A.h1)}</h1>
-<section class="text">${paras(A.paras.map(fill))}</section>
+<section class="text"><p>${esc(U.pitch(brandFull(config), n, price))}</p>
+${paras(A.paras.slice(1).map(fill))}</section>
 ${priceSection(U, price)}
 ${howSection(U)}
 ${wa ? `<p class="cta"><a class="btn btn-main" href="https://wa.me/${esc(config.whatsapp)}" rel="nofollow noopener" target="_blank">WhatsApp ${esc(wa)}</a><a class="btn btn-alt" href="/">${esc(U.ctaGen)}</a></p>` : `<p class="cta"><a class="btn btn-main" href="/">${esc(U.ctaGen)}</a></p>`}`;
   return layout({
-    config, catalog: list, lang, title: fitTitle(A.title, siteName(config)), description: A.desc, canonical,
+    config, catalog: list, lang, title: fitTitle(A.title, brand(config)), description: A.desc, canonical,
     alternates: aboutAlternates(config), altHref: aboutPath(other), og: ogFromList(config, list, lang), ld, crumbs, body,
+  });
+}
+
+// статья-гайд /kz/guide/<slug>/: Article + FAQPage, цена и число шаблонов — из каталога
+function guidePage(config, lang, list, g) {
+  const U = UI[lang], G = g[lang], other = lang === 'kz' ? 'ru' : 'kz';
+  const price = priceFrom(list, lang) || (lang === 'ru' ? 'цена указана в генераторе' : 'бағасы генераторда көрсетілген');
+  const nText = String(list.length);
+  const fill = s => s.replace(/\{brand\}/g, () => brandFull(config)).replace(/\{n\}/g, () => nText).replace(/\{price\}/g, () => price);
+  const canonical = abs(config, guidePath(lang, g));
+  const crumbs = [[U.home, '/'], [U.hub, hubPath(lang)], [G.name, guidePath(lang, g)]];
+  const faq = G.faq.map(([q, a]) => [fill(q), fill(a)]);
+  const og = ogFromList(config, list, lang);
+  const ld = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      orgNode(config), websiteNode(config),
+      breadcrumbLd(crumbs.map(([n, h]) => [n, abs(config, h)])),
+      {
+        '@type': 'Article', '@id': canonical + '#article', headline: G.h1, description: G.desc, inLanguage: LANG[lang].code,
+        datePublished: GUIDE_DATE, dateModified: GUIDE_DATE, mainEntityOfPage: canonical,
+        author: { '@id': ORG_ID(config) }, publisher: { '@id': ORG_ID(config) }, isPartOf: { '@id': abs(config, '/#website') },
+        ...(og.image ? { image: og.image } : {}),
+      },
+      faqLd(faq),
+    ],
+  };
+  const section = s => {
+    const h = `<h2>${esc(s.h)}</h2>`;
+    if (s.ol) return `<section class="text">${h}<ol>${s.ol.map(x => `<li>${esc(fill(x))}</li>`).join('')}</ol></section>`;
+    if (s.ul) return `<section class="text">${h}<ul>${s.ul.map(x => `<li>${esc(fill(x))}</li>`).join('')}</ul></section>`;
+    if (s.samples) return `<section class="text">${h}${s.samples.map(([t, x]) => `<blockquote class="quote"><b>${esc(t)}</b>${esc(fill(x))}</blockquote>`).join('')}</section>`;
+    return `<section class="text">${h}${paras(s.p.map(fill))}</section>`;
+  };
+  const body = `<h1>${esc(G.h1)}</h1>
+<p class="lead">${esc(fill(G.lead))}</p>
+<p class="cta"><a class="btn btn-main" href="/">${esc(U.ctaGen)}</a><a class="btn btn-alt" href="${hubPath(lang)}">${esc(U.ctaMain)}</a></p>
+${G.sections.map(section).join('\n')}
+${faqSection(U, faq)}
+<section><h2>${esc(U.occasions)}</h2>${catNav(lang, landingCats(list), null)}</section>`;
+  return layout({
+    config, catalog: list, lang, title: fitTitle(G.name, brand(config)), description: G.desc, canonical,
+    alternates: guideAlternates(config, g), altHref: guidePath(other, g), og, ld, crumbs, body,
   });
 }
 
@@ -1420,10 +1597,14 @@ ${wa ? `<p class="cta"><a class="btn btn-main" href="https://wa.me/${esc(config.
 function page({ config, catalog, path, lang } = {}) {
   let p = String(path ?? '').split(/[?#]/)[0];
   try { p = decodeURIComponent(p); } catch { return null; }
-  const m = /^\/(kz|ru)(?:\/([a-z0-9-]+))?\/?$/.exec(p.toLowerCase());
+  const m = /^\/(kz|ru)(?:\/([a-z0-9-]+))?(?:\/([a-z0-9-]+))?\/?$/.exec(p.toLowerCase());
   if (!m) return null;
   const l = m[1];
   const list = cleanCatalog(catalog);
+  if (m[3]) {
+    const g = m[2] === 'guide' && GUIDES.find(x => x[l].slug === m[3]);
+    return g ? { html: guidePage(config, l, list, g) } : null;
+  }
   if (!m[2]) return { html: hubPage(config, l, list) };
   if (m[2] === 'about') return { html: aboutPage(config, l, list) };
   const cat = CAT_BY_SLUG.get(m[2]);
