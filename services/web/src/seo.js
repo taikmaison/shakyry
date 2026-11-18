@@ -841,7 +841,18 @@ const GUIDES = [
       ],
     },
   },
+  ...require('./guides'),
 ];
+const GUIDE_BY_CAT = new Map(GUIDES.filter(g => g.cat).map(g => [g.cat, g]));
+const guideIndexPath = lang => `${LANG[lang].path}guide/`;
+const GUIDE_INDEX = {
+  kz: { name: 'Пайдалы мақалалар', h1: 'Шақыру туралы мақалалар: мәтін үлгілері мен кеңестер',
+    desc: 'Тойға шақыру мәтінінің үлгілері: үйлену той, қыз ұзату, мерейтой, тұсаукесер, бесік той, сүндет той. Шақыру сайтын қалай жасауға болатыны туралы кеңестер.',
+    lead: 'Әр тойға арналған шақыру мәтінінің дайын үлгілері және онлайн шақыруды қалай жасау керегі туралы кеңестер.' },
+  ru: { name: 'Полезные статьи', h1: 'Статьи о приглашениях: примеры текста и советы',
+    desc: 'Примеры текста приглашения на свадьбу, кыз узату, юбилей, тусаукесер, бесик той и сундет той. Советы, как сделать онлайн-приглашение.',
+    lead: 'Готовые тексты приглашений на каждый той и советы, как сделать онлайн-приглашение.' },
+};
 const guidePath = (lang, g) => `${LANG[lang].path}guide/${g[lang].slug}/`;
 const guideAlternates = (config, g) => [
   { lang: LANG.kz.code, href: abs(config, guidePath('kz', g)) },
@@ -849,8 +860,8 @@ const guideAlternates = (config, g) => [
   { lang: 'x-default', href: abs(config, guidePath(defLang(config), g)) },
 ];
 // ссылки на гайды для футера: lang=null (главная) — на обоих языках
-const guideLinks = lang => GUIDES.flatMap(g => (lang ? [lang] : ['kz', 'ru'])
-  .map(l => `<a href="${guidePath(l, g)}"${lang ? '' : ` hreflang="${LANG[l].code}" lang="${LANG[l].code}"`}>${esc(g[l].name)}</a>`));
+const guideLinks = lang => (lang ? [lang] : ['kz', 'ru'])
+  .map(l => `<a href="${guideIndexPath(l)}"${lang ? '' : ` hreflang="${LANG[l].code}" lang="${LANG[l].code}"`}>${esc(GUIDE_INDEX[l].name)}</a>`);
 
 // ---------------------------------------------------------------- каталог
 
@@ -892,6 +903,7 @@ function landingPaths(list) {
   for (const lang of ['kz', 'ru']) out.push(hubPath(lang));
   for (const { cat } of landingCats(list)) for (const lang of ['kz', 'ru']) out.push(catPath(lang, cat));
   for (const lang of ['kz', 'ru']) out.push(aboutPath(lang));
+  for (const lang of ['kz', 'ru']) out.push(guideIndexPath(lang));
   for (const g of GUIDES) for (const lang of ['kz', 'ru']) out.push(guidePath(lang, g));
   return out;
 }
@@ -1285,6 +1297,8 @@ function sitemap({ config, catalog } = {}) {
   const aboutAlt = alt(aboutAlternates(config));
   for (const lang of ['kz', 'ru']) add(abs(config, aboutPath(lang)), aboutAlt);
   // статьи-гайды
+  const gAlt = alt([{ lang: LANG.kz.code, href: abs(config, guideIndexPath('kz')) }, { lang: LANG.ru.code, href: abs(config, guideIndexPath('ru')) }, { lang: 'x-default', href: abs(config, guideIndexPath(defLang(config))) }]);
+  for (const lang of ['kz', 'ru']) add(abs(config, guideIndexPath(lang)), `<lastmod>${GUIDE_DATE}</lastmod>${gAlt}`);
   for (const g of GUIDES) {
     const a = alt(guideAlternates(config, g));
     for (const lang of ['kz', 'ru']) add(abs(config, guidePath(lang, g)), `<lastmod>${GUIDE_DATE}</lastmod>${a}`);
@@ -1516,7 +1530,7 @@ function catPage(config, lang, list, entry) {
 <p class="cta"><a class="btn btn-main" href="#templates">${esc(U.ctaMain)}</a><a class="btn btn-alt" href="/">${esc(U.ctaGen)}</a></p>
 <section class="text">${paras(L.intro)}</section>
 <section id="templates"><h2>${esc(U.templates)}: ${esc(L.name)} <span class="count">${items.length}</span></h2>${groups.join('\n')}</section>
-<section><h2>${esc(U.tipsH)}</h2><ul class="tips">${L.tips.map(x => `<li>${esc(x)}</li>`).join('')}</ul></section>
+<section><h2>${esc(U.tipsH)}</h2><ul class="tips">${L.tips.map(x => `<li>${esc(x)}</li>`).join('')}</ul>${GUIDE_BY_CAT.has(cat.key) ? `<p class="more"><a href="${guidePath(lang, GUIDE_BY_CAT.get(cat.key))}">${esc(GUIDE_BY_CAT.get(cat.key)[lang].name)} →</a></p>` : ''}</section>
 ${priceSection(U, price)}
 ${howSection(U)}
 ${faqSection(U, faq)}
@@ -1561,6 +1575,7 @@ function guidePage(config, lang, list, g) {
   const canonical = abs(config, guidePath(lang, g));
   const crumbs = [[U.home, '/'], [U.hub, hubPath(lang)], [G.name, guidePath(lang, g)]];
   const faq = G.faq.map(([q, a]) => [fill(q), fill(a)]);
+  const lc = g.cat ? landingCats(list).map(e => e.cat).find(c => c.key === g.cat) : null;   // повод без шаблонов — без кнопки
   const og = ogFromList(config, list, lang);
   const ld = {
     '@context': 'https://schema.org',
@@ -1573,7 +1588,7 @@ function guidePage(config, lang, list, g) {
         author: { '@id': ORG_ID(config) }, publisher: { '@id': ORG_ID(config) }, isPartOf: { '@id': abs(config, '/#website') },
         ...(og.image ? { image: og.image } : {}),
       },
-      faqLd(faq),
+      ...(faq.length ? [faqLd(faq)] : []),
     ],
   };
   const section = s => {
@@ -1585,13 +1600,33 @@ function guidePage(config, lang, list, g) {
   };
   const body = `<h1>${esc(G.h1)}</h1>
 <p class="lead">${esc(fill(G.lead))}</p>
-<p class="cta"><a class="btn btn-main" href="/">${esc(U.ctaGen)}</a><a class="btn btn-alt" href="${hubPath(lang)}">${esc(U.ctaMain)}</a></p>
+<p class="cta"><a class="btn btn-main" href="/">${esc(U.ctaGen)}</a><a class="btn btn-alt" href="${lc ? catPath(lang, lc) : hubPath(lang)}">${esc(lc ? U.allOf(lc[lang].name) : U.ctaMain)}</a></p>
 ${G.sections.map(section).join('\n')}
 ${faqSection(U, faq)}
+<section><h2>${esc(GUIDE_INDEX[lang].name)}</h2><ul class="tips">${GUIDES.filter(x => x !== g).map(x => `<li><a href="${guidePath(lang, x)}">${esc(x[lang].name)}</a></li>`).join('')}</ul></section>
 <section><h2>${esc(U.occasions)}</h2>${catNav(lang, landingCats(list), null)}</section>`;
   return layout({
     config, catalog: list, lang, title: fitTitle(G.name, brand(config)), description: G.desc, canonical,
     alternates: guideAlternates(config, g), altHref: guidePath(other, g), og, ld, crumbs, body,
+  });
+}
+
+// список статей /kz/guide/, /ru/guide/
+function guideIndexPage(config, lang, list) {
+  const U = UI[lang], I = GUIDE_INDEX[lang], other = lang === 'kz' ? 'ru' : 'kz';
+  const canonical = abs(config, guideIndexPath(lang));
+  const crumbs = [[U.home, '/'], [U.hub, hubPath(lang)], [I.name, guideIndexPath(lang)]];
+  const ld = { '@context': 'https://schema.org', '@graph': [orgNode(config), websiteNode(config),
+    breadcrumbLd(crumbs.map(([n, h]) => [n, abs(config, h)])),
+    { '@type': 'ItemList', name: I.h1, numberOfItems: GUIDES.length, itemListElement: GUIDES.map((g, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(config, guidePath(lang, g)) })) }] };
+  const body = `<h1>${esc(I.h1)}</h1>
+<p class="lead">${esc(I.lead)}</p>
+<section class="text"><ul>${GUIDES.map(g => `<li><a href="${guidePath(lang, g)}"><b>${esc(g[lang].name)}</b></a><br><span class="muted">${esc(g[lang].desc)}</span></li>`).join('')}</ul></section>
+<p class="cta"><a class="btn btn-main" href="/">${esc(U.ctaGen)}</a><a class="btn btn-alt" href="${hubPath(lang)}">${esc(U.ctaMain)}</a></p>`;
+  return layout({
+    config, catalog: list, lang, title: fitTitle(I.name, brand(config)), description: I.desc, canonical,
+    alternates: [{ lang: LANG.kz.code, href: abs(config, guideIndexPath('kz')) }, { lang: LANG.ru.code, href: abs(config, guideIndexPath('ru')) }, { lang: 'x-default', href: abs(config, guideIndexPath(defLang(config))) }],
+    altHref: guideIndexPath(other), og: ogFromList(config, list, lang), ld, crumbs, body,
   });
 }
 
@@ -1608,6 +1643,7 @@ function page({ config, catalog, path, lang } = {}) {
     return g ? { html: guidePage(config, l, list, g) } : null;
   }
   if (!m[2]) return { html: hubPage(config, l, list) };
+  if (m[2] === 'guide') return { html: guideIndexPage(config, l, list) };
   if (m[2] === 'about') return { html: aboutPage(config, l, list) };
   const cat = CAT_BY_SLUG.get(m[2]);
   if (!cat) return null;

@@ -314,3 +314,8 @@ body.locked { overflow: hidden; }
 .env.cover .top { top: auto; bottom: calc(24% + 72px); text-shadow: 0 2px 14px rgba(0, 0, 0, .5); }
 .env.cover .hint { bottom: max(6px, min(9%, calc(24% - 90px))); }
 .env.cover .seal { top: 76%; }
+
+/* «Хотите такое же приглашение? Shakyry.kz» — под гостевым приглашением; отступ снизу — под плавающие кнопки */
+.madeby { position: relative; z-index: 1; display: block; width: var(--w); margin: 0 auto; padding: 18px 16px calc(84px + env(safe-area-inset-bottom)); text-align: center;
+  font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; color: rgba(255, 255, 255, .85); background: #2b2620; text-decoration: none; }
+.madeby b { color: #f1d9a8; font-weight: 600; white-space: nowrap; }

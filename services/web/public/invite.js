@@ -1415,6 +1415,12 @@
   if (D.mode === 'invite' && D.api && D.api.album) {
     document.body.append(el('a', { class: 'albumfab', href: D.api.album, 'aria-label': 'album' }, svg(ICON.camera)));
   }
+  // внизу гостевого приглашения — откуда оно: гости, которым понравилось, делают своё (метки — для отчёта о переходах)
+  if (D.mode === 'invite') {
+    const ru = LANG === 'ru';
+    document.body.append(el('a', { class: 'madeby', href: '/?utm_source=invite&utm_medium=guest&utm_campaign=madeby' },
+      ru ? 'Хотите такое же приглашение? ' : 'Осындай шақыру жасағыңыз келе ме? ', el('b', {}, 'Shakyry.kz →')));
+  }
   loadWishes();
 
   const music = firstAudio();
