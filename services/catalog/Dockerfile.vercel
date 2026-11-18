@@ -9,9 +9,10 @@ ARG CONTENT_URL=https://drive.google.com/file/d/1Js2Zs2Ze5pIz0umZ_Pe8AoLPBJ3Cnq9
 # CONTENT_EXTRA_URL — доп. архивы через пробел, распаковываются поверх content/ по очереди:
 # 1-й — content/music.json + content/media/…, 2-й — content/music-2.json + … (своя музыка; каждый добавляет свой music-N.json и mp3),
 # 3-й — content/previews/364, 386, 389 (.jpg/.webp): превью, переснятые после замены цифр «70» в fixes/templates.json
-ARG CONTENT_EXTRA_URL="https://drive.google.com/file/d/1MaXUnifPZg8tD77bS4uc3BVbsW4vwkpD/view?usp=sharing https://drive.google.com/file/d/1ntlEUNuHK9c6ASnoms-iUQLG8UkFX9_0/view https://drive.google.com/file/d/1k6GPWAwdeZ2bYqEwpqnqtDCrK_OAOSBc/view"
+# 4-й — content/previews: 65 превью, переснятые после замены шрифтов без файлов (fixes/fonts.css) — было Arial
+ARG CONTENT_EXTRA_URL="https://drive.google.com/file/d/1MaXUnifPZg8tD77bS4uc3BVbsW4vwkpD/view?usp=sharing https://drive.google.com/file/d/1ntlEUNuHK9c6ASnoms-iUQLG8UkFX9_0/view https://drive.google.com/file/d/1k6GPWAwdeZ2bYqEwpqnqtDCrK_OAOSBc/view https://drive.google.com/file/d/1gwGkzUaTj9tY2Fa-u9s6rEu08gHgj_IA/view"
 # версия доп. архивов: менять после загрузки новой версии в Drive (ссылка та же) — иначе сборка может взять старый слой из кэша
-ARG CONTENT_EXTRA_REV=2026-11-11-previews-70
+ARG CONTENT_EXTRA_REV=2026-11-18-previews-fonts
 RUN echo "музыка: $CONTENT_EXTRA_REV" && node tools/fetch-content.js && node tools/fetch-content.js --extra
 COPY . .
 ENV HOST=0.0.0.0 PORT=3000
